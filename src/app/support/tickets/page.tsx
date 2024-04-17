@@ -1,0 +1,17 @@
+import TicketsPage from '@/pages/tickets'
+import { getOpenTickets } from '@/services/tickets/ticketsService'
+import { QueryClient } from '@tanstack/react-query'
+
+export default function Home() {
+	const queryClient = new QueryClient()
+
+	queryClient.prefetchQuery({
+		queryKey: ['open_tickets'],
+		queryFn: getOpenTickets,
+	})
+	return (
+		<div>
+			<TicketsPage />
+		</div>
+	)
+}

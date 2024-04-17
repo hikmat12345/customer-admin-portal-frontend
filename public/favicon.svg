@@ -1,0 +1,41 @@
+<svg width="203" height="72" viewBox="0 0 203 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_1306_7535" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="15" width="36" height="42">
+<path d="M0.192871 15.3838H35.5492V56.4131H0.192871V15.3838Z" fill="white"/>
+</mask>
+<g mask="url(#mask0_1306_7535)">
+<mask id="mask1_1306_7535" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="15" width="36" height="42">
+<path d="M17.8592 15.3838L35.5254 24.1947V47.5974L17.8592 56.4083L0.192871 47.5974V24.1947L17.8592 15.3838Z" fill="white"/>
+</mask>
+<g mask="url(#mask1_1306_7535)">
+<path d="M17.8592 15.3838L35.5254 24.1947V47.5973L17.8592 56.4083L0.192871 47.5973V24.1947L17.8592 15.3838Z" stroke="white" stroke-width="3.24182"/>
+</g>
+</g>
+<mask id="mask2_1306_7535" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="8" y="24" width="20" height="24">
+<path d="M8.08594 24.5488H27.6379V47.2415H8.08594V24.5488Z" fill="white"/>
+</mask>
+<g mask="url(#mask2_1306_7535)">
+<mask id="mask3_1306_7535" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="8" y="24" width="20" height="24">
+<path d="M17.858 24.5483L27.6311 29.4225V42.3685L17.858 47.2426L8.08545 42.3685V29.4225L17.858 24.5483Z" fill="white"/>
+</mask>
+<g mask="url(#mask3_1306_7535)">
+<path d="M17.858 24.5483L27.6311 29.4225V42.3685L17.858 47.2426L8.08545 42.3685V29.4225L17.858 24.5483Z" stroke="white" stroke-width="3.24182"/>
+</g>
+</g>
+<mask id="mask4_1306_7535" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="11" width="44" height="33">
+<path d="M0.192871 11.6382H43.7126V43.0355H0.192871V11.6382Z" fill="white"/>
+</mask>
+<g mask="url(#mask4_1306_7535)">
+<path d="M9.02282 20.9241L34.4338 33.8304" stroke="white" stroke-width="1.62091"/>
+</g>
+<mask id="mask5_1306_7535" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="28" width="37" height="33">
+<path d="M0.192871 28.4204H36.2693V60.2237H0.192871V28.4204Z" fill="white"/>
+</mask>
+<g mask="url(#mask5_1306_7535)">
+<path d="M0.573242 37.6768L27.0579 50.9194" stroke="white" stroke-width="1.62091"/>
+</g>
+</svg>
+
+
+
+
+ 
