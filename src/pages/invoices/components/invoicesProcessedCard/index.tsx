@@ -1,4 +1,4 @@
-import Skeleton from '@/components/ui/skeleton/skeleton'
+import { Skeleton } from '@veroxos/design-system'
 
 const InvoicesProcessed = ({ data, title, isLoading }: any) => {
 	return (

@@ -1,16 +1,10 @@
-import Skeleton from '@/components/ui/skeleton/skeleton'
+import { Skeleton } from '@veroxos/design-system'
 import Image from 'next/image'
 import React from 'react'
 
 type Variant = 'primary' | 'destructive'
 
-const PeakIndicator = ({
-	variant,
-	isLoading,
-}: {
-	variant: Variant
-	isLoading?: boolean
-}) => {
+const PeakIndicator = ({ variant, isLoading }: { variant: Variant; isLoading?: boolean }) => {
 	let arrowImageSrc
 	let backgroundColor
 	switch (variant) {

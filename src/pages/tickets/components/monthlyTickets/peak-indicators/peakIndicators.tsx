@@ -1,14 +1,14 @@
-import Skeleton from '@/components/ui/skeleton/skeleton'
+import { Skeleton } from '@veroxos/design-system'
 import Image from 'next/image'
 import React from 'react'
 
-type Variant = 'primary' | 'destructive'
+type Variant = 'success' | 'destructive'
 
 const PeakIndicator = ({ variant, isLoading }: { variant: Variant; isLoading?: boolean }) => {
 	let arrowImageSrc
 	let backgroundColor
 	switch (variant) {
-		case 'primary':
+		case 'success':
 			arrowImageSrc = '/svg/upPeakArrow.svg'
 			backgroundColor = 'bg-[#219653]'
 			break
@@ -31,7 +31,7 @@ const PeakIndicator = ({ variant, isLoading }: { variant: Variant; isLoading?: b
 				<div className={`absolute right-4 ${backgroundColor} w-9 h-9 items-center flex justify-center rounded-full`}>
 					<Image
 						src={arrowImageSrc}
-						alt={variant === 'primary' ? 'Up Peak Arrow' : 'Down Peak Arrow'}
+						alt={variant === 'success' ? 'Up Peak Arrow' : 'Down Peak Arrow'}
 						width={15}
 						height={15}
 					/>

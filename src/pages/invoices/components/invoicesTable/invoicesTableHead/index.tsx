@@ -1,4 +1,4 @@
-import { TableHead, TableHeader, TableRow } from '@/components/ui/table/table'
+import { TableHead, TableHeader, TableRow } from '@veroxos/design-system'
 
 const InvoicesTableHead = () => {
 	return (

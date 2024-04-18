@@ -1,8 +1,8 @@
 import Reviews from '@/components/ui/review'
 import { TicketsData } from '@/types/tickets/types'
-import Skeleton from '@/components/ui/skeleton/skeleton'
+import { Skeleton } from '@veroxos/design-system'
 import PeakIndicator from './peak-indicators'
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@veroxos/design-system'
 
 const TicketsCard = ({ data, isLoading }: { data: TicketsData; isLoading: boolean }) => {
 	const formattedPercentageDifference =

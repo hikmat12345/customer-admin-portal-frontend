@@ -1,6 +1,6 @@
 import React from 'react'
 import { useGetOpenTickets } from '@/hooks/useTickets'
-import Skeleton from '@/components/ui/skeleton/skeleton'
+import { Skeleton } from '@veroxos/design-system'
 import PieChart from '@/components/ui/pieChart'
 import { TICKETS_STATUS_LIST } from '@/utils/constants/statusList.constants'
 import { ApexOptions } from 'apexcharts'

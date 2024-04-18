@@ -1,6 +1,6 @@
-import Skeleton from '@/components/ui/skeleton/skeleton'
+import { Skeleton } from '@veroxos/design-system'
 import CostSavingChart from './costSavingChart'
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@veroxos/design-system'
 
 const CostSavingsCard = ({
 	data,

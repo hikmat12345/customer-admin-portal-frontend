@@ -1,7 +1,6 @@
-import { Table } from '@/components/ui/table/table'
 import React from 'react'
 import TicketsTableHead from '../ticketsTable/ticketsTableHead'
-import TableBodySkeleton from '@/components/ui/table/tableBodySkeleton'
+import { TableBodySkeleton, Table } from '@veroxos/design-system'
 
 type DownloadTableSkeletonProps = {
 	limit: number

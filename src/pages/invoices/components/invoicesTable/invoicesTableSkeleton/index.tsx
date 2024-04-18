@@ -1,6 +1,5 @@
-import { Table } from '@/components/ui/table/table'
 import React from 'react'
-import TableBodySkeleton from '@/components/ui/table/tableBodySkeleton'
+import { TableBodySkeleton, Table } from '@veroxos/design-system'
 import InvoicesTableHead from '../invoicesTableHead'
 
 type DownloadTableSkeletonProps = {

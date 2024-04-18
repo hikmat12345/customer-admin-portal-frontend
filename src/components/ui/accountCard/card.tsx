@@ -1,8 +1,9 @@
-import { Badge } from '@/components/ui/badge'
-import Skeleton from '@/components/ui/skeleton/skeleton'
+import { Badge } from '@veroxos/design-system'
+import { Skeleton } from '@veroxos/design-system'
 import ChartComponent from '../../../pages/home/components/chartComponent'
 import { ReactNode } from 'react'
-import PeakIndicator from '../peakIndicators/arrow-peaks'
+import { PeakIndicator } from '@veroxos/design-system'
+import Image from 'next/image'
 
 const AccountCard = ({
 	data,
@@ -21,7 +22,7 @@ const AccountCard = ({
 	graph?: boolean
 	isLoading: boolean
 }) => {
-	const badgeVariant = data?.percentageDifference > 0 ? 'destructive' : 'primary'
+	const badgeVariant = data?.percentageDifference > 0 ? 'destructive' : 'success'
 
 	const formattedPercentageDifference =
 		data?.percentageDifference > 0
@@ -29,6 +30,25 @@ const AccountCard = ({
 			: data?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })
 
 	const chartVariant = data?.percentageDifference > 0 ? '#E41323' : '#219653'
+
+	const percentage = data?.percentageDifference
+
+	let arrowImageSrc
+	let backgroundColor
+
+	switch (percentage && percentage > 0) {
+		case true:
+			arrowImageSrc = '/svg/upPeakArrow.svg'
+			backgroundColor = 'bg-[#E41323]'
+			break
+		case false:
+			arrowImageSrc = '/svg/downPeakArrow.svg'
+			backgroundColor = 'bg-[#219653]'
+			break
+		default:
+			arrowImageSrc = ''
+			backgroundColor = ''
+	}
 
 	return (
 		<div className="min-w-[250px] min-h-[150px] lg:min-h-[140px] xl:min-h-[155px] max-w-full h-auto border border-[#EAEAEA] pl-7 pt-3 rounded-lg relative">
@@ -56,7 +76,14 @@ const AccountCard = ({
 				)}
 
 				{peakIndicator && (
-					<PeakIndicator variant={badgeVariant} isLoading={isLoading} percentage={data?.percentageDifference} />
+					<PeakIndicator variant={badgeVariant} isLoading={isLoading} backgroundColor={backgroundColor}>
+						<Image
+							src={arrowImageSrc}
+							alt={percentage && percentage > 0 ? 'Up Peak Arrow' : 'Down Peak Arrow'}
+							width={15}
+							height={15}
+						/>
+					</PeakIndicator>
 				)}
 
 				{graph && (

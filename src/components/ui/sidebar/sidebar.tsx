@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { ScrollArea } from '../scroll-area'
+import { ScrollArea } from '@veroxos/design-system'
 import { Separator } from '../separator'
 import SidebarItem from './sidebarItem'
 import Image from 'next/image'

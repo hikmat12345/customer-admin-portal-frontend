@@ -1,9 +1,8 @@
 'use client'
 
 import React from 'react'
-import { Table, TableBody, TableCaption, TableCell, TableRow } from '@/components/ui/table/table'
+import { Table, TableBody, TableCaption, TableCell, TableRow, Button } from '@veroxos/design-system'
 import Image from 'next/image'
-import { Button } from '@veroxos/design-system'
 import { TicketData, Tickets } from '@/types/tickets/types'
 import TicketsTableHead from './ticketsTableHead'
 import { getTimeDifference } from '@/utils/utils'
@@ -43,7 +42,7 @@ const TicketsTable = ({ allTickets }: { allTickets: Tickets }) => {
 									>{`P${ticket?.priority}`}</div>
 								</TableCell>
 								<TableCell className="text-right">
-									<Button className="bg-transparent" size="sm">
+									<Button variant="null" size="sm">
 										<Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />
 									</Button>
 								</TableCell>

@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table/table'
+import { Table, TableBody, TableCell, TableRow } from '@veroxos/design-system'
 import React from 'react'
 import AlertsTableHead from './alertsTableHead'
 import Image from 'next/image'

@@ -1,5 +1,4 @@
-import { Badge } from '@/components/ui/badge'
-import Skeleton from '@/components/ui/skeleton/skeleton'
+import { Badge, Skeleton } from '@veroxos/design-system'
 import { useGetMonthlyTickets } from '@/hooks/useTickets'
 import PeakIndicator from './peak-indicators/peakIndicators'
 
@@ -13,7 +12,7 @@ const MonthlyTickets = ({ title, year, month }: { title: string; year: number; m
 			? `+${monthlyTicketsData?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
 			: monthlyTicketsData?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })
 
-	const badgeVariant = monthlyTicketsData?.percentageDifference > 0 ? 'primary' : 'destructive'
+	const badgeVariant = monthlyTicketsData?.percentageDifference > 0 ? 'success' : 'destructive'
 
 	function difference(difference: number) {
 		const absDifference = Math.abs(difference)

@@ -1,5 +1,5 @@
 import PieChart from '@/components/ui/pieChart'
-import Skeleton from '@/components/ui/skeleton/skeleton'
+import { Skeleton } from '@veroxos/design-system'
 import { OpenTicketSummary } from '@/types/tickets/types'
 import { ApexOptions } from 'apexcharts'
 import React from 'react'

@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCaption, TableCell, TableRow } from '@/components/ui/table/table'
+import { Table, TableBody, TableCaption, TableCell, TableRow } from '@veroxos/design-system'
 import InvoicesTableHead from './invoicesTableHead'
 
 const InvoicesTable = ({ data }: any) => {

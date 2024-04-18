@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 import Skeleton from '../skeleton/skeleton'
 
-type Variant = 'primary' | 'destructive'
+type Variant = 'success' | 'destructive'
 
 const PeakIndicator = ({ isLoading, percentage }: { variant: Variant; isLoading?: boolean; percentage?: number }) => {
 	let arrowImageSrc

@@ -2,7 +2,9 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@veroxos/design-system'
+
+import SearchField from '@/components/ui/search-field'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -11,8 +13,7 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import SearchField from '@/components/ui/search-field'
+} from '../dropdown-menu'
 
 const items = [
 	{

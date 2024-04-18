@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import React from 'react'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { ScrollArea } from '@veroxos/design-system'
 import { useGetCostSavings } from '@/hooks/useGetCostSavings'
 import { useGetMonthlyTickets } from '@/hooks/useTickets'
 import CostSavingsCard from './components/costSavingsCard'
