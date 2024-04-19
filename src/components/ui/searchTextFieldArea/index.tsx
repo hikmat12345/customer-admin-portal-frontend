@@ -2,7 +2,9 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { Avatar, AvatarFallback, AvatarImage } from '@veroxos/design-system'
+import Avatar from '@veroxos/design-system/dist/ui/Avatar/avatar'
+import AvatarFallback from '@veroxos/design-system/dist/ui/AvatarFallback/avatarFallback'
+import AvatarImage from '@veroxos/design-system/dist/ui/AvatarImage/avatarImage'
 
 import SearchField from '@/components/ui/search-field'
 import {
@@ -56,7 +58,7 @@ const SearchTextField = () => {
 									<Image src={item.src} alt={`${item.label} icon`} height={20} width={20} />
 								)}
 							</DropdownMenuTrigger>
-							<DropdownMenuContent className="w-56">
+							<DropdownMenuContent>
 								<DropdownMenuLabel>{item.label}</DropdownMenuLabel>
 								<DropdownMenuSeparator />
 								{item.menuItems.map((menuItem) => (

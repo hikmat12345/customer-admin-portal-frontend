@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { MoreHorizontal } from 'lucide-react'
 import { cn } from '@/utils/utils'
 import {
@@ -86,41 +86,43 @@ const Pagination = ({
 	}
 
 	return (
-		<nav role="navigation" aria-label="pagination" className={cn('mx-auto flex w-full justify-center', className)}>
-			<PaginationContent>
-				<PaginationItem>
-					<PaginationPrevious
-						className={`cursor-pointer ${
-							currentPageRange === 1 && 'pointer-events-none bg-gray-600 opacity-25 text-white'
-						}`}
-						onClick={handlePrevPageRange}
-					/>
-				</PaginationItem>
-				{currentPageRange > 1 && (
+		<Suspense>
+			<nav role="navigation" aria-label="pagination" className={cn('mx-auto flex w-full justify-center', className)}>
+				<PaginationContent>
 					<PaginationItem>
-						<PaginationLink
-							className="cursor-pointer"
-							onClick={() => setCurrentPageRange(currentPageRange - pageRange)}
-						>
-							<MoreHorizontal className="h-4 w-4" />
-						</PaginationLink>
+						<PaginationPrevious
+							className={`cursor-pointer ${
+								currentPageRange === 1 && 'pointer-events-none bg-gray-600 opacity-25 text-white'
+							}`}
+							onClick={handlePrevPageRange}
+						/>
 					</PaginationItem>
-				)}
-				{renderPageNumbers()}
-				{currentPageRange + pageRange <= totalPages && (
-					<>
-						{totalPages > pageRange && (
-							<PaginationItem>
-								<PaginationEllipsis />
-							</PaginationItem>
-						)}
+					{currentPageRange > 1 && (
 						<PaginationItem>
-							<PaginationNext className="cursor-pointer" onClick={handleNextPageRange} />
+							<PaginationLink
+								className="cursor-pointer"
+								onClick={() => setCurrentPageRange(currentPageRange - pageRange)}
+							>
+								<MoreHorizontal className="h-4 w-4" />
+							</PaginationLink>
 						</PaginationItem>
-					</>
-				)}
-			</PaginationContent>
-		</nav>
+					)}
+					{renderPageNumbers()}
+					{currentPageRange + pageRange <= totalPages && (
+						<>
+							{totalPages > pageRange && (
+								<PaginationItem>
+									<PaginationEllipsis />
+								</PaginationItem>
+							)}
+							<PaginationItem>
+								<PaginationNext className="cursor-pointer" onClick={handleNextPageRange} />
+							</PaginationItem>
+						</>
+					)}
+				</PaginationContent>
+			</nav>
+		</Suspense>
 	)
 }
 

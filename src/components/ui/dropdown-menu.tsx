@@ -3,7 +3,6 @@
 import * as React from 'react'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-
 import { cn } from '@/utils/utils'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
@@ -120,7 +119,7 @@ const DropdownMenuRadioItem = React.forwardRef<
 	<DropdownMenuPrimitive.RadioItem
 		ref={ref}
 		className={cn(
-			'relative flex cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+			'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
 			className
 		)}
 		{...props}
@@ -164,18 +163,18 @@ DropdownMenuShortcut.displayName = 'DropdownMenuShortcut'
 
 export {
 	DropdownMenu,
-	DropdownMenuCheckboxItem,
+	DropdownMenuTrigger,
 	DropdownMenuContent,
-	DropdownMenuGroup,
 	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuPortal,
-	DropdownMenuRadioGroup,
+	DropdownMenuCheckboxItem,
 	DropdownMenuRadioItem,
+	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuShortcut,
+	DropdownMenuGroup,
+	DropdownMenuPortal,
 	DropdownMenuSub,
 	DropdownMenuSubContent,
 	DropdownMenuSubTrigger,
-	DropdownMenuTrigger,
+	DropdownMenuRadioGroup,
 }

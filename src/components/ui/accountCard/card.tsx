@@ -1,9 +1,8 @@
-import { Badge } from '@veroxos/design-system'
-import { Skeleton } from '@veroxos/design-system'
-import ChartComponent from '../../../pages/home/components/chartComponent'
+import Badge from '@veroxos/design-system/dist/ui/Badge/badge'
 import { ReactNode } from 'react'
-import { PeakIndicator } from '@veroxos/design-system'
-import Image from 'next/image'
+import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton'
+import PeakIndicator from '../peakIndicators/arrow-peaks'
+import ChartComponent from '@/routes/home/components/chartComponent'
 
 const AccountCard = ({
 	data,
@@ -76,13 +75,13 @@ const AccountCard = ({
 				)}
 
 				{peakIndicator && (
-					<PeakIndicator variant={badgeVariant} isLoading={isLoading} backgroundColor={backgroundColor}>
-						<Image
+					<PeakIndicator variant={badgeVariant} isLoading={isLoading} percentage={data?.percentageDifference}>
+						{/* <Image
 							src={arrowImageSrc}
 							alt={percentage && percentage > 0 ? 'Up Peak Arrow' : 'Down Peak Arrow'}
 							width={15}
 							height={15}
-						/>
+						/> */}
 					</PeakIndicator>
 				)}
 
