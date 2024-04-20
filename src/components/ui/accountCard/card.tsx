@@ -2,7 +2,7 @@ import Badge from '@veroxos/design-system/dist/ui/Badge/badge'
 import { ReactNode } from 'react'
 import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton'
 import PeakIndicator from '../peakIndicators/arrow-peaks'
-import ChartComponent from '@/routes/home/components/chartComponent'
+import ChartComponent from '@/views/home/components/chartComponent'
 
 const AccountCard = ({
 	data,
