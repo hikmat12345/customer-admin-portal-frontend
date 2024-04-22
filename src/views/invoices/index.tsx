@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation'
 import InvoicesTableSkeleton from './components/invoicesTable/invoicesTableSkeleton'
 import SelectComponent from './components/select'
 import useGetMenuOptions from './components/select/options'
+import debounce from 'lodash.debounce'
 
 const InvoicesPage = () => {
 	const searchParams = useSearchParams()
@@ -24,6 +25,8 @@ const InvoicesPage = () => {
 	const account_number = searchParams && searchParams?.get('account')
 	const countryId = searchParams && searchParams?.get('country')
 	const vendor = searchParams && searchParams?.get('vendor')
+
+	const searchQuery = searchParams && searchParams?.get('searchQuery')
 
 	const limit = 7
 	const offset = +page - 1
@@ -39,8 +42,20 @@ const InvoicesPage = () => {
 		limit,
 		account_number?.length !== 0 ? account_number : undefined,
 		typeof countryId !== 'undefined' && countryId !== null ? +countryId : undefined,
-		vendor?.length !== 0 ? vendor : undefined
+		vendor?.length !== 0 ? vendor : undefined,
+		searchQuery?.length !== 0 ? searchQuery?.trim() : undefined
 	)
+
+	const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { value } = event.target
+		if (value.length === 0) {
+			router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`)
+		} else {
+			router.push(`${pathname}?${createQueryString('searchQuery', value)}`)
+		}
+	}
+
+	const debouncedSearchFieldHandlder = React.useCallback(debounce(handleSearchField, 500), [])
 
 	const totalPages = allInvoices?.total
 
@@ -142,6 +157,7 @@ const InvoicesPage = () => {
 						className="rounded-none bg-transparent border-b ml-2 outline-none focus:border-[#44444480] w-[500px] xl:min-w-[700px] font-normal"
 						iconWidth={16}
 						iconHeight={16}
+						onChange={debouncedSearchFieldHandlder}
 					/>
 					<div className="flex gap-4">
 						{menuOptions?.map((menuOption: any, index: number) => (

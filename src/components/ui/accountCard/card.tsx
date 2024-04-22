@@ -30,25 +30,6 @@ const AccountCard = ({
 
 	const chartVariant = data?.percentageDifference > 0 ? '#E41323' : '#219653'
 
-	const percentage = data?.percentageDifference
-
-	let arrowImageSrc
-	let backgroundColor
-
-	switch (percentage && percentage > 0) {
-		case true:
-			arrowImageSrc = '/svg/upPeakArrow.svg'
-			backgroundColor = 'bg-[#E41323]'
-			break
-		case false:
-			arrowImageSrc = '/svg/downPeakArrow.svg'
-			backgroundColor = 'bg-[#219653]'
-			break
-		default:
-			arrowImageSrc = ''
-			backgroundColor = ''
-	}
-
 	return (
 		<div className="min-w-[250px] min-h-[150px] lg:min-h-[140px] xl:min-h-[155px] max-w-full h-auto border border-[#EAEAEA] pl-7 pt-3 rounded-lg relative">
 			<div className="flex gap-[10px]">

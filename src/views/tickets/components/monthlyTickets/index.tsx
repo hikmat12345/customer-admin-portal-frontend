@@ -55,7 +55,9 @@ const MonthlyTickets = ({ title, year, month }: { title: string; year: number; m
 						</div>
 					</div>
 				)}
-				<PeakIndicator variant={badgeVariant} isLoading={isLoading} />
+				<div className="absolute right-4">
+					<PeakIndicator variant={badgeVariant} isLoading={isLoading} />
+				</div>
 			</div>
 		</div>
 	)

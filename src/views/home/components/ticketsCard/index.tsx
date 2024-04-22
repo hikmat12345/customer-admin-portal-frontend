@@ -46,7 +46,9 @@ const TicketsCard = ({ data, isLoading }: { data: TicketsData; isLoading: boolea
 						</div>
 					</div>
 				)}
-				<PeakIndicator variant={badgeVariant} isLoading={isLoading} />
+				<div className="absolute right-4">
+					<PeakIndicator variant={badgeVariant} isLoading={isLoading} />
+				</div>
 			</div>
 		</div>
 	)

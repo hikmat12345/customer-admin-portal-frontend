@@ -6,10 +6,11 @@ export const useGetAllTickets = (
 	limit?: number,
 	priority?: number | null,
 	status?: number | null,
-	account_number?: string | null
+	account_number?: string | null,
+	searchQuery?: string | null
 ) => {
 	return useQuery({
-		queryKey: ['tickets', offset, limit, priority, status, account_number],
+		queryKey: ['tickets', offset, limit, priority, status, account_number, searchQuery],
 		queryFn: getAllTickets,
 	})
 }

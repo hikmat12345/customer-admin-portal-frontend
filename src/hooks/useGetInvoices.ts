@@ -10,7 +10,11 @@ export const useGetInvoices = (
 	limit: number,
 	account_number?: string | null,
 	countryId?: number,
-	vendor?: string | null
+	vendor?: string | null,
+	searchQuery?: string | null
 ) => {
-	return useQuery({ queryKey: ['invoices', offset, limit, account_number, countryId, vendor], queryFn: getInvoices })
+	return useQuery({
+		queryKey: ['invoices', offset, limit, account_number, countryId, vendor, searchQuery],
+		queryFn: getInvoices,
+	})
 }

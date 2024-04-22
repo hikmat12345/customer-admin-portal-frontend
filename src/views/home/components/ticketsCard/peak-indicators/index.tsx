@@ -24,11 +24,11 @@ const PeakIndicator = ({ variant, isLoading }: { variant: Variant; isLoading?: b
 	return (
 		<div>
 			{isLoading ? (
-				<div className={`absolute right-0 top-0 rounded-full`}>
+				<div className={`top-0 rounded-full`}>
 					<Skeleton variant="avatar" height="40px" width="40px" />
 				</div>
 			) : (
-				<div className={`absolute right-4 ${backgroundColor} w-9 h-9 items-center flex justify-center rounded-full`}>
+				<div className={`${backgroundColor} w-9 h-9 items-center flex justify-center rounded-full`}>
 					<Image
 						src={arrowImageSrc}
 						alt={variant === 'primary' ? 'Up Peak Arrow' : 'Down Peak Arrow'}

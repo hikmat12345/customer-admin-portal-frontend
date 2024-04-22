@@ -12,6 +12,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import CreateQueryString from '@/utils/createQueryString'
 import useGetMenuOptions from './components/select/options'
 import SelectComponent from './components/select'
+import debounce from 'lodash.debounce'
 
 const TicketsPage = () => {
 	const currentDate = new Date()
@@ -31,6 +32,7 @@ const TicketsPage = () => {
 	const status = searchParams && Number(searchParams?.get('status'))
 	const priority = searchParams && Number(searchParams?.get('priority'))
 	const account_number = searchParams && searchParams?.get('account_number')
+	const searchQuery = searchParams && searchParams?.get('searchQuery')
 
 	const createQueryString = CreateQueryString()
 	const menuOptions = useGetMenuOptions()
@@ -47,8 +49,21 @@ const TicketsPage = () => {
 		limit,
 		priority !== 0 ? priority : undefined,
 		status !== 0 ? status : undefined,
-		account_number?.length !== 0 ? account_number : undefined
+		account_number?.length !== 0 ? account_number : undefined,
+		searchQuery?.length !== 0 ? searchQuery?.trim() : undefined
 	)
+
+	const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { value } = event.target
+		console.log('Value ', value)
+		if (value.length === 0) {
+			router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`)
+		} else {
+			router.push(`${pathname}?${createQueryString('searchQuery', value)}`)
+		}
+	}
+
+	const debouncedSearchFieldHandlder = React.useCallback(debounce(handleSearchField, 500), [])
 
 	const rowCount = allTickets?.tickets?.length || 8
 	const totalPages = allTickets?.total / limit
@@ -92,6 +107,7 @@ const TicketsPage = () => {
 						className="rounded-none bg-transparent border-b ml-2 outline-none focus:border-[#44444480] w-[500px] xl:min-w-[700px] font-normal"
 						iconWidth={16}
 						iconHeight={16}
+						onChange={debouncedSearchFieldHandlder}
 					/>
 					<div className="flex gap-4">
 						{menuOptions?.map((menuOption: any, index: number) => (
