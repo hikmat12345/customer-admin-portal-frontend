@@ -2,6 +2,7 @@
 import React from 'react'
 
 import dynamic from 'next/dynamic'
+import { monthNames } from '@/utils/utils'
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 const CostSavingChart = ({ data, variant }: { data: any; variant: string }) => {
@@ -15,6 +16,7 @@ const CostSavingChart = ({ data, variant }: { data: any; variant: string }) => {
 				color: variant,
 			},
 		],
+		labels: monthNames,
 		chart: {
 			type: 'area',
 			toolbar: {

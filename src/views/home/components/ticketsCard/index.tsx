@@ -10,7 +10,8 @@ const TicketsCard = ({ data, isLoading }: { data: TicketsData; isLoading: boolea
 			? `+${data?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
 			: data?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })
 
-	const badgeVariant = data?.percentageDifference > 0 ? 'primary' : 'destructive'
+	const badgeVariant = data?.percentageDifference > 0 ? 'success' : 'destructive'
+
 	let averageReviews = data?.averageScore
 
 	if (averageReviews % 1 >= 0.5) {

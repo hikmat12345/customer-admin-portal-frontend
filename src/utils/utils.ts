@@ -87,3 +87,18 @@ export const serviceOptions: { id: number; label: string }[] = Object.keys(Servi
 		id: ServiceType[key as keyof typeof ServiceType],
 		label: capitalize(key.toLowerCase().replace(/_/g, ' ')),
 	}))
+
+export const monthNames = [
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December',
+]
