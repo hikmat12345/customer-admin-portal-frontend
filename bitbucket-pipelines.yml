@@ -1,0 +1,41 @@
+image: node:22
+
+definitions:
+  steps:
+    - step: &build-step
+        name: Build Step
+        script:
+          - npm install
+          - npm run build
+
+pipelines:
+  default:
+      - step: *build-step
+
+  branches:
+    master:
+      - step: *build-step
+
+  custom:
+    deploy-to-DEV:
+      - step:
+          name: "Build Step for DEV environment"
+          caches:
+            - node
+          script:
+            - npm install
+            - npm run build
+          artifacts:
+            - build/**
+      - step:
+          name: 'Deploy to DEV environment'
+          trigger: manual
+          deployment: dev
+          image:
+            name: amazon/aws-cli:2.15.42
+          script:
+            - export AWS_ACCESS_KEY_ID=$AWS_BUILD_ACCESS_KEY
+            - export AWS_SECRET_ACCESS_KEY=$AWS_BUILD_SECRET_KEY
+            - export AWS_DEFAULT_REGION=$AWS_REGION
+            - aws s3 cp --recursive ./build s3://271453939301-veroxos-v2-admin-portal-frontend-dev-us-east-1/
+            - aws cloudfront create-invalidation --distribution-id EPNYVJHYTM1JO --paths '/*'
