@@ -13,7 +13,7 @@ pipelines:
       - step: *build-step
 
   branches:
-    master:
+    main:
       - step: *build-step
 
   custom:
