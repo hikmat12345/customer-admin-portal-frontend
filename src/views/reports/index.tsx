@@ -33,7 +33,7 @@ const ReportsPage = () => {
 				<div className="flex justify-start relative">
 					<Tabs defaultValue={defaultTabValue} onValueChange={handleTabChange}>
 						<TabsList className="flex gap-8 w-full justify-start">
-							<TabsTrigger value="recent" className="px-3">
+							<TabsTrigger value="recent" className="px-3 ">
 								Recent
 							</TabsTrigger>
 							<TabsTrigger value="finance" className="px-3">

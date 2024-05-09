@@ -23,11 +23,6 @@ const financeReports: Report[] = [
 		description: 'Estimate of the recommended amount to accrue at the end of a period',
 	},
 	{
-		label: 'F-2',
-		reportName: 'CDR Report',
-		description: 'Listing of all Call Records (CDRs) for the period and account selected',
-	},
-	{
 		label: 'F-3',
 		reportName: 'Inactive Account Report',
 		description: 'Lists all Accounts with no cost in the past 3 months',

@@ -14,7 +14,7 @@ export const getAllTickets = async ({ queryKey }: any) => {
 		},
 	}
 
-	return httpClient.get(`${process.env.NEXT_PUBLIC_BASE_URL}/tickets/all`, config).then(({ data }) => data)
+	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets/all`, config).then(({ data }) => data)
 }
 
 export const getMonthlyTickets = async ({ queryKey }: any) => {
@@ -29,17 +29,17 @@ export const getMonthlyTickets = async ({ queryKey }: any) => {
 		},
 	}
 
-	return httpClient.get(`${process.env.NEXT_PUBLIC_BASE_URL}/tickets`, config).then(({ data }) => data)
+	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets`, config).then(({ data }) => data)
 }
 
 export const getOpenTickets = async ({ queryKey }: any) => {
 	const [,] = queryKey
 
-	return httpClient.get(`${process.env.NEXT_PUBLIC_BASE_URL}/tickets/open`).then(({ data }) => data)
+	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets/open`).then(({ data }) => data)
 }
 
 export const getVendorAccounts = async ({ queryKey }: any) => {
 	const [,] = queryKey
 
-	return httpClient.get(`${process.env.NEXT_PUBLIC_BASE_URL}/vendor/accounts`).then(({ data }) => data)
+	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/vendor/accounts`).then(({ data }) => data)
 }
