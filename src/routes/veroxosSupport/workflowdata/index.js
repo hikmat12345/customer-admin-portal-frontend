@@ -1,8 +1,8 @@
 export const jsonObject = {
     "16b3829b-404f-4743-9142-fd1ea48a0ba3": {
         id: "16b3829b-404f-4743-9142-fd1ea48a0ba3",
-        type: "inputBox",
-        parentType: "inputBox",
+        type: "InputBox",
+        parentType: "InputBox",
         title: "Input Box:",
         order: "1",
         group: "0",
@@ -30,7 +30,7 @@ export const jsonObject = {
     "7a464af3-806c-45a3-9b14-a6da63618159": {
       "id": "7a464af3-806c-45a3-9b14-a6da63618159",
       "type": "Text",
-      "parentType": "text",
+      "parentType": "Text",
       "title": "Use this form to terminate a mobile service that you no longer want",
       "order": "2",
       "properties": {},
@@ -41,7 +41,7 @@ export const jsonObject = {
     "8be3deec-a3f3-408b-ad87-5ee31b25c782": {
       "id": "8be3deec-a3f3-408b-ad87-5ee31b25c782",
       "type": "Textarea",
-      "parentType": "textArea",
+      "parentType": "Textarea",
       "title": "Please provide as much detail as possible, such as any error messages received or the update you require?",
       "order": "3",
       "properties": {
