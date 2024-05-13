@@ -12,6 +12,7 @@ const VeroxosSupportPage = () => {
 	const [dynamicComponent, setDynamicComponent] = useState(jsonObject);
 	  //@ts-ignore
 	  const ref = useRef();
+    const userToken = 'fdgdgdgdgdgfdgfdf';
 
 	  // useEffect(() => {
 		// getWorkflowRequestTypesApiCall(
@@ -23,7 +24,17 @@ const VeroxosSupportPage = () => {
 		//   setDynamicComponent(resultData?.data);
 		// });
 	  // }, []);
-    console.log(ref);
+    
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      // Process form data here, e.g., send it to the server
+      let isValid = ref.current.isValidate();
+      if (isValid) {
+        console.log(ref.current.getValue());
+      }
+      
+    };
+
 	return <div>
 		{/* <div style={{ marginTop: "10px" }}>
         <button
@@ -63,65 +74,87 @@ const VeroxosSupportPage = () => {
           GetValue-All
         </button>
       </div> */}
+    <form onSubmit={handleSubmit}>
+      <div style={{ marginTop: "10px" }}>
+          {/* <button
+            onClick={() => {
+              ref.current.refreshNow("af37fc63-0861-483b-ab30-e61294229077");
+            }}
+          >
+            RefreshNow-Id
+          </button>
+          <button
+            style={{ marginLeft: "10px" }}
+            onClick={() => {
+              // eslint-disable-next-line no-restricted-syntax
+              console.log(
+                ref.current.isValidate("af37fc63-0861-483b-ab30-e61294229077")
+              );
+            }}
+          >
+            Validate-Id
+          </button> */}
+          {/* <button
+            style={{ marginLeft: "10px" }}
+            onClick={() => {
+              ref.current.setValue(
+                {
+                  title: "Update from set value method by all",
+                  value: "Update from set value method by id",
+                },
+                "16b3829b-404f-4743-9142-fd1ea48a0ba3"
+              );
+            }}
+          >
+            SetValue-Id
+          </button> */}
+          <button
+            style={{ marginLeft: "10px" }}
+            onClick={() => {
+              // eslint-disable-next-line no-restricted-syntax
+              console.log(
+                ref.current.getValue("16b3829b-404f-4743-9142-fd1ea48a0ba3")
+              );
+            }}
+          >
+            GetValue-Id
+          </button>
+          <button
+            style={{ marginLeft: "10px" }}
+            onClick={() => {
+              // eslint-disable-next-line no-restricted-syntax
+              console.log(ref.current.getValue());
+            }}
+          >
+            GetValue-All
+          </button>
+          <button
+            style={{ marginLeft: "10px" }}
+            onClick={() => {
+              console.log(ref.current.isValidate());
+            }}
+          >
+            IsValidate
+          </button>
+          <button
+            onClick={() => {
+              ref.current.refreshOn(
+                {
+                  itemId: "16b3829b-404f-4743-9142-fd1ea48a0ba3",
+                  itemValue: ref.current.getValue()
+                });
+            }}
+          >
+            RefreshNow-Id
+          </button>
+        </div>
 
-	  <div style={{ marginTop: "10px" }}>
-        {/* <button
-          onClick={() => {
-            ref.current.refreshNow("af37fc63-0861-483b-ab30-e61294229077");
-          }}
-        >
-          RefreshNow-Id
-        </button>
-        <button
-          style={{ marginLeft: "10px" }}
-          onClick={() => {
-            // eslint-disable-next-line no-restricted-syntax
-            console.log(
-              ref.current.isValidate("af37fc63-0861-483b-ab30-e61294229077")
-            );
-          }}
-        >
-          Validate-Id
-        </button> */}
-        {/* <button
-          style={{ marginLeft: "10px" }}
-          onClick={() => {
-            ref.current.setValue(
-              {
-                title: "Update from set value method by all",
-                value: "Update from set value method by id",
-              },
-              "16b3829b-404f-4743-9142-fd1ea48a0ba3"
-            );
-          }}
-        >
-          SetValue-Id
-        </button> */}
-        <button
-          style={{ marginLeft: "10px" }}
-          onClick={() => {
-            // eslint-disable-next-line no-restricted-syntax
-            console.log(
-              ref.current.getValue("16b3829b-404f-4743-9142-fd1ea48a0ba3")
-            );
-          }}
-        >
-          GetValue-Id
-        </button>
-        <button
-          style={{ marginLeft: "10px" }}
-          onClick={() => {
-            // eslint-disable-next-line no-restricted-syntax
-            console.log(ref.current.getValue());
-          }}
-        >
-          GetValue-All
-        </button>
+      <div>
+        <WorkflowLayout ref={ref} workflowId={362} token={userToken} data={dynamicComponent}/>
       </div>
+      <button type="submit">Submit</button>
+    </form>
 
-	  <div>
-		<WorkflowLayout ref={ref} workflowId={362} data={dynamicComponent} />
-		</div>
 	</div>
 }
 
