@@ -2312,9 +2312,9 @@
     "@radix-ui/react-tabs" "^1.0.4"
     cmdk "^1.0.0"
 
-"@veroxos/workflow@bitbucket:sl-faizrasool/veroxos-workflow#d100fa1":
+"@veroxos/workflow@bitbucket:sl-faizrasool/veroxos-workflow#2c7400f":
   version "1.0.0"
-  resolved "git+ssh://git@bitbucket.org/sl-faizrasool/veroxos-workflow.git#d100fa10d57e90c8dd4c2f8a05f5936397081156"
+  resolved "git+ssh://git@bitbucket.org/sl-faizrasool/veroxos-workflow.git#2c7400f836312fbfc4c5e7ded7e3ee8da7f82e97"
   dependencies:
     "@react-aria/tabs" "^3.8.5"
     "@react-native-aria/tabs" "^0.2.10"

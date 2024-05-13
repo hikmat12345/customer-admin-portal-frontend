@@ -10,6 +10,7 @@ import { jsonObject } from './workflowdata';
 const VeroxosSupportPage = () => {
   //console.log(JSON.stringify(jsonObject))
 	const [dynamicComponent, setDynamicComponent] = useState(jsonObject);
+
 	  //@ts-ignore
 	  const ref = useRef();
     const userToken = 'fdgdgdgdgdgfdgfdf';
@@ -28,18 +29,30 @@ const VeroxosSupportPage = () => {
     const handleSubmit = (e) => {
       e.preventDefault();
       // Process form data here, e.g., send it to the server
+      //console.log(ref.current._allRefs);
+
       let isValid = ref.current.isValidate();
       if (isValid) {
+        let data = {};
+        let allRefs = ref.current._allRefs;
+        Object.keys(allRefs).map(key => {
+          if (allRefs[key]) {
+            // Assuming state is a property of the referenced object
+            const stateValue = allRefs[key]?.state; // Optional chaining to handle null or undefined state
+            if (stateValue && stateValue.value) {
+              // stateValue is not null or undefined, you can access its properties
+              data[key] = stateValue.value;
+            } else {
+              // Handle null or undefined stateValue
+              console.log('State value is null or undefined');
+            }
+          } else {
+            // Handle null or undefined array element
+            console.log('Array element is null or undefined');
+          }
+        });
 
-        let values = ref.current.getValue();
-        // let data = {};
-        // Object.keys(values).map(key => {
-        //   data = Object.assign({}, data, {
-        //     [key]: values[key] ? values[key] : ''
-        //   });
-        // });
-
-        console.log(values);
+        console.log(data);
       }
       
     };
