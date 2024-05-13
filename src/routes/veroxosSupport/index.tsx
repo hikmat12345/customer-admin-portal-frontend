@@ -30,7 +30,16 @@ const VeroxosSupportPage = () => {
       // Process form data here, e.g., send it to the server
       let isValid = ref.current.isValidate();
       if (isValid) {
-        console.log(ref.current.getValue());
+
+        let values = ref.current.getValue();
+        // let data = {};
+        // Object.keys(values).map(key => {
+        //   data = Object.assign({}, data, {
+        //     [key]: values[key] ? values[key] : ''
+        //   });
+        // });
+
+        console.log(values);
       }
       
     };
