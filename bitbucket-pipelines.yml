@@ -4,7 +4,7 @@ definitions:
   services:
     docker:
       memory: 4096  
-      
+
   steps:
     - step: &deploy-to-ecr
         name: "Deploy to ECR"
@@ -37,6 +37,7 @@ pipelines:
         name: "Prepare Deployment for DEV & Prod"
         services:
           - docker
+        size: 2x
         script:
           - yum install jq -y
           - cd deployment/
