@@ -1,41 +1,58 @@
-image: node:22
+image: amazon/aws-cli:2.15.45
 
 definitions:
   steps:
-    - step: &build-step
-        name: Build Step
+    - step: &deploy-to-ecr
+        name: "Deploy to ECR"
+        services:
+          - docker
         script:
-          - npm install
-          - npm run build
+          - DOCKER_PASSWORD=$(aws ecr get-login-password --region $AWS_DEFAULT_REGION)
+          - echo $DOCKER_PASSWORD | docker login --username AWS --password-stdin 271453939301.dkr.ecr.us-east-1.amazonaws.com
+          # Build the Docker image
+          - docker build -t $ECR_REPO_NAME .
+          # Tag the Docker image
+          - docker tag $ECR_REPO_NAME:latest 271453939301.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO_NAME:B$BITBUCKET_BUILD_NUMBER
+          # Push the Docker image to Amazon ECR
+          - docker push 271453939301.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO_NAME:B$BITBUCKET_BUILD_NUMBER
 
 pipelines:
   default:
-      - step: *build-step
+    - step: *deploy-to-ecr
 
   branches:
-    main:
-      - step: *build-step
-
+    dev:
+      - step: *deploy-to-ecr
+  
   custom:
-    deploy-to-DEV:
-      - step:
-          name: "Build Step for DEV environment"
-          caches:
-            - node
-          script:
-            - npm install
-            - npm run build
-          artifacts:
-            - build/**
-      - step:
-          name: 'Deploy to DEV environment'
-          trigger: manual
-          deployment: dev
-          image:
-            name: amazon/aws-cli:2.15.42
-          script:
-            - export AWS_ACCESS_KEY_ID=$AWS_BUILD_ACCESS_KEY
-            - export AWS_SECRET_ACCESS_KEY=$AWS_BUILD_SECRET_KEY
-            - export AWS_DEFAULT_REGION=$AWS_REGION
-            - aws s3 cp --recursive ./build s3://271453939301-veroxos-v2-admin-portal-frontend-dev-us-east-1/
-            - aws cloudfront create-invalidation --distribution-id EPNYVJHYTM1JO --paths '/*'
+    deploy-to-DEV-&-PROD:
+    - step:
+        name: "Prepare Deployment for DEV & Prod"
+        services:
+          - docker
+        script:
+          - yum install jq -y
+          - cd deployment/
+          - bash prepare-deployment.sh
+        artifacts:
+          - deployment/*-*-appspec-*.json
+          - deployment/create-deployment-*.json
+    - step:
+        name: "Deploy to DEV"
+        trigger: manual
+        deployment: dev
+        artifacts:
+          - deployment/create-deployment-dev.json
+        script:
+          - yum install jq -y
+          - aws deploy create-deployment --region us-east-1 --cli-input-json file://deployment/create-deployment-dev.json  > deploymentId-dev.txt
+          - DEPLOYMENT_ID=`jq .deploymentId deploymentId-dev.txt | sed 's/"//g'`
+          - aws deploy get-deployment --region us-east-1 --deployment-id $DEPLOYMENT_ID --query deploymentInfo.status
+          - echo $DEPLOYMENT_ID
+          - echo "https://us-east-1.console.aws.amazon.com/codesuite/codedeploy/deployments/"$DEPLOYMENT_ID"\?region\=us-east-1"
+    - step:
+        name: "Deploy to Production"
+        trigger: manual
+        deployment: production
+        script:
+          - echo "Production Steps"
