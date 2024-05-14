@@ -7,10 +7,11 @@ definitions:
         services:
           - docker
         script:
+          - export DOCKER_BUILDKIT=1
           - DOCKER_PASSWORD=$(aws ecr get-login-password --region $AWS_DEFAULT_REGION)
           - echo $DOCKER_PASSWORD | docker login --username AWS --password-stdin 271453939301.dkr.ecr.us-east-1.amazonaws.com
           # Build the Docker image
-          - docker build -t $ECR_REPO_NAME .
+          - docker build --ssh default=$BITBUCKET_SSH_KEY_FILE -t $ECR_REPO_NAME .
           # Tag the Docker image
           - docker tag $ECR_REPO_NAME:latest 271453939301.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO_NAME:B$BITBUCKET_BUILD_NUMBER
           # Push the Docker image to Amazon ECR
