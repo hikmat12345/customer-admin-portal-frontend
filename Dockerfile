@@ -1,6 +1,6 @@
 # Initial Stage
 FROM node:22-alpine as builder
-RUN apk update && apk add git
+RUN apk update && apk add git openssh
 WORKDIR /app
 COPY package*.json ./
 RUN --mount=type=ssh \
@@ -11,7 +11,7 @@ RUN npm run build
 
 # Second Stage
 FROM node:22-alpine
-RUN apk update && apk add git
+RUN apk update && apk add git openssh
 WORKDIR /app
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
