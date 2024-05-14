@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN --mount=type=ssh \
     --mount=type=bind,target=~/.ssh/known_hosts,source=known_hosts \
-    npm install
+    npm install --production
 COPY . .
 RUN npm run build
 
