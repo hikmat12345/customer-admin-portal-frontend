@@ -1,0 +1,29 @@
+# Node modules
+node_modules
+
+# Logs
+logs
+*.log
+
+# Build directory
+dist
+build
+deployment
+
+# Temporary files
+tmp
+temp
+
+# Editors and IDEs
+.idea
+.vscode
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# Repository directories
+.git
+.gitignore
+.svn
+.hg
