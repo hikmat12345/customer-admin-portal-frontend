@@ -1,7 +1,7 @@
 import httpClient from '../httpClient'
 
 export const getAllTickets = async ({ queryKey }: any) => {
-	const [, offset, limit, priority, status, account_number] = queryKey
+	const [, offset, limit, priority, status, account_number, searchQuery] = queryKey
 
 	const config = {
 		params: {
@@ -10,6 +10,7 @@ export const getAllTickets = async ({ queryKey }: any) => {
 			priority: priority,
 			status: status,
 			account_number: account_number,
+			searchQuery: searchQuery,
 		},
 	}
 

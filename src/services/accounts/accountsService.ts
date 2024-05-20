@@ -1,7 +1,7 @@
 import httpClient from '../httpClient'
 
 export const getInvoices = async ({ queryKey }: any) => {
-	const [, offset, limit, account_number, countryId, vendor] = queryKey
+	const [, offset, limit, account_number, countryId, vendor, searchQuery] = queryKey
 	const config = {
 		params: {
 			limit: limit,
@@ -9,14 +9,15 @@ export const getInvoices = async ({ queryKey }: any) => {
 			account: account_number,
 			countryId: countryId,
 			vendor: vendor,
+			searchQuery: searchQuery,
 		},
 	}
-	return httpClient.get(`${process.env.NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices`, config).then(({ data }) => data)
+	return httpClient.get(`${process.env.NEXT_PUBLIC_BASE_URL}/invoices`, config).then(({ data }) => data)
 }
 
 export const getMonthlyInvoices = async ({ queryKey }: any) => {
 	const [,] = queryKey
-	return httpClient.get(`${process.env.NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/summary`).then(({ data }) => data)
+	return httpClient.get(`${process.env.NEXT_PUBLIC_BASE_URL}/invoices/summary`).then(({ data }) => data)
 }
 
 export const getCostSavings = async ({ queryKey }: any) => {
@@ -26,5 +27,5 @@ export const getCostSavings = async ({ queryKey }: any) => {
 			year: year,
 		},
 	}
-	return httpClient.get(`${process.env.NEXT_PUBLIC_HOME_SERVICE_URL}/cost-savings`, config).then(({ data }) => data)
+	return httpClient.get(`${process.env.NEXT_PUBLIC_BASE_URL}/cost-savings`, config).then(({ data }) => data)
 }

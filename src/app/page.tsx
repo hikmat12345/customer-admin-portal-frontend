@@ -1,4 +1,4 @@
-import HomePage from '@/routes/home'
+import HomePage from '@/views/home'
 import { getOpenTickets } from '@/services/tickets/ticketsService'
 import { QueryClient } from '@tanstack/react-query'
 
