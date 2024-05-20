@@ -14,7 +14,6 @@ import { useGetCostSavings } from '@/hooks/useGetCostSavings'
 import CostSavingsCard from './components/costSavingsCard'
 
 const HomePage = () => {
-	console.log(process.env.NEXT_PUBLIC_INVENTORY_SERVICE_URL);
 	const currentDate = new Date()
 	const currentYear = currentDate.getFullYear()
 	const currentMonth = currentDate.getMonth() + 1
@@ -53,7 +52,7 @@ const HomePage = () => {
 	return (
 		<>
 			<div className="grid grid-auto-flow-column gap-3 w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg p-5">
-				<h2 className="text-[#1D46F3] text-[22px] font-bold">Accounts</h2>
+				<h2 className="text-[#1D46F3] text-[22px] font-bold">Accounts {process.env.NEXT_PUBLIC_INVENTORY_SERVICE_URL}</h2>
 				<div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4">
 					<AccountCard
 						data={invoicesData?.thisMonth}
