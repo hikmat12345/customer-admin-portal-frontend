@@ -780,9 +780,9 @@
   resolved "https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.2.0.tgz"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@veroxos/design-system@git+https://@bitbucket.org/sl-faizrasool/veroxos-design-system.git#c446f4b":
+"@veroxos/design-system@bitbucket:sl-faizrasool/veroxos-design-system#446ae0a":
   version "1.0.0"
-  resolved "git+https://@bitbucket.org/sl-faizrasool/veroxos-design-system.git#c446f4b2c9230ee98e7bbfffd9558c7e00c495e3"
+  resolved "git+ssh://git@bitbucket.org/sl-faizrasool/veroxos-design-system.git#446ae0acfbc1b0d779cec436fae220f3884e6e6c"
   dependencies:
     "@radix-ui/react-avatar" "^1.0.4"
     "@radix-ui/react-dialog" "^1.0.5"
