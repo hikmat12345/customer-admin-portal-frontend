@@ -40,8 +40,28 @@
       ],
       "environment": [
         {
-          "name": "dev_variable_1",
-          "value": "dev_value_1"
+          "name": "NEXT_PUBLIC_API_BASE_URL",
+          "value": "https://customer-admin-api.dev.v2.veroxos.com/api/v2"
+        },
+        {
+          "name": "NEXTAUTH_URL",
+          "value": "https://auth.dev.v2.veroxos.com"
+        },
+        {
+          "name": "NEXT_PUBLIC_TICKET_SERVICE_URL",
+          "value": "https://ticket-api.dev.v2.veroxos.com/api/v2"
+        },
+        {
+          "name": "NEXT_PUBLIC_INVOICE_SERVICE_URL",
+          "value": "https://invoice-api.dev.v2.veroxos.com/api/v2"
+        },
+        {
+          "name": "NEXT_PUBLIC_INVENTORY_SERVICE_URL",
+          "value": "https://inventory-api.dev.v2.veroxos.com/api/v2"
+        },
+        {
+          "name": "NEXT_PUBLIC_REPORTING_SERVICE_URL",
+          "value": "https://reporting-api.dev.v2.veroxos.com/api/v2"
         }
       ],
       "essential": true
