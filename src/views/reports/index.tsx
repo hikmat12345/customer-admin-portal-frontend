@@ -1,9 +1,8 @@
 'use client'
 
 import SearchField from '@/components/ui/search-field'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import ReportsCard from './components/reportsCard'
-import Pagination from '@/components/ui/pagination'
 import TabsList from '@veroxos/design-system/dist/ui/TabsList/tabsList'
 import TabsTrigger from '@veroxos/design-system/dist/ui/TabsTrigger/tabsTrigger'
 import TabsContent from '@veroxos/design-system/dist/ui/TabsContent/tabsContent'

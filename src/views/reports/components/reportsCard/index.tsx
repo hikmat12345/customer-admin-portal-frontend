@@ -1,4 +1,3 @@
-import { useGetExcel } from '@/hooks/useGetCountries'
 import httpClient from '@/services/httpClient'
 import { Button } from '@veroxos/design-system/dist/ui/Button/button'
 import Image from 'next/image'
@@ -14,7 +13,6 @@ const ReportsCard = ({
 	description: string
 }) => {
 	const [isHovered, setIsHovered] = useState(false)
-	// const {} = useGetExcel('2024-01', '2024-02')
 
 	const handleMouseOver = () => {
 		setIsHovered(true)
