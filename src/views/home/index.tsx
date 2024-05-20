@@ -14,6 +14,7 @@ import { useGetCostSavings } from '@/hooks/useGetCostSavings'
 import CostSavingsCard from './components/costSavingsCard'
 
 const HomePage = () => {
+	console.log(process.env.NEXT_PUBLIC_INVENTORY_SERVICE_URL);
 	const currentDate = new Date()
 	const currentYear = currentDate.getFullYear()
 	const currentMonth = currentDate.getMonth() + 1
