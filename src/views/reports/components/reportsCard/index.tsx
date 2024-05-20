@@ -1,4 +1,3 @@
-import httpClient from '@/services/httpClient'
 import { Button } from '@veroxos/design-system/dist/ui/Button/button'
 import Image from 'next/image'
 import React, { useState } from 'react'
@@ -22,36 +21,7 @@ const ReportsCard = ({
 		setIsHovered(false)
 	}
 
-	const handleDownload = async () => {
-		try {
-			const response = await httpClient.get(`${process.env.NEXT_PUBLIC_BASE_URL}/account-history/2024-01/2024-02`, {
-				// respon: 'blob',
-			})
-
-			console.log('Response ', response.data)
-
-			const blobData = response.data // The Blob object containing Excel file data
-
-			// Create a URL for the Blob object
-			const url = window.URL.createObjectURL(blobData)
-
-			// Create a link element to trigger the download
-			const link = document.createElement('a')
-			link.href = url
-			link.download = 'filename.xlsx' // Specify the desired filename
-			document.body.appendChild(link)
-
-			// Trigger the download
-			link.click()
-
-			// Clean up resources
-			window.URL.revokeObjectURL(url)
-			document.body.removeChild(link)
-		} catch (error) {
-			console.error('Error downloading Excel:', error)
-			// Handle error
-		}
-	}
+	const handleDownload = async () => {}
 
 	return (
 		<div className="max-h-[320px] xl:min-w-[470px] xl:max-h-[320px] border border-[#D6D6D6] rounded-lg flex flex-col justify-between">

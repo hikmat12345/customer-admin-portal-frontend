@@ -32,7 +32,10 @@ const ReportsPage = () => {
 				<div className="flex justify-start relative">
 					<Tabs defaultValue={defaultTabValue} onValueChange={handleTabChange}>
 						<TabsList className="flex gap-8 w-full justify-start">
-							<TabsTrigger value="recent" className="px-3 ">
+							<TabsTrigger
+								value="recent"
+								className="px-3  data-[state=active]:bg-[#1D46F333] data-[state=active]:text-[#1D46F3] data-[state=active]:shadow"
+							>
 								Recent
 							</TabsTrigger>
 							<TabsTrigger value="finance" className="px-3">
@@ -48,7 +51,7 @@ const ReportsPage = () => {
 						{Object.values(allReports).map((category: ReportCategory) => (
 							<TabsContent key={category.categoryName} value={category.value} className="mt-10">
 								<div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-5 h-[69vh] overflow-y-scroll">
-									{category.reports.map((report) => (
+									{category?.reports?.map((report) => (
 										<ReportsCard
 											key={report.label}
 											label={report.label}
