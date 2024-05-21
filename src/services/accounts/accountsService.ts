@@ -1,8 +1,6 @@
 import { NEXT_PUBLIC_API_BASE_URL } from 'config/config'
 import httpClient from '../httpClient'
 
-// const apiUrl = `${require('child_process').execSync('echo $NEXT_PUBLIC_API_BASE_URL')}`.trim()
-
 export const getInvoices = async ({ queryKey }: any) => {
 	const [, offset, limit, account_number, countryId, vendor, searchQuery] = queryKey
 	const config = {
