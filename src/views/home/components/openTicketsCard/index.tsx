@@ -92,7 +92,7 @@ const OpenTicketsCard = ({ title }: { title: string }) => {
 						<div className="flex items-center justify-between">
 							<p className="text-xs xl:text-xs 2xl:text-sm font-medium text-[#444444]">
 								<span className={`text-[${closeTicketHighlight}] font-bold`}>{closeTicketsIn24Hours?.count}</span>{' '}
-								tickets closed in last 24hours.
+								tickets closed in last 24 hours.
 							</p>
 							<div className="mt-[-115px] w-[120px] h-[110px]">
 								<PieChart chartOptions={chartOptions} />

@@ -44,7 +44,7 @@ const MonthlyTickets = ({ title, year, month }: { title: string; year: number; m
 						<h2 className="text-[#000000] text-lg font-semibold">{title}</h2>
 						<div className="flex items-center gap-5">
 							<h1 className="text-lg lg:text-2xl 2xl:text-3xl font-bold">{totalTickets}</h1>
-							<Badge className="text-sm lg:text-xs" variant="destructive">
+							<Badge className="text-sm lg:text-xs" variant={badgeVariant}>
 								{formattedPercentageDifference}%
 							</Badge>
 						</div>
