@@ -71,6 +71,7 @@ const TicketsPage = () => {
 	const handlePageChange = async (page: number) => {
 		const params = new URLSearchParams()
 		if (searchParams) {
+			//TODO: Will use proper types later
 			searchParams.forEach((value: any, key: any) => {
 				params.set(key, value)
 			})
