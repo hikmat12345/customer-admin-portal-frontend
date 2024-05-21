@@ -28,12 +28,12 @@ const InventoryTable = ({ data }: any) => {
 						return (
 							<TableRow key={inventory.id}>
 								<TableCell className="font-normal py-[19px]">{inventory?.id}</TableCell>
-								<TableCell>{inventory?.service_number}</TableCell>
+								<TableCell>{inventory?.serviceNumber || '-'}</TableCell>
 								<TableCell>{inventory?.companyNetwork?.network?.name}</TableCell>
-								<TableCell>{getServiceType(inventory?.service_type)}</TableCell>
+								<TableCell>{getServiceType(inventory?.serviceType) || '-'}</TableCell>
 								<TableCell>{STATUS_NAME[inventory?.live]}</TableCell>
 								<TableCell>{'-'}</TableCell>
-								<TableCell>{inventory?.cost_centre || '-'}</TableCell>
+								<TableCell>{inventory?.costCentre || '-'}</TableCell>
 								<TableCell>
 									<div className="flex items-center justify-end">
 										<Button variant="null" size="sm">
