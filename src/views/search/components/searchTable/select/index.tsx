@@ -32,7 +32,7 @@ const SelectComponent = (props: IProps) => {
 		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger asChild className="bg-[#1D46F3] outline-none flex flex-row items-center">
 				<Button variant="primary" role="combobox" aria-expanded={open} className="w-auto justify-between " value={12}>
-					<Image src={'/svg/filter.svg'} alt="Chevron Icon" width={20} height={20} />
+					<Image src={'/svg/search/filter.svg'} alt="Chevron Icon" width={20} height={20} />
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className="w-[200px] p-0">

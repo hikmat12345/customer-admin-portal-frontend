@@ -4,12 +4,6 @@
 import { getSearchResults } from '@/services/search/searchService'
 import { useQuery } from '@tanstack/react-query'
 export const useGetSearchResults = (searchQuery: string | null, filters?: string[]) => {
-	if (searchQuery === '' && !filters?.length) {
-		return {
-			data: [],
-			isLoading: false,
-		}
-	}
 	const stringifiedFilters = filters?.join(',')
 	return useQuery({
 		queryKey: ['search', searchQuery, stringifiedFilters],
