@@ -55,7 +55,6 @@ const TicketsPage = () => {
 
 	const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target
-		console.log('Value ', value)
 		if (value.length === 0) {
 			router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`)
 		} else {
