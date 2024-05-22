@@ -6,7 +6,6 @@ import Avatar from '@veroxos/design-system/dist/ui/Avatar/avatar'
 import AvatarFallback from '@veroxos/design-system/dist/ui/AvatarFallback/avatarFallback'
 import AvatarImage from '@veroxos/design-system/dist/ui/AvatarImage/avatarImage'
 
-import SearchField from '@/components/ui/search-field'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -18,7 +17,7 @@ import {
 } from '../dropdown-menu'
 
 import AnimatedSearchField from '@/components/ui/animated-search-field'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
 import { cn } from '@/utils/utils'
 import { usePathname, useRouter } from 'next/navigation'
 

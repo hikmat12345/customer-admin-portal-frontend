@@ -45,7 +45,7 @@ const SelectComponent = (props: IProps) => {
 					<CommandGroup>
 						<CommandList>
 							{FILTERS.map((f: any) => (
-								<label htmlFor={f.id} className="text-[#334155]">
+								<label htmlFor={f.id} className="text-[#334155]" key={f.id}>
 									<CommandItem key={f.id} value={f.name}>
 										<input
 											type="checkbox"

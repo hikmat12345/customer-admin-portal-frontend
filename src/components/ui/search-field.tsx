@@ -31,4 +31,7 @@ const SearchField = forwardRef((props: IProps, ref: React.ForwardedRef<HTMLInput
 		</form>
 	)
 })
+
+SearchField.displayName = 'SearchField'
+
 export default SearchField
