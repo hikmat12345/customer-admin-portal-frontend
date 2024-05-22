@@ -1,6 +1,5 @@
 import { getInventories, getLiveServices, getMonthlyInventory } from '@/services/inventory/inventoryService'
 import { useQuery } from '@tanstack/react-query'
-
 export const useGetInventories = (
 	offset: number,
 	limit: number,
@@ -15,11 +14,9 @@ export const useGetInventories = (
 		queryFn: getInventories,
 	})
 }
-
 export const useGetMonthlyInventoryCount = () => {
 	return useQuery({ queryKey: ['monthly_service'], queryFn: getMonthlyInventory })
 }
-
 export const useGetLiveServices = () => {
 	return useQuery({ queryKey: ['live_services'], queryFn: getLiveServices })
 }

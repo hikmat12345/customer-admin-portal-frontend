@@ -17,6 +17,11 @@ import {
 	DropdownMenuTrigger,
 } from '../dropdown-menu'
 
+import AnimatedSearchField from '@/components/ui/animated-search-field'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/utils/utils'
+import { usePathname, useRouter } from 'next/navigation'
+
 const items = [
 	{
 		id: 1,
@@ -38,13 +43,32 @@ const items = [
 	},
 ]
 
+const searchTextFieldVariants = cva('flex justify-between bg-[#FFFFFF] p-2 rounded-full gap-x-1', {
+	variants: {
+		variant: {
+			default: 'w-auto',
+			expanded: 'w-[530px]',
+		},
+	},
+})
+
 const SearchTextField = () => {
+	const [expanded, setExpanded] = React.useState(false)
 	const [position, setPosition] = React.useState('bottom')
 
+	const router = useRouter()
+	const pathname = usePathname()
+	const variant = expanded ? 'expanded' : 'default'
+	const handleOnSubmit = (query: string) => {
+		router.push(`/search?query=${query}`)
+	}
+
 	return (
-		<div className="flex w-[550px] justify-between bg-[#FFFFFF] p-2 rounded-full">
-			<SearchField />
-			<div className="flex gap-7 items-center">
+		<div className={cn(searchTextFieldVariants({ variant }))}>
+			{pathname !== '/search' && (
+				<AnimatedSearchField variant={variant} setExpanded={setExpanded} onSubmit={handleOnSubmit} />
+			)}
+			<div className="flex-1 flex justify-end gap-x-2 items-center pl-2">
 				{items.map((item, index) => (
 					<div key={index} className={index === items?.length - 1 ? 'ml-3' : ''}>
 						<DropdownMenu>
