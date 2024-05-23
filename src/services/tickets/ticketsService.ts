@@ -42,3 +42,9 @@ export const getVendorAccounts = async ({ queryKey }: any) => {
 
 	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/vendor/accounts`).then(({ data }) => data)
 }
+
+export const getTicketSummary = async ({ queryKey }: any) => {
+	const [,ticketId] = queryKey
+
+	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets/ticket-summary/${ticketId}`).then(({ data }) => data)
+}

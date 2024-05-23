@@ -1,4 +1,4 @@
-import { getAllTickets, getMonthlyTickets, getOpenTickets, getVendorAccounts } from '@/services/tickets/ticketsService'
+import { getAllTickets, getMonthlyTickets, getOpenTickets, getTicketSummary, getVendorAccounts } from '@/services/tickets/ticketsService'
 import { useQuery } from '@tanstack/react-query'
 
 export const useGetAllTickets = (
@@ -33,5 +33,12 @@ export const useGetVendors = () => {
 	return useQuery({
 		queryKey: ['vendor_accounts'],
 		queryFn: getVendorAccounts,
+	})
+}
+
+export const useGetTicketSummary = (ticketId : number) => {
+	return useQuery({
+		queryKey: ['ticket_summary', ticketId],
+		queryFn: getTicketSummary,
 	})
 }

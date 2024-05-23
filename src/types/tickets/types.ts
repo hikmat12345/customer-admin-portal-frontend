@@ -6,6 +6,13 @@ export interface Ticket {
 	incidentStatusId?: Date
 }
 
+export interface TicketSecondaryStatus {
+    id : number,
+    order : number,
+    name : string,
+    description : string
+}
+
 export interface TicketsData {
 	tickets: Ticket[]
 	totalMonthTickets: number
