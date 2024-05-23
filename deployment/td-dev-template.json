@@ -62,6 +62,10 @@
         {
           "name": "NEXT_PUBLIC_REPORTING_SERVICE_URL",
           "value": "https://reporting-api.dev.v2.veroxos.com/api/v2"
+        },
+        {
+          "name": "NEXT_PUBLIC_AUTH_URL",
+          "value": "https://auth.dev.v2.veroxos.com/"
         }
       ],
       "essential": true
