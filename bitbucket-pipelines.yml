@@ -1,4 +1,7 @@
-image: amazon/aws-cli:2.15.45
+image:
+  name: thisisuniverse/veroxos-v2-build:1.0
+  username: $DOCKER_HUB_USERNAME
+  password: $DOCKER_HUB_PASSWORD
 
 definitions:
   services:
@@ -17,7 +20,7 @@ definitions:
           - echo $DOCKER_PASSWORD | docker login --username AWS --password-stdin 271453939301.dkr.ecr.us-east-1.amazonaws.com
           # Build the Docker image
           - cp ~/.ssh/known_hosts .  
-          - docker build --ssh default=$BITBUCKET_SSH_KEY_FILE -t $ECR_REPO_NAME .
+          - docker build --ssh default=$BITBUCKET_SSH_KEY_FILE -t $ECR_REPO_NAME -f Dockerfile.dev .
           # Tag the Docker image
           - docker tag $ECR_REPO_NAME:latest 271453939301.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO_NAME:B$BITBUCKET_BUILD_NUMBER
           # Push the Docker image to Amazon ECR
@@ -39,7 +42,6 @@ pipelines:
           - docker
         size: 2x
         script:
-          - yum install jq -y
           - cd deployment/
           - bash prepare-deployment.sh
         artifacts:
@@ -52,7 +54,6 @@ pipelines:
         artifacts:
           - deployment/create-deployment-dev.json
         script:
-          - yum install jq -y
           - aws deploy create-deployment --region us-east-1 --cli-input-json file://deployment/create-deployment-dev.json  > deploymentId-dev.txt
           - DEPLOYMENT_ID=`jq .deploymentId deploymentId-dev.txt | sed 's/"//g'`
           - aws deploy get-deployment --region us-east-1 --deployment-id $DEPLOYMENT_ID --query deploymentInfo.status

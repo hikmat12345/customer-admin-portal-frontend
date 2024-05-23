@@ -57,6 +57,12 @@ const menuItems: ISidebarItem[] = [
 		name: 'Reporting',
 		path: '/reporting',
 		src: '/svg/sidebar/reporting.svg',
+		items: [
+			{
+				name: 'Reports',
+				path: '/reporting/reports',
+			},
+		],
 	},
 	{
 		name: 'Optimization',

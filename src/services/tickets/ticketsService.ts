@@ -1,7 +1,8 @@
+import { NEXT_PUBLIC_TICKET_SERVICE_URL } from 'config/config'
 import httpClient from '../httpClient'
 
 export const getAllTickets = async ({ queryKey }: any) => {
-	const [, offset, limit, priority, status, account_number] = queryKey
+	const [, offset, limit, priority, status, account_number, searchQuery] = queryKey
 
 	const config = {
 		params: {
@@ -10,10 +11,11 @@ export const getAllTickets = async ({ queryKey }: any) => {
 			priority: priority,
 			status: status,
 			account_number: account_number,
+			searchQuery: searchQuery,
 		},
 	}
 
-	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets/all`, config).then(({ data }) => data)
+	return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets/all`, config).then(({ data }) => data)
 }
 
 export const getMonthlyTickets = async ({ queryKey }: any) => {
@@ -28,19 +30,19 @@ export const getMonthlyTickets = async ({ queryKey }: any) => {
 		},
 	}
 
-	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets`, config).then(({ data }) => data)
+	return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets`, config).then(({ data }) => data)
 }
 
 export const getOpenTickets = async ({ queryKey }: any) => {
 	const [,] = queryKey
 
-	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets/open`).then(({ data }) => data)
+	return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets/open`).then(({ data }) => data)
 }
 
 export const getVendorAccounts = async ({ queryKey }: any) => {
 	const [,] = queryKey
 
-	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/vendor/accounts`).then(({ data }) => data)
+	return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/vendor/accounts`).then(({ data }) => data)
 }
 
 export const getTicketSummary = async ({ queryKey }: any) => {

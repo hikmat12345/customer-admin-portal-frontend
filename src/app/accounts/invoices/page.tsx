@@ -1,4 +1,4 @@
-import InvoicesPage from '@/routes/invoices'
+import InvoicesPage from '@/views/invoices'
 import { Suspense } from 'react'
 
 export default async function Home() {
