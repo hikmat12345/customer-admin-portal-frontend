@@ -23,7 +23,7 @@ const useGetMenuOptions = () => {
 
 	if (data && typeof data === 'object') {
 		Object.entries(data).forEach(([country, vendors]) => {
-			;(vendors as any[]).forEach((vendor: any) => {
+			(vendors as any[])?.forEach((vendor: any) => {
 				const vendorName = vendor.network.name
 				if (!vendorOptions[country]) {
 					vendorOptions[country] = []

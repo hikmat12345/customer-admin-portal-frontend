@@ -34,7 +34,7 @@ const TicketsTable = ({ allTickets }: { allTickets: Tickets }) => {
 								</TableCell>
 								<TableCell>{ticket?.clientReferenceNo || '-'}</TableCell>
 								<TableCell>{fullName}</TableCell>
-								<TableCell>{ticket?.companyNetwork?.vendor.name || '-'}</TableCell>
+								<TableCell>{ticket?.companyNetwork?.vendor?.name || '-'}</TableCell>
 								<TableCell>{ticket?.workflow?.name}</TableCell>
 								<TableCell className={`${ticket?.ticketStatusId === 1 ? 'text-[#1D46F3]' : ''}`}>
 									{TICKETS_STATUS_LIST[`${ticket?.ticketStatusId}`]}

@@ -16,6 +16,9 @@ const config = {
 
 			'2xl': '1740px',
 			'3xl': '2000px',
+
+			// max width 
+			'max-lg': {'max': '1024px'},
 		},
 		container: {
 			center: true,
