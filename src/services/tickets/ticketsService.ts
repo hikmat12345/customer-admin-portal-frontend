@@ -50,3 +50,25 @@ export const getTicketSummary = async ({ queryKey }: any) => {
 
 	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets/ticket-summary/${ticketId}`).then(({ data }) => data)
 }
+
+export const getTicketSecondaryStatuses = async ({ queryKey }: any) => {
+	const [,] = queryKey
+
+	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/ticket-secondary-statuses`).then(({ data }) => data)
+}
+
+export const getTicketUpdateStatuses = async ({ queryKey }: any) => {
+	const [,] = queryKey
+
+	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/ticket-update-statuses`).then(({ data }) => data)
+}
+
+export const getUserDetails = async ({ queryKey }: any) => {
+	const [,] = queryKey
+
+	return httpClient.get(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/user/user-details`).then(({ data }) => data)
+}
+
+export const postTicketUpdate = async (data : any) => {
+	return httpClient.post(`${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/ticket-updates`,data).then(({ data }) => data)
+}

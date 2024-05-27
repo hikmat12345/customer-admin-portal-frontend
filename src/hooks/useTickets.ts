@@ -1,5 +1,5 @@
-import { getAllTickets, getMonthlyTickets, getOpenTickets, getTicketSummary, getVendorAccounts } from '@/services/tickets/ticketsService'
-import { useQuery } from '@tanstack/react-query'
+import { getAllTickets, getMonthlyTickets, getOpenTickets, getTicketSecondaryStatuses, getTicketSummary, getTicketUpdateStatuses, getUserDetails, getVendorAccounts, postTicketUpdate } from '@/services/tickets/ticketsService'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 export const useGetAllTickets = (
 	offset?: number,
@@ -41,5 +41,32 @@ export const useGetTicketSummary = (ticketId : number) => {
 	return useQuery({
 		queryKey: ['ticket_summary', ticketId],
 		queryFn: getTicketSummary,
+	})
+}
+
+export const useGetTicketSecondaryStatuses = () => {
+	return useQuery({
+		queryKey: ['ticket_secondary_statuses'],
+		queryFn: getTicketSecondaryStatuses,
+	})
+}
+
+export const useGetTicketUpdateStatuses = () => {
+	return useQuery({
+		queryKey: ['ticket_update_statuses'],
+		queryFn: getTicketUpdateStatuses,
+	})
+}
+
+export const useGetLoggedInUserDetails = () => {
+	return useQuery({
+		queryKey: ['user_details'],
+		queryFn: getUserDetails,
+	})
+}
+
+export const usePostTicketUpdate = () => {
+	return useMutation({
+		mutationFn: postTicketUpdate,
 	})
 }
