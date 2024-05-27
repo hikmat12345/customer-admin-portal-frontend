@@ -203,3 +203,18 @@ export const getServiceTypeSubColor = (serviceType: number) => {
         default: return 'bg-[#D2DAFD]';
     }
 };
+
+export const monthNames = [
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December',
+]

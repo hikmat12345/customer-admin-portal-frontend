@@ -1,3 +1,4 @@
+import { NEXT_PUBLIC_TICKET_SERVICE_URL } from 'config/config'
 import httpClient from '../httpClient'
 
 export const getAllTickets = async ({ queryKey }: any) => {

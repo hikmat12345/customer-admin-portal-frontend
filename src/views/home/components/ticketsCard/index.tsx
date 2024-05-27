@@ -10,7 +10,8 @@ const TicketsCard = ({ data, isLoading }: { data: TicketsData; isLoading: boolea
 			? `+${data?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
 			: data?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })
 
-	const badgeVariant = data?.percentageDifference > 0 ? 'primary' : 'destructive'
+	const badgeVariant = data?.percentageDifference > 0 ? 'success' : 'destructive'
+
 	let averageReviews = data?.averageScore
 
 	if (averageReviews % 1 >= 0.5) {
@@ -21,7 +22,7 @@ const TicketsCard = ({ data, isLoading }: { data: TicketsData; isLoading: boolea
 		<div className="min-w-[300px] min-h-[150px] h-auto border border-[#EAEAEA] pl-7 pt-3 rounded-lg relative">
 			<div className="flex gap-[10px]">
 				{isLoading ? (
-					<div className="w-[24rem] mt-2 mr-12">
+					<div className="w-[24rem] mt-2 mr-16 xl:mr-16">
 						<Skeleton variant="paragraph" rows={3} />
 					</div>
 				) : (

@@ -1,6 +1,5 @@
 import { getAssets, getCostPlan, getInventories, getLiveServices, getMonthlyInventory, getRecentActivity, getSingleServiceDetail, getTicketsRecentActivity } from '@/services/inventory/inventoryService'
 import { useQuery } from '@tanstack/react-query'
-
 export const useGetInventories = (
 	offset: number,
 	limit: number,

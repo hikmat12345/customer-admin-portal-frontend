@@ -8,7 +8,7 @@ import TicketsTable from './components/ticketsTable'
 import TicketsTableSkeleton from './components/ticketsTableSkeleton'
 import React, { useEffect } from 'react'
 import Pagination from '@/components/ui/pagination'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import CreateQueryString from '@/utils/createQueryString'
 import useGetMenuOptions from './components/select/options'
 import SelectComponent from './components/select'
@@ -55,7 +55,6 @@ const TicketsPage = () => {
 
 	const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target
-		console.log('Value ', value)
 		if (value.length === 0) {
 			router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`)
 		} else {
@@ -71,7 +70,8 @@ const TicketsPage = () => {
 	const handlePageChange = async (page: number) => {
 		const params = new URLSearchParams()
 		if (searchParams) {
-			searchParams.forEach((value, key) => {
+			//TODO: Will use proper types later
+			searchParams.forEach((value: any, key: any) => {
 				params.set(key, value)
 			})
 		}

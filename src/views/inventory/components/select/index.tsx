@@ -181,7 +181,6 @@ const SelectComponent = ({ menuOption, index }: { menuOption: any; index: number
 
 														if (index === 3) {
 															selectedOption = menuOption?.options.flat().find((opt: any) => opt.label === currentValue)
-															console.log('Selected option ', selectedOption)
 														}
 														if (currentParamValue == selectedOption?.value) {
 															const updatedQueryString = createQueryString(PARAM_NAME[index], undefined)

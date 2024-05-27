@@ -25,7 +25,7 @@ const CostSavingsCard = ({
 
 	const highlightedMessage = data?.message?.replace(
 		regex,
-		(match: any) => `<span style="color: ${chartVariant};">${match}</span>`
+		(match: any) => `<span style="color: ${chartVariant};">${match}.</span>`
 	)
 
 	return (

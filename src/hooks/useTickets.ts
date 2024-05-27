@@ -26,7 +26,7 @@ export const useGetOpenTickets = () => {
 	return useQuery({
 		queryKey: ['open_tickets'],
 		queryFn: getOpenTickets,
-		refetchInterval: 12000,
+		refetchInterval: 20000,
 	})
 }
 

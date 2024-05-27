@@ -1,0 +1,12 @@
+{
+    "applicationName": $ECR_REPO_NAME,
+    "deploymentGroupName": $DEPLOYMENT_GROUP_NAME,
+    "revision": {
+        "revisionType": "S3",
+        "s3Location": {
+            "bucket": $S3_BUCKET,
+            "key": $OBJECT_KEY,
+            "bundleType": "json"
+        }
+    }
+}

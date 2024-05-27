@@ -1,26 +1,30 @@
-// import { NextResponse, type NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from "next/server";
 
-// import { withAuth } from 'next-auth/middleware'
+export function middleware(request: NextRequest) {
+  const url = request.nextUrl;
+  const a_token = url.searchParams.get("access_token");
 
-// export default withAuth({
-// 	callbacks: {
-// 		authorized: ({ req }) => {
-// 			const sessionToken = req.cookies.get('token')
-// 			if (sessionToken) return true
-// 			else return false
-// 		},
-// 	},
-// })
+  if (a_token) {
+    const response = NextResponse.redirect(request.nextUrl.origin);
 
-// export function middleware(request: NextRequest) {
-// 	const session = request.cookies.get('token')?.value
+    response.cookies.set({
+      name: "token",
+      value: a_token,
+      path: "/",
+    });
+    return response;
+  }
 
-// 	if (!session && process.env.NEXTAUTH_URL) {
-// 		return NextResponse.redirect(process.env.NEXTAUTH_URL)
-// 	}
-// }
-// export const config = {
-// 	matcher: ['/((?!api|_next|.*\\..*).*)'],
-// }
+  const access_token = request.cookies.get("token")?.value;
 
-export function middleware() {}
+  if (!access_token) {
+    const authServiceFrontend = String(process.env.NEXT_PUBLIC_AUTH_URL);
+    return NextResponse.redirect(authServiceFrontend);
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/((?!api|_next|.*\\..*).*)"],
+};

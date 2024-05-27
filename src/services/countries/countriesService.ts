@@ -1,3 +1,4 @@
+import { NEXT_PUBLIC_API_BASE_URL } from 'config/config'
 import httpClient from '../httpClient'
 
 export const getCountries = async ({ queryKey }: any) => {

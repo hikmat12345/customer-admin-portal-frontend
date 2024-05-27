@@ -2,15 +2,15 @@ import { ReactNode } from 'react'
 
 export interface Inventory {
 	id: number
-	service_number: string
+	serviceNumber: string
 	live: number
 	created: Date
 	updated: Date
-	service_type: number
-	cost_centre: string
+	serviceType: number
+	costCentre: string
 	companyNetwork: {
 		id: number
-		display_name: string
+		displayName: string
 		network: {
 			id: number
 			name: string

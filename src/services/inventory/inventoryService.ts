@@ -1,3 +1,4 @@
+import { NEXT_PUBLIC_INVENTORY_SERVICE_URL } from 'config/config'
 import httpClient from '../httpClient'
 
 export const getInventories = async ({ queryKey }: any) => {
