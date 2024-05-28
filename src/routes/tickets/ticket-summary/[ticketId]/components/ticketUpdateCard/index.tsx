@@ -1,7 +1,6 @@
 import { TicketUpdate } from "@/types/tickets/types";
 import { formatDate } from "@/utils/utils";
 import Image from "next/image";
-import ReactHtmlParser from "react-html-parser";
 
 const TicketUpdateCard = ({ ticketUpdate }: { ticketUpdate: TicketUpdate }) => {
   const getTicketUpdateTitle = (ticketUpdate: TicketUpdate) => {
@@ -44,7 +43,7 @@ const TicketUpdateCard = ({ ticketUpdate }: { ticketUpdate: TicketUpdate }) => {
     else
       return (
         <p className="mt-10 font-[400] text-[1.125rem] leading-[1.361rem]">
-          {ReactHtmlParser(ticketUpdate.description)}
+          {<div dangerouslySetInnerHTML={{__html : ticketUpdate.description}} />}
         </p>
       );
   };

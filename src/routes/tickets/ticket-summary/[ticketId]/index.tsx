@@ -11,12 +11,9 @@ import {
   usePostTicketUpdate,
 } from "@/hooks/useTickets";
 import React, { useState } from "react";
-import ReactHtmlParser from "react-html-parser";
-import {
-  ReactHtmlParserNode,
-  TicketSecondaryStatus,
-  TicketUpdate,
-} from "@/types/tickets/types";
+const HtmlToReactParser = require("html-to-react").Parser;
+
+import { TicketSecondaryStatus, TicketUpdate } from "@/types/tickets/types";
 import Skeleton from "@/components/ui/skeleton/skeleton";
 import TicketUpdateCard from "./components/ticketUpdateCard";
 
@@ -32,33 +29,28 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
 
   const postTicketUpdateMutation = usePostTicketUpdate();
 
-  const collectTdElements = (
-    node: ReactHtmlParserNode,
-    tdElements: ReactHtmlParserNode[]
-  ) => {
-    if (node.type === "tag" && node.name === "td") {
-      tdElements.push(node);
-    }
-
-    if (node.children && node.children.length > 0) {
-      node.children.forEach((child: ReactHtmlParserNode) =>
-        collectTdElements(child, tdElements)
-      );
-    }
-  };
-
   // Function to parse ticket description from HTML
   const parseTicketDescription = (html: string) => {
-    const parsedData = [];
-    const tdElements: ReactHtmlParserNode[] = [];
+    const parsedData: { label: string; value: string }[] = [];
+    const tdElements: any[] = [];
 
-    // Parse HTML and collect <td> elements
-    ReactHtmlParser(html, {
-      transform: (node: any) => {
-        collectTdElements(node, tdElements);
-        return node;
+    const processingInstructions = [
+      {
+        shouldProcessNode: (node: any) => true,
+        processNode: (node: any) => {
+          if (node?.name === "td") {
+            tdElements.push(node);
+          }
+        },
       },
-    });
+    ];
+
+    const htmlToReactParser = new HtmlToReactParser();
+    htmlToReactParser.parseWithInstructions(
+      html,
+      () => true,
+      processingInstructions
+    );
 
     // Process the <td> elements in pairs
     for (let i = 0; i < tdElements.length; i += 2) {
@@ -94,7 +86,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
 
   const renderStepperIfHardwareOrder = () => {
     if (
-      getTicketSummaryRes?.data.workflow?.workflowCategory?.id === 3 &&
+      getTicketSummaryRes.data.ticketSecondaryStatusId &&
       getTicketSecondaryStatusesRes?.data.length > 0
     ) {
       const ticketSecondaryStauses = getTicketSecondaryStatusesRes?.data;
@@ -236,14 +228,20 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
             ) : (
               getTicketSummaryRes?.data.ticketUpdates?.map(
                 (ticketUpdate: TicketUpdate) => {
-                  return <TicketUpdateCard key={ticketUpdate.id} ticketUpdate={ticketUpdate} />;
+                  return (
+                    <TicketUpdateCard
+                      key={ticketUpdate.id}
+                      ticketUpdate={ticketUpdate}
+                    />
+                  );
                 }
               )
             )}
           </div>
           <div className="h-fit xl:col-span-5 order-1 xl:order-2 col-span-12 border border-[#D6D6D6] rounded-lg p-7">
             <h3 className="font-[700] text-[1.375rem] leading-[2.625rem] text-[#1D46F3] mb-9">
-              {getTicketSummaryRes?.data.workflow?.workflowCategory?.id === 3
+              {getTicketSummaryRes.data.ticketSecondaryStatusId &&
+              getTicketSummaryRes?.data.workflow?.workflowCategory?.id === 3
                 ? "Order"
                 : "Ticket"}{" "}
               Details
