@@ -86,7 +86,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
 
   const renderStepperIfHardwareOrder = () => {
     if (
-      getTicketSummaryRes.data.ticketSecondaryStatusId &&
+      getTicketSummaryRes?.data.ticketSecondaryStatusId &&
       getTicketSecondaryStatusesRes?.data.length > 0
     ) {
       const ticketSecondaryStauses = getTicketSecondaryStatusesRes?.data;
@@ -240,7 +240,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
           </div>
           <div className="h-fit xl:col-span-5 order-1 xl:order-2 col-span-12 border border-[#D6D6D6] rounded-lg p-7">
             <h3 className="font-[700] text-[1.375rem] leading-[2.625rem] text-[#1D46F3] mb-9">
-              {getTicketSummaryRes.data.ticketSecondaryStatusId &&
+              {getTicketSummaryRes?.data.ticketSecondaryStatusId &&
               getTicketSummaryRes?.data.workflow?.workflowCategory?.id === 3
                 ? "Order"
                 : "Ticket"}{" "}
