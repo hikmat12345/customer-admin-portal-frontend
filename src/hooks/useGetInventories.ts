@@ -13,10 +13,10 @@ export const useGetInventories = (
 		queryKey: ['inventories', offset, limit, account, vendor, serviceType, serviceStatus, searchQuery],
 		queryFn: getInventories,
 	})
-} 
+}
 export const useGetMonthlyInventoryCount = () => {
 	return useQuery({ queryKey: ['monthly_service'], queryFn: getMonthlyInventory })
-} 
+}
 export const useGetLiveServices = () => {
 	return useQuery({ queryKey: ['live_services'], queryFn: getLiveServices })
 } 

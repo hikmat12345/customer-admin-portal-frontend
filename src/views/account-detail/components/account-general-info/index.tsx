@@ -1,9 +1,8 @@
 import GeneratlInfoSkeletons from "@/components/ui/summary-skeletons";
-import {  AccountGeneralInfoProps } from "@/types/site";
-import Link from "next/link";
+import { AccountGeneralInfoProps } from "@/types/account/acount.tds";
+import Image from "next/image";
 
-
-export default function SiteGeneralInfo({
+export default function AccountGeneralInfo({
     label = 'General Information',
     isLoading = false, 
         data : {
@@ -27,48 +26,48 @@ export default function SiteGeneralInfo({
             {label && <div className='text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pb-6'>{label}</div>}
             {isLoading ? <GeneratlInfoSkeletons /> :
                 <div className="flex max-lg:block gap-[19px] pb-6"> 
-                     <div className="flex w-[42%]    max-lg:w-[100%] max-lg:mt-5  justify-between  ">
+                     <div className="flex w-[43%]    max-lg:w-[100%] max-lg:mt-5  justify-between  ">
                             <div className='w-[34%]'>
-                                <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9">Veroxos ID </div> 
-                                <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9"> Account #</div>
-                                <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9">Master Account #</div>
-                                <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9">Currency </div>
-                                <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9">Payment Terms</div>
-                                <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9">Remittance Address</div>
-                                <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9">Display Name</div>
+                                <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Veroxos ID </div> 
+                                <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9"> Account #</div>
+                                <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Master Account #</div>
+                                <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Currency </div>
+                                <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Payment Terms</div>
+                                <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Remittance Address</div>
+                                <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Display Name</div>
                             </div>
                             <div className='w-[66%]'>
-                                <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{veroxosId ? veroxosId : ' - '} </div>
-                                <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{accountNumber ? accountNumber : ' - '} </div>
-                                <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{masterAccount ? masterAccount : ' - '} </div>
-                                <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{network?.country?.currency_code ? network?.country?.currency_code : ' - '} </div>
-                                <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{paymentTerms ? paymentTerms : ' - '} </div>
-                                <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{remittanceAddress ? remittanceAddress : ' - '} </div>
-                                <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{displayName ? displayName : ' - '} </div>
+                                <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{veroxosId ? veroxosId : ' - '} </div>
+                                <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{accountNumber ? accountNumber : ' - '} </div>
+                                <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{masterAccount ? masterAccount : ' - '} </div>
+                                <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{network?.country?.currency_code ? network?.country?.currency_code : ' - '} </div>
+                                <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{paymentTerms ? paymentTerms : ' - '} </div>
+                                <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{remittanceAddress ? remittanceAddress : ' - '} </div>
+                                <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{displayName ? displayName : ' - '} </div>
                             </div>
                         </div>
-                        <div className="flex w-[45%] max-lg:w-[100%] max-lg:mt-5  justify-center gap-10 pr-20"> 
+                        <div className="flex w-[40%] max-lg:w-[100%] max-lg:mt-5  justify-center gap-10 pr-3"> 
                         <div className=''>
-                            <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9"> Client Vendor ID</div>
-                            <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9">APF Group</div>
-                            <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9">Include in the Accounts Payable Feed</div>
-                            <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9">Rolling Contract</div>
-                            <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9">Vendor</div>
-                            <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9">Country</div>
-                            <div className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-9">Status</div>
+                            <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9"> Client Vendor ID</div>
+                            <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">APF Group</div>
+                            <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Include in the Accounts Payable Feed</div>
+                            <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Rolling Contract</div>
+                            <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Vendor</div>
+                            <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Country</div>
+                            <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Status</div>
                         </div>
                         <div >
-                            <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{clientenVendorID ? clientenVendorID : ' - '} </div>
-                            <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{apf_group ? apf_group : ' - '} </div>
-                            <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{Include_In_The_Accounts_Payable_Feed ? Include_In_The_Accounts_Payable_Feed : ' - '} </div>
-                            <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{rollingContract ? rollingContract : ' - '} </div>
-                            <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{network?.name ? network?.name : ' - '} </div>
-                            <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{network?.country?.name ? network?.country?.name : ' - '} </div>
-                            <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{companyNetworkStatus?.name ? companyNetworkStatus?.name : ' - '} </div>
+                            <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{clientenVendorID ? clientenVendorID : ' - '} </div>
+                            <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{apf_group ? apf_group : ' - '} </div>
+                            <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{Include_In_The_Accounts_Payable_Feed ? (Include_In_The_Accounts_Payable_Feed =="1" ?"YES":"NO") : ' - '} </div>
+                            <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{rollingContract ? rollingContract : ' - '} </div>
+                            <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{network?.name ? network?.name : ' - '} </div>
+                            <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{network?.country?.name ? network?.country?.name : ' - '} </div>
+                            <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{companyNetworkStatus?.name ? companyNetworkStatus?.name : ' - '} </div>
                         </div>
                     </div>
-                    <div className='w-[10%] max-lg:w-[100%] max-lg:mt-5 '> 
-                     image icon 
+                    <div className='w-[17%] max-lg:w-[100%] max-lg:mt-5 '> 
+                      <Image src={network?.logo} alt="account logo" width={200} height={200} className=" " />
                      </div>   
                 </div>}
         </div>

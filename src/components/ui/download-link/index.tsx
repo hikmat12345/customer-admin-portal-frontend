@@ -13,27 +13,27 @@ export function DownloadAbleLink({invoice_id}: {invoice_id: string | number}) {
         refetch
     } = useGetSiteInvoiceFile(invoiceId); 
 
-    const fileDownloadFile = async (fileType:"pdf"|"xls"|"docs") => {
-        const makeInvoiceId :string = fileType== "docs" ? `${invoice_id}_allocation.csv`: fileType== "xls" ? `${invoice_id}.xlsx`: `${invoice_id}.pdf`;
-       await setInvoiceId(makeInvoiceId);
-       await setFileType(fileType);
-       await refetch(); 
+    const fileDownloadFile = async (fileId:string | number, fileType:"pdf"|"xls"|"docs") => {
+        const makeInvoiceId :string = fileType== "docs" ? `${fileId}_allocation.csv`: fileType== "xls" ? `${fileId}.xlsx`: `${fileId}.pdf`;
+            await setInvoiceId(makeInvoiceId);
+            await setFileType(fileType);
+            await refetch(); 
     } 
     useEffect(() => {
         if (!isBlobLoading && !blobError && blobdata &&fileType) {
             downloadFile(fileType, blobdata, invoiceId);
         }
-    } , [blobdata, isBlobLoading, blobError])
+    } , [blobdata, isBlobLoading, blobError, fileType, invoiceId])
 
     return (
         <div className="  flex justify-around items-center">    
-            <button onClick={ () => fileDownloadFile("pdf")}>
+            <button onClick={ () => fileDownloadFile(invoice_id, "pdf")}>
                 <Image className="w-[18.28px] h-6 " src="/svg/pdf-icon.svg" alt="pdf" width={20} height={20} />
             </button>
-            <button onClick={ () => fileDownloadFile("xls")}>
+            <button onClick={ () => fileDownloadFile(invoice_id, "xls")}>
                 <Image className="w-[18.28px] h-6 " src="/svg/excel-icon.svg" alt="excel" width={20} height={20} />
             </button>
-            <button onClick={ () => fileDownloadFile("docs")}>
+            <button onClick={ () => fileDownloadFile(invoice_id, "docs")}>
                 <Image className="w-[18.28px] h-6 " src="/svg/word-icon.svg" alt="word" width={20} height={20} />
             </button> 
          </div>

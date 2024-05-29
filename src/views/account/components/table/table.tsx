@@ -23,7 +23,7 @@ export default function TableData({ data, loading, label, currynecy="USD" }: Tab
   
   return (
     <>
-    {label && <div className='text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] py-7'>{label}</div>}
+    {label && <div className='text-[#1D46F3] lg:text-[18px] xl:text-[20px] font-[700] lg:py-4 xl:py-7'>{label}</div>}
     { loading ? <Table><TableBodySkeleton rowCount={3} columnCount={3} /></Table> : 
      Array.isArray(data) && data?.length < 1 ? 
         <div className='text-center text-lg py-8'>No Data Found</div>

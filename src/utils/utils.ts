@@ -91,7 +91,7 @@ export const serviceOptions: { id: number; label: string }[] = Object.keys(Servi
 
 // replacer all 
 export function stringFindAndReplaceAll(str: string, find: string, replace: string, position: number = 0): string {
-	const replaceData = str.split(find);
+	const replaceData = str?.split(find);
 	return replaceData[position];
 }
 
@@ -218,3 +218,7 @@ export const monthNames = [
 	'November',
 	'December',
 ]
+
+export const makeFileUrlFromBase64= (base64String?: string | null, mimeType?: string, fileExtension?: string, fileName?: string) => {
+	return  base64String ? `data:image/png;base64,${base64String}` : "/device-image.png";
+}

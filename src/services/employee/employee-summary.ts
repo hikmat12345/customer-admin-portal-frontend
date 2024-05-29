@@ -1,23 +1,24 @@
+import { NEXT_PUBLIC_API_BASE_URL, NEXT_PUBLIC_INVOICE_SERVICE_URL, NEXT_PUBLIC_TICKET_SERVICE_URL } from 'config/config'
 import httpClient from '../httpClient'
   
 export const getEmployeeDetail = async ({ queryKey }: any) => {
 	const [, employeeId] = queryKey
 
 	return httpClient
-		.get(`${process.env.NEXT_PUBLIC_BASE_URL_CUSTOMER_ADMIN_PORTAL}/employee/detail/${employeeId}`)
+		.get(`${NEXT_PUBLIC_API_BASE_URL}/employee/detail/${employeeId}`)
 		.then(({ data }) => data)
 }
 export const getEmployeeCostTrend = async ({ queryKey }: any) => {
 	const [, accountId] = queryKey
 
 	return httpClient
-		.get(`${process.env.NEXT_PUBLIC_BASE_URL_INVOICE}/invoices/employee-cost-trend/${accountId}`)
+		.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/employee-cost-trend/${accountId}`)
 		.then(({ data }) => data)
 }
  export const getEmployeeTickets = async ({ queryKey }: any) => {
 	const [, employeeId, offset, limit] = queryKey
 
 	return httpClient
-		.get(`${process.env.NEXT_PUBLIC_BASE_URL_TICKETS}/tickets/employee-tickets/${employeeId}?offset=${offset}&limit=${limit}`)
+		.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets/employee-tickets/${employeeId}?offset=${offset}&limit=${limit}`)
 		.then(({ data }) => data)
 }

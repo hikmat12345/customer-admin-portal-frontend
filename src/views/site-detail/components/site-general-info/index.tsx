@@ -1,6 +1,12 @@
-import { GoogleMap } from "@/components/ui/google-map";
+"use client"
 import GeneratlInfoSkeletons from "@/components/ui/summary-skeletons";
- import { SiteGeneralInfoProps } from "@/types/site";
+ import { SiteGeneralInfoProps } from "@/types/site";  
+import dynamic from 'next/dynamic';
+const GoogleMap = dynamic(() => import('../../../../components/ui/google-map').then(mod => mod.GoogleMap), {
+    loading: () => <p>loading...</p>,
+    ssr: false,
+}); 
+
 
 export default function SiteGeneralInfo({
     label = 'General Information',

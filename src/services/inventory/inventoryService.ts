@@ -1,4 +1,4 @@
-import { NEXT_PUBLIC_INVENTORY_SERVICE_URL } from 'config/config'
+import { NEXT_PUBLIC_INVENTORY_SERVICE_URL, NEXT_PUBLIC_TICKET_SERVICE_URL } from 'config/config'
 import httpClient from '../httpClient'
 
 export const getInventories = async ({ queryKey }: any) => {
@@ -16,57 +16,49 @@ export const getInventories = async ({ queryKey }: any) => {
 		},
 	}
 
-	return httpClient
-		.get(`${process.env.NEXT_PUBLIC_BASE_URL_INVENTORY}/inventory/all`, config)
-		.then(({ data }) => data)
+	return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/all`, config).then(({ data }) => data)
 }
 
 export const getMonthlyInventory = async ({ queryKey }: any) => {
 	const [,] = queryKey
 
-	return httpClient
-		.get(`${process.env.NEXT_PUBLIC_BASE_URL_INVENTORY}/inventory/monthly`)
-		.then(({ data }) => data)
+	return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/monthly`).then(({ data }) => data)
 }
 
 export const getLiveServices = async ({ queryKey }: any) => {
 	const [,] = queryKey
 
-	return httpClient
-		.get(`${process.env.NEXT_PUBLIC_BASE_URL_INVENTORY}/inventory/live`)
-		.then(({ data }) => data)
+	return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/live`).then(({ data }) => data)
 }
-
+  
  export const getSingleServiceDetail = async ({ queryKey }: any) => {
 	const [, serviceId] = queryKey
 
 	return httpClient
-		.get(`${process.env.NEXT_PUBLIC_BASE_URL_INVENTORY}/inventory/single-detail/${serviceId}`)
+		.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/single-detail/${serviceId}`)
 		.then(({ data }) => data)
 }
 
- 
 export const getCostPlan = async ({ queryKey }: any) => {
 	const [, serviceId] = queryKey
 
 	return httpClient
-		.get(`${process.env.NEXT_PUBLIC_BASE_URL_INVENTORY}/inventory/cost-plan/${serviceId}`)
+		.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/cost-plan/${serviceId}`)
 		.then(({ data }) => data)
 }
 export const getAssets = async ({ queryKey }: any) => {
 	const [, serviceId] = queryKey
 
 	return httpClient
-		.get(`${process.env.NEXT_PUBLIC_BASE_URL_INVENTORY}/inventory/assets/${serviceId}`)
+		.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/assets/${serviceId}`)
 		.then(({ data }) => data)
 }
-
-///tickets-recent-activity
+ 
 export const getTicketsRecentActivity = async ({ queryKey }: any) => {
 	const [, serviceId] = queryKey
 
 	return httpClient
-		.get(`${process.env.NEXT_PUBLIC_BASE_URL_TICKETS}/tickets/service-tickets?service_id=${serviceId}`)
+		.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets/service-tickets/${serviceId}`)
 		.then(({ data }) => data)
 }
 
@@ -74,6 +66,6 @@ export const getRecentActivity = async ({ queryKey }: any) => {
 	const [, serviceId] = queryKey
 
 	return httpClient
-		.get(`${process.env.NEXT_PUBLIC_BASE_URL_INVENTORY}/inventory/recent-activity/${serviceId}`)
+		.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/recent-activity/${serviceId}`)
 		.then(({ data }) => data)
 } 

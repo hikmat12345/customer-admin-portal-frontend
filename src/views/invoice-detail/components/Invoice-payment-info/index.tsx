@@ -1,0 +1,45 @@
+import React from "react";
+
+type InvoicePaymentInfoProps = {
+    paymentData: {
+        invoicePaid: string;
+        paymentReference: string;
+        paymentDate: string;
+        paymentNote: string;
+    };
+    isLoading?: boolean;
+}; 
+export default function InvoicePaymentInfo({ paymentData, isLoading = false }: InvoicePaymentInfoProps) {
+    return (
+        <div className="py-8"> 
+            <div className="text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pb-6">Invoice Payment Information</div>
+            {isLoading ? (
+                <div>Loading...</div>
+            ) : (
+                <div className="w-[100%] max-lg:w-[100%] max-lg:mt-5 pr-20">
+                    <div className="w-[100%]">
+                    <div className="flex gap-2 justify-between py-1.5">
+                        <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Invoice Paid</div>
+                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{paymentData.invoicePaid}</div>
+                    </div>
+
+                         <div className="flex gap-2 justify-between py-1.5">
+                        <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Payment Reference</div>
+                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{paymentData.paymentReference}</div>
+                    </div>
+
+                    <div className="flex gap-2 justify-between py-1.5">
+                        <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Payment Date</div>
+                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{paymentData.paymentDate}</div>
+                    </div>
+
+                    <div className="flex gap-2 justify-between py-1.5">
+                        <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Payment Note</div>
+                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{paymentData.paymentNote}</div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}

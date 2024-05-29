@@ -33,10 +33,15 @@ export const GoogleMap = ({
     return () => {
       map.remove(); 
     };
-  }, []);
+  }, [lat, long, address]);
 
   return (
-    <div id="map" style={{ height: '230px' }}></div>
+    <div>    
+      <div id="map" style={{ height: '230px' }} />
+    </div>
+
   );
 };
+
+
 

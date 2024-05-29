@@ -71,3 +71,10 @@ export type GeneralInfoProps = {
 
     }
 }
+
+export type ServiceTypeBadgeProps = {
+    label: string,
+    count: number,
+    color: string,
+    subTypes?: {name: string, service_type: number}[]
+}
