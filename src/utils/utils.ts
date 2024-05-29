@@ -156,7 +156,6 @@ export const formatSeperateDate = (date: Date): string => {
   return moment(date).format('MMM DD, YYYY');
 }
 
-// utils/utils.ts
 export const getServiceTypeColor = (serviceType: number) => {
     switch(serviceType) {
         case 1: return 'bg-[#F45E09]';

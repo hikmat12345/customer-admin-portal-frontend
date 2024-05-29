@@ -8,7 +8,6 @@ export const useGetAccountDetail = (account_id: number) => {
 export const useGetAccountCostTrend = (account_id: number) => {
 	return useQuery({ queryKey: ['account_cost_trend', account_id], queryFn: getAccountCostTrend })
 }
-// useGetAccountInvoices
 export const useGetAccountInvoices = (
 	account_id: number,
 	offset: number,
