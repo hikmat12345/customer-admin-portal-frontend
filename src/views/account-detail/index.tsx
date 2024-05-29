@@ -9,12 +9,8 @@ import LineChart from '@/components/ui/line-chart'
 import { useGetAccountCostTrend, useGetAccountDetail, useGetAccountInvoices } from '@/hooks/useGetAccount'
 import AccountGeneralInfo from './components/account-general-info'
 import TableData from '@/components/ui/summary-tables/table'
-import { ScrollTabs } from '@/components/ui/scroll-tabs'
-import dynamic from 'next/dynamic'
-// const LineChart = dynamic(() => import('../../components/ui/line-chart'), {
-//     loading: () => <p>loading...</p>,
-//     ssr: false,
-// });
+import { ScrollTabs } from '@/components/ui/scroll-tabs' 
+
 type VendorDetailPageProps = {
 	vendorId: number
 }

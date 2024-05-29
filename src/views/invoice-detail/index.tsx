@@ -1,10 +1,5 @@
 'use client'
 import React from 'react'
-import { Separator } from "@/components/ui/separator"
-import TableData from '@/components/ui/summary-tables/table'
-import InvoiceSummary from './components/general-info'
-import InvoicePaymentInfo from './components/Invoice-payment-info'
-import InvoiceRemittanceAddress from './components/invoice-remittance-address'
 import { useGetInvoiceActivityLog, useGetInvoiceSummary, useGetPaymentInfo, useGetRemittanceAddress, useGetVendorInfo } from '@/hooks/useGetInvoices'
 
 type InvoiceSummaryPageProps = {

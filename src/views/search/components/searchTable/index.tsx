@@ -5,7 +5,6 @@ import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow'
 import SearchTableHead from './searchTableHead'
 import { ISearch } from '@/types/search/types'
 import Link from 'next/link'
-import { FILTERS } from './select/options'
 
 const SearchTable = ({ data }: any) => {
 	return (
