@@ -16,7 +16,7 @@ export const GoogleMap = ({
     map?.setView([lat, long], 10);
     // Add tile layer from OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      attribution: ''
     }).addTo(map);
 
     const customIcon = L.icon({

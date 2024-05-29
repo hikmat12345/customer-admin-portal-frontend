@@ -16,7 +16,7 @@ const SearchTable = ({ data }: any) => {
 						return (
 							<TableRow key={row.id}>
 								<TableCell className="font-normal py-[19px] text-[#1175BE] text-left">
-									<Link href={`/${row?.type}/${row?.id}`}>
+									<Link href={`/${String(row?.type)?.toLowerCase()}/${row?.id}`}>
 										{row?.id}
 									</Link>
 								</TableCell>
