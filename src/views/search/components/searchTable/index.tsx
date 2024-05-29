@@ -5,6 +5,7 @@ import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow'
 import SearchTableHead from './searchTableHead'
 import { ISearch } from '@/types/search/types'
 import Link from 'next/link'
+import { FILTERS } from './select/options'
 
 const SearchTable = ({ data }: any) => {
 	return (
@@ -16,7 +17,9 @@ const SearchTable = ({ data }: any) => {
 						return (
 							<TableRow key={row.id}>
 								<TableCell className="font-normal py-[19px] text-[#1175BE] text-left">
-									<Link href="/">{row?.id}</Link>
+									<Link href={`/${row?.type}/${row?.id}`}>
+										{row?.id}
+									</Link>
 								</TableCell>
 								<TableCell className="text-left">{row?.client}</TableCell>
 								<TableCell className="text-left">{row?.result}</TableCell>
