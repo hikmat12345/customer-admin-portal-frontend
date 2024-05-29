@@ -12,6 +12,6 @@ export async function POST(request: Request) {
 
   const authServiceFrontendUrl = String(process.env.NEXT_PUBLIC_AUTH_URL);
   return NextResponse.json({
-    redirectUrl: authServiceFrontendUrl,
+    redirectUrl: authServiceFrontendUrl + "?logout=true",
   });
 }
