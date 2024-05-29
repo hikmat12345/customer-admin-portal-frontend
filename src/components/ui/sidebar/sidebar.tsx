@@ -90,8 +90,6 @@ const supportItems = [
   },
 ];
 
-const otherItems: any = [];
-
 const Sidebar = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -149,13 +147,6 @@ const Sidebar = () => {
 
           <div className="relative">
             <h2 className="uppercase text-[#FFFFFF] text-sm pb-3">Other</h2>
-            {otherItems?.map((item: any, index: number) => (
-              <SidebarItem
-                key={index}
-                data={item}
-                scrollToItem={scrollToItem}
-              />
-            ))}
             <div
               onClick={onClickLogout}
               className="p-2 rounded-lg font-normal hover:bg-[#FFFFFF4D] w-full text-start flex items-center justify-start text-sm text-[#CBE0FF] space-x-2 cursor-pointer"
