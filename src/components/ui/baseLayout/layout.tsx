@@ -7,11 +7,32 @@ import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 
 const BaseLayout = ({ children }: { children: React.ReactNode }) => {
-	const pathname = usePathname()
-	const router = useRouter()
-	const pathSegments = pathname && pathname.split('/')
-	let endWord = (pathSegments && pathSegments[pathSegments?.length - 1]) || 'Home'
-	endWord = endWord.replace(/[-/]+/g, ' ')
+	const pathname = usePathname();
+	const router = useRouter();
+	const pathSegments = pathname ? pathname.split('/') : null;
+	let endWord = (pathSegments && pathSegments[pathSegments.length - 1]) || 'Home';
+	endWord = endWord.replace(/[-/]+/g, ' ');
+	const isNumber = (word: any) => !isNaN(parseFloat(word)) && isFinite(word);
+
+	// Recursive function to find the last non-numeric keyword
+	const findLastNonNumericKeyword = (index: number): string => {
+		if (index < 0 || !pathSegments) { 
+			return '';
+		}
+
+		const currentWord = pathSegments[index];
+		if (isNumber(currentWord)) {
+			return findLastNonNumericKeyword(index - 1); // Recursively check the previous word
+		} else {
+			return currentWord.replace(/[-/]+/g, ' '); // Return the non-numeric keyword
+		}
+	};
+
+	// Check if the last segment is a number
+	if (isNumber(endWord) && pathSegments && pathSegments?.length > 1) {
+		// If the last segment is a number and there is a previous keyword, use the previous non-numeric keyword
+		endWord = findLastNonNumericKeyword(pathSegments.length - 2);
+	}
 
 	const handleRouteBack = () => {
 		router.back()

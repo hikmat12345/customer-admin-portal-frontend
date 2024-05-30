@@ -95,17 +95,17 @@ function AnimatedSearchField({
 					<path
 						d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
 						stroke={variant === 'default' ? '#A0A0A0' : '#1D46F3'}
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
+						strokeWidth="2"
+						strokeLinecap="round"
+						strokeLinejoin="round"
 						className="group-hover:stroke-white"
 					/>
 					<path
 						d="M21.0002 21L16.7002 16.7"
 						stroke={variant === 'default' ? '#A0A0A0' : '#1D46F3'}
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
+						strokeWidth="2"
+						strokeLinecap="round"
+						strokeLinejoin="round"
 						className="group-hover:stroke-white"
 					/>
 				</svg>
