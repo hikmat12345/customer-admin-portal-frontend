@@ -4,18 +4,15 @@ import Image from "next/image";
 import Stepper from "./components/stepper";
 import { Button } from "@veroxos/design-system/dist/ui/Button/button";
 import {
-  useGetLoggedInUserDetails,
   useGetTicketSecondaryStatuses,
   useGetTicketSummary,
-  useGetTicketUpdateStatuses,
-  usePostTicketUpdate,
 } from "@/hooks/useTickets";
 import React, { useState } from "react";
-const HtmlToReactParser = require("html-to-react").Parser;
-
 import { TicketSecondaryStatus, TicketUpdate } from "@/types/tickets/types";
 import Skeleton from "@/components/ui/skeleton/skeleton";
 import TicketUpdateCard from "./components/ticketUpdateCard";
+import TicketDescription from "./components/ticketDescription";
+import PostTicketUpdateForm from "./components/postTicketUpdateForm";
 
 const TicketSummary = ({ ticketId }: { ticketId: number }) => {
   const [showAddUpdateForm, setShowAddUpdateForm] = useState(false);
@@ -24,66 +21,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
     useGetTicketSummary(ticketId);
   const { data: getTicketSecondaryStatusesRes } =
     useGetTicketSecondaryStatuses();
-  const { data: getTicketUpdateStatusesRes } = useGetTicketUpdateStatuses();
-  const { data: getLoggedInUserDetailsRes } = useGetLoggedInUserDetails();
-
-  const postTicketUpdateMutation = usePostTicketUpdate();
-
-  // Function to parse ticket description from HTML
-  const parseTicketDescription = (html: string) => {
-    const parsedData: { label: string; value: string }[] = [];
-    const tdElements: any[] = [];
-
-    const processingInstructions = [
-      {
-        shouldProcessNode: (node: any) => true,
-        processNode: (node: any) => {
-          if (node?.name === "td") {
-            tdElements.push(node);
-          }
-        },
-      },
-    ];
-
-    const htmlToReactParser = new HtmlToReactParser();
-    htmlToReactParser.parseWithInstructions(
-      html,
-      () => true,
-      processingInstructions
-    );
-
-    // Process the <td> elements in pairs
-    for (let i = 0; i < tdElements.length; i += 2) {
-      const keyElement = tdElements[i];
-      const valueElement = tdElements[i + 1];
-
-      if (keyElement && valueElement) {
-        const key = keyElement.children[0]?.data.trim();
-        const value = valueElement.children[0]?.data.trim();
-        parsedData.push({ label: key, value });
-      }
-    }
-
-    return parsedData;
-  };
-
-  const handlePostTicketUpdate = (e: any) => {
-    e.preventDefault();
-    let {
-      description: { value: description },
-      ticketUpdateStatus: { value: ticketUpdateStatusId },
-    } = e.target;
-
-    const ticketUpdate = {
-      ticketId: getTicketSummaryRes?.data.id,
-      workflowId: getTicketSummaryRes?.data.workflow?.id,
-      ticketUpdateStatusId: parseInt(ticketUpdateStatusId),
-      description: description.replace(/(\r\n|\n|\r)/g, "<br/>"),
-    };
-
-    postTicketUpdateMutation.mutate(ticketUpdate);
-  };
-
+  
   const renderStepperIfHardwareOrder = () => {
     if (
       getTicketSummaryRes?.data.ticketSecondaryStatusId &&
@@ -165,61 +103,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
               Add Update
             </Button>
             {showAddUpdateForm && (
-              <form onSubmit={handlePostTicketUpdate}>
-                <div className="rounded-lg p-5 bg-[#F8F8F8] mt-5">
-                  <div className="flex items-center ">
-                    <div className="h-[4.063rem] w-[4.063rem] bg-[#1D46F3] rounded-full flex items-center justify-center">
-                      <Image
-                        src={"/svg/account.svg"}
-                        height={36}
-                        width={36}
-                        alt="account icon"
-                      />
-                    </div>
-                    <p className="pl-5 font-[700] text-[1.375rem] leading-[1.664rem]">
-                      {`${getLoggedInUserDetailsRes?.data.firstName} ${getLoggedInUserDetailsRes?.data.lastName}`}
-                    </p>
-                  </div>
-                  <textarea
-                    name="description"
-                    required
-                    className="mt-5 w-full rounded-lg p-5 focus:outline-none focus-visible:outline-none"
-                    rows={6}
-                    placeholder="Type here..."
-                  />
-                  <div className="my-5 flex gap-4 h-[2.75rem]">
-                    <select
-                      required
-                      name="ticketUpdateStatus"
-                      className="w-3/5 bg-[#F4F7FE] h-[2.75rem] border border-[#D6D6D6] text-[#575757] font-[400] text-[0.875rem] leading-[1.06rem] rounded-lg py-[0.75rem] px-[1.25rem] focus:outline-none"
-                    >
-                      {getTicketUpdateStatusesRes?.data.map(
-                        (ticketUpdateStatus: { id: number; name: string }) => (
-                          <option
-                            key={ticketUpdateStatus.id}
-                            value={ticketUpdateStatus.id}
-                          >
-                            {ticketUpdateStatus.name}
-                          </option>
-                        )
-                      )}
-                    </select>
-                    <Button
-                      className="w-1/5 h-full font-[600] leading-[1.21rem] text-[1rem] border-[#1D46F3] text-[#1D46F3] hover:text-[#1D46F3]"
-                      variant="outline"
-                      onClick={() => setShowAddUpdateForm(false)}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="w-1/5 h-full font-[600] leading-[1.21rem] text-[1rem]"
-                    >
-                      Submit
-                    </Button>
-                  </div>
-                </div>
-              </form>
+              <PostTicketUpdateForm setShowAddUpdateForm={setShowAddUpdateForm} getTicketSummaryRes={getTicketSummaryRes} />
             )}
             {ticketSummaryLoading ? (
               <div className={`w-full mt-6`}>
@@ -251,27 +135,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
                 <Skeleton variant="paragraph" rows={7} />
               </div>
             ) : (
-              parseTicketDescription(getTicketSummaryRes?.data.description).map(
-                (
-                  element: { label: string; value: string },
-                  index: number,
-                  array: { label: string; value: string }[]
-                ) => {
-                  return (
-                    <div
-                      key={element.label}
-                      className={`flex items-center text-[1rem] leading-[1.21rem] font-[600] ${
-                        index + 1 < array.length ? "mb-7" : ""
-                      }`}
-                    >
-                      <p className="w-3/5">{element.label}</p>
-                      <p className="ml-2 w-2/5 font-[400] text-[#575757]">
-                        {element.value}
-                      </p>
-                    </div>
-                  );
-                }
-              )
+              <TicketDescription description={getTicketSummaryRes?.data.description}/>
             )}
           </div>
         </div>

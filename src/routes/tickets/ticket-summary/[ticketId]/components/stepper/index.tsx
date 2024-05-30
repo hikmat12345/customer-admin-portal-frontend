@@ -1,3 +1,4 @@
+import CheckmarkIcon from "@/components/ui/checkmarkIcon";
 import { TicketSecondaryStatus } from "@/types/tickets/types";
 import React from "react";
 
@@ -24,21 +25,7 @@ const Stepper = ({
             <span
               className={`m-1 flex items-center justify-center w-6 h-6 bg-[#0FB900] rounded-full lg:h-8 lg:w-8 dark:bg-[#0FB900] shrink-0`}
             >
-              <svg
-                className="w-3.5 h-3.5 text-white lg:w-4 lg:h-4 dark:text-white"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 16 12"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M1 5.917 5.724 10.5 15 1.5"
-                />
-              </svg>
+              <CheckmarkIcon />
             </span>
           </div>
         </div>
@@ -105,21 +92,7 @@ const Stepper = ({
                                 : "bg-[#C2C2C2]"
                             } shrink-0`}
                   >
-                    <svg
-                      className="w-3.5 h-3.5 text-white lg:w-4 lg:h-4 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 16 12"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M1 5.917 5.724 10.5 15 1.5"
-                      />
-                    </svg>
+                    <CheckmarkIcon />
                   </span>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 import { TicketUpdate } from "@/types/tickets/types";
 import { formatDate } from "@/utils/utils";
 import Image from "next/image";
+import TicketUpdateDescIframe from "./components/ticketUpdateIframe";
 
 const TicketUpdateCard = ({ ticketUpdate }: { ticketUpdate: TicketUpdate }) => {
   const getTicketUpdateTitle = (ticketUpdate: TicketUpdate) => {
@@ -13,33 +14,7 @@ const TicketUpdateCard = ({ ticketUpdate }: { ticketUpdate: TicketUpdate }) => {
 
   const getTicketUpdateDescription = (ticketUpdate: TicketUpdate) => {
     if (getTicketUpdateTitle(ticketUpdate).includes("Email"))
-      return (
-        <iframe
-          width="100%"
-          height="350"
-          srcDoc={`
-                    <html>
-                    <head>
-                    <link rel="preconnect" href="https://fonts.googleapis.com">
-                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-                    </head>
-                    <body>
-                    <style>
-                        iframe {
-                            margin-top: 1.25rem;
-                        }
-                        body {
-                            font-family:Inter;
-                            font-weight:400;
-                            font-size:1.125rem;
-                            line-height:1.361rem;
-                        }
-                    </style>
-                    ${ticketUpdate.description}
-                    </body></html>`}
-        ></iframe>
-      );
+      return <TicketUpdateDescIframe description={ticketUpdate.description}/>
     else
       return (
         <p className="mt-10 font-[400] text-[1.125rem] leading-[1.361rem]">
