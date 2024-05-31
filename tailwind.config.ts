@@ -6,14 +6,11 @@ const config = {
 	prefix: '',
 	theme: {
 		screens: {
-			'sm': '640px',
-
-			'md': '768px',
-
-			'lg': '1025px',
-
-			'xl': '1540px',
-
+			sm: '640px',
+			md: '768px',
+			lg: '1025px',
+			'1100': '1100px', // Custom breakpoint at 1100px
+			xl: '1540px',
 			'2xl': '1740px',
 			'3xl': '2000px',
 		},
@@ -22,6 +19,10 @@ const config = {
 			padding: '2rem',
 		},
 		extend: {
+			width: {
+				'11.25/12': '93%',
+				'11.75/12': '97.5%',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

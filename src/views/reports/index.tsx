@@ -50,13 +50,14 @@ const ReportsPage = () => {
 						</TabsList>
 						{Object.values(allReports).map((category: ReportCategory) => (
 							<TabsContent key={category.categoryName} value={category.value} className="mt-10">
-								<div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-5 h-[69vh] overflow-y-scroll">
+								<div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-5 h-[100vh] lg:h-[74vh] overflow-y-scroll">
 									{category?.reports?.map((report) => (
 										<ReportsCard
 											key={report.label}
 											label={report.label}
 											description={report.description}
 											reportName={report.reportName}
+											fieldTypes={report.fields}
 										/>
 									))}
 								</div>
