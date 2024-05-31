@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
-	const url = request.nextUrl
-	const a_token = url.searchParams.get('access_token')
+	const a_token = request.nextUrl.searchParams.get('access_token')
 
 	if (a_token) {
 		const response = NextResponse.redirect(request.nextUrl.origin)
