@@ -13,6 +13,7 @@ import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow'
 import TableCell from '@veroxos/design-system/dist/ui/TableCell/tableCell'
 import { Button } from '@veroxos/design-system/dist/ui/Button/button'
 import { usePathname, useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const TicketsTable = ({ allTickets }: { allTickets: Tickets }) => {
 	const isNoData = allTickets?.tickets?.length === 0
@@ -31,8 +32,8 @@ const TicketsTable = ({ allTickets }: { allTickets: Tickets }) => {
 
 						return (
 							<TableRow key={ticket.id}>
-								<TableCell className="font-medium">
-									<a className="text-[#1175BE]" href="/" target="_blank" type="link">{`SUP${ticket.id}`}</a>
+								<TableCell className="font-medium"> 
+									<Link className="text-[#1175BE]" href={`${pathname}/ticket-summary/${ticket.id}`}>{`SUP${ticket.id}`}</Link>
 								</TableCell>
 								<TableCell>{ticket?.clientReferenceNo || '-'}</TableCell>
 								<TableCell>{fullName}</TableCell>

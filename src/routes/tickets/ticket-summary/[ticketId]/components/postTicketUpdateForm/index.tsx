@@ -85,7 +85,7 @@ const PostTicketUpdateForm = ({
           <select
             required
             name="ticketUpdateStatus"
-            className="w-3/5 bg-[#F4F7FE] h-[2.563rem] border border-[#D6D6D6] text-[#575757] font-[400] text-[0.688rem] leading-[0.873rem] rounded-lg py-[0.563rem] px-[1.063rem] focus:outline-none"
+            className="w-3/5 bg-[#FFFFFF] h-[2.563rem] border border-[#D6D6D6] text-[#575757] font-[400] text-[0.688rem] leading-[0.873rem] rounded-lg py-[0.563rem] px-[1.063rem] focus:outline-none"
           >
             {getTicketUpdateStatusesRes?.data.map(
               (ticketUpdateStatus: { id: number; name: string }) => (

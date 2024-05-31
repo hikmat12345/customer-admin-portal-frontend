@@ -105,14 +105,14 @@ export interface TicketUpdate {
 	id: number;
 	created: string;
 	description: string;
-	user: {
+	user?: {
 		firstName: string;
 		lastName: string;
 	};
 	ticketUpdateStatus: {
 		name: string;
 	};
-	administrator: {
+	administrator?: {
 		firstName: string;
 		lastName: string;
 	};
