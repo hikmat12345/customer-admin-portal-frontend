@@ -2,8 +2,8 @@ import React from "react";
 
 type InvoiceRemittanceAddressProps = {
     remittanceData: {
-        remittance_address: string;
-        remittance_address_matched: string;
+        remittanceAddress: string;
+        remittanceAddressMatched: string;
     };
     isLoading?: boolean;
 }; 
@@ -18,12 +18,12 @@ export default function InvoiceRemittanceAddress({ remittanceData, isLoading = f
                     <div className="w-[100%]">
                     <div className="flex gap-2 justify-between py-1.5">
                         <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Address</div>
-                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{remittanceData?.remittance_address}</div>
+                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{remittanceData?.remittanceAddress}</div>
                     </div>
 
                     <div className="flex gap-2 justify-between py-1.5">
                         <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Matched Status</div>
-                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{remittanceData?.remittance_address_matched}</div>
+                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{remittanceData?.remittanceAddressMatched !== undefined ?(remittanceData?.remittanceAddressMatched? 'Matched' : 'Not Matched') : "-"}</div>
                         </div>
                     </div>
                 </div>

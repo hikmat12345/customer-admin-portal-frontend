@@ -20,22 +20,22 @@ export default function InvoicePaymentInfo({ paymentData, isLoading = false }: I
                     <div className="w-[100%]">
                     <div className="flex gap-2 justify-between py-1.5">
                         <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Invoice Paid</div>
-                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{paymentData.invoicePaid}</div>
+                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{paymentData?.invoicePaid ? paymentData?.invoicePaid : ' - '}</div>
                     </div>
 
                          <div className="flex gap-2 justify-between py-1.5">
                         <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Payment Reference</div>
-                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{paymentData.paymentReference}</div>
+                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{paymentData?.paymentReference ? paymentData?.paymentReference : ' - '}</div>
                     </div>
 
                     <div className="flex gap-2 justify-between py-1.5">
                         <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Payment Date</div>
-                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{paymentData.paymentDate}</div>
+                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{paymentData?.paymentDate ? paymentData?.paymentDate : ' - '}</div>
                     </div>
 
                     <div className="flex gap-2 justify-between py-1.5">
                         <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Payment Note</div>
-                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{paymentData.paymentNote}</div>
+                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{paymentData?.paymentNote ? paymentData?.paymentNote : ' - '} </div>
                         </div>
                     </div>
                 </div>

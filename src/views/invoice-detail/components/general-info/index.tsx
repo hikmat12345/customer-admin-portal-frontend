@@ -2,7 +2,6 @@
 import { useGetSiteInvoiceFile } from "@/hooks/useGetSites";
 import { downloadFile } from "@/utils/utils";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function InvoiceSummary({
@@ -11,6 +10,7 @@ export default function InvoiceSummary({
     isLoading = false,
 }: {
     invoiceData: {
+        invoiceId: string | number;
         invoiceDate: string;
         country: string;
         fiscalMonthYear: string;
@@ -43,6 +43,7 @@ export default function InvoiceSummary({
 
     const [invoiceId, setInvoiceId] = useState<string>("");
     const [fileType, setFileType] = useState<string>("");
+    const [showInBrowser, setShowInBrowser] = useState<boolean>(false); 
     const {
         data: blobdata,
         isLoading: isBlobLoading,
@@ -58,7 +59,7 @@ export default function InvoiceSummary({
     } 
     useEffect(() => {
         if (!isBlobLoading && !blobError && blobdata &&fileType) {
-            downloadFile(fileType, blobdata, invoiceId);
+            downloadFile(fileType, blobdata, invoiceId, showInBrowser);
         }
     } , [blobdata, isBlobLoading, blobError, fileType, invoiceId])
 
@@ -99,8 +100,8 @@ export default function InvoiceSummary({
                                 </div>
                                 <div className="flex gap-2 justify-between lg:py-1 xl:py:1.5">
                                     <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Invoice (PDF)</div>
-                                    <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6 text-[#1D46F3]">
-                                        <Link href={invoiceData?.invoicePDF ? invoiceData?.invoicePDF : '/'  } target="_blank">View</Link>
+                                    <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6 text-[#1D46F3] cursor-pointer">
+                                        <button className="underline decoration-2" onClick={() =>{setShowInBrowser(true); fileDownloadFile(invoiceData?.invoiceId, "pdf")}}>View</button>
                                     </div>
                                 </div>
                                 <div className="flex gap-2 justify-between lg:py-1 xl:py:1.5">
@@ -180,16 +181,16 @@ export default function InvoiceSummary({
                             </div>
 
                             <div className="flex gap-2 justify-center lg:py-1 xl:py:1.5 w-full">
-                                <Image src="/invoice-init-logo.png" width={100} height={100} alt="Invoice Summary Logo" className="w-[333px]  mt-[10px]" />
+                                <Image src={vendorData.logo} width={500} height={500} alt="Invoice Summary Logo" className="w-[233px]  mt-[10px]" />
                             </div>
                         </div> 
                     </div>
                     <div className="flex justify-start gap-5 mb-4">
-                        <button className="flex items-center px-4 py-2 text-[#219653]  rounded hover:text-[#21965492]" onClick={() => fileDownloadFile(invoiceId, "xls")}>
+                        <button className="flex items-center px-4 py-2 text-[#219653]  rounded hover:text-[#21965492]" onClick={() => fileDownloadFile(invoiceData?.invoiceId, "xls")}>
                             <Image src="/svg/excel-icon.svg" width={20} height={20} alt="Download Invoice Summary" className="mr-2" />
                             <span className="underline decoration-2 lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Download Invoice Summary </span>
                         </button>
-                        <button className="flex items-center px-4 py-2 text-[#E41323]  rounded hover:text-[#e4132499]" onClick={() => fileDownloadFile(invoiceId, "pdf")}>
+                        <button className="flex items-center px-4 py-2 text-[#E41323]  rounded hover:text-[#e4132499]" onClick={() => fileDownloadFile(invoiceData?.invoiceId, "pdf")}>
                             <Image src="/svg/pdf-icon.svg" width={20} height={20} alt="Download PDF" className="mr-2" />
                             <span className="underline decoration-2 lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Download PDF</span>
                         </button>
