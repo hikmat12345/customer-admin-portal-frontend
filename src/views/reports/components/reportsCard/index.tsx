@@ -32,6 +32,10 @@ const ReportsCard = ({
 		setOpenDialog(true)
 	}
 
+	const handleCloseDialog = () => {
+		setOpenDialog(false)
+	}
+
 	const dialogContent = (
 		<Formik
 			enableReinitialize
@@ -109,7 +113,7 @@ const ReportsCard = ({
 			{openDialog && (
 				<CommonDialog
 					open={openDialog}
-					onClose={() => setOpenDialog(false)}
+					onClose={handleCloseDialog}
 					title={
 						<div className="text-[26px] font-semibold mb-2">
 							<span className="text-[#1D46F3]">{label}</span> {reportName}
