@@ -6,13 +6,16 @@ import {
 import { Button } from "@veroxos/design-system/dist/ui/Button/button";
 import Skeleton from "@veroxos/design-system/dist/ui/Skeleton/skeleton";
 import Image from "next/image";
+import { useEffect } from "react";
 
 const PostTicketUpdateForm = ({
   getTicketSummaryRes,
   setShowAddUpdateForm,
+  refetchTicketSummary
 }: {
   getTicketSummaryRes: any;
   setShowAddUpdateForm: any;
+  refetchTicketSummary : any
 }) => {
   const { data: getTicketUpdateStatusesRes } = useGetTicketUpdateStatuses();
   const { data: getLoggedInUserDetailsRes, isLoading } =
@@ -24,6 +27,13 @@ const PostTicketUpdateForm = ({
     isSuccess,
     isError,
   } = usePostTicketUpdate();
+
+  useEffect(() => {
+    if(isSuccess){
+        setShowAddUpdateForm(false);
+        refetchTicketSummary();
+    }
+  },[isSuccess])
 
   const handlePostTicketUpdate = (e: any) => {
     e.preventDefault();
@@ -44,9 +54,9 @@ const PostTicketUpdateForm = ({
 
   return (
     <form onSubmit={handlePostTicketUpdate}>
-      <div className="rounded-lg p-5 bg-[#F8F8F8] mt-5">
-        <div className="flex items-center ">
-          <div className="h-[4.063rem] w-[4.063rem] bg-[#1D46F3] rounded-full flex items-center justify-center">
+      <div className="rounded-lg p-4 bg-[#F8F8F8] mt-4">
+        <div className="flex items-center gap-5">
+          <div className="h-[3.876rem] w-[3.876rem] bg-[#1D46F3] rounded-full flex items-center justify-center">
             <Image
               src={"/svg/account.svg"}
               height={36}
@@ -59,7 +69,7 @@ const PostTicketUpdateForm = ({
               <Skeleton variant="paragraph" rows={1} />
             </div>
           ) : (
-            <p className="pl-5 font-[700] text-[1.375rem] leading-[1.664rem]">
+            <p className="font-[700] text-[1.188rem] leading-[1.477rem]">
               {`${getLoggedInUserDetailsRes?.data.firstName} ${getLoggedInUserDetailsRes?.data.lastName}`}
             </p>
           )}
@@ -67,15 +77,15 @@ const PostTicketUpdateForm = ({
         <textarea
           name="description"
           required
-          className="mt-5 w-full rounded-lg p-5 focus:outline-none focus-visible:outline-none"
+          className="mt-4 w-full rounded-lg p-4 focus:outline-none focus-visible:outline-none"
           rows={6}
           placeholder="Type here..."
         />
-        <div className="my-5 flex gap-4 h-[2.75rem]">
+        <div className="my-4 flex gap-4 h-[2.563rem]">
           <select
             required
             name="ticketUpdateStatus"
-            className="w-3/5 bg-[#F4F7FE] h-[2.75rem] border border-[#D6D6D6] text-[#575757] font-[400] text-[0.875rem] leading-[1.06rem] rounded-lg py-[0.75rem] px-[1.25rem] focus:outline-none"
+            className="w-3/5 bg-[#F4F7FE] h-[2.563rem] border border-[#D6D6D6] text-[#575757] font-[400] text-[0.688rem] leading-[0.873rem] rounded-lg py-[0.563rem] px-[1.063rem] focus:outline-none"
           >
             {getTicketUpdateStatusesRes?.data.map(
               (ticketUpdateStatus: { id: number; name: string }) => (
@@ -89,7 +99,7 @@ const PostTicketUpdateForm = ({
             )}
           </select>
           <Button
-            className="w-1/5 h-full font-[600] leading-[1.21rem] text-[1rem] border-[#1D46F3] text-[#1D46F3] hover:text-[#1D46F3]"
+            className="w-1/5 h-full font-[600] leading-[1.023rem] text-[0.813rem] border-[#1D46F3] text-[#1D46F3] hover:text-[#1D46F3]"
             variant="outline"
             onClick={() => setShowAddUpdateForm(false)}
           >
@@ -98,25 +108,17 @@ const PostTicketUpdateForm = ({
           <Button
             disabled={postUpdateLoading}
             type="submit"
-            className="w-1/5 h-full font-[600] leading-[1.21rem] text-[1rem]"
+            className="w-1/5 h-full font-[600] leading-[1.023rem] text-[0.813rem]"
           >
             Submit
           </Button>
         </div>
         {isError && (
           <div
-            className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+            className="p-3 mb-3 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
             role="alert"
           >
             <span className="font-medium">Error !</span> Something went wrong. Please try again later.
-          </div>
-        )}
-        {isSuccess && (
-          <div
-            className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-            role="alert"
-          >
-            <span className="font-medium">Success !</span> Ticket update posted successfully.
           </div>
         )}
       </div>
