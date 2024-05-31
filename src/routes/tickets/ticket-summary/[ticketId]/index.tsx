@@ -17,7 +17,7 @@ import PostTicketUpdateForm from "./components/postTicketUpdateForm";
 const TicketSummary = ({ ticketId }: { ticketId: number }) => {
   const [showAddUpdateForm, setShowAddUpdateForm] = useState(false);
 
-  const { data: getTicketSummaryRes, isLoading: ticketSummaryLoading } =
+  const { data: getTicketSummaryRes, isLoading: ticketSummaryLoading, refetch : refetchTicketSummary } =
     useGetTicketSummary(ticketId);
   const { data: getTicketSecondaryStatusesRes } =
     useGetTicketSecondaryStatuses();
@@ -56,7 +56,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
       );
 
       return (
-        <div className="mb-14">
+        <div className="mb-13">
           <Stepper
             orderStatuses={statuses}
             currentStatus={currentStatus}
@@ -69,8 +69,8 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
   };
 
   return (
-    <div className="grid grid-auto-flow-column w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg py-8 px-10">
-      <h2 className="text-[#000000] text-[1.25rem] leading-[1.513rem] font-[400] mb-8">
+    <div className="grid grid-auto-flow-column w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg py-7 px-9">
+      <h2 className="text-[#000000] text-[1.063rem] leading-[1.326rem] font-[400] mb-7">
         <div className="flex items-center gap-5">
           <span className="flex gap-2 text-[#1D46F3]">
             <Image
@@ -91,22 +91,22 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
           )}
         </div>
       </h2>
-      <div className="grid grid-auto-flow-column w-full border border-[#D6D6D6] bg-[#FFFFFF] rounded-lg p-7">
+      <div className="grid grid-auto-flow-column w-full border border-[#D6D6D6] bg-[#FFFFFF] rounded-lg p-6">
         {renderStepperIfHardwareOrder()}
         <div className="grid grid-cols-12 sm:gap-6">
           <div className="xl:col-span-7 order-2 xl:order-1 col-span-12">
             <Button
               disabled={showAddUpdateForm}
-              className="bg-[#FC762B] font-[600] leading-[1.21rem] text-[1rem] h-[2.75rem]"
+              className="bg-[#FC762B] font-[600] leading-[1.023rem] text-[0.813rem] h-[2.563rem]"
               onClick={() => setShowAddUpdateForm(true)}
             >
               Add Update
             </Button>
             {showAddUpdateForm && (
-              <PostTicketUpdateForm setShowAddUpdateForm={setShowAddUpdateForm} getTicketSummaryRes={getTicketSummaryRes} />
+              <PostTicketUpdateForm refetchTicketSummary={refetchTicketSummary} setShowAddUpdateForm={setShowAddUpdateForm} getTicketSummaryRes={getTicketSummaryRes} />
             )}
             {ticketSummaryLoading ? (
-              <div className={`w-full mt-6`}>
+              <div className={`w-full mt-5`}>
                 <Skeleton variant="paragraph" rows={5} />
               </div>
             ) : (
@@ -122,8 +122,8 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
               )
             )}
           </div>
-          <div className="h-fit xl:col-span-5 order-1 xl:order-2 col-span-12 border border-[#D6D6D6] rounded-lg p-7">
-            <h3 className="font-[700] text-[1.375rem] leading-[2.625rem] text-[#1D46F3] mb-9">
+          <div className="h-fit xl:col-span-5 order-1 xl:order-2 col-span-12 border border-[#D6D6D6] rounded-lg p-6">
+            <h3 className="font-[700] text-[1.188rem] leading-[2.438rem] text-[#1D46F3] mb-8">
               {getTicketSummaryRes?.data.ticketSecondaryStatusId &&
               getTicketSummaryRes?.data.workflow?.workflowCategory?.id === 3
                 ? "Order"
