@@ -122,7 +122,7 @@ const ReportsCard = ({
 							<Button disabled variant="outline" onClick={() => {}}>
 								Schedule
 							</Button>
-							<Button onClick={() => console.log('Save clicked')}>Download</Button>
+							<Button onClick={() => {}}>Download</Button>
 						</>
 					}
 				/>

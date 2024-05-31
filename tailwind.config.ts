@@ -8,8 +8,7 @@ const config = {
 		screens: {
 			sm: '640px',
 			md: '768px',
-			lg: '1025px',
-			'1100': '1100px', // Custom breakpoint at 1100px
+			lg: '1100px',
 			xl: '1540px',
 			'2xl': '1740px',
 			'3xl': '2000px',
