@@ -13,13 +13,13 @@ const TicketUpdateDescIframe = ({ description }: { description: string }) => {
         <body>
         <style>
             iframe {
-                margin-top: 1.25rem;
+                margin-top: 1.063rem;
             }
             body {
                 font-family:Inter;
                 font-weight:400;
-                font-size:1.125rem;
-                line-height:1.361rem;
+                font-size:0.938rem;
+                line-height:1.174rem;
             }
         </style>
         ${description}

@@ -17,7 +17,7 @@ const Stepper = ({
     <ol className="flex items-center w-full">
       <li key={"0"} className="flex flex-col w-full">
         <div
-          className={`mb-6 flex w-full items-center after:content-[''] after:w-2/4 after:border-[#0FB900] after:border before:content-[''] before:w-2/4`}
+          className={`mb-5 flex w-full items-center after:content-[''] after:w-2/4 after:border-[#0FB900] after:border before:content-[''] before:w-2/4`}
         >
           <div
             className={`border-[3px] rounded-full border-[#0FB900] border-[#0FB900]`}
@@ -31,10 +31,10 @@ const Stepper = ({
         </div>
 
         <div className="text-center sm:min-h-[120px] lg:min-h-[100px] xl:min-h-[70px]">
-          <p className="text-[1.125rem] leading-[1.75rem] font-[400] text-[#0FB900]">
+          <p className="text-[0.938rem] leading-[1.563rem] font-[400] text-[#0FB900]">
             {category === 3 ? "Order" : "Ticket"} Created
           </p>
-          <p className="text-[0.875rem] leading-[1.25rem] font-[400] text-[#575757]">
+          <p className="text-[0.688rem] leading-[0.938rem] font-[400] text-[#575757]">
             Your order has been created
           </p>
         </div>
@@ -44,7 +44,7 @@ const Stepper = ({
           return (
             <li key={orderStatus.id} className="flex flex-col w-full">
               <div
-                className={`mb-6 flex w-full items-center after:content-[''] after:w-2/4 ${
+                className={`mb-5 flex w-full items-center after:content-[''] after:w-2/4 ${
                   orderStatuses.length - 1 !== index &&
                   `${
                     orderStatus.active == true ||
@@ -99,7 +99,7 @@ const Stepper = ({
 
               <div className="text-center sm:min-h-[120px] lg:min-h-[100px] xl:min-h-[70px]">
                 <p
-                  className={`text-[1.125rem] leading-[1.75rem] font-[400] text-[#0FB900] ${
+                  className={`text-[0.938rem] leading-[1.563rem] font-[400] text-[#0FB900] ${
                     orderStatus.active == true ||
                     orderStatus.order < currentStatus.order
                       ? "text-[#0FB900]"
@@ -112,7 +112,7 @@ const Stepper = ({
                   {orderStatus.name}
                 </p>
                 <p
-                  className={`text-[0.875rem] leading-[1.25rem] font-[400] ${
+                  className={`text-[0.688rem] leading-[1.063rem] font-[400] ${
                     orderStatus.active == true ||
                     orderStatus.order < currentStatus.order
                       ? "text-[#575757]"

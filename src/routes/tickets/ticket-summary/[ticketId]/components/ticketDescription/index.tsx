@@ -9,12 +9,12 @@ const TicketDescription = ({description} : {description : string}) => {
           
           table {
             width: 100%;
-            font-size: 1rem;
-            line-height: 1.21rem;
+            font-size: 0.813rem;
+            line-height: 1.023rem;
           }
 
           td {
-            padding : 10px 0px;
+            padding : 7px 0px;
           }
           
           a {
