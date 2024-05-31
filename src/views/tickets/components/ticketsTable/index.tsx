@@ -12,10 +12,12 @@ import TableBody from '@veroxos/design-system/dist/ui/TableBody/tableBody'
 import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow'
 import TableCell from '@veroxos/design-system/dist/ui/TableCell/tableCell'
 import { Button } from '@veroxos/design-system/dist/ui/Button/button'
+import { usePathname, useRouter } from 'next/navigation'
 
 const TicketsTable = ({ allTickets }: { allTickets: Tickets }) => {
 	const isNoData = allTickets?.tickets?.length === 0
-
+	const router = useRouter();
+	const pathname = usePathname();
 	return (
 		<div className="overflow-auto lg:max-h-[215px] xl:max-h-full">
 			<Table>
@@ -47,7 +49,9 @@ const TicketsTable = ({ allTickets }: { allTickets: Tickets }) => {
 									>{`P${ticket?.priority}`}</div>
 								</TableCell>
 								<TableCell className="text-right">
-									<Button variant="null" size="sm">
+									<Button variant="null" size="sm" 
+									onClick={() => router.push(`${pathname}/ticket-summary/${ticket.id}`)}
+									>
 										<Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />
 									</Button>
 								</TableCell>
