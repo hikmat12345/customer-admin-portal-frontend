@@ -7,6 +7,7 @@ import { Button } from "@veroxos/design-system/dist/ui/Button/button";
 import Skeleton from "@veroxos/design-system/dist/ui/Skeleton/skeleton";
 import Image from "next/image";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const PostTicketUpdateForm = ({
   getTicketSummaryRes,
@@ -32,8 +33,12 @@ const PostTicketUpdateForm = ({
     if(isSuccess){
         setShowAddUpdateForm(false);
         refetchTicketSummary();
+        toast.success('Successfully posted ticket update!');
     }
-  },[isSuccess])
+    if(isError){
+      toast.error("Something went wrong. Please try again later!")
+    }
+  },[isSuccess, isError])
 
   const handlePostTicketUpdate = (e: any) => {
     e.preventDefault();
@@ -113,14 +118,6 @@ const PostTicketUpdateForm = ({
             Submit
           </Button>
         </div>
-        {isError && (
-          <div
-            className="p-3 mb-3 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-            role="alert"
-          >
-            <span className="font-medium">Error !</span> Something went wrong. Please try again later.
-          </div>
-        )}
       </div>
     </form>
   );
