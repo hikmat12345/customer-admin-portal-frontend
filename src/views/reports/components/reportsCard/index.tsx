@@ -5,6 +5,7 @@ import { Formik, Form } from 'formik'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { ReportField } from '../../reports'
+import { generateValidationSchema } from '../../validationSchema'
 
 const ReportsCard = ({
 	label,
@@ -36,46 +37,63 @@ const ReportsCard = ({
 		setOpenDialog(false)
 	}
 
+	const validationSchema = generateValidationSchema(fieldTypes)
+
+	const initialValues = fieldTypes.reduce((acc, field) => {
+		acc[field.name] = ''
+		return acc
+	}, {} as any)
+
+	const handleSubmit = (values: ReportField) => {
+		console.log('Form Submitted', values)
+	}
+
 	const dialogContent = (
-		<Formik
-			enableReinitialize
-			onSubmit={() => {}}
-			initialValues={{
-				description: '',
-			}}
-		>
-			<Form className="flex flex-col gap-4">
-				{fieldTypes.some((field) => field.type === 'datePicker') && (
-					<div className="flex gap-2">
-						{fieldTypes
-							.filter((field) => field.type === 'datePicker')
-							.map((field, index) => (
-								<div className="flex flex-col gap-3 w-[48.993333%]" key={index}>
-									<FormFieldElement type={field.type} name={field.name} />
-								</div>
-							))}
-					</div>
-				)}
-				<div className="flex flex-wrap w-[100%] gap-2">
-					{fieldTypes
-						.filter((field) => field.type !== 'datePicker')
-						.map((field, index) => (
-							<div
-								className={`${
-									fieldTypes.filter((field) => field.type !== 'datePicker').length === 1 ? 'w-full' : 'w-[48.993333%]'
-								} mb-2 mt-1`}
-								key={index}
-							>
-								<FormFieldElement
-									type={field.type}
-									name={field.name}
-									placeholder={field.placeholder}
-									label={field.label}
-								/>
+		<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+			{({ touched, errors }) => {
+				return (
+					<Form className="flex flex-col gap-4">
+						{fieldTypes.some((field) => field.type === 'datePicker') && (
+							<div className="flex gap-2">
+								{fieldTypes
+									.filter((field) => field.type === 'datePicker')
+									.map((field, index) => (
+										<div className="flex flex-col gap-3 w-[48.993333%]" key={index}>
+											<FormFieldElement type={field.type} name={field.name} errors={errors} touched={touched} />
+										</div>
+									))}
 							</div>
-						))}
-				</div>
-			</Form>
+						)}
+						<div className="flex flex-wrap w-[100%] gap-2">
+							{fieldTypes
+								.filter((field) => field.type !== 'datePicker')
+								.map((field, index) => (
+									<div
+										className={`${
+											fieldTypes.filter((field) => field.type !== 'datePicker').length === 1
+												? 'w-full'
+												: 'w-[48.993333%]'
+										} mb-2 mt-1`}
+										key={index}
+									>
+										<FormFieldElement
+											type={field.type}
+											name={field.name}
+											placeholder={field.placeholder}
+											label={field.label}
+										/>
+									</div>
+								))}
+						</div>
+						<div className="flex items-center justify-center gap-3">
+							<Button variant="outline" onClick={handleCloseDialog}>
+								Cancel
+							</Button>
+							<Button type="submit">Download</Button>
+						</div>
+					</Form>
+				)
+			}}
 		</Formik>
 	)
 
@@ -121,14 +139,6 @@ const ReportsCard = ({
 					}
 					size="medium"
 					content={dialogContent}
-					actions={
-						<>
-							<Button disabled variant="outline" onClick={() => {}}>
-								Schedule
-							</Button>
-							<Button onClick={() => {}}>Download</Button>
-						</>
-					}
 				/>
 			)}
 		</>

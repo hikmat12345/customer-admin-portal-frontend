@@ -19,7 +19,9 @@ interface IProps {
 	menuItems?: any
 	isLoading?: boolean
 	values?: any
+	errors?: any
 	enabled?: boolean
+	touched?: any
 }
 
 const getFieldComponent = (props: IProps) => {
@@ -33,6 +35,8 @@ const getFieldComponent = (props: IProps) => {
 		isLoading = false,
 		values,
 		enabled = true,
+		errors,
+		touched,
 		...rest
 	} = props
 
@@ -42,7 +46,6 @@ const getFieldComponent = (props: IProps) => {
 		case 'password':
 			return
 		case 'number':
-			return
 		case 'datePicker':
 			return (
 				<div className="w-[100%]">
