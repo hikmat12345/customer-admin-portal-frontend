@@ -1,8 +1,11 @@
+import { currencyList, serviceOptions, yearList } from '@/utils/utils'
+
 export interface ReportField {
 	type: 'text' | 'select' | 'datePicker'
 	name: string
 	label?: string
 	placeholder?: string
+	options?: any[]
 }
 
 export interface Report {
@@ -24,6 +27,11 @@ interface AllReports {
 	inventoryReports: ReportCategory
 	serviceManagementReports: ReportCategory
 }
+
+const filterServiceType = serviceOptions?.map((item: { id: number; label: string }) => ({
+	value: item?.id,
+	label: item?.label,
+}))
 
 const financeReports: Report[] = [
 	{
@@ -84,9 +92,9 @@ const financeReports: Report[] = [
 		fields: [
 			{ type: 'datePicker', name: 'From' },
 			{ type: 'datePicker', name: 'To' },
-			{ type: 'select', name: 'serviceType', label: 'Service type' },
-			{ type: 'select', name: 'currency', label: 'Currency' },
-			{ type: 'select', name: 'reportPeriod', label: 'Report period' },
+			{ type: 'select', name: 'serviceType', label: 'Service type', options: filterServiceType },
+			{ type: 'select', name: 'currency', label: 'Currency', options: currencyList },
+			// { type: 'select', name: 'reportPeriod', label: 'Report period' },
 		],
 	},
 	{
@@ -106,8 +114,8 @@ const financeReports: Report[] = [
 		description: 'Analysis of the service type in the fiscal year',
 		title: 'F-12 Service Type Cost Report',
 		fields: [
-			{ type: 'select', name: 'year', label: 'Year' },
-			{ type: 'select', name: 'currency', label: 'Currency' },
+			{ type: 'select', name: 'year', label: 'Year', options: yearList, placeholder: 'Search year...' },
+			{ type: 'select', name: 'currency', label: 'Currency', options: currencyList },
 		],
 	},
 	{
