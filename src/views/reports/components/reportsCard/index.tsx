@@ -164,7 +164,7 @@ const ReportsCard = ({
 						<Button variant="outline" type="submit" disabled>
 							Schedule
 						</Button>
-						<Button loading={reportsLoading} type="submit">
+						<Button loading={reportsLoading} type="submit" className="animate-in">
 							Download
 						</Button>
 					</div>
@@ -207,7 +207,7 @@ const ReportsCard = ({
 			{openDialog && (
 				<CommonDialog
 					open={openDialog}
-					onClose={handleCloseDialog}
+					onClose={reportsLoading ? () => {} : handleCloseDialog}      // while reports are loading dialog will not be closed even on backdrop
 					title={
 						<div className="text-[26px] font-semibold mb-2">
 							<span className="text-[#1D46F3]">{label}</span> {reportName}
