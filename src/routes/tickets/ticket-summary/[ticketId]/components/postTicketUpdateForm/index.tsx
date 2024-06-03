@@ -6,17 +6,16 @@ import {
 import { Button } from "@veroxos/design-system/dist/ui/Button/button";
 import Skeleton from "@veroxos/design-system/dist/ui/Skeleton/skeleton";
 import Image from "next/image";
-import { useEffect } from "react";
 import toast from "react-hot-toast";
 
 const PostTicketUpdateForm = ({
   getTicketSummaryRes,
   setShowAddUpdateForm,
-  refetchTicketSummary
+  refetchTicketSummary,
 }: {
   getTicketSummaryRes: any;
   setShowAddUpdateForm: any;
-  refetchTicketSummary : any
+  refetchTicketSummary : any;
 }) => {
   const { data: getTicketUpdateStatusesRes } = useGetTicketUpdateStatuses();
   const { data: getLoggedInUserDetailsRes, isLoading } =
@@ -25,20 +24,7 @@ const PostTicketUpdateForm = ({
   const {
     mutate,
     isPending: postUpdateLoading,
-    isSuccess,
-    isError,
   } = usePostTicketUpdate();
-
-  useEffect(() => {
-    if(isSuccess){
-        setShowAddUpdateForm(false);
-        refetchTicketSummary();
-        toast.success('Successfully posted ticket update!');
-    }
-    if(isError){
-      toast.error("Something went wrong. Please try again later!")
-    }
-  },[isSuccess, isError])
 
   const handlePostTicketUpdate = (e: any) => {
     e.preventDefault();
@@ -54,7 +40,16 @@ const PostTicketUpdateForm = ({
       description: description.replace(/(\r\n|\n|\r)/g, "<br/>"),
     };
 
-    mutate(ticketUpdate);
+    mutate(ticketUpdate, {
+      onSuccess: () => {
+        setShowAddUpdateForm(false);
+        refetchTicketSummary();
+        toast.success("Successfully posted ticket update!");
+      },
+      onError: () => {
+        toast.error("Something went wrong. Please try again later!");
+      },
+    });
   };
 
   return (

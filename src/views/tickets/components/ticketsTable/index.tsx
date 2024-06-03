@@ -33,7 +33,7 @@ const TicketsTable = ({ allTickets }: { allTickets: Tickets }) => {
 						return (
 							<TableRow key={ticket.id}>
 								<TableCell className="font-medium"> 
-									<Link className="text-[#1175BE]" href={`${pathname}/ticket-summary/${ticket.id}`}>{`SUP${ticket.id}`}</Link>
+									<Link className="text-[#1175BE]" href={`${pathname}/ticket-summary/${ticket.id}`} target='_blank'>{`SUP${ticket.id}`}</Link>
 								</TableCell>
 								<TableCell>{ticket?.clientReferenceNo || '-'}</TableCell>
 								<TableCell>{fullName}</TableCell>
@@ -50,11 +50,12 @@ const TicketsTable = ({ allTickets }: { allTickets: Tickets }) => {
 									>{`P${ticket?.priority}`}</div>
 								</TableCell>
 								<TableCell className="text-right">
+									<Link href={`${pathname}/ticket-summary/${ticket.id}`} target='_blank'>
 									<Button variant="null" size="sm" 
-									onClick={() => router.push(`${pathname}/ticket-summary/${ticket.id}`)}
 									>
 										<Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />
 									</Button>
+									</Link>
 								</TableCell>
 							</TableRow>
 						)
