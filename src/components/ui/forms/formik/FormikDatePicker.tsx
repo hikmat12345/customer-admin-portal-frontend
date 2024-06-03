@@ -8,6 +8,7 @@ import { cn } from '@/utils/utils'
 import { CalendarIcon } from 'lucide-react'
 import { format } from 'date-fns'
 import { Calendar } from '../../DatePicker/calendar'
+import { MONTH_DAY_AND_YEAR } from '@/utils/constants/dateFormat.constants'
 
 interface FormikDatePickerProps extends FieldProps {
 	error: boolean
@@ -67,7 +68,7 @@ const FormikDatePicker = (props: FormikDatePickerProps) => {
 						)}
 					>
 						<CalendarIcon className="mr-2 h-4 w-4" />
-						{date ? format(date, 'PPP') : <span>Pick a date</span>}
+						{date ? format(date, MONTH_DAY_AND_YEAR) : <span>Pick a date</span>}
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent className="w-auto p-0" align="start">

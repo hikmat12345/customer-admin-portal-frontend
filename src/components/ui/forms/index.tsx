@@ -30,13 +30,14 @@ const getFieldComponent = (props: IProps) => {
 		name,
 		label,
 		children,
-		options = {},
+		options,
 		menuItems = [],
 		isLoading = false,
 		values,
 		enabled = true,
 		errors,
 		touched,
+		placeholder,
 		...rest
 	} = props
 
@@ -54,7 +55,17 @@ const getFieldComponent = (props: IProps) => {
 			)
 
 		case 'select':
-			return <Field name={name} component={FormikSelectComponent} label={label} {...rest} />
+			return (
+				<Field
+					name={name}
+					component={FormikSelectComponent}
+					label={label}
+					placeholder={placeholder}
+					options={options}
+					reportValue={name}
+					{...rest}
+				/>
+			)
 
 		default:
 			return
