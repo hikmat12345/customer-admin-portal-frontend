@@ -7,8 +7,6 @@ export const generateValidationSchema = (fields: ReportField[]) => {
 	fields.forEach((field) => {
 		switch (field.type) {
 			case 'text':
-				shape[field.name] = Yup.string().required(`${field.label || field.name} is required`)
-				break
 			case 'select':
 				shape[field.name] = Yup.string().required(`${field.label || field.name} is required`)
 				break
