@@ -121,7 +121,7 @@ const financeReports: Report[] = [
 			{
 				type: 'text',
 				name: 'variancePercentage',
-				label: 'Variance percentage',
+				label: 'Variance Percentage',
 				placeholder: 'Enter variance percentage',
 			},
 			{

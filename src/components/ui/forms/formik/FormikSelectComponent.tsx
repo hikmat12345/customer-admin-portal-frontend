@@ -10,7 +10,7 @@ import CommandList from '@veroxos/design-system/dist/ui/CommandList/commandList'
 import CommandItem from '@veroxos/design-system/dist/ui/CommandItem/commandItem'
 import { Check } from 'lucide-react'
 import { cn } from '@/utils/utils'
-import { FieldProps } from 'formik'
+import { FieldProps, getIn } from 'formik'
 
 interface FormikSelectProps extends FieldProps {
 	error: boolean
@@ -23,24 +23,29 @@ const FormikSelectComponent = (props: FormikSelectProps) => {
 		form: { setFieldValue, touched, errors, values },
 		field: { name },
 		field,
-		error,
 		helperText,
 		label,
 		...rest
 	} = props
 	const [open, setOpen] = React.useState(false)
 
+	const isTouched = getIn(touched, name)
+	const error = getIn(errors, field.name)
+
 	return (
 		<React.Suspense>
-			<div className="flex flex-col gap-2">
-				<span className="text-[14px] font-semibold text-[#575757]">{label}</span>
+			<div className="flex flex-col gap-1">
+				<span className="text-[14px] font-semibold text-[#575757]">
+					{label} <span className="text-rose-500"> *</span>
+				</span>
 				<Popover open={open} onOpenChange={setOpen}>
 					<PopoverTrigger asChild className="bg-[#F4F7FE] outline-none">
 						<Button
 							variant="outline"
 							role="combobox"
 							aria-expanded={open}
-							className="w-full justify-between"
+							className={`w-full justify-between ${((isTouched && error) || error) && 'border-2 border-rose-500'}
+							`}
 							value={12}
 						>
 							{label}
@@ -69,6 +74,7 @@ const FormikSelectComponent = (props: FormikSelectProps) => {
 						</Command>
 					</PopoverContent>
 				</Popover>
+				{isTouched && error && <span className="text-[12px] text-rose-500">{error}</span>}
 			</div>
 		</React.Suspense>
 	)
