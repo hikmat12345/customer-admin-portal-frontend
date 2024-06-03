@@ -6,10 +6,12 @@ import {  useGetSiteInvoices } from '@/hooks/useGetSites'
 import SiteGeneralInfo from './components/employee-general-info'
 import Pagination from '@/components/ui/pagination'
 import CreateQueryString from '@/utils/createQueryString'
-import { useGetEmployeeCostTrend, useGetEmployeeDetail , useGetEmployeeTickets} from '@/hooks/useGetEmployees'
+import { useGetEmployeeCostTrend, useGetEmployeeDetail , useGetEmployeeServiceTypes, useGetEmployeeServices, useGetEmployeeTickets} from '@/hooks/useGetEmployees'
 import LineChart from '@/components/ui/line-chart'
 import TableData from '@/components/ui/summary-tables/table'
 import { ScrollTabs } from '@/components/ui/scroll-tabs'
+import Skeleton from '@/components/ui/skeleton/skeleton'
+import ServiceTypesGrid from '@/components/ui/service-badge'
 
 type EmployeeDetailPageProps = {
 	employeeId: number
@@ -59,7 +61,10 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 	const { data: costTrendData, isLoading: isCostTrendLoading } = useGetEmployeeCostTrend(Number(employee_id)) 
 	const { data: siteTicketsData, isLoading: isSiteTicketsLoader, refetch: refetchTicketsData	 } = useGetEmployeeTickets(Number(employee_id), offset, limit)
  	const { data: siteInvoicesData, isLoading: isSiteInvoicesLoader , refetch: getInvoices} = useGetSiteInvoices(Number(employee_id), offset, limit)
-    const handlePageChange = async (page: number) => {
+	 const { data: employeeServices, isLoading: isEmployeeServicesLoading } = useGetEmployeeServices(Number(employee_id))
+	 const { data: employeeServiceTypes, isLoading: isEmployeeServiceType } = useGetEmployeeServiceTypes(Number(employee_id))
+ 
+	const handlePageChange = async (page: number) => {
 	 const params = new URLSearchParams()
 	  if (searchParams) {
 		searchParams.forEach((value, key) => {
@@ -127,11 +132,15 @@ const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
 
 				{/* Service Type */}
 				<div id="service-type">
-					<div className='text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pt-8 '>Service Type</div>
+					<div className='text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pt-8 flex gap-4'>Service Type </div>
 					<div className='flex gap-4 mt-4 flex-wrap'>
-					   <div className='text-center text-lg py-8 flex 
-						  justify-center items-center w-full h-full 
-						'>No data available</div>
+						{isEmployeeServiceType ?
+							<Skeleton variant="paragraph" rows={3} /> :
+							  Array.isArray(employeeServiceTypes) && employeeServiceTypes.length > 0 ?
+							  <ServiceTypesGrid services={employeeServiceTypes.sort((a,b)=>b.subTypes?.length - a.subTypes?.length)} />
+ 								:
+								<div className='text-center text-lg py-8'>No data available</div>
+						}
 					</div>
 					<Separator className='h-[3.2px] mt-4 bg-[#5d5b5b61]' />
 				</div>
@@ -149,8 +158,8 @@ const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
 				<div id="services">
 					<TableData
 						label="Services"
-						data={ [] }
-						loading={false}
+						data={employeeServices}
+						loading={isEmployeeServicesLoading}
 					/>
 				</div>
 				{maximumPager > 8 && (

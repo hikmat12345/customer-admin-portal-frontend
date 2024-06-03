@@ -49,10 +49,10 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 				masterAccount,
 				clientenVendorID,
 				paymentTerms,
-				apf_group,
+				accountPayableGroup,
 				remittanceAddress,
 				displayName,
-				Include_In_The_Accounts_Payable_Feed,
+				includeApFeed,
 				rollingContract,
 				network,
 				companyNetworkStatus
@@ -110,8 +110,8 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 						remittanceAddress,
 						displayName,
 						clientenVendorID,
-						apf_group,
-						Include_In_The_Accounts_Payable_Feed,
+						accountPayableGroup,
+						includeApFeed,
 						rollingContract, 
 						companyNetworkStatus
 					}} /> 
@@ -148,7 +148,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 					<TableData
 						label="Invoices"
 						data={ siteInvoicesData?.invoices }
-						currynecy={siteInvoicesData?.invoices[0]?.currency}
+						currynecy={siteInvoicesData?.invoices[0]?.Currency}
 						loading={isSiteInvoicesLoader}
 					/>
 					<Separator className='h-[2.0px] bg-[#5d5b5b61]  mt-8' />

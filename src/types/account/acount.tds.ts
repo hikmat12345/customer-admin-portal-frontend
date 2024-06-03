@@ -10,15 +10,15 @@ export type AccountGeneralInfoProps = {
             logo: string,
             country: {
               name: string,
-                currency_code: string
+              currencyCode: string
             }
         },
         paymentTerms: string,
         remittanceAddress: string,
         displayName: string,
         clientenVendorID: string,
-        apf_group: string,
-        Include_In_The_Accounts_Payable_Feed: string,
+        accountPayableGroup: string,
+        includeApFeed: string,
         rollingContract: boolean,
         companyNetworkStatus: {
             name: string

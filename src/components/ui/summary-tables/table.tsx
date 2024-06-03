@@ -20,8 +20,7 @@ import Badge from '@veroxos/design-system/dist/ui/Badge/badge'
   
 export default function TableData({ data, loading, label, currynecy="USD" }: TableDataProps) {
   currynecy = currynecy.toUpperCase()
-  const currencySymbol = currynecy ==="USD" ? "$" : currynecy ==="GBP" ? "£" : currynecy ==="EUR" ? "€" : currynecy == "JPY" ? "¥" : "";
-  
+  const currencySymbol = currynecy  
   return (
     <>
     {label && <div className='text-[#1D46F3] lg:text-[18px] xl:text-[20px] font-[700] lg:py-4 xl:py-7'>{label}</div>}
@@ -62,7 +61,7 @@ export default function TableData({ data, loading, label, currynecy="USD" }: Tab
                            Object.keys(record)[index] === 'account' ? <Link href={`/vendor/vendor-account?account_id==${stringFindAndReplaceAll(value, "-/"," ", 1)}`}  className="text-sky-600   font-normal  ">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
                            Object.keys(record)[index] === 'service status' ? <Badge className={`py-1 rounded-lg text-white  ${value == 1 ? 'bg-[#219653]'  : value == 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`} variant="success" shape="block">{value ==1? "Live" :value ==0 ? "Terminated": "Suspended"}</Badge>:
                            Object.keys(record)[index] === 'download' ? <DownloadAbleLink invoice_id={value} /> : 
-                           Object.keys(record)[index] === 'currency' ? <><span className="text-[#47de88]">{currencySymbol}</span> {value} </>:
+                           Object.keys(record)[index] === 'currency' ? <><span className="text-[#47de88]">{currencySymbol}</span></>:
                           Object.keys(record)[index] === 'total' || Object.keys(record)[index] === 'cost_centre' || Object.keys(record)[index] === 'sub_total' || Object.keys(record)[index] === 'tax_and_fees' || Object.keys(record)[index] === 'total_site_cost' ? `${moneyFormatter(value, currynecy)}` :
                           Object.keys(record)[index] === 'status' ? <span className={`${value==1?'text-blue-600': value==2?'text-gray-700': 'text-black'}`}> {TICKETS_STATUS_LIST[value]} </span>:
                             String(value) == 'null' || String(value) == 'undefined' || String(value) == ''   ? <span className='pl-[20%]'>-</span> : String(value)

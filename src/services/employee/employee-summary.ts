@@ -19,6 +19,22 @@ export const getEmployeeCostTrend = async ({ queryKey }: any) => {
 	const [, employeeId, offset, limit] = queryKey
 
 	return httpClient
-		.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/tickets/employee-tickets/${employeeId}?offset=${offset}&limit=${limit}`)
+		.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/ticket/employee-tickets/${employeeId}?offset=${offset}&limit=${limit}`)
+		.then(({ data }) => data)
+}
+// getEmployeeServiceTypes
+export const getEmployeeServiceTypes = async ({ queryKey }: any) => {
+	const [, employeeId] = queryKey
+
+	return httpClient
+		.get(`${NEXT_PUBLIC_API_BASE_URL}/employee/service-types/${employeeId}`)
+		.then(({ data }) => data)
+}
+// getEmployeeServices
+export const getEmployeeServices = async ({ queryKey }: any) => {
+	const [, employeeId] = queryKey
+
+	return httpClient
+		.get(`${NEXT_PUBLIC_API_BASE_URL}/employee/services/${employeeId}`)
 		.then(({ data }) => data)
 }
