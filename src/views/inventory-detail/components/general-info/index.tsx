@@ -1,5 +1,4 @@
 import { TICKETS_STATUS_LIST } from "@/utils/constants/statusList.constants";
-import Link from "next/link";
  import { GeneralInfoProps } from "@/types/inventory/types";
 import GeneralInfoSkeletons from "@/components/ui/summary-skeletons";
 import dynamic from 'next/dynamic';

@@ -1,8 +1,8 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { ServiceType } from './enums/serviceType.enum'
-import moment from 'moment';
-
+import { eachYearOfInterval, format as formatdeteFns} from 'date-fns'
+ 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
 }
@@ -38,16 +38,16 @@ export const getFormattedTotal = (total: number) => {
 export const formatDateTickets = (date: Date) => {
 	// Helper function to add leading zeros
 	function padTo2Digits(num: number) {
-		return num.toString().padStart(2, '0');
+		return num.toString().padStart(2, '0')
 	}
 
-	const month = padTo2Digits(date.getMonth() + 1); // Months are zero-indexed
-	const day = padTo2Digits(date.getDate());
-	const year = date.getFullYear();
-	const hours = padTo2Digits(date.getHours());
-	const minutes = padTo2Digits(date.getMinutes());
+	const month = padTo2Digits(date.getMonth() + 1) // Months are zero-indexed
+	const day = padTo2Digits(date.getDate())
+	const year = date.getFullYear()
+	const hours = padTo2Digits(date.getHours())
+	const minutes = padTo2Digits(date.getMinutes())
 
-	return `${month}/${day}/${year} ${hours}:${minutes}`;
+	return `${month}/${day}/${year} ${hours}:${minutes}`
 }
 
 export function getServiceType(id: ServiceType): string {
@@ -163,14 +163,14 @@ export function downloadFile(givenFileType: string, response: { data: string, fi
 
 // Function to format a date in the specified format
 const formatDate = (date: Date, format: string = 'DD/MM/YYYY HH:mm A'): string => {
-	return moment(date).format(format);
+	return formatdeteFns(date, format)
 };
 
 export default formatDate;
 
 //this will be like Jun 27, 2025
 export const formatSeperateDate = (date: Date): string => {
-	return moment(date).format('MMM DD, YYYY');
+	return formatdeteFns(date, 'MMM dd, yyyy')
 }
 
 export const getServiceTypeColor = (serviceType: number) => {
@@ -238,3 +238,40 @@ export const monthNames = [
 export const makeFileUrlFromBase64 = (base64String?: string | null, mimeType?: string, fileExtension?: string, fileName?: string) => {
 	return base64String ? `data:image/png;base64,${base64String}` : "/device-image.png";
 }
+
+export const currencyList = [
+	{
+		label: 'British Pound',
+		value: 'gbp',
+	},
+	{
+		label: 'United States Dollar',
+		value: 'usd',
+	},
+	{
+		label: 'Euro',
+		value: 'eur',
+	},
+	{
+		label: 'Austrailian Dollar',
+		value: 'aud',
+	},
+	{
+		label: 'Japanese Yen',
+		value: 'jpy',
+	},
+]
+
+// getting list of years till the current year
+
+const startYear = 2000
+const currentYear = new Date().getFullYear()
+
+const years = eachYearOfInterval({ start: new Date(startYear, 0, 1), end: new Date(currentYear, 11, 31) })
+
+export const yearList = years
+	.map((date) => {
+		const year = date.getFullYear()
+		return { label: year, value: year }
+	})
+	.reverse()
