@@ -18,6 +18,7 @@ import {
 	usePostF7Report,
 } from '@/hooks/useGetReportData'
 import { format } from 'date-fns'
+import { MONTH_AND_YEAR_FORMAT } from '@/utils/constants/dateFormat.constants'
 
 type ReportKey = 'F1' | 'F3' | 'F4' | 'F5' | 'F6' | 'F7' | 'F12' | 'F15'
 
@@ -97,8 +98,8 @@ const ReportsCard = ({
 		const formattedFromDate = fromDate ? `${('0' + (fromDate.getMonth() + 1)).slice(-2)}-${fromDate.getFullYear()}` : ''
 		const formattedToDate = toDate ? `${('0' + (toDate.getMonth() + 1)).slice(-2)}-${toDate.getFullYear()}` : ''
 
-		const formattedStartDate = fromDate ? format(fromDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") : ''
-		const formattedEndDate = toDate ? format(toDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") : ''
+		const formattedStartDate = fromDate ? format(fromDate, MONTH_AND_YEAR_FORMAT) : ''
+		const formattedEndDate = toDate ? format(toDate, MONTH_AND_YEAR_FORMAT) : ''
 		const postBody = { from: formattedFromDate, to: formattedToDate }
 
 		Object.keys(dialogOpenRef.current).forEach((key) => {
@@ -207,7 +208,7 @@ const ReportsCard = ({
 			{openDialog && (
 				<CommonDialog
 					open={openDialog}
-					onClose={reportsLoading ? () => {} : handleCloseDialog}      // while reports are loading dialog will not be closed even on backdrop
+					onClose={reportsLoading ? () => {} : handleCloseDialog} // while reports are loading dialog will not be closed even on backdrop
 					title={
 						<div className="text-[26px] font-semibold mb-2">
 							<span className="text-[#1D46F3]">{label}</span> {reportName}
