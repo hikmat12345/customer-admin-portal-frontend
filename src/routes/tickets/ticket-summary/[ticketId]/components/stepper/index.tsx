@@ -13,6 +13,21 @@ const Stepper = ({
   currentStatus: TicketSecondaryStatus;
   category: number;
 }) => {
+
+  const isActive = (orderStatus : TicketSecondaryStatus) => {
+    if(orderStatus.active == true || orderStatus.order < currentStatus.order)
+      return true
+
+    return false   
+  }
+
+  const isNext = (orderStatus : TicketSecondaryStatus) => {
+    if(orderStatus.next === true || orderStatus.order <= currentStatus.order)
+      return true
+
+    return false;
+  }
+
   return (
     <ol className="flex items-center w-full">
       <li key={"0"} className="flex flex-col w-full">
@@ -47,15 +62,13 @@ const Stepper = ({
                 className={`mb-5 flex w-full items-center after:content-[''] after:w-2/4 ${
                   orderStatuses.length - 1 !== index &&
                   `${
-                    orderStatus.active == true ||
-                    orderStatus.order < currentStatus.order
+                    isActive(orderStatus)
                       ? "after:border-[#0FB900]"
                       : "after:border-[#C2C2C2]"
                   } after:border`
                 } 
                     before:content-[''] before:w-2/4 ${`${
-                      orderStatus.next === true ||
-                      orderStatus.order <= currentStatus.order ||
+                      isNext(orderStatus) ||
                       orderStatus.order === 1
                         ? "before:border-[#0FB900]"
                         : "before:border-[#C2C2C2]"
@@ -64,30 +77,25 @@ const Stepper = ({
               >
                 <div
                   className={`border-[3px] rounded-full ${
-                    orderStatus.active == true ||
-                    orderStatus.order < currentStatus.order
+                    isActive(orderStatus)
                       ? "border-[#0FB900]"
-                      : orderStatus.next === true ||
-                        orderStatus.order <= currentStatus.order
+                      : isNext(orderStatus)
                       ? "border-[#FC762B]"
                       : "border-[#C2C2C2]"
                   }`}
                 >
                   <span
                     className={`m-1 flex items-center justify-center w-6 h-6 ${
-                      orderStatus.active == true ||
-                      orderStatus.order < currentStatus.order
+                      isActive(orderStatus)
                         ? "bg-[#0FB900]"
                         : nextStatus.id == orderStatus.id
                         ? "bg-[#FC762B]"
                         : "bg-[#C2C2C2]"
                     } 
                             rounded-full lg:h-8 lg:w-8 dark:${
-                              orderStatus.active == true ||
-                              orderStatus.order < currentStatus.order
+                              isActive(orderStatus)
                                 ? "bg-[#0FB900]"
-                                : orderStatus.next === true ||
-                                  orderStatus.order <= currentStatus.order
+                                : isNext(orderStatus)
                                 ? "bg-[#FC762B]"
                                 : "bg-[#C2C2C2]"
                             } shrink-0`}
@@ -100,11 +108,9 @@ const Stepper = ({
               <div className="text-center sm:min-h-[120px] lg:min-h-[100px] xl:min-h-[70px]">
                 <p
                   className={`text-[0.938rem] leading-[1.563rem] font-[400] text-[#0FB900] ${
-                    orderStatus.active == true ||
-                    orderStatus.order < currentStatus.order
+                    isActive(orderStatus)
                       ? "text-[#0FB900]"
-                      : orderStatus.next === true ||
-                        orderStatus.order <= currentStatus.order
+                      : isNext(orderStatus)
                       ? "text-[#FC762B]"
                       : "text-[#C2C2C2]"
                   }`}
@@ -113,8 +119,7 @@ const Stepper = ({
                 </p>
                 <p
                   className={`text-[0.688rem] leading-[1.063rem] font-[400] ${
-                    orderStatus.active == true ||
-                    orderStatus.order < currentStatus.order
+                    isActive(orderStatus)
                       ? "text-[#575757]"
                       : "text-[#C2C2C2]"
                   }`}

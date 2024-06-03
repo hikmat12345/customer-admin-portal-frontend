@@ -13,8 +13,11 @@ import Skeleton from "@/components/ui/skeleton/skeleton";
 import TicketUpdateCard from "./components/ticketUpdateCard";
 import TicketDescription from "./components/ticketDescription";
 import PostTicketUpdateForm from "./components/postTicketUpdateForm";
-import { TICKETS_STATUS_COLOR_LIST } from "@/utils/constants/statusList.constants";
+import {
+  TICKETS_STATUS_COLOR_LIST,
+} from "@/utils/constants/statusList.constants";
 import TicketHeader from "./components/ticketHeader";
+import { ORDER_UPGRADE_WORKFLOW_CATEGORY_ID } from "@/utils/constants/constants";
 
 const TicketSummary = ({ ticketId }: { ticketId: number }) => {
   const [showAddUpdateForm, setShowAddUpdateForm] = useState(false);
@@ -28,7 +31,10 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
     useGetTicketSecondaryStatuses();
 
   const getCategoryLabel = () => {
-    if (getTicketSummaryRes?.data.workflow?.workflowCategory?.id === 3)
+    if (
+      getTicketSummaryRes?.data.workflow?.workflowCategory?.id ===
+      ORDER_UPGRADE_WORKFLOW_CATEGORY_ID
+    )
       return "order";
     else return "ticket";
   };
@@ -56,6 +62,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
         name: "",
         order: 0,
         description: "",
+        stage: false,
       };
       let currentStatus: TicketSecondaryStatus = defaultStatus,
         nextStatus: TicketSecondaryStatus = defaultStatus;
@@ -64,12 +71,18 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
         (status: TicketSecondaryStatus) => {
           // find the current status of the order
           if (status.id === getTicketSummaryRes?.data.ticketSecondaryStatusId) {
-            currentStatus = status;
-            status.active = true;
+            if (getTicketSummaryRes?.data.secondaryStatusStage) {
+              currentStatus = status;
+              status.active = true;
+              status.stage = getTicketSummaryRes?.data.secondaryStatusStage;
+            } else if(status.order === currentStatus.order + 1){
+              nextStatus = status;
+              status.next = true;
+            }
           }
 
           // find the next status of the order
-          if (status.order === currentStatus.order + 1) {
+          if (!nextStatus.id && status.order === currentStatus.order + 1) {
             nextStatus = status;
             status.next = true;
           }
@@ -113,7 +126,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
           )}
         </div>
         <div className="flex text-[0.813rem] ">
-          <span className="text-[#FC762B]">Status:</span>&nbsp;
+          <span className="text-[#FC762B] mr-2">Status:</span>
           {ticketSummaryLoading ? (
             <div className={`w-[10rem]`}>
               <Skeleton variant="paragraph" rows={1} />
@@ -133,7 +146,10 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
       </h2>
       <div className="grid grid-auto-flow-column w-full border border-[#D6D6D6] bg-[#FFFFFF] rounded-lg p-6">
         {renderStepperIfHardwareOrder()}
-        <TicketHeader ticketSummary={getTicketSummaryRes?.data} ticketSummaryLoading={ticketSummaryLoading}/>
+        <TicketHeader
+          ticketSummary={getTicketSummaryRes?.data}
+          ticketSummaryLoading={ticketSummaryLoading}
+        />
         <div className="grid grid-cols-12 sm:gap-6 mt-5">
           <div className="xl:col-span-7 order-2 xl:order-1 col-span-12">
             <Button
