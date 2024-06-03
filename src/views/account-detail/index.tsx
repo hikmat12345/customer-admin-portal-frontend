@@ -32,14 +32,6 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 	const queryParams = new URLSearchParams(searchParams?.toString())
 	const keys = Array.from(queryParams.keys())
 
-	useEffect(() => {
-		if (searchParams) {
-			if (keys.length > 1 || !keys.includes('page')) {
-				router.push(`${pathname}?${createQueryString('page', 1)}`)
-			}
-		}
- 	}, [keys.length, createQueryString, pathname, router, searchParams, keys])
-
 	// get account general information 
  	const { data: accountDetailData, isLoading: isAccountDetailLoader } = useGetAccountDetail(Number(account_id))
     const {
@@ -75,6 +67,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 	params.set('page', page.toString())
 	router.push(`${pathname}?${params.toString()}`)
 	await refetchTicketsData()
+	await getInvoices()
     }
    const showTerminatedHandler = async () => {
 		setShowTerminated(!showTerminated)
@@ -91,7 +84,15 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 	 }
    }, [keys.length, showTerminated, createQueryString, pathname, router, searchParams, keys])
    
- 	const maximumPager = Math.max(  siteTicketsData?.total || 0, siteInvoicesData?.total || 0);
+   useEffect(() => {
+	if (searchParams) {
+		if (keys.length > 1 || !keys.includes('page')) {
+			router.push(`${pathname}?${createQueryString('page', 1)}`)
+		}
+	}
+    }, [keys.length, pathname, router, searchParams, keys])
+
+ 	const totalPages = Math.max(  siteTicketsData?.total || 0, siteInvoicesData?.total || 0);
    
    return (
 		<div className='w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg py-5 px-7 '>
@@ -140,7 +141,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 						loading={isSiteTicketsLoader}
 						data={siteTicketsData?.data?.tickets}
 					/>
-					<Separator className='h-[2.0px] bg-[#5d5b5b61]  mt-8' />
+					<Separator className='h-[2px] bg-[#5d5b5b61]  mt-8' />
 				</div>
 
 				{/* Invoices  */}
@@ -148,10 +149,10 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 					<TableData
 						label="Invoices"
 						data={ siteInvoicesData?.invoices }
-						currynecy={siteInvoicesData?.invoices[0]?.Currency}
+						currency={siteInvoicesData?.invoices[0]?.Currency}
 						loading={isSiteInvoicesLoader}
 					/>
-					<Separator className='h-[2.0px] bg-[#5d5b5b61]  mt-8' />
+					<Separator className='h-[2px] bg-[#5d5b5b61]  mt-8' />
 				</div>
 
 				{/* Service  */}
@@ -162,11 +163,11 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 						loading={false}
 					/>
 				</div>
-				{maximumPager > 8 && (
-				  <div className=""> 
+				{totalPages > 8 && (
+				  <div> 
 					<Pagination
 						className="flex justify-end pt-4"
- 						totalPages={maximumPager}
+ 						totalPages={totalPages}
 						currentPage={Number(page)}
 						onPageChange={handlePageChange}
 					/>

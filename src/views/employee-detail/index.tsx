@@ -34,14 +34,6 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 	const queryParams = new URLSearchParams(searchParams?.toString())
 	const keys = Array.from(queryParams.keys())
 
-	useEffect(() => {
-		if (searchParams) {
-			if (keys.length > 1 || !keys.includes('page')) {
-				router.push(`${pathname}?${createQueryString('page', 1)}`)
-			}
-		}
- 	}, [keys.length, createQueryString, pathname, router, searchParams, keys])
-
 	// get site detail 
  	const { data: employeeServiceDetailData, isLoading: isemployeeServiceDetailLoader } = useGetEmployeeDetail(Number(employee_id))
 			const {
@@ -90,9 +82,17 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 	 }
    }, [keys.length, showTerminated, createQueryString, pathname, router, searchParams, keys])
    
- 	const maximumPager = Math.max(  siteTicketsData?.total || 0, siteInvoicesData?.total || 0);
+   useEffect(() => {
+	if (searchParams) {
+		if (keys.length > 1 || !keys.includes('page')) {
+			router.push(`${pathname}?${createQueryString('page', 1)}`)
+		}
+	}
+   }, [keys.length, createQueryString, pathname, router, searchParams, keys])
+
+ 	const totalPages = Math.max(  siteTicketsData?.total || 0, siteInvoicesData?.total || 0);
   
-const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
+    const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
 		const { country_code, ...rest } = item;
 		return rest;
 	});
@@ -113,13 +113,13 @@ const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
 						email: search?.split(',')[2],
 						status:live,
 						site: site,
-						manage_id: manage_id,
-						client_employee_id: client_employee_id,
-						last_name: search?.split(',')[1],
-						job_title: jobTitle,
-						employee_level: employee_level,
-						cost_center: cost_center,
-						vip_executive: vip_executive, 
+						manageId: manage_id,
+						clientEmployeeId: client_employee_id,
+						lastName: search?.split(',')[1],
+						jobTitle: jobTitle,
+						employeeLevel: employee_level,
+						costCenter: cost_center,
+						vipExecutive: vip_executive, 
 					}} /> 
 					<Separator className='h-[1.5px] bg-[#5d5b5b61]' />
 				</div>
@@ -152,7 +152,7 @@ const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
 						loading={isSiteTicketsLoader}
 						data={siteTicketsData?.data?.tickets}
 					/>
-					<Separator className='h-[2.0px] bg-[#5d5b5b61]  mt-8' />
+					<Separator className='h-[2.px] bg-[#5d5b5b61]  mt-8' />
 				</div>  
 				{/* Service  */}
 				<div id="services">
@@ -162,21 +162,15 @@ const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
 						loading={isEmployeeServicesLoading}
 					/>
 				</div>
-				{maximumPager > 8 && (
-				  <div className=""> 
+				{totalPages > 8 && (
+				  <div> 
 					<Pagination
 						className="flex justify-end pt-4"
- 						totalPages={maximumPager}
+ 						totalPages={totalPages}
 						currentPage={Number(page)}
 						onPageChange={handlePageChange}
 					/>
-				</div> )} 
-				{/* un-comment when call the services list api  */}
-				{/* <button 
-			  onClick={showTerminatedHandler}
-			  className="w-[280px] h-[48px] px-[18px] pt-3 pb-4 bg-orange-500 rounded-lg border border-orange-500 my-5   gap-2.5  ml-auto block">
-			    <span className="text-white text-base font-semibold ">{showTerminated ? "Show Terminated Service": "Show Live Services" } </span>
-			</button> */} 
+				</div> )}  
 	    	</ScrollTabs> 
 			
 		</div>

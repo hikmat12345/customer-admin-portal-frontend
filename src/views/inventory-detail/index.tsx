@@ -70,8 +70,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 						simNumber={simNumber}
 						isAssetLoader={isAssetLoader}
 					/>
-				</div>
- 
+				</div> 
 				<div id="cost-and-plan">
 					<div className='text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pt-8 '>Plan & Cost</div>
 					  {isCostPlanLoading ? <Table><TableBodySkeleton rowCount={2} columnCount={2} /></Table> :
@@ -88,7 +87,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 						loading={isTicketsRecentActivityLoader}
 						data={ticketsRecentActivityData?.data?.tickets}
 					/>
-					<Separator className='h-[2.0px] bg-[#5d5b5b61]  mt-8' />
+					<Separator className='h-[2px] bg-[#5d5b5b61]  mt-8' />
 				</div>
  
 				<div id="activity">

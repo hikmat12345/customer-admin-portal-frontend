@@ -1,3 +1,4 @@
+import Skeleton from "@/components/ui/skeleton/skeleton";
 import React from "react";
 
 type InvoiceRemittanceAddressProps = {
@@ -12,7 +13,7 @@ export default function InvoiceRemittanceAddress({ remittanceData, isLoading = f
         <div className="py-8"> 
             <div className="text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pb-6">Invoice Remittance Address</div>
             {isLoading ? (
-                <div>Loading...</div>
+                <Skeleton variant="paragraph" rows={2} />
             ) : (
                 <div className="w-[100%] max-lg:w-[100%] max-lg:mt-5">
                     <div className="w-[100%]">

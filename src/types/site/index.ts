@@ -2,7 +2,7 @@ export type TableDataProps = {
     data : any,
     loading?: boolean
     label?: string,
-    currynecy?: string
+    currency?: string | null
   }
 export interface CostTableProps {
     data: {

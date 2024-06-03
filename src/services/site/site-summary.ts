@@ -34,8 +34,15 @@ export const getCostTrend = async ({ queryKey }: any) => {
 export const getSiteServices = async ({ queryKey }: any) => {
 	const [, siteId, offset, limit, showTerminated] = queryKey
 
-	return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/site-services/${siteId}?offset=${offset}&limit=${limit}&show_terminated=${showTerminated}`)
-		.then(({ data }) => data)
+	// return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/site-services/${siteId}?offset=${offset}&limit=${limit}&show_terminated=${showTerminated}`)
+	const config = {
+		params: {
+			offset,
+			limit,
+			show_terminated: showTerminated
+		}
+	  }
+    	return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/site-services/${siteId}`, config).then(({ data }) => data)
 }
 
  export const getSiteInvoices = async ({ queryKey }: any) => {

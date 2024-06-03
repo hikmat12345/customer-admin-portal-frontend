@@ -1,5 +1,6 @@
 "use client";
 import { useGetSiteInvoiceFile } from "@/hooks/useGetSites";
+import { InvoiceSummaryTypes } from "@/types/account/acount.tds";
 import { downloadFile } from "@/utils/utils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -8,38 +9,7 @@ export default function InvoiceSummary({
     invoiceData,
     vendorData,
     isLoading = false,
-}: {
-    invoiceData: {
-        invoiceId: string | number;
-        invoiceDate: string;
-        country: string;
-        fiscalMonthYear: string;
-        invoiceDueDate: string;
-        previousBalancePaid: number;
-        invoiceNumber: string;
-        carriedForwardBalance: number;
-        adjustments: number;
-        taxAndFees: number;
-        subTotal: number;
-        amountToPay: number;
-        total: number;
-        invoicePDF: string;
-        invoiceType: string;
-        apfRequestNumber: string;
-        includeInAPF: boolean;
-        dateEntered: string;
-        status: string;
-    };
-    vendorData: {
-        vendor: string;
-        accountNumber: string;
-        displayName: string;
-        currency: string;
-        clientVendorID: string;
-        logo: string;
-    };
-    isLoading: boolean;
-}) { 
+}: InvoiceSummaryTypes) { 
 
     const [invoiceId, setInvoiceId] = useState<string>("");
     const [fileType, setFileType] = useState<string>("");
@@ -53,9 +23,9 @@ export default function InvoiceSummary({
 
     const fileDownloadFile = async (fileId:string | number, fileType:"pdf"|"xls"|"docs") => {
         const makeInvoiceId :string = fileType== "docs" ? `${fileId}_allocation.csv`: fileType== "xls" ? `${fileId}.xlsx`: `${fileId}.pdf`;
-            await setInvoiceId(makeInvoiceId);
-            await setFileType(fileType);
-            await refetch(); 
+              setInvoiceId(makeInvoiceId);
+              setFileType(fileType);
+              refetch(); 
     } 
     useEffect(() => {
         if (!isBlobLoading && !blobError && blobdata &&fileType) {

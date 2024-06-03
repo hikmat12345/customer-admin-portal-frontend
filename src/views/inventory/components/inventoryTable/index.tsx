@@ -17,7 +17,6 @@ const InventoryTable = ({ data }: any) => {
 	}
     const router = useRouter()
 	const isNoData = data?.length === 0
-//    go with service_id whehn click 
    const handleServiceClick = (id: number) => {
  		router.push(`/inventory/service-summary?service_id=${id}`)
 	}

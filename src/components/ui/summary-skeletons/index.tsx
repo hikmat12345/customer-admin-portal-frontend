@@ -2,7 +2,7 @@ import Skeleton from "@/components/ui/skeleton/skeleton";
 
 
 
-const GeneratlInfoSkeletons = () => {
+const GeneralInfoSkeletons = () => {
     return (
         <div className="flex gap-[45px] pb-8">
             <div className="flex w-[31%] justify-between  ">
@@ -31,7 +31,7 @@ const GeneratlInfoSkeletons = () => {
         </div>
     );
 }
-export default GeneratlInfoSkeletons;
+export default GeneralInfoSkeletons;
 
 export const DeviceinfoSkeletons = () => {
     return (

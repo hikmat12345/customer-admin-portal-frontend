@@ -1,5 +1,6 @@
 "use client";
 import { moneyFormatter } from '@/utils/utils';
+import { ApexOptions } from 'apexcharts';
 import { Loader } from 'lucide-react';
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
@@ -10,9 +11,9 @@ type LineChartProps = {
     isLoading: boolean
 }
 const LineChart = ({ label, data = [], isLoading = false }: LineChartProps) => {
-     const options: any =
+     const options: ApexOptions =
     {
-        width: '98%',
+        // width: '98%',
         chart: {
             type: 'line',
             zoom: {
@@ -34,9 +35,7 @@ const LineChart = ({ label, data = [], isLoading = false }: LineChartProps) => {
                         style: {
                             fontSize: '12px',
                             color: '#fff',
-                            background: '#00E396',
-                            zIndex: -99,
-                            position: 'relative'
+                            background: '#00E396',  
                         },
                         offsetY: 20,
                         text: 'Year 2024',
@@ -81,7 +80,7 @@ const LineChart = ({ label, data = [], isLoading = false }: LineChartProps) => {
                     return moneyFormatter(value, 'USD')
                 }
             }, 
-            min: function (value: any) {
+            min: function (value: number) {
                 return value > 0 ? 0 : value;
             },
 
@@ -102,31 +101,28 @@ const LineChart = ({ label, data = [], isLoading = false }: LineChartProps) => {
             shape: "circle",
             radius: 2,
             offsetX: 0,
-            offsetY: 0,
-            onClick: undefined,
-            onDblClick: undefined,
+            offsetY: 0, 
             showNullDataPoints: true,
             hover: {
-                borderColor: '#FF4560',
-                offsetY: 0,
-                style: {
-                    color: '#fff',
-                    background: '#FF4560',
-                },
+                // borderColor: '#FF4560',
+                // offsetY: 0,
+                // style: {
+                //     color: '#fff',
+                //     background: '#FF4560',
+                // },
             }
         },
         tooltip: {
             style: {
                 fontSize: '12px',
-                background: 'red',
-                color: 'blue',
-                backgroundColor: 'green'
+                // background: 'red',
+                // color: 'blue',
+                // backgroundColor: 'green'
             },
             x: {
                 show: false,
             },
-            y: {
-                formatter: undefined,
+            y: { 
                 title: {
                     formatter: (seriesName: string) => seriesName,
                 },

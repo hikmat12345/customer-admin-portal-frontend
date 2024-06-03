@@ -9,15 +9,14 @@ export type EmployeeGeneralInfoProps = {
             name?: string
             address?: string
         }
-        manage_id: string,
-        client_employee_id: string,
-        last_name: string,
-        job_title: string,
-        employee_level: string,
-        cost_center: string,
-        vip_executive: string,
+        manageId: string,
+        clientEmployeeId: string,
+        lastName: string,
+        jobTitle: string,
+        employeeLevel: string,
+        costCenter: string,
+        vipExecutive: string,
     },
     isLoading?: boolean,
     label?: string
- 
-} 
+}

@@ -86,8 +86,8 @@ export const getInvoiceSummary = async ({ queryKey }: any) => {
 		.then(({ data }) => data)
 } 
 export const getAccountInvoices = async ({ queryKey }: any) => {
-	const [, accountId] = queryKey 
+	const [, accountId, offset, limit] = queryKey 
 	return httpClient
-		.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/account-invoices/${accountId}`)
+		.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/account-invoices/${accountId}?offset=${offset}&limit=${limit}`)
 		.then(({ data }) => data)
 }

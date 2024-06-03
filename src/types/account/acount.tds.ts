@@ -35,3 +35,36 @@ export type accountServices = {
         cost: number;
         invoiceDate: string;
     }[]
+
+export type InvoiceSummaryTypes={
+    invoiceData: {
+        invoiceId: string | number;
+        invoiceDate: string;
+        country: string;
+        fiscalMonthYear: string;
+        invoiceDueDate: string;
+        previousBalancePaid: number;
+        invoiceNumber: string;
+        carriedForwardBalance: number;
+        adjustments: number;
+        taxAndFees: number;
+        subTotal: number;
+        amountToPay: number;
+        total: number;
+        invoicePDF: string;
+        invoiceType: string;
+        apfRequestNumber: string;
+        includeInAPF: boolean;
+        dateEntered: string;
+        status: string;
+    };
+    vendorData: {
+        vendor: string;
+        accountNumber: string;
+        displayName: string;
+        currency: string;
+        clientVendorID: string;
+        logo: string;
+    };
+    isLoading: boolean;
+}

@@ -13,12 +13,17 @@ export function DownloadAbleLink({invoice_id}: {invoice_id: string | number}) {
         refetch
     } = useGetSiteInvoiceFile(invoiceId); 
 
-    const fileDownloadFile = async (fileId:string | number, fileType:"pdf"|"xls"|"docs") => {
-        const makeInvoiceId :string = fileType== "docs" ? `${fileId}_allocation.csv`: fileType== "xls" ? `${fileId}.xlsx`: `${fileId}.pdf`;
-            await setInvoiceId(makeInvoiceId);
-            await setFileType(fileType);
-            await refetch(); 
-    } 
+    const fileDownloadFile = (fileId: string | number, fileType: "pdf" | "xls" | "docs") => {
+        const makeInvoiceId: string = fileType === "docs" ? `${fileId}_allocation.csv` : fileType === "xls" ? `${fileId}.xlsx` : `${fileId}.pdf`;
+        setInvoiceId(makeInvoiceId);
+        setFileType(fileType);
+    };
+  
+   useEffect(() => {
+        if (invoiceId && fileType) {
+            refetch();
+        }
+    }, [invoiceId, fileType, refetch]);
     useEffect(() => {
         if (!isBlobLoading && !blobError && blobdata &&fileType) {
             downloadFile(fileType, blobdata, invoiceId);

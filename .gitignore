@@ -21,7 +21,6 @@
 *.pem
 
 .env*.local
-.env
 # debug
 npm-debug.log*
 yarn-debug.log*

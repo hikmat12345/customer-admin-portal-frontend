@@ -2,8 +2,8 @@
 
 import React, { useEffect } from 'react'
 import { Separator } from "@/components/ui/separator"
-import {  usePathname, useRouter, useSearchParams } from 'next/navigation'
- import { useGetCostTrend, useGetServiceTypes, useGetSiteInvoices, useGetSiteDetail, useGetSiteServices, useGetSiteTickets } from '@/hooks/useGetSites'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useGetCostTrend, useGetServiceTypes, useGetSiteInvoices, useGetSiteDetail, useGetSiteServices, useGetSiteTickets } from '@/hooks/useGetSites'
 import SiteGeneralInfo from './components/site-general-info'
 import CreateQueryString from '@/utils/createQueryString'
 import formatDate, { moneyFormatter } from '@/utils/utils'
@@ -18,7 +18,7 @@ type SiteDetailPageProps = {
 	siteId: number
 }
 const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
-	const searchParams   = useSearchParams()
+	const searchParams = useSearchParams()
 	const router = useRouter()
 	const pathname = usePathname()
 	const isTerminated = searchParams?.get('showTerminated')
@@ -35,13 +35,7 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 	const queryParams = new URLSearchParams(searchParams?.toString())
 	const keys = Array.from(queryParams.keys())
 
-	useEffect(() => {
-		if (searchParams) {
-			if (keys.length > 1 || !keys.includes('page')) {
-				router.push(`${pathname}?${createQueryString('page', 1)}`)
-			}
-		}
-	}, [keys.length])
+	
 
 	// get site detail 
 	const { data: siteServiceDetailData, isLoading: isSiteServiceDetailLoader } = useGetSiteDetail(Number(site_id))
@@ -93,19 +87,8 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 		setShowTerminated(!showTerminated)
 		await refetchData()
 		await refetchTicketsData()
-	}
-	useEffect(() => {
-		if (searchParams) {
-			if (keys.length > 1 || !keys.includes('page')) {
-				router.push(`${pathname}?${createQueryString('page', 1)}`)
-			}
-		}
-		if (showTerminated) {
-			router.push(`${pathname}?${createQueryString('showTerminated', showTerminated.toString())}`)
-		}
-	}, [keys.length, showTerminated])
-
-	const maximumPager = Math.max(siteServices?.total || 0, siteTicketsData?.total || 0, siteInvoicesData?.total || 0);
+	} 
+	const totlaPages = Math.max(siteServices?.total || 0, siteTicketsData?.total || 0, siteInvoicesData?.total || 0);
 
 	// Refining the data
 	const refinedData: {
@@ -131,11 +114,31 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 		const { country_code, ...rest } = item;
 		return rest;
 	});
+
+	useEffect(() => {
+		if (searchParams) {
+			if (keys.length > 1 || !keys.includes('page')) {
+				router.push(`${pathname}?${createQueryString('page', 1)}`)
+			}
+		}
+		if (showTerminated) {
+			router.push(`${pathname}?${createQueryString('showTerminated', showTerminated.toString())}`)
+		}
+	}, [keys.length, showTerminated])
+
+	useEffect(() => {
+		if (searchParams) {
+			if (keys.length > 1 || !keys.includes('page')) {
+				router.push(`${pathname}?${createQueryString('page', 1)}`)
+			}
+		}
+	}, [keys.length])
+	
 	return (
 		<div className='w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg py-5 px-7 '>
-		 <ScrollTabs tabs={["general-information", "cost-trend", "service-type", "tickets", "invoices", "services"]}>
-             {/* General Information  */}
-              <div id="general-information">
+			<ScrollTabs tabs={["general-information", "cost-trend", "service-type", "tickets", "invoices", "services"]}>
+				{/* General Information  */}
+				<div id="general-information">
 					<SiteGeneralInfo
 						label='General Information'
 						isLoading={isSiteServiceDetailLoader}
@@ -172,9 +175,9 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 					<div className='flex gap-4 mt-4 flex-wrap'>
 						{isServiceTypesLoading ?
 							<Skeleton variant="paragraph" rows={3} /> :
-							  Array.isArray(serviceTypes) && serviceTypes.length > 0 ?
-							  <ServiceTypesGrid services={serviceTypes.sort((a,b)=>b.subTypes?.length - a.subTypes?.length)} />
- 								:
+							Array.isArray(serviceTypes) && serviceTypes.length > 0 ?
+								<ServiceTypesGrid services={serviceTypes.sort((a, b) => b.subTypes?.length - a.subTypes?.length)} />
+								:
 								<div className='text-center text-lg py-8'>No data available</div>
 						}
 					</div>
@@ -188,7 +191,7 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 						loading={isSiteTicketsLoader}
 						data={siteTicketsData?.data?.tickets}
 					/>
-					<Separator className='h-[2.0px] bg-[#5d5b5b61]  mt-8' />
+					<Separator className='h-[2px] bg-[#5d5b5b61]  mt-8' />
 				</div>
 
 				{/* Invoices  */}
@@ -196,10 +199,10 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 					<TableData
 						label="Invoices"
 						data={refinedInvoices}
-						currynecy={siteInvoicesData?.invoices[0]?.currency}
+						currency={siteInvoicesData?.invoices[0]?.currency}
 						loading={isSiteInvoicesLoader}
 					/>
-					<Separator className='h-[2.0px] bg-[#5d5b5b61]  mt-8' />
+					<Separator className='h-[2px] bg-[#5d5b5b61]  mt-8' />
 				</div>
 
 				{/* Service  */}
@@ -210,22 +213,21 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 						loading={isServicesLoader}
 					/>
 				</div>
-				{maximumPager > 8 && (
-					<div className="">
+				{totlaPages > 8 && (
+					<div>
 						<Pagination
 							className="flex justify-end pt-4"
-							totalPages={maximumPager}
+							totalPages={totlaPages}
 							currentPage={Number(page)}
 							onPageChange={handlePageChange}
 						/>
 					</div>)}
-					{
-						refinedData?.length &&  
-				<button
-					onClick={showTerminatedHandler}
-					className="w-[280px] h-[48px] px-[18px] pt-3 pb-4 bg-orange-500 rounded-lg border border-orange-500 my-5   gap-2.5  ml-auto block">
-					<span className="text-white text-base font-semibold ">{showTerminated ? "Show Terminated Service" : "Show Live Services"} </span>
-				</button>}
+				{refinedData?.length &&
+					<button
+						onClick={showTerminatedHandler}
+						className="w-[280px] h-[48px] px-[18px] pt-3 pb-4 bg-orange-500 rounded-lg border border-orange-500 my-5   gap-2.5  ml-auto block">
+						<span className="text-white text-base font-semibold ">{showTerminated ? "Show Terminated Service" : "Show Live Services"} </span>
+					</button>}
 			</ScrollTabs>
 		</div>
 	)
