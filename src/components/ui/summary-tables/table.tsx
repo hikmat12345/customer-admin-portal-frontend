@@ -60,7 +60,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
             Object.keys(record)[index] === 'vendor_name' ? stringFindAndReplaceAll(value, " "," ", 0) :
             (Object.keys(record)[index] === "Invoice_#") ? <Link href={`/accounts/invoices/${stringFindAndReplaceAll(value, "-/"," ", 1)}`} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
             (Object.keys(record)[index] === 'invoice_ref' ) ? <Link href={`/accounts/invoices/${stringFindAndReplaceAll(value, "-/"," ", 1)}`} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
-            Object.keys(record)[index] === 'invoice_date' ? formatDate(value, 'DD/MM/YYYY') :
+            Object.keys(record)[index] === 'invoice_date' ? formatDate(value, 'dd/MM/yyyy') :
             Object.keys(record)[index] === 'account' ? <Link href={`/vendor/vendor-account?account_id==${stringFindAndReplaceAll(value, "-/"," ", 1)}`} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
             Object.keys(record)[index] === 'service status' ? <Badge className={`py-1 rounded-lg text-white ${value == 1 ? 'bg-[#219653]' : value == 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`} variant="success" shape="block">{value == 1 ? "Live" : value == 0 ? "Terminated" : "Suspended"}</Badge> :
             Object.keys(record)[index] === 'download' ? <DownloadAbleLink invoice_id={value} /> : 

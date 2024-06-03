@@ -107,7 +107,7 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 		description: item.service.description,
 		["function / purpose"]: item.service["function / purpose"],
 		"service status": item.service["service status"],
-		cost: `${moneyFormatter(parseFloat(item.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item.service?.cost?.taxRaw), "usd")} (${formatDate(item.invoiceDate, 'MMM YYYY')})`,
+		cost: `${moneyFormatter(parseFloat(item.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item.service?.cost?.taxRaw), "usd")} (${formatDate(item.invoiceDate, 'MM yyyy')})`,
 	}));
 
 	const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {

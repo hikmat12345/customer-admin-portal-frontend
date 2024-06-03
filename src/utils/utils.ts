@@ -162,15 +162,15 @@ export function downloadFile(givenFileType: string, response: { data: string, fi
 }
 
 // Function to format a date in the specified format
-const formatDate = (date: Date, format: string = 'DD/MM/YYYY HH:mm A'): string => {
-	return formatdeteFns(date, format)
+const formatDate = (date: Date, format: string = 'dd/MM/yyyy HH:mm a'): string => {
+	return formatdeteFns(new Date(date), format)
 };
 
 export default formatDate;
 
 //this will be like Jun 27, 2025
 export const formatSeperateDate = (date: Date): string => {
-	return formatdeteFns(date, 'MMM dd, yyyy')
+	return formatdeteFns(new Date(date), 'MMM dd, yyyy')
 }
 
 export const getServiceTypeColor = (serviceType: number) => {
