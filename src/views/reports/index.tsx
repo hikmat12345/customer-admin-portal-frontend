@@ -24,7 +24,7 @@ const ReportsPage = () => {
 
 	useEffect(() => {
 		router.push(`${pathname}?${createQueryString('tab', 'finance')}`)
-	}, [])
+	}, [createQueryString, pathname, router])
 
 	return (
 		<div>

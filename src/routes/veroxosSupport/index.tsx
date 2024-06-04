@@ -1,9 +1,7 @@
 'use client'
 
-import { useEffect, useRef, useState } from "react";
-import WorkflowLayout, {
-	getWorkflowRequestTypesApiCall,
-  } from '@veroxos/workflow/lib/src/index_web';
+import { useRef, useState } from "react";
+import WorkflowLayout from '@veroxos/workflow/lib/src/index_web';
 import { jsonObject } from './workflowdata';
   
 
@@ -12,7 +10,7 @@ const VeroxosSupportPage = () => {
 	const [dynamicComponent, setDynamicComponent] = useState(jsonObject);
 
 	  //@ts-ignore
-	  const ref = useRef();
+	  const ref = useRef<any>();
     const userToken = 'fdgdgdgdgdgfdgfdf';
 
 	  // useEffect(() => {
@@ -26,15 +24,15 @@ const VeroxosSupportPage = () => {
 		// });
 	  // }, []);
     
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: { preventDefault: () => void; }) => {
       e.preventDefault();
       // Process form data here, e.g., send it to the server
       //console.log(ref.current._allRefs);
 
-      let isValid = ref.current.isValidate();
+      let isValid = ref.current?.isValidate();
       if (isValid) {
-        let data = {};
-        let allRefs = ref.current._allRefs;
+        let data: { [key: string]: any } = {};
+        let allRefs = ref.current?._allRefs;
         Object.keys(allRefs).map(key => {
           if (allRefs[key]) {
             // Assuming state is a property of the referenced object
