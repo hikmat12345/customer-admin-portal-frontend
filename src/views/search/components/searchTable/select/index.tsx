@@ -30,7 +30,7 @@ const SelectComponent = (props: IProps) => {
 	}
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
-			<PopoverTrigger asChild className="bg-[#1D46F3] outline-none flex flex-row items-center">
+			<PopoverTrigger asChild className="bg-custom-blue outline-none flex flex-row items-center">
 				<Button variant="primary" role="combobox" aria-expanded={open} className="w-auto justify-between " value={12}>
 					<Image src={'/svg/search/filter.svg'} alt="Chevron Icon" width={20} height={20} />
 				</Button>
@@ -39,13 +39,13 @@ const SelectComponent = (props: IProps) => {
 				<Command>
 					<CommandGroup>
 						<div className="border-b">
-							<h6 className="text-[#334155] text-sm font-bold px-1 py-2">Filters</h6>
+							<h6 className="text-slate-700 text-sm font-bold px-1 py-2">Filters</h6>
 						</div>
 					</CommandGroup>
 					<CommandGroup>
 						<CommandList>
 							{FILTERS.map((f: any) => (
-								<label htmlFor={f.id} className="text-[#334155]" key={f.id}>
+								<label htmlFor={f.id} className="text-slate-700" key={f.id}>
 									<CommandItem key={f.id} value={f.name}>
 										<input
 											type="checkbox"
@@ -64,7 +64,7 @@ const SelectComponent = (props: IProps) => {
 					</CommandGroup>
 					<CommandGroup>
 						<div className="border-t py-2 text-center">
-							<Button className="text-[#334155] text-sm font-bold bg-transparent" onClick={resetFilters}>
+							<Button className="text-slate-700 text-sm font-bold bg-transparent" onClick={resetFilters}>
 								<Image src={'/svg/timer-reset.svg'} height={14} width={14} alt="" />
 								<span className="text-sm">Reset</span>
 							</Button>

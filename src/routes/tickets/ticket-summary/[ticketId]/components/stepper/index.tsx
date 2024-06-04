@@ -15,14 +15,14 @@ const Stepper = ({
 }) => {
 
   const isActive = (orderStatus : TicketSecondaryStatus) => {
-    if(orderStatus.active == true || orderStatus.order < currentStatus.order)
+    if(orderStatus.id == currentStatus.id || orderStatus.order < currentStatus.order)
       return true
 
     return false   
   }
 
   const isNext = (orderStatus : TicketSecondaryStatus) => {
-    if(orderStatus.next === true || orderStatus.order <= currentStatus.order)
+    if(orderStatus.id == nextStatus.id)
       return true
 
     return false;
@@ -32,13 +32,13 @@ const Stepper = ({
     <ol className="flex items-center w-full">
       <li key={"0"} className="flex flex-col w-full">
         <div
-          className={`mb-5 flex w-full items-center after:content-[''] after:w-2/4 after:border-[#0FB900] after:border before:content-[''] before:w-2/4`}
+          className={`mb-5 flex w-full items-center after:content-[''] after:w-2/4 after:border-custom-lightGreen after:border before:content-[''] before:w-2/4`}
         >
           <div
-            className={`border-[3px] rounded-full border-[#0FB900] border-[#0FB900]`}
+            className={`border-[3px] rounded-full border-custom-lightGreen border-custom-lightGreen`}
           >
             <span
-              className={`m-1 flex items-center justify-center w-6 h-6 bg-[#0FB900] rounded-full lg:h-8 lg:w-8 dark:bg-[#0FB900] shrink-0`}
+              className={`m-1 flex items-center justify-center w-6 h-6 bg-custom-lightGreen rounded-full lg:h-8 lg:w-8 dark:bg-custom-lightGreen shrink-0`}
             >
               <CheckmarkIcon />
             </span>
@@ -46,10 +46,10 @@ const Stepper = ({
         </div>
 
         <div className="text-center sm:min-h-[120px] lg:min-h-[100px] xl:min-h-[70px]">
-          <p className="text-[0.938rem] leading-[1.563rem] font-[400] text-[#0FB900]">
+          <p className="text-[0.938rem] leading-[1.563rem] font-[400] text-custom-lightGreen">
             {category === 3 ? "Order" : "Ticket"} Created
           </p>
-          <p className="text-[0.688rem] leading-[0.938rem] font-[400] text-[#575757]">
+          <p className="text-[0.688rem] leading-[0.938rem] font-[400] text-custom-grey">
             Your order has been created
           </p>
         </div>
@@ -63,41 +63,40 @@ const Stepper = ({
                   orderStatuses.length - 1 !== index &&
                   `${
                     isActive(orderStatus)
-                      ? "after:border-[#0FB900]"
-                      : "after:border-[#C2C2C2]"
+                      ? "after:border-custom-lightGreen"
+                      : "after:border-custom-silverSand"
                   } after:border`
                 } 
                     before:content-[''] before:w-2/4 ${`${
-                      isNext(orderStatus) ||
-                      orderStatus.order === 1
-                        ? "before:border-[#0FB900]"
-                        : "before:border-[#C2C2C2]"
+                      isNext(orderStatus) || isActive(orderStatus)
+                        ? "before:border-custom-lightGreen"
+                        : "before:border-custom-silverSand"
                     } before:border`} 
                     `}
               >
                 <div
                   className={`border-[3px] rounded-full ${
                     isActive(orderStatus)
-                      ? "border-[#0FB900]"
+                      ? "border-custom-lightGreen"
                       : isNext(orderStatus)
-                      ? "border-[#FC762B]"
-                      : "border-[#C2C2C2]"
+                      ? "border-custom-orange"
+                      : "border-custom-silverSand"
                   }`}
                 >
                   <span
                     className={`m-1 flex items-center justify-center w-6 h-6 ${
                       isActive(orderStatus)
-                        ? "bg-[#0FB900]"
+                        ? "bg-custom-lightGreen"
                         : nextStatus.id == orderStatus.id
-                        ? "bg-[#FC762B]"
-                        : "bg-[#C2C2C2]"
+                        ? "bg-custom-orange"
+                        : "bg-custom-silverSand"
                     } 
                             rounded-full lg:h-8 lg:w-8 dark:${
                               isActive(orderStatus)
-                                ? "bg-[#0FB900]"
+                                ? "bg-custom-lightGreen"
                                 : isNext(orderStatus)
-                                ? "bg-[#FC762B]"
-                                : "bg-[#C2C2C2]"
+                                ? "bg-custom-orange"
+                                : "bg-custom-silverSand"
                             } shrink-0`}
                   >
                     <CheckmarkIcon />
@@ -107,12 +106,12 @@ const Stepper = ({
 
               <div className="text-center sm:min-h-[120px] lg:min-h-[100px] xl:min-h-[70px]">
                 <p
-                  className={`text-[0.938rem] leading-[1.563rem] font-[400] text-[#0FB900] ${
+                  className={`text-[0.938rem] leading-[1.563rem] font-[400] ${
                     isActive(orderStatus)
-                      ? "text-[#0FB900]"
+                      ? "text-custom-lightGreen"
                       : isNext(orderStatus)
-                      ? "text-[#FC762B]"
-                      : "text-[#C2C2C2]"
+                      ? "text-custom-orange"
+                      : "text-custom-silverSand"
                   }`}
                 >
                   {orderStatus.name}
@@ -120,8 +119,8 @@ const Stepper = ({
                 <p
                   className={`text-[0.688rem] leading-[1.063rem] font-[400] ${
                     isActive(orderStatus)
-                      ? "text-[#575757]"
-                      : "text-[#C2C2C2]"
+                      ? "text-custom-grey"
+                      : "text-custom-silverSand"
                   }`}
                 >
                   {orderStatus.description}

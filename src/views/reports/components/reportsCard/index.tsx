@@ -81,9 +81,9 @@ const ReportsCard = ({
 
 	return (
 		<>
-			<div className="max-h-[100%] w-full lg:w-11.50/12 xl:w-11.75/12 border border-[#D6D6D6] rounded-lg flex flex-col justify-between">
+			<div className="max-h-[100%] w-full lg:w-11.50/12 xl:w-11.75/12 border border-custom-aluminum rounded-lg flex flex-col justify-between">
 				<div className="flex flex-col justify-start p-7 gap-6">
-					<h1 className="font-semibold text-lg lg:text-2xl/2 xl:text-3xl text-[#1D46F3]">{label}</h1>
+					<h1 className="font-semibold text-lg lg:text-2xl/2 xl:text-3xl text-custom-blue">{label}</h1>
 					<div className="flex flex-col gap-4 mt-3">
 						<h1 className="font-semibold text-lg lg:text-2xl xl:text-3xl/2 text-[#575757]">{reportName}</h1>
 						<h4 className="text-sm md:text-base 1100:text-base lg:text-xs xl:text-lg text-[#575757] truncate md:overflow-visible md:whitespace-normal">
@@ -94,7 +94,7 @@ const ReportsCard = ({
 
 				<Button
 					variant="null"
-					className="h-[50px] w-full bg-[#1D46F31A] text-[#1D46F3] flex items-center justify-center rounded-none rounded-b-md hover:bg-[#1D46F3] hover:text-white gap-4 group transition duration-300 ease-in-out"
+					className="h-[50px] w-full bg-[#1D46F31A] text-custom-blue flex items-center justify-center rounded-none rounded-b-md hover:bg-custom-blue hover:text-white gap-4 group transition duration-300 ease-in-out"
 					onMouseOver={handleMouseOver}
 					onMouseOut={handleMouseOut}
 					onClick={handleViewDialog}
@@ -116,7 +116,7 @@ const ReportsCard = ({
 					onClose={handleCloseDialog}
 					title={
 						<div className="text-[26px] font-semibold mb-2">
-							<span className="text-[#1D46F3]">{label}</span> {reportName}
+							<span className="text-custom-blue">{label}</span> {reportName}
 						</div>
 					}
 					size="medium"

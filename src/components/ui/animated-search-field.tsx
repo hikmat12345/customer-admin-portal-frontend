@@ -38,7 +38,7 @@ function AnimatedSearchField({
 		},
 	})
 	const searchButtonVariants = cva(
-		'group flex items-center justify-center rounded-full p-1 hover:bg-[#1D46F3] h-[28px] w-[28px] z-40',
+		'group flex items-center justify-center rounded-full p-1 hover:bg-custom-blue h-[28px] w-[28px] z-40',
 		{
 			variants: {
 				variant: {
@@ -81,7 +81,7 @@ function AnimatedSearchField({
 					<input
 						type="search"
 						className={`block w-full p-2 ps-8 text-sm text-gray-900 rounded-3xl ${
-							variant === 'default' ? 'bg-white' : 'bg-[#F4F7FE]'
+							variant === 'default' ? 'bg-white' : 'bg-custom-background'
 						} focus:ring-blue-500 focus:border-[#44444480] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-[#44444480] dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none ${className}`}
 						placeholder="Search"
 						value={searchQuery}

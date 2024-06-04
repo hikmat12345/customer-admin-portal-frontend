@@ -45,7 +45,7 @@ const SearchPage = () => {
 
 	return (
 		<div className="h-screen">
-			<div className="bg-[#FFFFFF] rounded-lg my-4 p-4 flex items-center justify-between">
+			<div className="bg-custom-white rounded-lg my-4 p-4 flex items-center justify-between">
 				<div className="flex-1 ">
 					<SearchField
 						iconWidth={16}
@@ -64,17 +64,17 @@ const SearchPage = () => {
 				</div>
 			</div>
 			{isLoading && !searchData.length && (
-				<div className="bg-[#FFFFFF] rounded-lg flex items-center justify-center py-8">
+				<div className="bg-custom-white rounded-lg flex items-center justify-center py-8">
 					<p className="font-bold text-base">{'Loading...'}</p>
 				</div>
 			)}
 			{!isLoading && !searchData.length && (
-				<div className="bg-[#FFFFFF] rounded-lg flex items-center justify-center py-8">
+				<div className="bg-custom-white rounded-lg flex items-center justify-center py-8">
 					<p className="font-bold text-base">{'No Results Found'}</p>
 				</div>
 			)}
 			{!isLoading && searchData.length > 0 && (
-				<div className="bg-[#FFFFFF] rounded-lg max-h-[66.6%]">
+				<div className="bg-custom-white rounded-lg max-h-[66.6%]">
 					<div className="w-[100%] pl-4 py-4">
 						<p className="text-[#000] font-bold text-base">Search Result</p>
 						<p className="text-[#575757] text-sm">

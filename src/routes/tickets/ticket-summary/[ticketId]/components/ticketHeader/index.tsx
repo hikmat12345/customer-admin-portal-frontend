@@ -30,7 +30,7 @@ const TicketHeader = ({
   };
 
   return (
-    <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 w-full border border-[#D6D6D6] bg-[#FFFFFF] rounded-lg p-4 xl:px-6 2xl:px-12">
+    <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2 w-full border border-custom-aluminum bg-custom-white rounded-lg p-4 xl:px-6 2xl:px-12">
       <div className="flex items-centerw-full lg:p-2 xl:p-4">
         <HeaderLabel label="Logged by" />
         <HeaderValue
@@ -41,7 +41,7 @@ const TicketHeader = ({
         <HeaderLabel label="Priority" />
         <div className="sm:w-2/4 xl:w-3/4 pl-2">
           {ticketSummaryLoading ? <Skeleton variant="paragraph" rows={1} /> : <div
-            className={`flex items-center justify-center h-[2.313rem] w-[2.313rem] font-[400] text-[#575757] text-[0.813rem] text-[#FFFFFF] leading-[1.023rem] rounded-full bg-[${
+            className={`flex items-center justify-center h-[2.313rem] w-[2.313rem] font-[400] text-[#575757] text-[0.813rem] text-custom-white leading-[1.023rem] rounded-full bg-[${
               PRIORITY_COLOR_LIST[ticketSummary?.priority]
             }]`}
           >

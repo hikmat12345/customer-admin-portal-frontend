@@ -35,7 +35,7 @@ const FormikSelectComponent = (props: FormikSelectProps) => {
 			<div className="flex flex-col gap-2">
 				<span className="text-[14px] font-semibold text-[#575757]">{label}</span>
 				<Popover open={open} onOpenChange={setOpen}>
-					<PopoverTrigger asChild className="bg-[#F4F7FE] outline-none">
+					<PopoverTrigger asChild className="bg-custom-background outline-none">
 						<Button
 							variant="outline"
 							role="combobox"

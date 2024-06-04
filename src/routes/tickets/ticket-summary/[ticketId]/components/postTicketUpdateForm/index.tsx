@@ -56,7 +56,7 @@ const PostTicketUpdateForm = ({
     <form onSubmit={handlePostTicketUpdate}>
       <div className="rounded-lg p-4 bg-[#F8F8F8] mt-4">
         <div className="flex items-center gap-5">
-          <div className="h-[3.876rem] w-[3.876rem] bg-[#1D46F3] rounded-full flex items-center justify-center">
+          <div className="h-[3.876rem] w-[3.876rem] bg-custom-blue rounded-full flex items-center justify-center">
             <Image
               src={"/svg/account.svg"}
               height={36}
@@ -85,7 +85,7 @@ const PostTicketUpdateForm = ({
           <select
             required
             name="ticketUpdateStatus"
-            className="w-3/5 bg-[#FFFFFF] h-[2.563rem] border border-[#D6D6D6] text-[#575757] font-[400] text-[0.688rem] leading-[0.873rem] rounded-lg py-[0.563rem] px-[1.063rem] focus:outline-none"
+            className="w-3/5 bg-custom-white h-[2.563rem] border border-custom-aluminum text-[#575757] font-[400] text-[0.688rem] leading-[0.873rem] rounded-lg py-[0.563rem] px-[1.063rem] focus:outline-none"
           >
             {getTicketUpdateStatusesRes?.data.map(
               (ticketUpdateStatus: { id: number; name: string }) => (
@@ -99,7 +99,7 @@ const PostTicketUpdateForm = ({
             )}
           </select>
           <Button
-            className="w-1/5 h-full font-[600] leading-[1.023rem] text-[0.813rem] border-[#1D46F3] text-[#1D46F3] hover:text-[#1D46F3]"
+            className="w-1/5 h-full font-[600] leading-[1.023rem] text-[0.813rem] border-custom-blue text-custom-blue hover:text-custom-blue"
             variant="outline"
             onClick={() => setShowAddUpdateForm(false)}
           >

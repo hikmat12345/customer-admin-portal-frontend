@@ -13,7 +13,6 @@ export interface TicketSecondaryStatus {
 	description: string
 	active?: boolean
 	next?: boolean
-	stage:boolean
 }
 
 export interface TicketsData {

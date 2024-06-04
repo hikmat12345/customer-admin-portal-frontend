@@ -26,10 +26,10 @@ const TicketUpdateCard = ({ ticketUpdate }: { ticketUpdate: TicketUpdate }) => {
   return (
     <div
       key={ticketUpdate.id}
-      className="flex rounded-lg p-4 bg-[#F4F7FE] mt-4"
+      className="flex rounded-lg p-4 bg-custom-background mt-4"
     >
       <div className="self-start">
-        <div className="h-[3.876rem] w-[3.876rem] bg-[#1D46F3] rounded-full flex items-center justify-center">
+        <div className="h-[3.876rem] w-[3.876rem] bg-custom-blue rounded-full flex items-center justify-center">
           <Image
             src={"/svg/account.svg"}
             height={36}

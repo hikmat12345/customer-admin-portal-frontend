@@ -62,16 +62,16 @@ const SidebarItem = ({ data, scrollToItem }: ISidebarItemProps) => {
 		<>
 			<div
 				className={`flex items-center py-2 rounded-lg p-2 cursor-pointer justify-between hover:bg-[#FFFFFF4D] ${
-					hasSubitems ? 'hover:bg-[#FFFFFF4D] hover:text-[#FFFFFF]' : ''
-				} ${isMainMenuActive && !hasSubitems ? 'bg-[#FFFFFF4D] text-[#FFFFFF]' : ''}`}
+					hasSubitems ? 'hover:bg-[#FFFFFF4D] hover:text-custom-white' : ''
+				} ${isMainMenuActive && !hasSubitems ? 'bg-[#FFFFFF4D] text-custom-white' : ''}`}
 				onClick={onClick}
 			>
 				<div className="flex items-center space-x-2">
 					<Image src={src} height={15} width={15} alt="icons" />
 					<p
-						className={`text-sm text-[#CBE0FF]  hover:text-[#FFFFFF] ${
-							isMainMenuActive && !hasSubitems ? 'text-[#FFFFFF]' : ''
-						} ${isActive ? 'text-[#FFFFFF]' : ''}`}
+						className={`text-sm text-[#CBE0FF]  hover:text-custom-white ${
+							isMainMenuActive && !hasSubitems ? 'text-custom-white' : ''
+						} ${isActive ? 'text-custom-white' : ''}`}
 					>
 						{name}
 					</p>

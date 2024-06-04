@@ -15,7 +15,7 @@ const SearchTable = ({ data }: any) => {
 					{data?.map((row: ISearch) => {
 						return (
 							<TableRow key={row.id}>
-								<TableCell className="font-normal py-[19px] text-[#1175BE] text-left">
+								<TableCell className="font-normal py-[19px] text-custom-dryBlue text-left">
 									<Link href="/">{row?.id}</Link>
 								</TableCell>
 								<TableCell className="text-left">{row?.client}</TableCell>

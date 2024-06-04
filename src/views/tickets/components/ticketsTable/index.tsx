@@ -33,19 +33,19 @@ const TicketsTable = ({ allTickets }: { allTickets: Tickets }) => {
 						return (
 							<TableRow key={ticket.id}>
 								<TableCell className="font-medium"> 
-									<Link className="text-[#1175BE]" href={`${pathname}/ticket-summary/${ticket.id}`} target='_blank'>{`SUP${ticket.id}`}</Link>
+									<Link className="text-custom-dryBlue" href={`${pathname}/ticket-summary/${ticket.id}`} target='_blank'>{`SUP${ticket.id}`}</Link>
 								</TableCell>
 								<TableCell>{ticket?.clientReferenceNo || '-'}</TableCell>
 								<TableCell>{fullName}</TableCell>
 								<TableCell>{ticket?.companyNetwork?.vendor?.name || '-'}</TableCell>
 								<TableCell>{ticket?.workflow?.name}</TableCell>
-								<TableCell className={`${ticket?.ticketStatusId === 1 ? 'text-[#1D46F3]' : ''}`}>
+								<TableCell className={`${ticket?.ticketStatusId === 1 ? 'text-custom-blue' : ''}`}>
 									{TICKETS_STATUS_LIST[`${ticket?.ticketStatusId}`]}
 								</TableCell>
 								<TableCell>{updatedAt}</TableCell>
 								<TableCell>
 									<div
-										className={`flex items-center justify-center w-9 h-9 m-auto rounded-full text-[#FFFFFF]`}
+										className={`flex items-center justify-center w-9 h-9 m-auto rounded-full text-custom-white`}
 										style={{ backgroundColor: PRIORITY_COLOR_LIST[ticket?.priority] }}
 									>{`P${ticket?.priority}`}</div>
 								</TableCell>

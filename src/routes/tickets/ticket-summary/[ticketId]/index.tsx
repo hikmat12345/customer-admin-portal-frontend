@@ -13,9 +13,7 @@ import Skeleton from "@/components/ui/skeleton/skeleton";
 import TicketUpdateCard from "./components/ticketUpdateCard";
 import TicketDescription from "./components/ticketDescription";
 import PostTicketUpdateForm from "./components/postTicketUpdateForm";
-import {
-  TICKETS_STATUS_COLOR_LIST,
-} from "@/utils/constants/statusList.constants";
+import { TICKETS_STATUS_COLOR_LIST } from "@/utils/constants/statusList.constants";
 import TicketHeader from "./components/ticketHeader";
 import { ORDER_UPGRADE_WORKFLOW_CATEGORY_ID } from "@/utils/constants/constants";
 
@@ -62,39 +60,38 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
         name: "",
         order: 0,
         description: "",
-        stage: false,
       };
       let currentStatus: TicketSecondaryStatus = defaultStatus,
         nextStatus: TicketSecondaryStatus = defaultStatus;
 
-      const statuses = ticketSecondaryStauses.map(
-        (status: TicketSecondaryStatus) => {
-          // find the current status of the order
-          if (status.id === getTicketSummaryRes?.data.ticketSecondaryStatusId) {
-            if (getTicketSummaryRes?.data.secondaryStatusStage) {
-              currentStatus = status;
-              status.active = true;
-              status.stage = getTicketSummaryRes?.data.secondaryStatusStage;
-            } else if(status.order === currentStatus.order + 1){
-              nextStatus = status;
-              status.next = true;
-            }
-          }
-
-          // find the next status of the order
-          if (!nextStatus.id && status.order === currentStatus.order + 1) {
-            nextStatus = status;
-            status.next = true;
-          }
-
-          return status;
-        }
+      const activeStatus = ticketSecondaryStauses.find(
+        (status: TicketSecondaryStatus) =>
+          status.id === getTicketSummaryRes?.data.ticketSecondaryStatusId
       );
+
+      if (getTicketSummaryRes?.data.secondaryStatusStage) {
+        currentStatus = activeStatus;
+        if (
+          activeStatus.id !==
+          ticketSecondaryStauses[ticketSecondaryStauses.length - 1].id
+        )
+          nextStatus = ticketSecondaryStauses.find(
+            (status: TicketSecondaryStatus) =>
+              status.order === activeStatus.order + 1
+          );
+      } else {
+        if (activeStatus.id !== ticketSecondaryStauses[0].id)
+          currentStatus = ticketSecondaryStauses.find(
+            (status: TicketSecondaryStatus) =>
+              status.order === activeStatus.order - 1
+          );
+        nextStatus = activeStatus;
+      }
 
       return (
         <div className="mb-13">
           <Stepper
-            orderStatuses={statuses}
+            orderStatuses={ticketSecondaryStauses}
             currentStatus={currentStatus}
             nextStatus={nextStatus}
             category={getTicketSummaryRes?.data?.workflow?.workflowCategory?.id}
@@ -105,10 +102,10 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
   };
 
   return (
-    <div className="grid grid-auto-flow-column w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg py-7 px-9">
-      <h2 className="flex justify-between items-center text-[#000000] text-[1.063rem] leading-[1.326rem] font-[400] mb-7">
+    <div className="grid grid-auto-flow-column w-full border border-custom-lightGray bg-custom-white rounded-lg py-7 px-9">
+      <h2 className="flex justify-between items-center text-custom-black text-[1.063rem] leading-[1.326rem] font-[400] mb-7">
         <div className="flex items-center gap-5">
-          <span className="flex gap-2 text-[#1D46F3]">
+          <span className="flex gap-2 text-custom-blue">
             <Image
               src="/svg/receipt.svg"
               width={24}
@@ -126,7 +123,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
           )}
         </div>
         <div className="flex text-[0.813rem] ">
-          <span className="text-[#FC762B] mr-2">Status:</span>
+          <span className="text-custom-orange mr-2">Status:</span>
           {ticketSummaryLoading ? (
             <div className={`w-[10rem]`}>
               <Skeleton variant="paragraph" rows={1} />
@@ -144,7 +141,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
           )}
         </div>
       </h2>
-      <div className="grid grid-auto-flow-column w-full border border-[#D6D6D6] bg-[#FFFFFF] rounded-lg p-6">
+      <div className="grid grid-auto-flow-column w-full border border-custom-aluminum bg-custom-white rounded-lg p-6">
         {renderStepperIfHardwareOrder()}
         <TicketHeader
           ticketSummary={getTicketSummaryRes?.data}
@@ -154,7 +151,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
           <div className="xl:col-span-7 order-2 xl:order-1 col-span-12">
             <Button
               disabled={showAddUpdateForm}
-              className="bg-[#FC762B] font-[600] leading-[1.023rem] text-[0.813rem] h-[2.563rem]"
+              className="bg-custom-orange text-custom-white font-[600] leading-[1.023rem] text-[0.813rem] h-[2.563rem]"
               onClick={() => setShowAddUpdateForm(true)}
             >
               Add Update
@@ -189,7 +186,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
               </>
             )}
           </div>
-          <div className="h-fit max-h-[34.375rem] overflow-auto xl:col-span-5 order-1 xl:order-2 col-span-12 border border-[#D6D6D6] rounded-lg p-6">
+          <div className="h-fit max-h-[34.375rem] overflow-auto xl:col-span-5 order-1 xl:order-2 col-span-12 border border-custom-aluminum rounded-lg p-6">
             {ticketSummaryLoading ? (
               <>
                 <div className={`w-[11rem]`}>
@@ -201,7 +198,7 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
               </>
             ) : (
               <>
-                <h3 className="capitalize font-[700] text-[1.188rem] leading-[2.438rem] text-[#1D46F3] mb-8">
+                <h3 className="capitalize font-[700] text-[1.188rem] leading-[2.438rem] text-custom-blue mb-8">
                   {`${getCategoryLabel()} Details`}
                 </h3>
                 <TicketDescription
