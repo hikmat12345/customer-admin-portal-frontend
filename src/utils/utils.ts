@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { ServiceType } from './enums/serviceType.enum'
+import { eachYearOfInterval } from 'date-fns'
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
@@ -37,16 +38,16 @@ export const getFormattedTotal = (total: number) => {
 export const formatDate = (date: Date) => {
 	// Helper function to add leading zeros
 	function padTo2Digits(num: number) {
-		return num.toString().padStart(2, '0');
+		return num.toString().padStart(2, '0')
 	}
 
-	const month = padTo2Digits(date.getMonth() + 1); // Months are zero-indexed
-	const day = padTo2Digits(date.getDate());
-	const year = date.getFullYear();
-	const hours = padTo2Digits(date.getHours());
-	const minutes = padTo2Digits(date.getMinutes());
+	const month = padTo2Digits(date.getMonth() + 1) // Months are zero-indexed
+	const day = padTo2Digits(date.getDate())
+	const year = date.getFullYear()
+	const hours = padTo2Digits(date.getHours())
+	const minutes = padTo2Digits(date.getMinutes())
 
-	return `${month}/${day}/${year} ${hours}:${minutes}`;
+	return `${month}/${day}/${year} ${hours}:${minutes}`
 }
 
 export function getServiceType(id: ServiceType): string {
@@ -117,3 +118,40 @@ export const monthNames = [
 	'November',
 	'December',
 ]
+
+export const currencyList = [
+	{
+		label: 'British Pound',
+		value: 'gbp',
+	},
+	{
+		label: 'United States Dollar',
+		value: 'usd',
+	},
+	{
+		label: 'Euro',
+		value: 'eur',
+	},
+	{
+		label: 'Austrailian Dollar',
+		value: 'aud',
+	},
+	{
+		label: 'Japanese Yen',
+		value: 'jpy',
+	},
+]
+
+// getting list of years till the current year
+
+const startYear = 2000
+const currentYear = new Date().getFullYear()
+
+const years = eachYearOfInterval({ start: new Date(startYear, 0, 1), end: new Date(currentYear, 11, 31) })
+
+export const yearList = years
+	.map((date) => {
+		const year = date.getFullYear()
+		return { label: year, value: year }
+	})
+	.reverse()

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Input } from '../../input'
-import { FieldProps } from 'formik'
+import { FieldProps, getIn } from 'formik'
 
 interface FormikTextFieldProps extends FieldProps {
 	error: boolean
@@ -9,22 +9,30 @@ interface FormikTextFieldProps extends FieldProps {
 	placeholder: string
 }
 
-const FormikTextField = (props: FormikTextFieldProps) => {
-	const {
-		form: { setFieldValue, touched, errors, values },
-		field: { name },
-		field,
-		error,
-		helperText,
-		label,
-		placeholder,
-		...rest
-	} = props
-
+const FormikTextField: React.FC<FormikTextFieldProps> = ({
+	form: { touched, errors },
+	field,
+	label,
+	placeholder,
+	...rest
+}) => {
+	const error = getIn(errors, field.name)
+	const isTouched = getIn(touched, field.name)
 	return (
 		<div className="flex flex-col gap-2">
-			<span className="text-[14px] font-semibold text-[#575757]">{label}</span>
-			<Input type="text" placeholder={placeholder} {...rest} />
+			<label className="text-[14px] font-semibold text-[#575757]">
+				{label} <span className="text-rose-500"> *</span>
+			</label>
+			<div>
+				<Input
+					type="text"
+					placeholder={placeholder}
+					{...field}
+					{...rest}
+					className={isTouched && error ? 'border-2 border-rose-500' : ''}
+				/>
+				{isTouched && error && <span className="text-[12px] text-rose-500">{error}</span>}
+			</div>
 		</div>
 	)
 }

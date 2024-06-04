@@ -8,7 +8,7 @@ interface CommonDialogProps {
 	title: ReactNode
 	description?: string
 	content: ReactNode
-	actions: ReactNode
+	actions?: ReactNode
 	size?: 'small' | 'medium' | 'large'
 	className?: string
 }
@@ -36,7 +36,7 @@ const CommonDialog: React.FC<CommonDialogProps> = ({
 					<DialogTitle>{title}</DialogTitle>
 					<DialogDescription>{description}</DialogDescription>
 				</DialogHeader>
-				<div className="grid gap-4 py-2">{content}</div>
+				<div className="grid gap-4 pt-2">{content}</div>
 				<DialogFooter>{actions}</DialogFooter>
 			</DialogContent>
 		</Dialog>

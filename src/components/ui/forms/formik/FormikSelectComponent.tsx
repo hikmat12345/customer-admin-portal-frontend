@@ -10,12 +10,16 @@ import CommandList from '@veroxos/design-system/dist/ui/CommandList/commandList'
 import CommandItem from '@veroxos/design-system/dist/ui/CommandItem/commandItem'
 import { Check } from 'lucide-react'
 import { cn } from '@/utils/utils'
-import { FieldProps } from 'formik'
+import { FieldProps, getIn } from 'formik'
+import { useSearchParams } from 'next/navigation'
 
 interface FormikSelectProps extends FieldProps {
 	error: boolean
 	helperText: string
+	reportValue?: string
 	label: string
+	placeholder?: string
+	options: any[]
 }
 
 const FormikSelectComponent = (props: FormikSelectProps) => {
@@ -23,27 +27,41 @@ const FormikSelectComponent = (props: FormikSelectProps) => {
 		form: { setFieldValue, touched, errors, values },
 		field: { name },
 		field,
-		error,
 		helperText,
+		reportValue,
 		label,
+		placeholder,
+		options,
 		...rest
 	} = props
 	const [open, setOpen] = React.useState(false)
+	const searchParams = useSearchParams()
+
+	const currentParamValue = (reportValue && searchParams?.get(reportValue)) || ''
+	const currentValue = getIn(values, name)
+
+	const isTouched = getIn(touched, name)
+	const error = getIn(errors, field.name)
+
+	const selectedOption = options?.find((option) => option.value === currentValue)
 
 	return (
 		<React.Suspense>
-			<div className="flex flex-col gap-2">
-				<span className="text-[14px] font-semibold text-[#575757]">{label}</span>
+			<div className="flex flex-col gap-1">
+				<span className="text-[14px] font-semibold text-[#575757]">
+					{label} <span className="text-rose-500"> *</span>
+				</span>
 				<Popover open={open} onOpenChange={setOpen}>
 					<PopoverTrigger asChild className="bg-custom-background outline-none">
 						<Button
 							variant="outline"
 							role="combobox"
 							aria-expanded={open}
-							className="w-full justify-between"
+							className={`w-full justify-between ${((isTouched && error) || error) && 'border-2 border-rose-500'}
+							`}
 							value={12}
 						>
-							{label}
+							{selectedOption ? selectedOption.label : label}
 							<Image
 								src={open ? '/svg/select/upChevron.svg' : '/svg/select/downChevron.svg'}
 								alt="Chevron Icon"
@@ -55,20 +73,32 @@ const FormikSelectComponent = (props: FormikSelectProps) => {
 					<PopoverContent className="p-0 w-[100%]">
 						<Command>
 							<>
-								<CommandInput placeholder="Search account..." />
+								<CommandInput placeholder={placeholder} />
 								<CommandEmpty>No data found</CommandEmpty>
 							</>
 							<CommandGroup>
 								<CommandList>
-									<CommandItem value={'1'} onSelect={(currentValue) => {}}>
-										<Check className={cn('mr-2 h-4 w-4 opacity-100')} />
-										123
-									</CommandItem>
+									{options?.map((option, index) => (
+										<CommandItem
+											key={`${option?.label}-${index++}`}
+											value={option.value}
+											onSelect={() => {
+												setFieldValue(name, option.value)
+												setOpen(false)
+											}}
+										>
+											<Check
+												className={cn('mr-2 h-4 w-4', currentValue == option.value ? 'opacity-100' : 'opacity-0')}
+											/>
+											{option.label}
+										</CommandItem>
+									))}
 								</CommandList>
 							</CommandGroup>
 						</Command>
 					</PopoverContent>
 				</Popover>
+				{isTouched && error && <span className="text-[12px] text-rose-500">{error}</span>}
 			</div>
 		</React.Suspense>
 	)
