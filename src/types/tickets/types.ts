@@ -6,6 +6,15 @@ export interface Ticket {
 	incidentStatusId?: Date
 }
 
+export interface TicketSecondaryStatus {
+	id: number,
+	order: number,
+	name: string,
+	description: string
+	active?: boolean
+	next?: boolean
+}
+
 export interface TicketsData {
 	tickets: Ticket[]
 	totalMonthTickets: number
@@ -83,4 +92,28 @@ export interface VendorAccount {
 	networkId?: number
 	displayName: string
 	account_no: string
+}
+
+export interface ReactHtmlParserNode {
+	type: string;
+	name: string;
+	children: ReactHtmlParserNode[];
+	data: string;
+}
+
+export interface TicketUpdate {
+	id: number;
+	created: string;
+	description: string;
+	user: {
+		firstName: string;
+		lastName: string;
+	};
+	ticketUpdateStatus: {
+		name: string;
+	};
+	administrator: {
+		firstName: string;
+		lastName: string;
+	};
 }

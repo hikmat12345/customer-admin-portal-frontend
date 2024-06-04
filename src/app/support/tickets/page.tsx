@@ -1,4 +1,4 @@
-import TicketsPage from '@/routes/tickets'
+import TicketsPage from '@/views/tickets'
 import { getOpenTickets } from '@/services/tickets/ticketsService'
 import { QueryClient } from '@tanstack/react-query'
 import { Suspense } from 'react'
