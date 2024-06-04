@@ -2,7 +2,7 @@
 import GeneralInfoSkeletons from "@/components/ui/summary-skeletons";
  import { SiteGeneralInfoProps } from "@/types/site";  
 import dynamic from 'next/dynamic';
-const MapBox = dynamic(() => import('../../../../components/ui/google-map').then(mod => mod.MapBox), {
+const MapBox = dynamic(() => import('../../../../components/ui/map-box').then(mod => mod.MapBox), {
     loading: () => <p>loading...</p>,
     ssr: false,
 }); 

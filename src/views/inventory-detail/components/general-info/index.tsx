@@ -2,7 +2,7 @@ import { TICKETS_STATUS_LIST } from "@/utils/constants/statusList.constants";
  import { GeneralInfoProps } from "@/types/inventory/types";
 import GeneralInfoSkeletons from "@/components/ui/summary-skeletons";
 import dynamic from 'next/dynamic';
-const MapBox = dynamic(() => import('../../../../components/ui/google-map').then(mod => mod.MapBox), {
+const MapBox = dynamic(() => import('../../../../components/ui/map-box').then(mod => mod.MapBox), {
     loading: () => <p>loading...</p>,
     ssr: false,
 });
