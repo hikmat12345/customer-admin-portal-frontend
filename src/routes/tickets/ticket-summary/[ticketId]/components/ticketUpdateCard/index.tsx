@@ -1,5 +1,5 @@
 import { TicketUpdate } from "@/types/tickets/types";
-import { formatDate } from "@/utils/utils";
+import { formatDateTickets } from "@/utils/utils";
 import Image from "next/image";
 import TicketUpdateDescIframe from "./components/ticketUpdateIframe";
 
@@ -43,8 +43,8 @@ const TicketUpdateCard = ({ ticketUpdate }: { ticketUpdate: TicketUpdate }) => {
           <p className="font-[700] text-[1.188rem] leading-[1.477rem]">
             {getTicketUpdateTitle(ticketUpdate)}
           </p>
-          <p className="font-[400] text-[0.938rem] leading-[1.174rem]">
-            {formatDate(new Date(ticketUpdate.created))}
+          <p className="font-[400] text-[1.125rem] leading-[1.361rem]">
+            {formatDateTickets(new Date(ticketUpdate.created))}
           </p>
         </div>
         {getTicketUpdateDescription(ticketUpdate)}

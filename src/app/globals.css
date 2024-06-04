@@ -75,6 +75,17 @@
 	}
 }
 
+@layer utilities {
+	/* Hide scrollbar for Chrome, Safari and Opera */
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+   /* Hide scrollbar for IE, Edge and Firefox */
+	.no-scrollbar {
+		-ms-overflow-style: none;  /* IE and Edge */
+		scrollbar-width: none;  /* Firefox */
+  }
+}
 ::-webkit-scrollbar {
 	height: 10px;
 	width: 10px;
@@ -88,4 +99,30 @@
 ::-webkit-scrollbar-thumb {
 	background: #dbd9d9;
 	border-radius: 4px;
+}
+
+
+.active-tab {
+	  background: rgba(29, 70, 243, 0.20); 
+	  border-radius: 5px;
+	  color: #1D46F3; 
+}
+.leaflet-bottom.leaflet-right {
+	display: none !important;
+}
+.apexcharts-tooltip.apexcharts-theme-light {
+     background: #FF3162 !important;
+    color: white !important;
+ }
+.apexcharts-xaxistooltip{
+	display: none !important;
+}
+#SvgjsG2165 text title{
+    font-size: 13px !important;
+	font-weight: 600 !important;
+}
+.apexcharts-text tspan {
+    font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875' !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
 }

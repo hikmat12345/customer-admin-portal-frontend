@@ -1,5 +1,4 @@
 'use client'
-
 import React, { useEffect } from 'react'
 import InventoryCard from './components/inventoryCard'
 import SearchField from '@/components/ui/search-field'
@@ -10,12 +9,12 @@ import { InventoryCardData } from '@/types/inventory/types'
 import InventoryTable from './components/inventoryTable'
 import InventoryTableSkeleton from './components/inventoryTable/inventoryTableSkeleton'
 import Pagination from '@/components/ui/pagination'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import CreateQueryString from '@/utils/createQueryString'
 import debounce from 'lodash.debounce'
 
 const InventoryPage = () => {
-	const searchParams = useSearchParams()
+	const searchParams = useSearchParams() as ReadonlyURLSearchParams
 	const router = useRouter()
 	const pathname = usePathname()
 	const createQueryString = CreateQueryString()
