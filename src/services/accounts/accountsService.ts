@@ -1,4 +1,4 @@
-import { NEXT_PUBLIC_API_BASE_URL, NEXT_PUBLIC_INVOICE_SERVICE_URL } from 'config/config'
+import { NEXT_PUBLIC_API_BASE_URL, NEXT_PUBLIC_INVOICE_SERVICE_URL, NEXT_PUBLIC_TICKET_SERVICE_URL } from 'config/config'
 import httpClient from '../httpClient'
 
 
@@ -89,5 +89,13 @@ export const getAccountInvoices = async ({ queryKey }: any) => {
 	const [, accountId, offset, limit] = queryKey 
 	return httpClient
 		.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/account-invoices/${accountId}?offset=${offset}&limit=${limit}`)
+		.then(({ data }) => data)
+}
+export const getVendorTickets = async ({ queryKey }: any) => {
+	const [, vendorId,
+		offset,
+		limit] = queryKey
+
+	return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/ticket/vendor-tickets/${vendorId}?offset=${offset}&limit=${limit}`)
 		.then(({ data }) => data)
 }

@@ -2,7 +2,7 @@ import { TICKETS_STATUS_LIST } from "@/utils/constants/statusList.constants";
  import { GeneralInfoProps } from "@/types/inventory/types";
 import GeneralInfoSkeletons from "@/components/ui/summary-skeletons";
 import dynamic from 'next/dynamic';
-const GoogleMap = dynamic(() => import('../../../../components/ui/google-map').then(mod => mod.GoogleMap), {
+const MapBox = dynamic(() => import('../../../../components/ui/google-map').then(mod => mod.MapBox), {
     loading: () => <p>loading...</p>,
     ssr: false,
 });
@@ -83,7 +83,7 @@ export default function GeneralInfo({
                             <div className="gmap_canvas">
                                 <div className="gmap_canvas">
                                     {site?.latitude && site?.longitude ?
-                                        <GoogleMap lat={site?.latitude} long={site?.longitude} address={site?.streetLine1 ? site?.streetLine1 : site?.streetLine2} />
+                                        <MapBox lat={site?.latitude} long={site?.longitude} address={site?.streetLine1 ? site?.streetLine1 : site?.streetLine2} />
                                         : <div className='text-center text-lg py-8 h-[230px] flex align-bottom justify-center items-center'>Google map can't find the location</div>}
                                 </div>
                             </div>

@@ -162,8 +162,9 @@ export function downloadFile(givenFileType: string, response: { data: string, fi
 }
 
 // Function to format a date in the specified format
-const formatDate = (date: Date, format: string = 'dd/MM/yyyy HH:mm a'): string => {
-	return formatdeteFns(new Date(date), format)
+const formatDate = (date: Date, format: string = 'MM dd, yyyy HH:mm a'): string => {
+	// return formatdeteFns(new Date(date), format)
+	return new Date(date).toString()
 };
 
 export default formatDate;

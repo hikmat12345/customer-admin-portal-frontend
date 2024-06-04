@@ -2,11 +2,10 @@
 import React, { useEffect } from 'react'
 import { Separator } from "@/components/ui/separator"
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useGetSiteTickets } from '@/hooks/useGetSites'
 import Pagination from '@/components/ui/pagination'
 import CreateQueryString from '@/utils/createQueryString'
 import LineChart from '@/components/ui/line-chart'
-import { useGetAccountCostTrend, useGetAccountDetail, useGetAccountInvoices } from '@/hooks/useGetAccount'
+import { useGetAccountCostTrend, useGetAccountDetail, useGetAccountInvoices, useGetAccountTickets } from '@/hooks/useGetAccount'
 import AccountGeneralInfo from './components/account-general-info'
 import TableData from '@/components/ui/summary-tables/table'
 import { ScrollTabs } from '@/components/ui/scroll-tabs' 
@@ -54,7 +53,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
     // cost and trend data
 	const { data: costTrendData, isLoading: isCostTrendLoading } = useGetAccountCostTrend(Number(account_id))
 
-	const { data: siteTicketsData, isLoading: isSiteTicketsLoader, refetch: refetchTicketsData	 } = useGetSiteTickets(Number(account_id), offset, limit)
+	const { data: accountTicketsData, isLoading: isAccountTicketsLoader, refetch: refetchTicketsData	 } = useGetAccountTickets(Number(account_id), offset, limit)
 	
  	const { data: siteInvoicesData, isLoading: isSiteInvoicesLoader , refetch: getInvoices} = useGetAccountInvoices(Number(account_id), offset, limit)
     const handlePageChange = async (page: number) => {
@@ -92,7 +91,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 	}
     }, [keys.length, pathname, router, searchParams, keys])
 
- 	const totalPages = Math.max(  siteTicketsData?.total || 0, siteInvoicesData?.total || 0);
+ 	const totalPages = Math.max(  accountTicketsData?.total || 0, siteInvoicesData?.total || 0);
    
    return (
 		<div className='w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg py-5 px-7 '>
@@ -138,8 +137,8 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 				<div id="tickets">
 					<TableData
 						label="Tickets"
-						loading={isSiteTicketsLoader}
-						data={siteTicketsData?.data?.tickets}
+						loading={isAccountTicketsLoader}
+						data={accountTicketsData?.data?.tickets}
 					/>
 					<Separator className='h-[2px] bg-[#5d5b5b61]  mt-8' />
 				</div>

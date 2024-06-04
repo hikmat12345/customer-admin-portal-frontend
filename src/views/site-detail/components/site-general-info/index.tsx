@@ -2,7 +2,7 @@
 import GeneralInfoSkeletons from "@/components/ui/summary-skeletons";
  import { SiteGeneralInfoProps } from "@/types/site";  
 import dynamic from 'next/dynamic';
-const GoogleMap = dynamic(() => import('../../../../components/ui/google-map').then(mod => mod.GoogleMap), {
+const MapBox = dynamic(() => import('../../../../components/ui/google-map').then(mod => mod.MapBox), {
     loading: () => <p>loading...</p>,
     ssr: false,
 }); 
@@ -86,7 +86,7 @@ export default function SiteGeneralInfo({
                         <div className="mapouter  rounded-lg border border-neutral-300 p-1">
                             <div className="gmap_canvas">
                                 {latitude && longitude ?
-                                <GoogleMap lat={latitude} long={longitude} address={streetLine1? streetLine1 : streetLine2 } />
+                                <MapBox lat={latitude} long={longitude} address={streetLine1? streetLine1 : streetLine2 } />
                                 : <div className='text-center text-lg py-8 h-[230px] flex align-bottom justify-center items-center'>Google map can't find the location</div>}
                              </div>
                         </div>

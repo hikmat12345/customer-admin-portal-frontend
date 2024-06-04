@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
-export const GoogleMap = ({
+export const MapBox = ({
   lat,
   long,
   address

@@ -13,7 +13,7 @@ export const getSiteTickets = async ({ queryKey }: any) => {
 		offset,
 		limit] = queryKey
 
-	return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}}/tickets/site-tickets/${siteId}?offset=${offset}&limit=${limit}`)
+	return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/ticket/site-tickets?site_id=${siteId}&offset=${offset}&limit=${limit}`)
 		.then(({ data }) => data)
 }
 
