@@ -22,7 +22,7 @@
 		"@radix-ui/react-slot": "^1.0.2",
 		"@tanstack/react-query": "^5.29.2",
 		"@veroxos/design-system": "bitbucket:sl-faizrasool/veroxos-design-system#83b1ac7",
-		"@veroxos/workflow": "bitbucket:sl-faizrasool/veroxos-workflow#2c7400f",
+		"@veroxos/workflow": "bitbucket:sl-faizrasool/veroxos-workflow#d83bf16",
 		"apexcharts": "^3.47.0",
 		"axios": "^1.6.8",
 		"class-variance-authority": "^0.7.0",
