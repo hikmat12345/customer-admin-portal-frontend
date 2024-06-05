@@ -14,22 +14,23 @@ const TicketUpdateCard = ({ ticketUpdate }: { ticketUpdate: TicketUpdate }) => {
 
   const getTicketUpdateDescription = (ticketUpdate: TicketUpdate) => {
     if (getTicketUpdateTitle(ticketUpdate).includes("Email"))
-      return <TicketUpdateDescIframe description={ticketUpdate.description}/>
+      return <TicketUpdateDescIframe description={ticketUpdate.description} />;
     else
       return (
-        <p className="mt-9 font-[400] text-[0.938rem] leading-[1.174rem]">
-          {<div dangerouslySetInnerHTML={{__html : ticketUpdate.description}} />}
-        </p>
+        <div
+          className="mt-9 font-[400] text-[0.938rem] leading-[1.174rem]"
+          dangerouslySetInnerHTML={{ __html: ticketUpdate.description }}
+        />
       );
   };
 
   return (
     <div
       key={ticketUpdate.id}
-      className="flex rounded-lg p-4 bg-[#F8F8F8] mt-4"
+      className="flex rounded-lg p-4 bg-custom-background mt-4"
     >
       <div className="self-start">
-        <div className="h-[3.876rem] w-[3.876rem] bg-[#1D46F3] rounded-full flex items-center justify-center">
+        <div className="h-[3.876rem] w-[3.876rem] bg-custom-blue rounded-full flex items-center justify-center">
           <Image
             src={"/svg/account.svg"}
             height={36}

@@ -94,7 +94,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
  	const totalPages = Math.max(  accountTicketsData?.total || 0, siteInvoicesData?.total || 0);
    
    return (
-		<div className='w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg py-5 px-7 '>
+		<div className='w-full border border-custom-lightGray bg-custom-white rounded-lg py-5 px-7 '>
 		   <ScrollTabs tabs={["general-information", "cost-trend", "service-type", "tickets", "invoices", "services"]}>
                {/* General Information  */}
 				<div id="general-information">
@@ -126,7 +126,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 
 				{/* Service Type */}
 				<div id="service-type">
-					<div className='text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pt-8 '>Service Type</div>
+					<div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pt-8 '>Service Type</div>
 					<div className='flex gap-4 mt-4 flex-wrap'> 
 					   <div className='text-center text-lg py-8 w-full'>Data Not Found</div>
 					</div>

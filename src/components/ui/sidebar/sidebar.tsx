@@ -105,7 +105,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 h-full w-[280px] lg:w-[250px] bg-[#1D46F3] shadow-lg z-10 px-4 py-[8px]">
+    <div className="fixed top-0 left-0 h-full w-[280px] lg:w-[250px] bg-custom-blue shadow-lg z-10 px-4 py-[8px]">
       <div className="relative flex flex-col justify-between px-5 h-full">
         <div className="flex flex-col space-y-3 w-full">
           <Image
@@ -116,7 +116,7 @@ const Sidebar = () => {
             style={{ margin: "auto" }}
             loading="lazy"
           />
-          <h2 className="uppercase text-[#FFFFFF] text-sm pb-1">Menu</h2>
+          <h2 className="uppercase text-custom-white text-sm pb-1">Menu</h2>
           <ScrollArea className="h-auto lg:h-[210px] xl:min-h-[450px]">
             <div className="flex flex-col space-y-1">
               {menuItems.map((item, index) => (
@@ -132,7 +132,7 @@ const Sidebar = () => {
 
         <div className="flex flex-col gap-10 pb-4">
           <div className="relative">
-            <h2 className="uppercase text-[#FFFFFF] text-sm pb-3">Support</h2>
+            <h2 className="uppercase text-custom-white text-sm pb-3">Support</h2>
             {supportItems.map((item, index) => (
               <SidebarItem
                 key={index}
@@ -146,7 +146,7 @@ const Sidebar = () => {
           </div>
 
           <div className="relative">
-            <h2 className="uppercase text-[#FFFFFF] text-sm pb-3">Other</h2>
+            <h2 className="uppercase text-custom-white text-sm pb-3">Other</h2>
             <div
               onClick={onClickLogout}
               className="p-2 rounded-lg font-normal hover:bg-[#FFFFFF4D] w-full text-start flex items-center justify-start text-sm text-[#CBE0FF] space-x-2 cursor-pointer"
@@ -163,7 +163,7 @@ const Sidebar = () => {
               <Separator />
             </div>
           </div>
-          <h2 className="text-[#FFFFFF] text-sm text-center font-normal">
+          <h2 className="text-custom-white text-sm text-center font-normal">
             Powered by Veroxos
           </h2>
         </div>

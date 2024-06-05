@@ -22,3 +22,14 @@ export const PRIORITY_COLOR_LIST: Record<number, string> = Object.freeze({
 	3: '#219653',
 	4: '#219653',
 })
+
+export const TICKETS_STATUS_COLOR_LIST : Record<string, string> = Object.freeze({
+	1: '#1D46F3',
+	2: '#575757',
+	3: '#000000',
+	4: '#000000',
+	5: '#000000',
+	6: '#000000',
+	7: '#000000',
+	8: '#000000',
+})

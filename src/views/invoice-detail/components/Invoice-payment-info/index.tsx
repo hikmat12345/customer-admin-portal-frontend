@@ -12,7 +12,7 @@ type InvoicePaymentInfoProps = {
 export default function InvoicePaymentInfo({ paymentData, isLoading = false }: InvoicePaymentInfoProps) {
     return (
         <div className="py-8"> 
-            <div className="text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pb-6">Invoice Payment Information</div>
+            <div className="text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pb-6">Invoice Payment Information</div>
             {isLoading ? (
                 <div>Loading...</div>
             ) : (

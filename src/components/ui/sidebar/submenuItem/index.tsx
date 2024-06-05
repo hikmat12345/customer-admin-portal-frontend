@@ -22,8 +22,8 @@ const SubMenuItem = ({ item, isActive }: { item: ISubItem; isActive: boolean }) 
 
 	return (
 		<div
-			className={`flex items-center py-2 rounded-lg text-sm text-[#CBE0FF] hover:bg-[#FFFFFF4D] hover:text-[#FFFFFF]  p-2 pl-9 cursor-pointer hover:text-sidebar-active justify-between
-		${isItemActive && 'bg-[#FFFFFF4D] text-[#FFFFFF]'}
+			className={`flex items-center py-2 rounded-lg text-sm text-[#CBE0FF] hover:bg-[#FFFFFF4D] hover:text-custom-white  p-2 pl-9 cursor-pointer hover:text-sidebar-active justify-between
+		${isItemActive && 'bg-[#FFFFFF4D] text-custom-white'}
 	   `}
 			onClick={onClick}
 		>

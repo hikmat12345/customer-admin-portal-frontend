@@ -49,7 +49,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
   return (
     <>
       {Object.values(record).map((value: any, index:number) => (
-        <TableCell key={index} className={`${index === 0 ? 'text-[14px] text-left' : ' text-left '} first:text-[12px] first:pl-10 last:text-left py-3 border-t-[1px] border-[#eaeaea]`}>
+        <TableCell key={index} className={`${index === 0 ? 'text-[14px] text-left' : ' text-left '} first:text-[12px] first:pl-10 last:text-left py-3 border-t-[1px] border-custom-plaster`}>
           {
             Object.keys(record)[index] === 'created' ? formatDate(value) :
             Object.keys(record)[index] === 'when' ? formatDate(value) :
@@ -90,7 +90,7 @@ export default function TableData({ data, loading, label, currency }: TableDataP
     <>
     {/* lable of the table  */}
       {label && (
-        <div className='text-[#1D46F3] lg:text-[18px] xl:text-[20px] font-[700] lg:py-4 xl:py-7'>
+        <div className='text-custom-blue lg:text-[18px] xl:text-[20px] font-[700] lg:py-4 xl:py-7'>
           {label}
         </div>
       )}
@@ -132,9 +132,9 @@ export const PlanTable: React.FC<PlanTableProps> = ({ data, width = "783px" }) =
       <TableBody>
         {data?.map((plan, index) => (
           <TableRow key={index}>
-            <TableCell className="border last:text-center border-[#D6D6D6] pl-8 font-bold w-[259px]">Plan</TableCell>
-            <TableCell className="border last:text-center border-[#D6D6D6] w-[146px]  lg:text-[12px] xl:text-[14px]">{plan.cost} USD</TableCell>
-            <TableCell className="border last:text-center border-[#D6D6D6] ">
+            <TableCell className="border last:text-center border-custom-aluminum pl-8 font-bold w-[259px]">Plan</TableCell>
+            <TableCell className="border last:text-center border-custom-aluminum w-[146px]  lg:text-[12px] xl:text-[14px]">{plan.cost} USD</TableCell>
+            <TableCell className="border last:text-center border-custom-aluminum ">
               <TooltipProvider key={plan.name}>
                 <Tooltip>
                   <TooltipTrigger><Image
@@ -167,28 +167,28 @@ export const CostTable: React.FC<CostTableProps> = ({ data, costCenter = "-" }) 
     <Table className={`w-[408px] border rounded-e-lg`}>
       <TableBody>
         <TableRow>
-          <TableCell className={`border pl-8 last:text-center border-[#D6D6D6] font-bold`}>
+          <TableCell className={`border pl-8 last:text-center border-custom-aluminum font-bold`}>
             Cost Center
           </TableCell>
-          <TableCell className={`border lg:text-[12px] xl:text-[14px] last:text-center border-[#D6D6D6] `}>
+          <TableCell className={`border lg:text-[12px] xl:text-[14px] last:text-center border-custom-aluminum `}>
             {costCenter}
           </TableCell>
         </TableRow>
         {data?.map((cost: { gl_code_index: number; name: string; code: string; }) => (
           <>
             <TableRow>
-              <TableCell className={`border last:text-center pl-8 border-[#D6D6D6] font-bold`}>
+              <TableCell className={`border last:text-center pl-8 border-custom-aluminum font-bold`}>
                 GL Code {cost.gl_code_index}
               </TableCell>
-              <TableCell className={`border last:text-center border-[#D6D6D6] lg:text-[12px] xl:text-[14px]`}>
+              <TableCell className={`border last:text-center border-custom-aluminum lg:text-[12px] xl:text-[14px]`}>
                 {cost.name ? cost.name :  <span className='pl-[20%]'>-</span>}
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className={`border pl-8 last:text-center border-[#D6D6D6] font-bold`}>
+              <TableCell className={`border pl-8 last:text-center border-custom-aluminum font-bold`}>
                  Company Code
               </TableCell>
-              <TableCell className={`border last:text-center border-[#D6D6D6] lg:text-[12px] xl:text-[14px] `}>
+              <TableCell className={`border last:text-center border-custom-aluminum lg:text-[12px] xl:text-[14px] `}>
                 {cost.code ? cost.code :  <span className='pl-[20%]'>-</span>}
               </TableCell>
             </TableRow>

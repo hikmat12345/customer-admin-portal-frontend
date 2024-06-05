@@ -28,13 +28,13 @@ const ReportsPage = () => {
 
 	return (
 		<div>
-			<div className="grid grid-auto-flow-column w-full bg-[#FFFFFF] border-[#ECECEC] rounded-lg px-9 py-5 gap-8">
+			<div className="grid grid-auto-flow-column w-full bg-custom-white border-custom-lightGray rounded-lg px-9 py-5 gap-8">
 				<div className="flex justify-start relative">
 					<Tabs defaultValue={defaultTabValue} onValueChange={handleTabChange}>
 						<TabsList className="flex gap-8 w-full justify-start">
 							<TabsTrigger
 								value="recent"
-								className="px-3  data-[state=active]:bg-[#1D46F333] data-[state=active]:text-[#1D46F3] data-[state=active]:shadow"
+								className="px-3  data-[state=active]:bg-[#1D46F333] data-[state=active]:text-custom-blue data-[state=active]:shadow"
 							>
 								Recent
 							</TabsTrigger>

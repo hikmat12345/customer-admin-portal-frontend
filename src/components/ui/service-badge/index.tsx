@@ -9,7 +9,7 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
         <div className="flex flex-wrap gap-4">
             {services.map((service: { service_type: string| number; count: number; subTypes: { name: string; service_type: number; count:number }[]; }, index: number) => (
                 <> 
-                <div key={index} className={` ${service.subTypes?.length > 1 ? 'w-[99%]' : 'w-[49%]'} h-[52px] bg-[#F4F7FE] rounded border border-neutral-300 flex  ${service.subTypes?.length  > 1 ? 'justify-center gap-3' : 'justify-between'} pl-5 pr-1 pt-1.5`}>
+                <div key={index} className={` ${service.subTypes?.length > 1 ? 'w-[99%]' : 'w-[49%]'} h-[52px] bg-custom-background rounded border border-neutral-300 flex  ${service.subTypes?.length  > 1 ? 'justify-center gap-3' : 'justify-between'} pl-5 pr-1 pt-1.5`}>
                     <div className="text-black pb-2 pt-2 text-base font-semibold">
                         {getServiceType(Number(service.service_type))}
                     </div>

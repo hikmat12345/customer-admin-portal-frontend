@@ -29,7 +29,7 @@ const CostSavingsCard = ({
 	)
 
 	return (
-		<div className="min-w-[250px] min-h-[150px] max-w-full h-auto border border-[#EAEAEA] pl-7 pt-3 rounded-lg relative">
+		<div className="min-w-[250px] min-h-[150px] max-w-full h-auto border border-custom-plaster pl-7 pt-3 rounded-lg relative">
 			<div className="flex gap-[10px]">
 				{isLoading ? (
 					<div className="w-[24rem] mt-2">
@@ -37,7 +37,7 @@ const CostSavingsCard = ({
 					</div>
 				) : (
 					<div className="flex flex-col gap-4 pb-3">
-						<h2 className="text-[#000000] text-sm md:text-base 2xl:text-lg font-semibold">{title}</h2>
+						<h2 className="text-custom-black text-sm md:text-base 2xl:text-lg font-semibold">{title}</h2>
 						<div className="flex items-center gap-5">
 							<h1 className="text-nowrap text-lg lg:text-2xl 2xl:text-3xl font-bold">
 								$ {Math.floor(data?.total || data?.totalCostSavings).toLocaleString()}
@@ -49,7 +49,7 @@ const CostSavingsCard = ({
 							)}
 						</div>
 						<p
-							className="text-xs xl:text-xs 2xl:text-sm font-medium text-[#444444]"
+							className="text-xs xl:text-xs 2xl:text-sm font-medium text-custom-grey"
 							dangerouslySetInnerHTML={{ __html: highlightedMessage || data?.message }}
 						></p>
 					</div>
