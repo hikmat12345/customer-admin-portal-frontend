@@ -2,7 +2,7 @@ import {
   PRIORITY_COLOR_LIST,
   PRIORITY_LIST,
 } from "@/utils/constants/statusList.constants";
-import { formatDate } from "@/utils/utils";
+import formatDate from "@/utils/utils";
 import Skeleton from "@veroxos/design-system/dist/ui/Skeleton/skeleton";
 
 const TicketHeader = ({
