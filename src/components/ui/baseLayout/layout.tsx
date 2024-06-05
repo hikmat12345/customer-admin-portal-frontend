@@ -21,21 +21,38 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
 	}  
 
     const isSummaryPage = !isNaN(Number(params?.id));
+    const isTicketSummaryPage = !isNaN(Number(params?.ticketId));
+
  	return (
 		<div className="flex">
 			<Sidebar />
-			<div className="flex flex-col py-[1rem] lg:pl-[279px] xl:pl-[300px] lg:pr-[30px] xl:pr-[55px]  w-full min-h-[100vh] max-h-full bg-[#f4f7fe]">
+			<div className="flex flex-col py-[1rem] lg:pl-[279px] xl:pl-[300px] lg:pr-[30px] xl:pr-[55px]  w-full min-h-[100vh] max-h-full bg-custom-background">
 				<div className="flex items-center justify-between mb-4">
 					<div className="flex items-center gap-5 relative">
-						{endWord() === 'search' && (
-							<button
-								className="flex items-center justify-center absolute left-[-35px] p-2 w-[27px] h-[27px] rounded-full border border-[#1D46F3]"
-								onClick={handleRouteBack} >
-								<Image src="/svg/search/arrowBack.svg" alt="Arrow back" width={6} height={6} />
-							</button>
+					{isTicketSummaryPage ? (
+							<h2 className="capitalize font-bold text-custom-black text-[30px]">
+								{endWord(2)}
+							</h2>
+						) : (
+							<>
+								{endWord() === "search" && (
+									<button
+										className="flex items-center justify-center absolute left-[-35px] p-2 w-[27px] h-[27px] rounded-full border border-custom-blue"
+										onClick={handleRouteBack}
+									>
+										<Image
+											src="/svg/search/arrowBack.svg"
+											alt="Arrow back"
+											width={6}
+											height={6}
+										/>
+									</button>
+								)}
+								<h2 className="capitalize font-bold text-custom-black text-[30px]">
+									{isSummaryPage ? endWord(2) + " Summary" : endWord()}
+								</h2>
+							</>
 						)}
-						<h2 className="capitalize font-bold text-[#000000] text-[30px]">
-						{isSummaryPage ? endWord(2)+" Summary"  : endWord()}</h2>
 					</div>
 					<SearchTextFieldArea />
 				</div>

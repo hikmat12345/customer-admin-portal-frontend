@@ -25,11 +25,11 @@ export default function SiteGeneralInfo({
         { label: 'Veroxos ID', value: veroxosId },
         { label: 'First Name', value: firstName },
         { label: 'Email', value: email },
-        { label: 'Status', value: status !== null ? <span className={`inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-lg text-xs text-white font-medium cursor-pointer ${status === 1 ? 'bg-[#219653]' : 'bg-[#A40000]'}`}>
+        { label: 'Status', value: status !== null ? <span className={`inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-lg text-xs text-white font-medium cursor-pointer ${status ? (status === 1 ? 'bg-[#219653]' : 'bg-[#A40000]') : "-"}`}>
             {status === 1 ? "Live" : "Archived"}
         </span> : null },
         { label: 'Site', value: site?.streetLine1 },
-        { label: 'Manage ID', value: manageId ? <Link href={`/site/${manageId}`} className='text-[#1D46F3] hover:underline'>{manageId}</Link> : null },
+        { label: 'Manage ID', value: manageId ? <Link href={`/site/${manageId}`} className='text-custom-blue hover:underline'>{manageId}</Link> : null },
         { label: 'Client Employee ID', value: clientEmployeeId },
         { label: 'Last Name', value: lastName },
         { label: 'Job Title', value: jobTitle },
@@ -40,7 +40,7 @@ export default function SiteGeneralInfo({
 
     return (
         <div>
-            {label && <div className='text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pb-6'>{label}</div>}
+            {label && <div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pb-6'>{label}</div>}
             {isLoading ? <GeneralInfoSkeletons /> :
                 <div className="flex max-lg:block gap-[19px] pb-6">
                     <div className="flex w-[42%]  max-lg:w-[100%] max-lg:mt-5  justify-between  ">

@@ -11,7 +11,7 @@ type InvoiceRemittanceAddressProps = {
 export default function InvoiceRemittanceAddress({ remittanceData, isLoading = false }: InvoiceRemittanceAddressProps) {
     return (
         <div className="py-8"> 
-            <div className="text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pb-6">Invoice Remittance Address</div>
+            <div className="text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pb-6">Invoice Remittance Address</div>
             {isLoading ? (
                 <Skeleton variant="paragraph" rows={2} />
             ) : (

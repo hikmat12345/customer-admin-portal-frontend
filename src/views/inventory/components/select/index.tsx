@@ -102,7 +102,7 @@ const SelectComponent = ({ menuOption, index }: { menuOption: any; index: number
 	return (
 		<React.Suspense>
 			<Popover open={open} onOpenChange={setOpen}>
-				<PopoverTrigger asChild className="bg-[#F4F7FE] outline-none">
+				<PopoverTrigger asChild className="bg-custom-background outline-none">
 					<Button
 						variant="outline"
 						role="combobox"

@@ -138,12 +138,12 @@ const LineChart = ({ label, data = [], isLoading = false }: LineChartProps) => {
     };
     return (
         <div>
-             {label && <div className='text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pt-8 pb-6'>{label}</div>}
+             {label && <div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pt-8 pb-6'>{label}</div>}
             {isLoading ? 
                 <div className='flex justify-center items-center h-[350px]'>
                     <Loader size={50} color='#b1b1b1' />
                 </div>
-                : !data?.length ? <div className='text-center text-lg py-8'>No Data Found</div> :
+                : !data?.length ? <div className='text-center text-lg py-8'> Data Not Found</div> :
                  <> 
                     <div id="chart">
                         <ReactApexChart options={options}

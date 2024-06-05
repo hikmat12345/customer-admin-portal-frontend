@@ -17,7 +17,7 @@ type DeviceInfoCardProps = {
 export const DeviceInfoCard: React.FC<DeviceInfoCardProps> = ({label="", imageUrl, deviceName, datePurchased, status, deviceid, simNumber, isAssetLoader }) => {
     return (
         <div id="device">
-        { label && <div className='text-[#1D46F3] lg:text-[18px] xl:text-[20px] font-[700] lg:py-4 xl:py-7'>{label}</div>}
+        { label && <div className='text-custom-blue lg:text-[18px] xl:text-[20px] font-[700] lg:py-4 xl:py-7'>{label}</div>}
          {isAssetLoader ?
             <DeviceinfoSkeletons /> :
             <div className="flex gap-[30px]">

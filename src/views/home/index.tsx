@@ -32,14 +32,14 @@ const HomePage = () => {
 		switch (true) {
 			case difference > 0:
 				message = (
-					<p className="text-xs xl:text-xs 2xl:text-sm font-medium text-[#444444]">
-						You've spent <span className="text-[#E41323]">${formattedDifference}</span> more than the previous month.
+					<p className="text-xs xl:text-xs 2xl:text-sm font-medium text-custom-grey">
+						You've spent <span className="text-custom-red">${formattedDifference}</span> more than the previous month.
 					</p>
 				)
 				break
 			case difference < 0:
 				message = (
-					<p className="text-xs xl:text-xs 2xl:text-sm font-medium text-[#444444]">
+					<p className="text-xs xl:text-xs 2xl:text-sm font-medium text-custom-grey">
 						You've spent <span className="text-[#219653]">${formattedDifference}</span> less than the previous month.
 					</p>
 				)
@@ -51,8 +51,8 @@ const HomePage = () => {
 
 	return (
 		<>
-			<div className="grid grid-auto-flow-column gap-3 w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg p-5">
-				<h2 className="text-[#1D46F3] text-[22px] font-bold">Accounts</h2>
+			<div className="grid grid-auto-flow-column gap-3 w-full border border-custom-lightGray bg-custom-white rounded-lg p-5">
+				<h2 className="text-custom-blue text-[22px] font-bold">Accounts</h2>
 				<div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4">
 					<AccountCard
 						data={invoicesData?.thisMonth}
@@ -76,48 +76,48 @@ const HomePage = () => {
 				</div>
 			</div>
 			<div className="flex gap-3 w-full mt-6">
-				<div className="min-w-[473px] h-full w-full md:w-[473px] md:h-[235px] bg-[#FFFFFF] rounded-lg p-5 border border-[#ECECEC]">
-					<h2 className="text-[#1D46F3] text-[22px] font-bold">Activity Feed</h2>
+				<div className="min-w-[473px] h-full w-full md:w-[473px] md:h-[235px] bg-custom-white rounded-lg p-5 border border-custom-lightGray">
+					<h2 className="text-custom-blue text-[22px] font-bold">Activity Feed</h2>
 					<ScrollArea className="md:h-[170px] py-4">
 						<div className="flex flex-col gap-3">
 							<div className="flex items-center gap-5">
 								<Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-								<h2 className="text-base text-[#444444] font-normal">Verizon Invoice 2345 Processed</h2>
+								<h2 className="text-base text-custom-grey font-normal">Verizon Invoice 2345 Processed</h2>
 							</div>
 							<div className="flex items-center gap-5">
 								<Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-								<h2 className="text-base text-[#444444] font-normal">Verizon Invoice 2345 Processed</h2>
+								<h2 className="text-base text-custom-grey font-normal">Verizon Invoice 2345 Processed</h2>
 							</div>
 							<div className="flex items-center gap-5">
 								<Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-								<h2 className="text-base text-[#444444] font-normal">Verizon Invoice 2345 Processed</h2>
+								<h2 className="text-base text-custom-grey font-normal">Verizon Invoice 2345 Processed</h2>
 							</div>
 							<div className="flex items-center gap-5">
 								<Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-								<h2 className="text-base text-[#444444] font-normal">Verizon Invoice 2345 Processed</h2>
+								<h2 className="text-base text-custom-grey font-normal">Verizon Invoice 2345 Processed</h2>
 							</div>
 							<div className="flex items-center gap-5">
 								<Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-								<h2 className="text-base text-[#444444] font-normal">Verizon Invoice 2345 Processed</h2>
+								<h2 className="text-base text-custom-grey font-normal">Verizon Invoice 2345 Processed</h2>
 							</div>
 							<div className="flex items-center gap-5">
 								<Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-								<h2 className="text-base text-[#444444] font-normal">Verizon Invoice 2345 Processed</h2>
+								<h2 className="text-base text-custom-grey font-normal">Verizon Invoice 2345 Processed</h2>
 							</div>
 							<div className="flex items-center gap-5">
 								<Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-								<h2 className="text-base text-[#444444] font-normal">Verizon Invoice 2345 Processed</h2>
+								<h2 className="text-base text-custom-grey font-normal">Verizon Invoice 2345 Processed</h2>
 							</div>
 							<div className="flex items-center gap-5">
 								<Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-								<h2 className="text-base text-[#444444] font-normal">Verizon Invoice 2345 Processed</h2>
+								<h2 className="text-base text-custom-grey font-normal">Verizon Invoice 2345 Processed</h2>
 							</div>
 						</div>
 					</ScrollArea>
 				</div>
 
-				<div className="grid grid-auto-flow-column gap-3 w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg p-5">
-					<h2 className="text-[#1D46F3] text-[22px] font-bold">Customer Service</h2>
+				<div className="grid grid-auto-flow-column gap-3 w-full border border-custom-lightGray bg-custom-white rounded-lg p-5">
+					<h2 className="text-custom-blue text-[22px] font-bold">Customer Service</h2>
 					<div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-4">
 						<TicketsCard data={monthlyTickets} isLoading={isMonthlyTicketsLoading} />
 						<OpenTicketsCard title="Tickets Open" />
@@ -125,8 +125,8 @@ const HomePage = () => {
 				</div>
 			</div>
 			<div className="w-full mt-6">
-				<div className="grid grid-auto-flow-column gap-3 w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg p-5">
-					<h2 className="text-[#1D46F3] text-[22px] font-bold">Actions & Alerts</h2>
+				<div className="grid grid-auto-flow-column gap-3 w-full border border-custom-lightGray bg-custom-white rounded-lg p-5">
+					<h2 className="text-custom-blue text-[22px] font-bold">Actions & Alerts</h2>
 					<AlertsTable />
 				</div>
 			</div>

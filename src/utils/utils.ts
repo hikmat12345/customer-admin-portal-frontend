@@ -35,21 +35,6 @@ export const getFormattedTotal = (total: number) => {
 	}
 }
 
-export const formatDateTickets = (date: Date) => {
-	// Helper function to add leading zeros
-	function padTo2Digits(num: number) {
-		return num.toString().padStart(2, '0')
-	}
-
-	const month = padTo2Digits(date.getMonth() + 1) // Months are zero-indexed
-	const day = padTo2Digits(date.getDate())
-	const year = date.getFullYear()
-	const hours = padTo2Digits(date.getHours())
-	const minutes = padTo2Digits(date.getMinutes())
-
-	return `${month}/${day}/${year} ${hours}:${minutes}`
-}
-
 export function getServiceType(id: ServiceType): string {
 	switch (id) {
 		case ServiceType.BILLING:
@@ -129,7 +114,7 @@ export function downloadFile(givenFileType: string, response: { data: string, fi
 	let base64String: string | null = null;
 	let mimeType: string | null = null;
 	let fileExtension: string | null = null;
-	console.log(response, "response data",)
+ 
 	if (givenFileType === "pdf") {
 		base64String = response?.data ? Buffer.from(response?.data).toString('base64') : null;
 		mimeType = "application/pdf";
@@ -151,6 +136,7 @@ export function downloadFile(givenFileType: string, response: { data: string, fi
 		const link = document.createElement('a');
 		link.href = fileUrl;
 		if (showInBrowser) { 
+			link.href = URL.createObjectURL(new Blob([base64String], { type: mimeType }));
 			link.target = "_blank"; // Set the target attribute to "_blank" if showInBrowser is true
 		} else {
 			link.download = `${invoice_id}_invoice.${fileExtension}`;
@@ -162,10 +148,9 @@ export function downloadFile(givenFileType: string, response: { data: string, fi
 }
 
 // Function to format a date in the specified format
-const formatDate = (date: Date, format: string = 'MM dd, yyyy HH:mm a'): string => {
-	// return formatdeteFns(new Date(date), format)
-	return new Date(date).toString()
-};
+const formatDate = (date: string, format: string = 'MM dd, yyyy HH:mm a'): string| null => {
+ 	return date? formatdeteFns(new Date(date), format) : null
+}	
 
 export default formatDate;
 

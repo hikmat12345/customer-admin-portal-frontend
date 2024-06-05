@@ -54,7 +54,7 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
 		logo : vendorInfoData?.invoice?.companyNetwork?.network?.logo
 	}
 	return (
-		<div className='w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg py-5 px-7 '>
+		<div className='w-full border border-custom-lightGray bg-custom-white rounded-lg py-5 px-7 '>
 			<div className='mt-2 rounded-lg border border-neutral-300 p-5  overflow-y-scroll h-[75vh]'>
 			<div id="general-info">
 					<InvoiceSummary
@@ -94,7 +94,7 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
 							<InvoiceRemittanceAddress remittanceData={remittanceAddressData?.data} isLoading={isRemittanceAddressLoading} />
 						</div>
 					</div>
-					<Separator className='h-[2px] bg-[#5d5b5b61]' />
+					<Separator className='h-[1.5px] bg-[#5d5b5b61]' />
 				</div>
 
 				<div id="activity">

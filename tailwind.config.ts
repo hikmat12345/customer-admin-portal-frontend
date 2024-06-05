@@ -1,3 +1,4 @@
+import colors from '@veroxos/design-system/dist/lib/constants'
 import type { Config } from 'tailwindcss'
 
 const config = {
@@ -38,6 +39,12 @@ const config = {
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))',
+				},
+				slate : {
+					...colors.slate
+				},
+				custom : {
+					...colors
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',

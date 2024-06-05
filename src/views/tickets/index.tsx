@@ -27,7 +27,7 @@ const TicketsPage = () => {
 	const pathname = usePathname()
 	const router = useRouter()
 	const limit = 7
-	const offset = +page - 1
+	const offset = +page - 1;
 
 	const status = searchParams && Number(searchParams?.get('status'))
 	const priority = searchParams && Number(searchParams?.get('priority'))
@@ -65,7 +65,7 @@ const TicketsPage = () => {
 	const debouncedSearchFieldHandlder = React.useCallback(debounce(handleSearchField, 500), [])
 
 	const rowCount = allTickets?.tickets?.length || 8
-	const totalPages = allTickets?.total / limit
+	const totalPages = allTickets?.total / limit;
 
 	const handlePageChange = async (page: number) => {
 		const params = new URLSearchParams()
@@ -94,14 +94,14 @@ const TicketsPage = () => {
 
 	return (
 		<div>
-			<div className="grid grid-auto-flow-column gap-3 w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg px-6 py-7">
+			<div className="grid grid-auto-flow-column gap-3 w-full border border-custom-lightGray bg-custom-white rounded-lg px-6 py-7">
 				<div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4">
 					<TotalTicketsOpen data={openTicketsData} isLoading={isLoading} />
 					<MonthlyTickets title="Tickets This Month" month={currentMonth} year={currentYear} />
 					<MonthlyTickets title="Last Month Tickets" month={previousMonth} year={currentYear} />
 				</div>
 			</div>
-			<div className="grid grid-auto-flow-column gap-3 w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg px-3 pt-5 pb-2 mt-6">
+			<div className="grid grid-auto-flow-column gap-3 w-full border border-custom-lightGray bg-custom-white rounded-lg px-3 pt-5 pb-2 mt-6">
 				<div className="flex items-center justify-between gap-7">
 					<SearchField
 						className="rounded-none bg-transparent border-b ml-2 outline-none focus:border-[#44444480] w-[500px] xl:min-w-[700px] font-normal"
@@ -124,7 +124,7 @@ const TicketsPage = () => {
 				<div className="">
 					<Pagination
 						className="flex justify-end pt-4"
-						totalPages={totalPages}
+						totalPages={Math.ceil(totalPages)}
 						currentPage={Number(page)}
 						onPageChange={handlePageChange}
 					/>

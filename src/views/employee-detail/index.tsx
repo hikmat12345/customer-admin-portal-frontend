@@ -99,7 +99,7 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 
 
    return (
-		<div className='w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg py-5 px-7 '>
+		<div className='w-full border border-custom-lightGray bg-custom-white rounded-lg py-5 px-7 '>
 		   <ScrollTabs tabs={['general-information', 'cost-trend', 'service-type', 'tickets', 'services']} >
 
 				{/* General Information  */}
@@ -132,14 +132,14 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 
 				{/* Service Type */}
 				<div id="service-type">
-					<div className='text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pt-8 flex gap-4'>Service Type </div>
+					<div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pt-8 flex gap-4'>Service Type </div>
 					<div className='flex gap-4 mt-4 flex-wrap'>
 						{isEmployeeServiceType ?
 							<Skeleton variant="paragraph" rows={3} /> :
 							  Array.isArray(employeeServiceTypes) && employeeServiceTypes.length > 0 ?
 							  <ServiceTypesGrid services={employeeServiceTypes.sort((a,b)=>b.subTypes?.length - a.subTypes?.length)} />
  								:
-								<div className='text-center text-lg py-8'>No data available</div>
+								<div className='text-center text-lg py-8 w-full'>Data Not Found</div>
 						}
 					</div>
 					<Separator className='h-[3.2px] mt-4 bg-[#5d5b5b61]' />

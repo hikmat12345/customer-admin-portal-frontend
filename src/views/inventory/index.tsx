@@ -45,7 +45,7 @@ const InventoryPage = () => {
 		searchQuery?.length !== 0 ? searchQuery?.trim() : undefined
 	)
 
-	const totalPages = inventories?.total
+	const totalPages = inventories?.total / limit;
 
 	const inventoryData = [
 		{
@@ -53,7 +53,7 @@ const InventoryPage = () => {
 			title: 'Live Services',
 			description: `Currently, there are ${liveServicesData?.live} active services.`,
 			data: (
-				<h1 className="text-nowrap text-lg text-[#1B7DF0] lg:text-2xl 2xl:text-3xl font-bold">
+				<h1 className="text-nowrap text-lg text-custom-amnesiaBlue lg:text-2xl 2xl:text-3xl font-bold">
 					{liveServicesData?.live.toLocaleString()}
 				</h1>
 			),
@@ -63,7 +63,7 @@ const InventoryPage = () => {
 			title: 'Disconnected Services',
 			description: `${monthlyCount?.currentMonth?.disconnected} services are disconnected this month.`,
 			data: (
-				<h1 className="text-nowrap text-[#E41323] text-lg lg:text-2xl 2xl:text-3xl font-bold">
+				<h1 className="text-nowrap text-custom-red text-lg lg:text-2xl 2xl:text-3xl font-bold">
 					{monthlyCount?.currentMonth?.disconnected}
 				</h1>
 			),
@@ -119,7 +119,7 @@ const InventoryPage = () => {
 
 	return (
 		<div>
-			<div className="grid grid-auto-flow-column gap-3 w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg p-5">
+			<div className="grid grid-auto-flow-column gap-3 w-full border border-custom-lightGray bg-custom-white rounded-lg p-5">
 				<div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4">
 					{inventoryData?.map((inventory: InventoryCardData) => (
 						<InventoryCard
@@ -132,7 +132,7 @@ const InventoryPage = () => {
 					))}
 				</div>
 			</div>
-			<div className="grid grid-auto-flow-column gap-3 w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg px-3 pt-5 pb-2 mt-6">
+			<div className="grid grid-auto-flow-column gap-3 w-full border border-custom-lightGray bg-custom-white rounded-lg px-3 pt-5 pb-2 mt-6">
 				<div className="w-[100%] flex items-center justify-between gap-5">
 					<SearchField
 						className="rounded-none bg-transparent border-b ml-2 outline-none focus:border-[#44444480] w-[500px] xl:min-w-[600px] font-normal"
@@ -155,7 +155,7 @@ const InventoryPage = () => {
 				<div className="">
 					<Pagination
 						className="flex justify-end pt-4"
-						totalPages={totalPages}
+						totalPages={Math.ceil(totalPages)}
 						currentPage={Number(page)}
 						onPageChange={handlePageChange}
 					/>

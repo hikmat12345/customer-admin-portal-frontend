@@ -77,7 +77,7 @@ const OpenTicketsCard = ({ title }: { title: string }) => {
 	}
 
 	return (
-		<div className="min-w-[300px] min-h-[150px] h-auto border border-[#EAEAEA] pl-7 pt-3 rounded-lg relative">
+		<div className="min-w-[300px] min-h-[150px] h-auto border border-custom-plaster pl-7 pt-3 rounded-lg relative">
 			<div className="flex gap-[10px]">
 				{isLoading ? (
 					<div className="w-[24rem] mt-2 mr-6">
@@ -85,12 +85,12 @@ const OpenTicketsCard = ({ title }: { title: string }) => {
 					</div>
 				) : (
 					<div className="flex flex-col gap-4 pb-3 w-full pr-5">
-						<h2 className="text-[#000000] text-lg font-semibold">{title}</h2>
+						<h2 className="text-custom-black text-lg font-semibold">{title}</h2>
 						<div className="flex items-center gap-5">
 							<h1 className="text-lg lg:text-2xl 2xl:text-3xl font-bold">{openTicket?.count}</h1>
 						</div>
 						<div className="flex items-center justify-between">
-							<p className="text-xs xl:text-xs 2xl:text-sm font-medium text-[#444444]">
+							<p className="text-xs xl:text-xs 2xl:text-sm font-medium text-custom-grey">
 								<span className={`text-[${closeTicketHighlight}] font-bold`}>{closeTicketsIn24Hours?.count}</span>{' '}
 								tickets closed in last 24 hours.
 							</p>

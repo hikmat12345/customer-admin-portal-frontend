@@ -57,7 +57,7 @@ const InvoicesPage = () => {
 
 	const debouncedSearchFieldHandlder = React.useCallback(debounce(handleSearchField, 500), [])
 
-	const totalPages = allInvoices?.total
+	const totalPages = allInvoices?.total / limit
 
 	const handlePageChange = async (page: number) => {
 		const params = new URLSearchParams()
@@ -84,15 +84,15 @@ const InvoicesPage = () => {
 		switch (true) {
 			case difference > 0:
 				message = (
-					<p className="text-xs xl:text-xs 2xl:text-sm font-medium text-[#444444]">
+					<p className="text-xs xl:text-xs 2xl:text-sm font-medium text-custom-grey">
 						Current expenditure exceeds last month's by over{' '}
-						<span className="text-[#E41323] font-semibold">${formattedDifference}</span>
+						<span className="text-custom-red font-semibold">${formattedDifference}</span>
 					</p>
 				)
 				break
 			case difference < 0:
 				message = (
-					<p className="text-xs xl:text-xs 2xl:text-sm font-medium text-[#444444]">
+					<p className="text-xs xl:text-xs 2xl:text-sm font-medium text-custom-grey">
 						Current expenditure is lower than last month's by over{' '}
 						<span className="text-[#219653] font-semibold">${formattedDifference}</span>
 					</p>
@@ -104,11 +104,11 @@ const InvoicesPage = () => {
 	}
 
 	const lastMonthMessage = (
-		<p className="text-xs xl:text-xs 2xl:text-sm font-medium text-[#444444]">
+		<p className="text-xs xl:text-xs 2xl:text-sm font-medium text-custom-grey">
 			Invoice value of{' '}
 			<span
 				className={`${
-					invoicesData?.lastMonth?.percentageDifference < 0 ? 'text-[#219653]' : 'text-[#E41323]'
+					invoicesData?.lastMonth?.percentageDifference < 0 ? 'text-[#219653]' : 'text-custom-red'
 				} font-semibold`}
 			>
 				${getFormattedTotal(invoicesData?.lastMonth?.total)}
@@ -128,7 +128,7 @@ const InvoicesPage = () => {
 
 	return (
 		<div>
-			<div className="grid grid-auto-flow-column gap-3 w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg p-5">
+			<div className="grid grid-auto-flow-column gap-3 w-full border border-custom-lightGray bg-custom-white rounded-lg p-5">
 				<div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4">
 					<AccountCard
 						data={invoicesData?.thisMonth}
@@ -151,7 +151,7 @@ const InvoicesPage = () => {
 					/>
 				</div>
 			</div>
-			<div className="grid grid-auto-flow-column gap-3 w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg px-3 pt-5 pb-2 mt-6">
+			<div className="grid grid-auto-flow-column gap-3 w-full border border-custom-lightGray bg-custom-white rounded-lg px-3 pt-5 pb-2 mt-6">
 				<div className="flex items-center justify-between gap-2">
 					<SearchField
 						className="rounded-none bg-transparent border-b ml-2 outline-none focus:border-[#44444480] w-[500px] xl:min-w-[700px] font-normal"
@@ -174,7 +174,7 @@ const InvoicesPage = () => {
 				<div className="">
 					<Pagination
 						className="flex justify-end pt-4"
-						totalPages={totalPages}
+						totalPages={Math.ceil(totalPages)}
 						currentPage={Number(page)}
 						onPageChange={handlePageChange}
 					/>
