@@ -43,7 +43,7 @@ export default function InvoiceSummary({
                     <div className="flex max-lg:block gap-[19px] pb-6">
                         <div className="w-[55%] max-lg:w-[100%] max-lg:mt-5 flex flex-wrap">
                             <div className='w-[50%]  !pr-[60px]'>
-                                <div className='text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pb-1'>Invoice Summary</div>
+                                <div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pb-1'>Invoice Summary</div>
                                 <div className="flex gap-2 justify-between lg:py-1 xl:py:1.5">
                                     <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Invoice Date</div>
                                     <div className="lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{invoiceData.invoiceDate ? invoiceData.invoiceDate : "-"}</div>
@@ -70,7 +70,7 @@ export default function InvoiceSummary({
                                 </div>
                                 <div className="flex gap-2 justify-between lg:py-1 xl:py:1.5">
                                     <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Invoice (PDF)</div>
-                                    <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6 text-[#1D46F3] cursor-pointer">
+                                    <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6 text-custom-blue cursor-pointer">
                                         <button className="underline decoration-2" onClick={() =>{setShowInBrowser(true); fileDownloadFile(invoiceData?.invoiceId, "pdf")}}>View</button>
                                     </div>
                                 </div>
@@ -123,9 +123,9 @@ export default function InvoiceSummary({
                                 </div>
                             </div>
                         </div> 
-                         <div className="w-[1px] bg-[#D6D6D6] h-[30vh] lg:block"></div>
+                         <div className="w-[1px] bg-custom-aluminum h-[30vh] lg:block"></div>
                            <div className="w-[45%] max-lg:w-[100%] max-lg:mt-5 pl-[50px]">
-                            <div className='text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pb-1  '>Invoice Summary</div>
+                            <div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pb-1  '>Invoice Summary</div>
                             <div className="flex gap-2 justify-between lg:py-1 xl:py:1.5">
                                 <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Vendor</div>
                                 <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6">{vendorData.vendor ? vendorData.vendor : "-"}</div>
@@ -160,7 +160,7 @@ export default function InvoiceSummary({
                             <Image src="/svg/excel-icon.svg" width={20} height={20} alt="Download Invoice Summary" className="mr-2" />
                             <span className="underline decoration-2 lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Download Invoice Summary </span>
                         </button>
-                        <button className="flex items-center px-4 py-2 text-[#E41323]  rounded hover:text-[#e4132499]" onClick={() => fileDownloadFile(invoiceData?.invoiceId, "pdf")}>
+                        <button className="flex items-center px-4 py-2 text-custom-red  rounded hover:text-[#e4132499]" onClick={() => fileDownloadFile(invoiceData?.invoiceId, "pdf")}>
                             <Image src="/svg/pdf-icon.svg" width={20} height={20} alt="Download PDF" className="mr-2" />
                             <span className="underline decoration-2 lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Download PDF</span>
                         </button>

@@ -5,6 +5,8 @@ const TicketDescription = ({description} : {description : string}) => {
         <style>
           .green-text {
             font-weight: 600;
+            width : 40% !important;
+            color : #000000;
           }
           
           table {
@@ -14,7 +16,8 @@ const TicketDescription = ({description} : {description : string}) => {
           }
 
           td {
-            padding : 7px 0px;
+            padding : 7px;
+            color : #575757;
           }
           
           a {

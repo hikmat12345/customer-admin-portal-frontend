@@ -10,7 +10,7 @@ const PeakIndicator = ({ isLoading, percentage }: { variant: Variant; isLoading?
 	switch (percentage && percentage > 0) {
 		case true:
 			arrowImageSrc = '/svg/upPeakArrow.svg'
-			backgroundColor = 'bg-[#E41323]'
+			backgroundColor = 'bg-custom-red'
 			break
 		case false:
 			arrowImageSrc = '/svg/downPeakArrow.svg'

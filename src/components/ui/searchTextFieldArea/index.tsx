@@ -42,7 +42,7 @@ const items = [
 	},
 ]
 
-const searchTextFieldVariants = cva('flex justify-between bg-[#FFFFFF] p-2 rounded-full gap-x-1', {
+const searchTextFieldVariants = cva('flex justify-between bg-custom-white p-2 rounded-full gap-x-1', {
 	variants: {
 		variant: {
 			default: 'w-auto',

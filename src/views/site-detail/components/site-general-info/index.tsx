@@ -46,7 +46,7 @@ export default function SiteGeneralInfo({
     ];
     return (
         <div>
-            {label && <div className='text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pb-6'>{label}</div>}
+            {label && <div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pb-6'>{label}</div>}
             {isLoading ? <GeneralInfoSkeletons /> :
                 <div className="flex max-lg:block gap-[19px] pb-6">
                     <div className="flex w-[33%]  max-lg:w-[100%] max-lg:mt-5  justify-between  ">

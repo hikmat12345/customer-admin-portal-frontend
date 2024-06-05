@@ -14,7 +14,7 @@ const PeakIndicator = ({ variant, isLoading }: { variant: Variant; isLoading?: b
 			break
 		case 'destructive':
 			arrowImageSrc = '/svg/downPeakArrow.svg'
-			backgroundColor = 'bg-[#E41323]'
+			backgroundColor = 'bg-custom-red'
 			break
 		default:
 			arrowImageSrc = ''

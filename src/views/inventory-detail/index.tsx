@@ -30,7 +30,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 	const imageUrl =  makeFileUrlFromBase64(image ? Buffer.from(image).toString('base64') : null);
 
 	return (
-		<div className='w-full border border-[#ECECEC] bg-[#FFFFFF] rounded-lg py-5 px-7 '>
+		<div className='w-full border border-custom-lightGray bg-custom-white rounded-lg py-5 px-7 '>
 		  <ScrollTabs tabs={['general-information', 'device-information', 'cost-and-plan', 'tickets', 'activity']} > 
              	<div id="general-information">
 					<GeneralInfo
@@ -72,7 +72,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 					/>
 				</div> 
 				<div id="cost-and-plan">
-					<div className='text-[#1D46F3] lg:text-[20px] xl:text-[22px] font-[700] pt-8 '>Plan & Cost</div>
+					<div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pt-8 '>Plan & Cost</div>
 					  {isCostPlanLoading ? <Table><TableBodySkeleton rowCount={2} columnCount={2} /></Table> :
 						<>
 							<PlanTable data={costPlanData?.data?.plan} />
