@@ -2,6 +2,7 @@
 import { useGetSiteInvoiceFile } from "@/hooks/useGetSites";
 import { InvoiceSummaryTypes } from "@/types/account/acount.tds";
 import { downloadFile } from "@/utils/utils";
+import { Button } from "@veroxos/design-system/dist/ui/Button/button";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -14,7 +15,16 @@ export default function InvoiceSummary({
     const [invoiceId, setInvoiceId] = useState<string>("");
     const [fileType, setFileType] = useState<string>("");
     const [showInBrowser, setShowInBrowser] = useState<boolean>(false); 
-    const {
+    const [isPdfFileLoading, setIsPdfFileLoading] = useState<boolean>(false);
+    const [isXlsFileLoading, setIsXlsFileLoading] = useState<boolean>(false);
+    const promisedSetState = (state: any) => {
+            return new Promise((resolve) => {
+                setInvoiceId(state);
+                resolve(state);
+            });
+        }
+
+     const {
         data: blobdata,
         isLoading: isBlobLoading,
         error: blobError,
@@ -22,15 +32,26 @@ export default function InvoiceSummary({
     } = useGetSiteInvoiceFile(invoiceId); 
 
     const fileDownloadFile = async (fileId:string | number, fileType:"pdf"|"xls"|"docs") => {
+        if (fileType === "pdf") {
+            setIsPdfFileLoading(true);
+        } else if (fileType === "xls") {
+            setIsXlsFileLoading(true);
+        }
         const makeInvoiceId :string = fileType== "docs" ? `${fileId}_allocation.csv`: fileType== "xls" ? `${fileId}.xlsx`: `${fileId}.pdf`;
-              setInvoiceId(makeInvoiceId);
+            await promisedSetState(makeInvoiceId);
               setFileType(fileType);
-              refetch(); 
+               refetch(); 
     } 
     useEffect(() => {
         if (!isBlobLoading && !blobError && blobdata &&fileType) {
+            if (fileType === "pdf") {
+                setIsPdfFileLoading(false);
+            } else if (fileType === "xls") {
+                setIsXlsFileLoading(false);
+            }
             downloadFile(fileType, blobdata, invoiceId, showInBrowser);
         }
+
     } , [blobdata, isBlobLoading, blobError, fileType, invoiceId])
 
     return (
@@ -151,19 +172,19 @@ export default function InvoiceSummary({
                             </div>
 
                             <div className="flex gap-2 justify-center lg:py-1 xl:py:1.5 w-full">
-                                <Image src={vendorData.logo} width={500} height={500} alt="Invoice Summary Logo" className="w-[233px]  mt-[10px]" />
+                                <Image src={vendorData.logo} width={500} height={500} alt="Invoice Summary Logo" className="w-[133px]  mt-[10px]" />
                             </div>
                         </div> 
                     </div>
                     <div className="flex justify-start gap-5 mb-4">
-                        <button className="flex items-center px-4 py-2 text-[#219653]  rounded hover:text-[#21965492]" onClick={() => fileDownloadFile(invoiceData?.invoiceId, "xls")}>
+                         <Button loading={isXlsFileLoading} type="submit" className="animate-in bg-transparent border-none flex items-center px-4 py-2 text-[#219653]  rounded hover:text-[#21965492]" onClick={() => fileDownloadFile(invoiceData?.invoiceId, "xls")}>
                             <Image src="/svg/excel-icon.svg" width={20} height={20} alt="Download Invoice Summary" className="mr-2" />
                             <span className="underline decoration-2 lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Download Invoice Summary </span>
-                        </button>
-                        <button className="flex items-center px-4 py-2 text-[#E41323]  rounded hover:text-[#e4132499]" onClick={() => fileDownloadFile(invoiceData?.invoiceId, "pdf")}>
+                        </Button>
+                        <Button loading={isPdfFileLoading} type="submit" className="animate-in bg-transparent border-none flex items-center px-4 py-2 text-[#E41323]  rounded hover:text-[#e4132499]" onClick={() => fileDownloadFile(invoiceData?.invoiceId, "pdf")}>
                             <Image src="/svg/pdf-icon.svg" width={20} height={20} alt="Download PDF" className="mr-2" />
                             <span className="underline decoration-2 lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600]">Download PDF</span>
-                        </button>
+                        </Button>
                     </div>
                 </>
             )}

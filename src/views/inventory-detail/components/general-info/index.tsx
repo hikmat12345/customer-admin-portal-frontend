@@ -83,7 +83,7 @@ export default function GeneralInfo({
                             <div className="gmap_canvas">
                                 <div className="gmap_canvas">
                                     {site?.latitude && site?.longitude ?
-                                        <MapBox lat={site?.latitude} long={site?.longitude} address={site?.streetLine1 ? site?.streetLine1 : site?.streetLine2} />
+                                        <MapBox lat={site?.latitude} long={site?.longitude} address={site?.streetLine1 ? site?.streetLine1 : site?.streetLine2} siteId={site?.id} />
                                         : <div className='text-center text-lg py-8 h-[230px] flex align-bottom justify-center items-center'>Google map can't find the location</div>}
                                 </div>
                             </div>

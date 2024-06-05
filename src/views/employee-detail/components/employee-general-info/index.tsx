@@ -25,7 +25,7 @@ export default function SiteGeneralInfo({
         { label: 'Veroxos ID', value: veroxosId },
         { label: 'First Name', value: firstName },
         { label: 'Email', value: email },
-        { label: 'Status', value: status !== null ? <span className={`inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-lg text-xs text-white font-medium cursor-pointer ${status === 1 ? 'bg-[#219653]' : 'bg-[#A40000]'}`}>
+        { label: 'Status', value: status !== null ? <span className={`inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-lg text-xs text-white font-medium cursor-pointer ${status ? (status === 1 ? 'bg-[#219653]' : 'bg-[#A40000]') : "-"}`}>
             {status === 1 ? "Live" : "Archived"}
         </span> : null },
         { label: 'Site', value: site?.streetLine1 },

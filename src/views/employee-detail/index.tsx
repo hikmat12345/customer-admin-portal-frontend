@@ -139,7 +139,7 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 							  Array.isArray(employeeServiceTypes) && employeeServiceTypes.length > 0 ?
 							  <ServiceTypesGrid services={employeeServiceTypes.sort((a,b)=>b.subTypes?.length - a.subTypes?.length)} />
  								:
-								<div className='text-center text-lg py-8'>No data available</div>
+								<div className='text-center text-lg py-8 w-full'>Data Not Found</div>
 						}
 					</div>
 					<Separator className='h-[3.2px] mt-4 bg-[#5d5b5b61]' />

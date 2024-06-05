@@ -40,18 +40,18 @@ const menuItems: ISidebarItem[] = [
   },
   {
     name: "Accounts",
-    path: "/accounts",
+    path: "/invoices",
     src: "/svg/sidebar/accounts.svg",
     items: [
       {
         name: "View Invoices",
-        path: "/accounts/invoices",
+        path: "/invoices",
       },
     ],
   },
   {
     name: "Inventory",
-    path: "/inventory",
+    path: "/services",
     src: "/svg/sidebar/inventory.svg",
   },
   {

@@ -36,7 +36,7 @@ function TableHeaderContent({ data }: any) {
             {key === "invoiceBreakdowns" ? "Cost" : key.replaceAll('_', ' ')}
           </TableHead>
         )) : (
-          <div className='text-center text-lg py-8'>No data available</div>
+          <div className='text-center text-lg py-8'>Data Not Found</div>
         )
       }
     </>
@@ -55,15 +55,15 @@ function TableBodyContent({ record, currencySymbol }: any) {
             Object.keys(record)[index] === 'when' ? formatDate(value) :
             Object.keys(record)[index] === 'service_type' ? getServiceType(value) :
             Object.keys(record)[index] === 'description' ? <div dangerouslySetInnerHTML={{ __html: value }} /> :
-            Object.keys(record)[index] === 'reference' ? <Link href={`/tickets/reference_id=${value}`} className="text-sky-600 font-normal">SUP{value}</Link> :
-            Object.keys(record)[index] === 'number' ? <Link href={`/inventory/service-summary?service_id=${stringFindAndReplaceAll(value, "-/"," ", 1)}`} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
+            Object.keys(record)[index] === 'reference' ? <Link href={value && `/tickets/reference_id=${value}`} className="text-sky-600 font-normal">{value ? `SUP${value}`: " - "}</Link> :
+            Object.keys(record)[index] === 'number' ? <Link href={value ? `/services/${stringFindAndReplaceAll(value, "-/"," ", 1)}`:''} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
             Object.keys(record)[index] === 'vendor_name' ? stringFindAndReplaceAll(value, " "," ", 0) :
-            (Object.keys(record)[index] === "Invoice_#") ? <Link href={`/accounts/invoices/${stringFindAndReplaceAll(value, "-/"," ", 1)}`} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
-            (Object.keys(record)[index] === 'invoice_ref' ) ? <Link href={`/accounts/invoices/${stringFindAndReplaceAll(value, "-/"," ", 1)}`} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
+            (Object.keys(record)[index] === "Invoice_#") ? <Link href={value ? `/invoices/${stringFindAndReplaceAll(value, "-/"," ", 1)}`:""} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
+            (Object.keys(record)[index] === 'invoice_ref' ) ? <Link href={value ? `/invoices/${stringFindAndReplaceAll(value, "-/"," ", 1)}`:""} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
             Object.keys(record)[index] === 'invoice_date' ? formatDate(value, 'dd/MM/yyyy') :
-            Object.keys(record)[index] === 'account' ? <Link href={`/vendor/vendor-account?account_id==${stringFindAndReplaceAll(value, "-/"," ", 1)}`} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
+            Object.keys(record)[index] === 'account' ? <Link href={value ? `/vendors/${stringFindAndReplaceAll(value, "-/"," ", 1)}`:""} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
             Object.keys(record)[index] === 'service status' ? <Badge className={`py-1 rounded-lg text-white ${value == 1 ? 'bg-[#219653]' : value == 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`} variant="success" shape="block">{value == 1 ? "Live" : value == 0 ? "Terminated" : "Suspended"}</Badge> :
-            Object.keys(record)[index] === 'download' ? <DownloadAbleLink invoice_id={value} /> : 
+            Object.keys(record)[index] === 'download' ? <DownloadAbleLink invoice_id={value}  index={index} /> :
             Object.keys(record)[index] === 'currency' ? <><span className="text-[#47de88]">{currencySymbol}</span></> :
             Object.keys(record)[index] === 'total' || Object.keys(record)[index] === 'cost_centre' || Object.keys(record)[index] === 'sub_total' || Object.keys(record)[index] === 'tax_and_fees' || Object.keys(record)[index] === 'total_site_cost' ? `${moneyFormatter(value, currencySymbol)}` :
             Object.keys(record)[index] === 'status' ? <span className={`${value == 1 ? 'text-blue-600' : value == 2 ? 'text-gray-700' : 'text-black'}`}>{TICKETS_STATUS_LIST[value]}</span> :
@@ -101,7 +101,7 @@ export default function TableData({ data, loading, label, currency }: TableDataP
         </Table>
       ) : (
         Array.isArray(data) && data.length < 1 ? (
-          <div className='text-center text-lg py-8'>No Data Found</div>
+          <div className='text-center text-lg py-8'>Data Not Found</div>
         ) : (
           <div className='overflow-y-scroll no-scrollbar max-h-[600px]'>
             <Table style={{ borderColor: "#e2e2e2" }} className='border-[1px] border-[#e2e2e2] rounded-md text-left border-separate border-tools-table-outline'>
