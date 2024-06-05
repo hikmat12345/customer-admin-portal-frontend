@@ -56,6 +56,10 @@
           "value": "https://invoice-api.dev.v2.veroxos.com/api/v2"
         },
         {
+          "name": "NEXT_PUBLIC_ASSETS_LOGO_PATH",
+          "value": "https://veroxos-vendor-logo.s3-eu-west-1.amazonaws.com/" 
+        },
+        {
           "name": "NEXT_PUBLIC_INVENTORY_SERVICE_URL",
           "value": "https://inventory-api.dev.v2.veroxos.com/api/v2"
         },

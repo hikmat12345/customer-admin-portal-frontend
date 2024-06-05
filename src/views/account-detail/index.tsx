@@ -97,7 +97,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 
 	return (
 		<div className='w-full border border-custom-lightGray bg-custom-white rounded-lg py-5 px-7 '>
-			<ScrollTabs tabs={["general-information", "cost-trend", "service-type", "tickets", "invoices", "services"]}>
+			<ScrollTabs tabs={["general-information", "service-location", "cost-trend", "service-type", "invoices", "tickets"]}>
 				{/* General Information  */}
 				<div id="general-information">
 					<AccountGeneralInfo
@@ -119,7 +119,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 						}} />
 					<Separator className='h-[1.5px] bg-[#5d5b5b61]' />
 				</div>
-				<div id="servuce-location">
+				<div id="service-location">
 					<div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pt-8 '>Service Location</div>
 					<Separator className='h-[2.2px] mt-4 bg-[#5d5b5b61]' />
 				</div>
