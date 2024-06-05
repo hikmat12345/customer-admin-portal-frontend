@@ -6,6 +6,23 @@ import SearchTableHead from './searchTableHead'
 import { ISearch } from '@/types/search/types'
 import Link from 'next/link'
 
+const getEntityLink = (entity: any) => {
+	const entityType = String(entity?.type)?.toLowerCase();
+
+	switch (entityType) {
+		case "number":
+			return `inventory/${entity?.id}`
+			
+		case "invoice": 
+			return `accounts/invoices/${entity?.id}`
+		
+		case "ticket": 
+			return `support/tickets/ticket-summary/${entity?.id}`
+		default:
+			return `${entityType}s/${entity?.id}` || "#"
+	}
+}
+
 const SearchTable = ({ data }: any) => {
 	return (
 		<div className="overflow-auto max-h-[66.6%]">
@@ -16,7 +33,7 @@ const SearchTable = ({ data }: any) => {
 						return (
 							<TableRow key={row.id}>
 								<TableCell className="font-normal py-[19px] text-[#1175BE] text-left">
-									<Link  href={`/${String(row?.type)=="Invoice"?("accounts/invoices/"+String(row?.type)?.toLowerCase()): String(row?.type)?.toLowerCase()}s/${row?.id}`} target='_blank' rel='noreferrer noopener' className='cursor-pointer'>
+									<Link  href={getEntityLink(row)} target='_blank' rel='noreferrer noopener' className='cursor-pointer'>
 										{row?.id}
 									</Link>
 								</TableCell>
