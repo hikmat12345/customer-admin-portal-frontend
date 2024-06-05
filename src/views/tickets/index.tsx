@@ -27,7 +27,7 @@ const TicketsPage = () => {
 	const pathname = usePathname()
 	const router = useRouter()
 	const limit = 7
-	const offset = +page - 1
+	const offset = +page - 1;
 
 	const status = searchParams && Number(searchParams?.get('status'))
 	const priority = searchParams && Number(searchParams?.get('priority'))
@@ -65,7 +65,7 @@ const TicketsPage = () => {
 	const debouncedSearchFieldHandlder = React.useCallback(debounce(handleSearchField, 500), [])
 
 	const rowCount = allTickets?.tickets?.length || 8
-	const totalPages = allTickets?.total / limit
+	const totalPages = allTickets?.total / limit;
 
 	const handlePageChange = async (page: number) => {
 		const params = new URLSearchParams()
@@ -124,7 +124,7 @@ const TicketsPage = () => {
 				<div className="">
 					<Pagination
 						className="flex justify-end pt-4"
-						totalPages={totalPages}
+						totalPages={Math.ceil(totalPages)}
 						currentPage={Number(page)}
 						onPageChange={handlePageChange}
 					/>
