@@ -86,7 +86,7 @@ export default function SiteGeneralInfo({
                         <div className="mapouter  rounded-lg border border-neutral-300 p-1">
                             <div className="gmap_canvas">
                                 {latitude && longitude ?
-                                <MapBox lat={latitude} long={longitude} address={streetLine1? streetLine1 : streetLine2 } />
+                                <MapBox lat={latitude} long={longitude} address={streetLine1? streetLine1 : streetLine2 } siteId={Number(veroxosId)} />
                                 : <div className='text-center text-lg py-8 h-[230px] flex align-bottom justify-center items-center'>Google map can't find the location</div>}
                              </div>
                         </div>

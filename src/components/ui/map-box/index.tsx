@@ -6,8 +6,9 @@ import L from 'leaflet';
 export const MapBox = ({
   lat,
   long,
-  address
-}: { lat: number, long: number, address: string }) => {
+  address,
+  siteId
+}: { lat: number, long: number, address: string, siteId:number  }) => {
 
   useEffect(() => {
     const map = L?.map('map')
@@ -26,8 +27,8 @@ export const MapBox = ({
       popupAnchor: [0, -32] // Point from which the popup should open relative to the iconAnchor
     });
 
-    L.marker([   lat,   long,  ], { icon: customIcon }).addTo(map)
-      .bindPopup(address)
+    L.marker([lat, long], { icon: customIcon }).addTo(map)
+      .bindPopup(`<a target="_blank" href="/sites/${siteId}">${address}</a>`)
       .openPopup();
 
     return () => {
