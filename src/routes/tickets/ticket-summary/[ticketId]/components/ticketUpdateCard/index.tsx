@@ -14,12 +14,13 @@ const TicketUpdateCard = ({ ticketUpdate }: { ticketUpdate: TicketUpdate }) => {
 
   const getTicketUpdateDescription = (ticketUpdate: TicketUpdate) => {
     if (getTicketUpdateTitle(ticketUpdate).includes("Email"))
-      return <TicketUpdateDescIframe description={ticketUpdate.description}/>
+      return <TicketUpdateDescIframe description={ticketUpdate.description} />;
     else
       return (
-        <p className="mt-9 font-[400] text-[0.938rem] leading-[1.174rem]">
-          {<div dangerouslySetInnerHTML={{__html : ticketUpdate.description}} />}
-        </p>
+        <div
+          className="mt-9 font-[400] text-[0.938rem] leading-[1.174rem]"
+          dangerouslySetInnerHTML={{ __html: ticketUpdate.description }}
+        />
       );
   };
 
