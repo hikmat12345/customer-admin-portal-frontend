@@ -60,13 +60,13 @@ const TicketHeader = ({
       <div className="flex items-center lg:p-2 xl:p-4">
         <HeaderLabel label="Created" />
         <HeaderValue
-          value={formatDateTickets(ticketSummary?.created)}
+          value={formatDateTickets(new Date(ticketSummary?.created))}
         />
       </div>
       <div className="flex items-center lg:p-2 xl:p-4">
         <HeaderLabel label="Updated" />
         <HeaderValue
-           value={formatDateTickets(ticketSummary?.created)}
+           value={formatDateTickets(new Date(ticketSummary?.created))}
         />
       </div>
     </div>
