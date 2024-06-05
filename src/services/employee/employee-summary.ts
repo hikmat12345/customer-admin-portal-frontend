@@ -35,6 +35,6 @@ export const getEmployeeServices = async ({ queryKey }: any) => {
 	const [, employeeId] = queryKey
 
 	return httpClient
-		.get(`${NEXT_PUBLIC_API_BASE_URL}/inventory/site-services-employee/${employeeId}`)
+		.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/site-services-employee/${employeeId}`)
 		.then(({ data }) => data)
 }

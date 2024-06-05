@@ -12,12 +12,15 @@ const getEntityLink = (entity: any) => {
 	switch (entityType) {
 		case "number":
 			return `inventory/${entity?.id}`
-			
-		case "invoice": 
+
+		case "invoice":
 			return `accounts/invoices/${entity?.id}`
-		
-		case "ticket": 
+
+		case "ticket":
 			return `support/tickets/ticket-summary/${entity?.id}`
+		case "accounts":
+			return `vendors/${entity?.id}`
+
 		default:
 			return `${entityType}s/${entity?.id}` || "#"
 	}
@@ -33,7 +36,7 @@ const SearchTable = ({ data }: any) => {
 						return (
 							<TableRow key={row.id}>
 								<TableCell className="font-normal py-[19px] text-[#1175BE] text-left">
-									<Link  href={getEntityLink(row)} target='_blank' rel='noreferrer noopener' className='cursor-pointer'>
+									<Link href={getEntityLink(row)} target='_blank' rel='noreferrer noopener' className='cursor-pointer'>
 										{row?.id}
 									</Link>
 								</TableCell>
