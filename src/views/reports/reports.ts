@@ -97,17 +97,17 @@ const financeReports: Report[] = [
 			// { type: 'select', name: 'reportPeriod', label: 'Report period' },
 		],
 	},
-	{
-		label: 'F-11',
-		reportName: 'Allocations Report',
-		description: 'Analysis of the allocations in the fiscal year',
-		title: 'F-11 Allocations Report',
-		fields: [
-			{ type: 'select', name: 'account', label: 'Account' },
-			{ type: 'select', name: 'year', label: 'Year' },
-			{ type: 'select', name: 'currency', label: 'Currency' },
-		],
-	},
+	// {
+	// 	label: 'F-11',
+	// 	reportName: 'Allocations Report',
+	// 	description: 'Analysis of the allocations in the fiscal year',
+	// 	title: 'F-11 Allocations Report',
+	// 	fields: [
+	// 		{ type: 'select', name: 'account', label: 'Account' },
+	// 		{ type: 'select', name: 'year', label: 'Year' },
+	// 		{ type: 'select', name: 'currency', label: 'Currency' },
+	// 	],
+	// },
 	{
 		label: 'F-12',
 		reportName: 'Service Type Cost Report',
@@ -140,16 +140,16 @@ const financeReports: Report[] = [
 			},
 		],
 	},
-	{
-		label: 'F-15',
-		reportName: 'Saving Tracker Report',
-		description: 'A list of saving tracker items created for given client in a period',
-		title: 'F-15 Saving Tracker Report',
-		fields: [
-			{ type: 'datePicker', name: 'From' },
-			{ type: 'datePicker', name: 'To' },
-		],
-	},
+	// {
+	// 	label: 'F-15',
+	// 	reportName: 'Saving Tracker Report',
+	// 	description: 'A list of saving tracker items created for given client in a period',
+	// 	title: 'F-15 Saving Tracker Report',
+	// 	fields: [
+	// 		{ type: 'datePicker', name: 'From' },
+	// 		{ type: 'datePicker', name: 'To' },
+	// 	],
+	// },
 ]
 
 const inventoryReports: Report[] = [

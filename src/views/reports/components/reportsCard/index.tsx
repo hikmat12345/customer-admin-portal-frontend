@@ -163,9 +163,9 @@ const ReportsCard = ({
 					</div>
 					<div className="flex items-center justify-center gap-3">
 						<Button variant="outline" type="submit" disabled>
-							Schedule
+						Schedule
 						</Button>
-						<Button loading={reportsLoading} type="submit" className="animate-in">
+						<Button disabled={reportsLoading} type="submit" className="animate-in">
 							Download
 						</Button>
 					</div>
