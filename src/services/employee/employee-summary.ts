@@ -1,4 +1,4 @@
-import { NEXT_PUBLIC_API_BASE_URL, NEXT_PUBLIC_INVOICE_SERVICE_URL, NEXT_PUBLIC_TICKET_SERVICE_URL } from 'config/config'
+import { NEXT_PUBLIC_API_BASE_URL, NEXT_PUBLIC_INVENTORY_SERVICE_URL, NEXT_PUBLIC_INVOICE_SERVICE_URL, NEXT_PUBLIC_TICKET_SERVICE_URL } from 'config/config'
 import httpClient from '../httpClient'
   
 export const getEmployeeDetail = async ({ queryKey }: any) => {
@@ -27,7 +27,7 @@ export const getEmployeeServiceTypes = async ({ queryKey }: any) => {
 	const [, employeeId] = queryKey
 
 	return httpClient
-		.get(`${NEXT_PUBLIC_API_BASE_URL}/employee/service-types/${employeeId}`)
+		.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/service-types-employee/${employeeId}`)
 		.then(({ data }) => data)
 }
 // getEmployeeServices
@@ -35,6 +35,6 @@ export const getEmployeeServices = async ({ queryKey }: any) => {
 	const [, employeeId] = queryKey
 
 	return httpClient
-		.get(`${NEXT_PUBLIC_API_BASE_URL}/employee/services/${employeeId}`)
+		.get(`${NEXT_PUBLIC_API_BASE_URL}/inventory/site-services-employee/${employeeId}`)
 		.then(({ data }) => data)
 }

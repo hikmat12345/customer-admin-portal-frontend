@@ -67,7 +67,7 @@ export type GeneralInfoProps = {
         scheduledTerminationDate: string,
         scheduledSuspensionDate: string,
         notes: string,
-        site: {streetLine1: string, streetLine2: string, latitude: number, longitude: number},
+        site: {streetLine1: string, streetLine2: string, latitude: number, longitude: number, id: number }
 
     }
 }
