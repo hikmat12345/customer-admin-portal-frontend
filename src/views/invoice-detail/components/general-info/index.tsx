@@ -17,7 +17,7 @@ export default function InvoiceSummary({
     const [showInBrowser, setShowInBrowser] = useState<boolean>(false); 
     const [isPdfFileLoading, setIsPdfFileLoading] = useState<boolean>(false);
     const [isXlsFileLoading, setIsXlsFileLoading] = useState<boolean>(false);
-    const promisedSetState = (state: any) => {
+    const promisedSetInvoice = (state: any) => {
             return new Promise((resolve) => {
                 setInvoiceId(state);
                 resolve(state);
@@ -38,7 +38,7 @@ export default function InvoiceSummary({
             setIsXlsFileLoading(true);
         }
         const makeInvoiceId :string = fileType== "docs" ? `${fileId}_allocation.csv`: fileType== "xls" ? `${fileId}.xlsx`: `${fileId}.pdf`;
-            await promisedSetState(makeInvoiceId);
+            await promisedSetInvoice(makeInvoiceId);
               setFileType(fileType);
                refetch(); 
     } 

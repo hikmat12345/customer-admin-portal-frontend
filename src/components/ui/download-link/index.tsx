@@ -10,12 +10,6 @@ export function DownloadAbleLink({ invoice_id, index }: { invoice_id: string | n
     const [isPdfFileLoading, setIsPdfFileLoading] = useState<boolean | string>(false);
     const [isExcelFileLoading, setIsExcelFileLoading] = useState<boolean | string>(false);
     const [isDocsFileLoading, setIsDocsFileLoading] = useState<boolean | string>(false);
-    const promisedSetState = (state: any) => {
-        return new Promise((resolve) => {
-            setInvoiceId(state);
-            resolve(state);
-        });
-    }
     const {
         data: blobdata,
         isLoading: isBlobLoading,
