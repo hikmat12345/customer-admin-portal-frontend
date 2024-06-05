@@ -39,7 +39,7 @@ const SelectComponent = (props: IProps) => {
 				<Command>
 					<CommandGroup>
 						<div className="border-b">
-							<h6 className="text-slate-700 text-sm font-bold px-1 py-2">Filters</h6>
+							<h6 className="text-custom-slate-700 text-sm font-bold px-1 py-2">Filters</h6>
 						</div>
 					</CommandGroup>
 					<CommandGroup>

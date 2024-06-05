@@ -108,7 +108,7 @@ const PostTicketUpdateForm = ({
           <Button
             disabled={postUpdateLoading}
             type="submit"
-            className="w-1/5 h-full font-[600] leading-[1.023rem] text-[0.813rem]"
+            className="w-1/5 h-full font-[600] leading-[1.023rem] text-[0.813rem] bg-custom-blue text-custom-white"
           >
             Submit
           </Button>
