@@ -35,21 +35,6 @@ export const getFormattedTotal = (total: number) => {
 	}
 }
 
-export const formatDateTickets = (date: Date) => {
-	// Helper function to add leading zeros
-	function padTo2Digits(num: number) {
-		return num.toString().padStart(2, '0')
-	}
-
-	const month = padTo2Digits(date.getMonth() + 1) // Months are zero-indexed
-	const day = padTo2Digits(date.getDate())
-	const year = date.getFullYear()
-	const hours = padTo2Digits(date.getHours())
-	const minutes = padTo2Digits(date.getMinutes())
-
-	return `${month}/${day}/${year} ${hours}:${minutes}`
-}
-
 export function getServiceType(id: ServiceType): string {
 	switch (id) {
 		case ServiceType.BILLING:
