@@ -57,7 +57,7 @@ const InvoicesPage = () => {
 
 	const debouncedSearchFieldHandlder = React.useCallback(debounce(handleSearchField, 500), [])
 
-	const totalPages = allInvoices?.total
+	const totalPages = allInvoices?.total / limit
 
 	const handlePageChange = async (page: number) => {
 		const params = new URLSearchParams()
@@ -174,7 +174,7 @@ const InvoicesPage = () => {
 				<div className="">
 					<Pagination
 						className="flex justify-end pt-4"
-						totalPages={totalPages}
+						totalPages={Math.ceil(totalPages)}
 						currentPage={Number(page)}
 						onPageChange={handlePageChange}
 					/>

@@ -45,7 +45,7 @@ const InventoryPage = () => {
 		searchQuery?.length !== 0 ? searchQuery?.trim() : undefined
 	)
 
-	const totalPages = inventories?.total
+	const totalPages = inventories?.total / limit;
 
 	const inventoryData = [
 		{
@@ -155,7 +155,7 @@ const InventoryPage = () => {
 				<div className="">
 					<Pagination
 						className="flex justify-end pt-4"
-						totalPages={totalPages}
+						totalPages={Math.ceil(totalPages)}
 						currentPage={Number(page)}
 						onPageChange={handlePageChange}
 					/>
