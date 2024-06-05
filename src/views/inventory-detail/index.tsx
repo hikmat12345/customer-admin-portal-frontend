@@ -14,12 +14,12 @@ type InventoryDetailPageProps = {
 	serviceId: number
 }
 const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
-	const search_id = serviceId
-	const { data: singleServiceData, isLoading: isServiceInfoLoader } = useGetSingleServiceDetail(Number(search_id))
-	const { data: costPlanData, isLoading: isCostPlanLoading } = useGetCostPlan(Number(search_id))
-	const { data: assetsData, isLoading: isAssetLoader } = useGetAssets(Number(search_id))	
-	const { data: ticketsRecentActivityData, isLoading: isTicketsRecentActivityLoader } = useGetTickets(Number(search_id))
-	const { data: recentActivityData, isLoading: isRecentActivityLoader } = useGetRecentActivity(Number(search_id))
+	const searchId = Number(serviceId)
+	const { data: singleServiceData, isLoading: isServiceInfoLoader } = useGetSingleServiceDetail(searchId)
+	const { data: costPlanData, isLoading: isCostPlanLoading } = useGetCostPlan(searchId)
+	const { data: assetsData, isLoading: isAssetLoader } = useGetAssets(searchId)	
+	const { data: ticketsRecentActivityData, isLoading: isTicketsRecentActivityLoader } = useGetTickets(searchId)
+	const { data: recentActivityData, isLoading: isRecentActivityLoader } = useGetRecentActivity(searchId)
 
 	const {id, serviceNumber, costCentre, serviceType, spare, zeroUsageAllowed, contractStartDate, contractEndDate, terminationDate, scheduledTerminationDate, scheduledSuspensionDate, note, purposeOfService, accountNumber, vendor, employee, serviceDescription}= singleServiceData?.data?.general_info || {}
 	

@@ -18,7 +18,7 @@ const InventoryTable = ({ data }: any) => {
     const router = useRouter()
 	const isNoData = data?.length === 0
    const handleServiceClick = (id: number) => {
- 		router.push(`/inventory/service-summary?service_id=${id}`)
+		 router.push(`/inventory/${id}`);
 	}
 	return (
 		<div className="overflow-auto lg:max-h-[225px] xl:max-h-full">
