@@ -31,7 +31,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 
 	return (
 		<div className='w-full border border-custom-lightGray bg-custom-white rounded-lg py-5 px-7 '>
-		  <ScrollTabs tabs={['general-information', 'device-information', 'cost-and-plan', 'tickets', 'activity']} > 
+		  <ScrollTabs tabs={['general-information', 'device-information', 'cost-&-plan', 'tickets', 'activity']} > 
              	<div id="general-information">
 					<GeneralInfo
 						label='General Information'
@@ -71,8 +71,8 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 						isAssetLoader={isAssetLoader}
 					/>
 				</div> 
-				<div id="cost-and-plan">
-					<div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pt-8 '>Plan & Cost</div>
+				<div id="cost-&-plan">
+					<div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pt-8 '>Cost & Plan</div>
 					  {isCostPlanLoading ? <Table><TableBodySkeleton rowCount={2} columnCount={2} /></Table> :
 						<>
 							<PlanTable data={costPlanData?.data?.plan} />
