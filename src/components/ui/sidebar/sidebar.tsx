@@ -51,7 +51,7 @@ const menuItems: ISidebarItem[] = [
   },
   {
     name: "Inventory",
-    path: "/inventory",
+    path: "/inventory .",
     src: "/svg/sidebar/inventory.svg",
   },
   {

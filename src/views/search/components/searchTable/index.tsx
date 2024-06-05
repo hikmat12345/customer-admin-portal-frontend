@@ -16,8 +16,12 @@ const SearchTable = ({ data }: any) => {
 						return (
 							<TableRow key={row.id}>
 								<TableCell className="font-normal py-[19px] text-[#1175BE] text-left">
-									<Link  href={`/${String(row?.type)=="Invoice"?("accounts/invoices/"+String(row?.type)?.toLowerCase()): String(row?.type)?.toLowerCase()}s/${row?.id}`} target='_blank' rel='noreferrer noopener' className='cursor-pointer'>
-										{row?.id}
+									<Link href={`/${String(row?.type) === "Invoice" ? "accounts/invoices/" + String(row?.type)?.toLowerCase() :
+										String(row?.type)?.toLowerCase() === "accounts" ? "vendors/" :
+										String(row?.type)?.toLowerCase() === "services" ? "inventory/" :
+										String(row?.type)?.toLowerCase() === "site" ? "sites/" : ""}${row?.id}`}
+										target='_blank' rel='noreferrer noopener' className='cursor-pointer'>
+										{row?.id}: {String(row?.type)?.toLowerCase()}s/{row?.id}
 									</Link>
 								</TableCell>
 								<TableCell className="text-left">{row?.client}</TableCell>
