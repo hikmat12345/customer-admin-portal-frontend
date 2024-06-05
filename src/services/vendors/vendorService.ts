@@ -6,3 +6,4 @@ export const getVendorsByCountries = async ({ queryKey }: any) => {
 
 	return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/vendor`).then(({ data }) => data)
 }
+ 

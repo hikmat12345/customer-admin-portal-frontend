@@ -13,7 +13,7 @@ const CostSavingsCard = ({
 	badge?: boolean
 	isLoading: boolean
 }) => {
-	const badgeVariant = data?.percentageDifference > 0 ? 'destructive' : 'primary'
+	const badgeVariant = data?.percentageDifference > 0 ? 'destructive' : 'success'
 
 	const formattedPercentageDifference =
 		data?.percentageDifference > 0

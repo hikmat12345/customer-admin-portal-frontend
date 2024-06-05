@@ -38,9 +38,9 @@ const Skeleton: React.FC<SkeletonProps> = ({ variant, rows, width, height, class
 			break
 		case 'block':
 			skeletonContent = (
-				<div className={`max-w-sm w-full mx-auto ${className}`}>
+				<div className={`max-w-sm mx-auto   ${className}`}>
 					<div className="animate-pulse flex space-x-4 p-4 rounded-full bg-gradient-to-r from-ant-skeleton-gradient-from-color via-ant-skeleton-color to-ant-skeleton-gradient-to-color">
-						<div className={`rounded-md bg-gray-400 h-[${height}] w-[${width}]`}></div>
+						<div className={`rounded-md bg-gray-400 `} style={{height: height, width:width}}></div>
 					</div>
 				</div>
 			)
