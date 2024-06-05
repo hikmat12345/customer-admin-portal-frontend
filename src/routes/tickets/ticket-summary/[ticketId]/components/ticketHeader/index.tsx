@@ -1,8 +1,9 @@
+import { TICKET_DATE_FORMAT } from "@/utils/constants/dateFormat.constants";
 import {
   PRIORITY_COLOR_LIST,
   PRIORITY_LIST,
 } from "@/utils/constants/statusList.constants";
-import  { formatDateTickets } from "@/utils/utils";
+import formatDate from "@/utils/utils";
 import Skeleton from "@veroxos/design-system/dist/ui/Skeleton/skeleton";
 
 const TicketHeader = ({
@@ -60,13 +61,13 @@ const TicketHeader = ({
       <div className="flex items-center lg:p-2 xl:p-4">
         <HeaderLabel label="Created" />
         <HeaderValue
-          value={formatDateTickets(ticketSummary?.created)}
+          value={`${formatDate(ticketSummary?.created, TICKET_DATE_FORMAT)}`}
         />
       </div>
       <div className="flex items-center lg:p-2 xl:p-4">
         <HeaderLabel label="Updated" />
         <HeaderValue
-           value={formatDateTickets(ticketSummary?.created)}
+           value={`${formatDate(ticketSummary?.updated, TICKET_DATE_FORMAT)}`}
         />
       </div>
     </div>
