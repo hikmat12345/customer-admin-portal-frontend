@@ -15,16 +15,16 @@ const InventoryTable = ({ data }: any) => {
 		0: 'Terminated',
 		1: 'Live',
 	}
-    const router = useRouter()
+	const router = useRouter()
 	const isNoData = data?.length === 0
-   const handleServiceClick = (id: number) => {
-		 router.push(`/inventory/${id}`);
+	const handleServiceClick = (id: number) => {
+		router.push(`/inventory/${id}`)
 	}
 	return (
 		<div className="overflow-auto lg:max-h-[225px] xl:max-h-full">
 			<Table>
 				<InventoryTableHead />
-				{isNoData && <TableCaption>No inventories available.</TableCaption>} 
+				{isNoData && <TableCaption>No inventories available.</TableCaption>}
 				<TableBody>
 					{data?.map((inventory: Inventory) => {
 						return (
@@ -37,12 +37,9 @@ const InventoryTable = ({ data }: any) => {
 								<TableCell>{'-'}</TableCell>
 								<TableCell>{inventory?.costCentre || '-'}</TableCell>
 								<TableCell>
-									<div className="flex items-center justify-end">
-										<Button variant="null" size="sm">
- 											<Image src="/svg/pencil.svg" alt="Pencil icon" width={18} height={18} />
-										</Button>
+									<div className="flex items-center justify-center">
 										<Button variant="null" size="sm" onClick={() => handleServiceClick(inventory.id)}>
- 											<Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />
+											<Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />
 										</Button>
 									</div>
 								</TableCell>

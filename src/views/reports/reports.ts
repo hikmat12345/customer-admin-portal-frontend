@@ -118,38 +118,38 @@ const financeReports: Report[] = [
 			{ type: 'select', name: 'currency', label: 'Currency', options: currencyList },
 		],
 	},
-	{
-		label: 'F-13',
-		reportName: 'Variance Report',
-		description: 'Analysis of the variance in the given month',
-		title: 'F-13 Variance Report',
-		fields: [
-			{ type: 'select', name: 'month', label: 'Month' },
-			{ type: 'select', name: 'currency', label: 'Currency' },
-			{
-				type: 'text',
-				name: 'variancePercentage',
-				label: 'Variance Percentage',
-				placeholder: 'Enter variance percentage',
-			},
-			{
-				type: 'text',
-				name: 'variantDifference',
-				label: 'Variant Difference',
-				placeholder: 'Enter variance difference amount',
-			},
-		],
-	},
 	// {
-	// 	label: 'F-15',
-	// 	reportName: 'Saving Tracker Report',
-	// 	description: 'A list of saving tracker items created for given client in a period',
-	// 	title: 'F-15 Saving Tracker Report',
+	// 	label: 'F-13',
+	// 	reportName: 'Variance Report',
+	// 	description: 'Analysis of the variance in the given month',
+	// 	title: 'F-13 Variance Report',
 	// 	fields: [
-	// 		{ type: 'datePicker', name: 'From' },
-	// 		{ type: 'datePicker', name: 'To' },
+	// 		{ type: 'select', name: 'month', label: 'Month' },
+	// 		{ type: 'select', name: 'currency', label: 'Currency' },
+	// 		{
+	// 			type: 'text',
+	// 			name: 'variancePercentage',
+	// 			label: 'Variance Percentage',
+	// 			placeholder: 'Enter variance percentage',
+	// 		},
+	// 		{
+	// 			type: 'text',
+	// 			name: 'variantDifference',
+	// 			label: 'Variant Difference',
+	// 			placeholder: 'Enter variance difference amount',
+	// 		},
 	// 	],
 	// },
+	{
+		label: 'F-15',
+		reportName: 'Saving Tracker Report',
+		description: 'A list of saving tracker items created for given client in a period',
+		title: 'F-15 Saving Tracker Report',
+		fields: [
+			{ type: 'datePicker', name: 'From' },
+			{ type: 'datePicker', name: 'To' },
+		],
+	},
 ]
 
 const inventoryReports: Report[] = [
