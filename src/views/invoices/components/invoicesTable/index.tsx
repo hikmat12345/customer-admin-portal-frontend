@@ -4,6 +4,7 @@ import TableCell from '@veroxos/design-system/dist/ui/TableCell/tableCell'
 import TableBody from '@veroxos/design-system/dist/ui/TableBody/tableBody'
 import InvoicesTableHead from './invoicesTableHead'
 import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow'
+import Link from 'next/link'
 
 const InvoicesTable = ({ data }: any) => {
 	const isNoData = data?.invoices?.length === 0
@@ -18,7 +19,8 @@ const InvoicesTable = ({ data }: any) => {
 					{data?.invoices?.map((invoice: any) => {
 						return (
 							<TableRow key={invoice.id}>
-								<TableCell className="font-normal py-[19px]">{invoice?.id}</TableCell>
+								<TableCell className="font-normal py-[19px]">
+									<Link href={`/accounts/invoices/${invoice.id}`} target='_blank' rel='noreferrer noopener' className='cursor-pointer'>{invoice?.id}</Link></TableCell>
 								<TableCell>{invoice?.invoice_number}</TableCell>
 								<TableCell>{invoice?.companyNetwork?.network?.name}</TableCell>
 								<TableCell>{invoice?.companyNetwork?.account_number}</TableCell>
