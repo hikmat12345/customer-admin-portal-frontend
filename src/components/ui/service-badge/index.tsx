@@ -13,8 +13,8 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
                     <div className="text-black pb-2 pt-2 text-base font-semibold">
                         {getServiceType(Number(service.service_type))}
                     </div>
-                    <div className={`h-[41px] w-[41px] p-2 ${getServiceTypeColor(Number(service.service_type))} rounded-[41px] justify-start items-center gap-2.5 inline-flex pb-0  !pt-0`}>
-                        <div className={`inline-flex items-center justify-center text-white w-[41px] h-[41px] text-[16px] font-semibold  rounded-full relative top-0`}>{service.count}</div>
+                    <div className={`h-[34px] w-[34px] p-2 ${getServiceTypeColor(Number(service.service_type))} rounded-[41px] justify-start items-center gap-2.5 inline-flex pb-0  !pt-0`}>
+                        <div className={`inline-flex items-center justify-center text-white w-[34px] h-[34px] text-[16px] font-semibold  rounded-full relative top-0`}>{service.count}</div>
                     </div>
                 </div>
 

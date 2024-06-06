@@ -17,22 +17,26 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 	const searchId = Number(serviceId)
 	const { data: singleServiceData, isLoading: isServiceInfoLoader } = useGetSingleServiceDetail(searchId)
 	const { data: costPlanData, isLoading: isCostPlanLoading } = useGetCostPlan(searchId)
-	const { data: assetsData, isLoading: isAssetLoader } = useGetAssets(searchId)	
+	const { data: assetsData, isLoading: isAssetLoader } = useGetAssets(searchId)
 	const { data: ticketsRecentActivityData, isLoading: isTicketsRecentActivityLoader } = useGetTickets(searchId)
 	const { data: recentActivityData, isLoading: isRecentActivityLoader } = useGetRecentActivity(searchId)
 
-	const {id, serviceNumber, costCentre, serviceType, spare, zeroUsageAllowed, contractStartDate, contractEndDate, terminationDate, scheduledTerminationDate, scheduledSuspensionDate, note, purposeOfService, accountNumber, vendor, employee, serviceDescription}= singleServiceData?.data?.general_info || {}
-	
+	const { id, serviceNumber, costCentre, serviceType, spare, zeroUsageAllowed, contractStartDate, contractEndDate, terminationDate, scheduledTerminationDate, scheduledSuspensionDate, note, purposeOfService, accountNumber, vendor, employee, serviceDescription } = singleServiceData?.data?.general_info || {}
+
 	//get site detail for google map location 
 	const site = singleServiceData?.data?.site || {}
 	const { deviceid, simNumber, datePurchased, deviceName, status, image } = assetsData?.data[0] || {}
 	// make image url from base64 string 
-	const imageUrl =  makeFileUrlFromBase64(image ? Buffer.from(image).toString('base64') : null);
-
+	const imageUrl = makeFileUrlFromBase64(image ? Buffer.from(image).toString('base64') : null);
+	const refineRecentActivityData = recentActivityData?.data?.recent_activity.map((activity: any) => ({
+		description: activity.description,
+		who: activity.who,
+		created: activity.createdAt
+	}))
 	return (
 		<div className='w-full border border-custom-lightGray bg-custom-white rounded-lg py-5 px-7 '>
-		  <ScrollTabs tabs={['general-information', 'device-information', 'cost-&-plan', 'tickets', 'activity']} > 
-             	<div id="general-information">
+			<ScrollTabs tabs={['general-information', 'device-information', 'cost-&-plan', 'tickets', 'activity']} >
+				<div id="general-information">
 					<GeneralInfo
 						label='General Information'
 						isLoading={isServiceInfoLoader}
@@ -58,7 +62,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 					/>
 					<Separator className='h-[1.5px] bg-[#5d5b5b61]' />
 				</div>
- 
+
 				<div id="device-information">
 					<DeviceInfoCard
 						label="Device Information"
@@ -70,17 +74,17 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 						simNumber={simNumber}
 						isAssetLoader={isAssetLoader}
 					/>
-				</div> 
+				</div>
 				<div id="cost-&-plan">
 					<div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pt-8 '>Cost & Plan</div>
-					  {isCostPlanLoading ? <Table><TableBodySkeleton rowCount={2} columnCount={2} /></Table> :
+					{isCostPlanLoading ? <Table><TableBodySkeleton rowCount={2} columnCount={2} /></Table> :
 						<>
 							<PlanTable data={costPlanData?.data?.plan} />
 							<CostTable data={costPlanData?.data?.cost} costCenter={costCentre} />
 						</>}
 					<Separator className='h-[2.2px] mt-4 bg-[#5d5b5b61]' />
 				</div>
- 
+
 				<div id="tickets">
 					<TableData
 						label="Tickets"
@@ -89,14 +93,14 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 					/>
 					<Separator className='h-[2px] bg-[#5d5b5b61]  mt-8' />
 				</div>
- 
+
 				<div id="activity">
 					<TableData
 						label="Recent Activity"
-						data={recentActivityData?.data?.recent_activity}
+						data={refineRecentActivityData}
 						loading={isRecentActivityLoader}
 					/>
-				</div> 
+				</div>
 			</ScrollTabs>
 		</div>
 	)

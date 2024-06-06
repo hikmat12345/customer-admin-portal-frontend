@@ -174,12 +174,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 							currentPage={Number(page)}
 							onPageChange={handlePageChange}
 						/>
-					</div>)}
-				<button
-					onClick={showTerminatedHandler}
-					className="w-[280px] h-[48px] px-[18px] pt-3 pb-4 bg-orange-500 rounded-lg border border-orange-500 my-5   gap-2.5  ml-auto block">
-					<span className="text-white text-base font-semibold ">{showTerminated ? "Show Terminated Service" : "Show Live Services"} </span>
-				</button>
+					</div>)} 
 			</ScrollTabs>
 		</div>
 	)

@@ -46,10 +46,10 @@ export const DeviceInfoCard: React.FC<DeviceInfoCardProps> = ({label="", imageUr
                 <div >
                     <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{datePurchased ? formatSeperateDate(datePurchased) : ' - '}</div>
                     <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>
-                        {
+                        {status ?
                           <Badge className={`p-2 rounded-lg text-white
                           ${status === 'Active' ? 'bg-[#41a673]' : status === 'Suspended' ? 'bg-[#f2994a]'  : 'bg-[#772423]'} variant="success" shape="block">{status? status: "Unkown"}</Badge>
-                          bg-[#41a673] text-white`} variant="success" shape="block">{status? status: "Unkown"}</Badge>
+                          bg-[#41a673] text-white`} variant="success" shape="block">{status? status: "Unkown"}</Badge> : "-"
                         }
                     </div>
                     <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>

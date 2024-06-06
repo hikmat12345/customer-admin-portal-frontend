@@ -135,8 +135,8 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 					<div className='flex gap-4 mt-4 flex-wrap'>
 						{isEmployeeServiceType ?
 							<Skeleton variant="paragraph" rows={3} /> :
-							Array.isArray(employeeServiceTypes.data) && employeeServiceTypes.data.length > 0 ?
-								<ServiceTypesGrid services={employeeServiceTypes.data.sort((a: {
+							Array.isArray(employeeServiceTypes?.data) && employeeServiceTypes?.data.length > 0 ?
+								<ServiceTypesGrid services={employeeServiceTypes?.data.sort((a: {
 									subTypes: {name:string,service_type:string}[]
 								}, b: {
 									subTypes:{name:string,service_type:string}[]

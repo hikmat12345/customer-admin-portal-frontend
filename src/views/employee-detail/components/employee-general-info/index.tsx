@@ -35,7 +35,9 @@ export default function SiteGeneralInfo({
         { label: 'Job Title', value: jobTitle },
         { label: 'Employee Level', value: employeeLevel },
         { label: 'Cost Center', value: costCenter },
-        { label: 'VIP Executive', value:vipExecutive   ? <Link target="_blank" href={`/employees/${vipExecutive}`} className='text-custom-blue hover:underline'>{vipExecutive}</Link> : null },
+        { label: 'VIP Executive', value: "-"}
+        // need this commented code for later 
+        // value:vipExecutive   ? <Link target="_blank" href={`/employees/${vipExecutive}`} className='text-custom-blue hover:underline'>{vipExecutive}</Link> : null },
     ];
 
     return (

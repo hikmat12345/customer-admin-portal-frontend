@@ -50,13 +50,15 @@ function TableBodyContent({ record, currencySymbol }: any) {
     <>
       {Object.values(record).map((value: any, index:number) => (
         <TableCell key={index} className={`${index === 0 ? 'text-[14px] text-left' : ' text-left '} first:text-[12px] first:pl-10 last:text-left py-3 border-t-[1px] border-custom-plaster`}>
-          {
+           {
             Object.keys(record)[index] === 'created' ? formatDate(value) :
             Object.keys(record)[index] === 'when' ? formatDate(value) :
             Object.keys(record)[index] === 'service_type' ? getServiceType(value) :
             Object.keys(record)[index] === 'description' ? <div dangerouslySetInnerHTML={{ __html: value }} /> :
             Object.keys(record)[index] === 'reference' ?  value !=="-"?<Link href={value && `/tickets/reference_id=${value}`} className="text-sky-600 font-normal">{value  ? `SUP${value}`: " - "}</Link> :
-            Object.keys(record)[index] === 'number' ? <Link href={value ? `/inventory/${stringFindAndReplaceAll(value, "-/"," ", 1)}`:''} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link>:"-" :
+            (Object.keys(record)[index] ==='number_value') ? <Link href={value ? `/inventory/${stringFindAndReplaceAll(value, "-/"," ", 1)}`:''} className="text-sky-600 font-normal">{value.split("-/")[0]}</Link>:"-" :
+            (Object.keys(record)[index] === "number") ? <Link href={value ? `/inventory/${stringFindAndReplaceAll(value, "-/"," ", 1)}`:""} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
+
             Object.keys(record)[index] === 'vendor_name' ? stringFindAndReplaceAll(value, " "," ", 0) :
             (Object.keys(record)[index] === "Invoice_#") ? <Link href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, "-/"," ", 1)}`:""} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
             (Object.keys(record)[index] === 'invoice_ref' ) ? <Link href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, "-/"," ", 1)}`:""} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
@@ -69,7 +71,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
             Object.keys(record)[index] === 'status' ? <span className={`${value == 1 ? 'text-blue-600' : value == 2 ? 'text-gray-700' : 'text-black'}`}>{TICKETS_STATUS_LIST[value]}</span> :
             String(value) == 'null' || String(value) == 'undefined' || String(value) == '' ? <span className='pl-[20%]'>-</span> : String(value)
           }
-        </TableCell>
+         </TableCell>
       ))}
     </>
   );
