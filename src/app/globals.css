@@ -122,7 +122,7 @@
 	font-weight: 600 !important;
 }
 .apexcharts-text tspan {
-    font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875' !important;
+    /* font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875' !important; */
     font-size: 13px !important;
     font-weight: 600 !important;
 }

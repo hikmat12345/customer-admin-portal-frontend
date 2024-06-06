@@ -29,13 +29,15 @@ export default function SiteGeneralInfo({
             {status === 1 ? "Live" : "Archived"}
         </span> : null },
         { label: 'Site', value: site?.streetLine1 },
-        { label: 'Manage ID', value: manageId ? <Link href={`/site/${manageId}`} className='text-custom-blue hover:underline'>{manageId}</Link> : null },
+        { label: 'Manage ID', value: manageId ? <Link target="_blank" href={`/employees/${manageId}`} className='text-custom-blue hover:underline'>{manageId}</Link> : null },
         { label: 'Client Employee ID', value: clientEmployeeId },
         { label: 'Last Name', value: lastName },
         { label: 'Job Title', value: jobTitle },
         { label: 'Employee Level', value: employeeLevel },
         { label: 'Cost Center', value: costCenter },
-        { label: 'VIP Executive', value: vipExecutive },
+        { label: 'VIP Executive', value: "-"}
+        // need this commented code for later 
+        // value:vipExecutive   ? <Link target="_blank" href={`/employees/${vipExecutive}`} className='text-custom-blue hover:underline'>{vipExecutive}</Link> : null },
     ];
 
     return (

@@ -58,9 +58,10 @@ export function DownloadAbleLink({ invoice_id, index }: { invoice_id: string | n
             <Button loading={`xls-${index}` == isExcelFileLoading ? true : false} className="text-black animate-in bg-transparent border-none" onClick={() => fileDownloadFile(invoice_id, "xls", index)}>
                 <Image className="w-[18.28px] h-6 " src="/svg/excel-icon.svg" alt="excel" width={20} height={20} />
             </Button>
-            <Button loading={`docs-${index}` == isDocsFileLoading ? true : false} className="text-black animate-in bg-transparent border-none" onClick={() => fileDownloadFile(invoice_id, "docs", index)}>
+            {/* I need this commented code later   */}
+            {/* <Button loading={`docs-${index}` == isDocsFileLoading ? true : false} className="text-black animate-in bg-transparent border-none" onClick={() => fileDownloadFile(invoice_id, "docs", index)}>
                 <Image className="w-[18.28px] h-6 " src="/svg/word-icon.svg" alt="word" width={20} height={20} />
-            </Button>
+            </Button> */}
         </div>
     )
 }

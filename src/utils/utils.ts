@@ -90,9 +90,9 @@ export const serviceOptions: { id: number; label: string }[] = Object.keys(Servi
 	}))
 
 // replacer all 
-export function stringFindAndReplaceAll(str: string, find: string, replace: string, position: number = 0): string {
-	const replaceData = str?.split(find);
-	return replaceData[position];
+export function stringFindAndReplaceAll(str: string, find: string, replace: string, position: number = 0) {
+	const replaceData = typeof str === "string" ? str.split(find) : null;
+	return replaceData ? replaceData[position] : null;
 }
 
 // Create number formatter.
