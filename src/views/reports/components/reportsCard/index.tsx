@@ -16,11 +16,13 @@ import {
 	usePostF5Report,
 	usePostF6Report,
 	usePostF7Report,
+	usePostI10Report,
+	usePostI8Report,
 } from '@/hooks/useGetReportData'
 import { format } from 'date-fns'
 import { MONTH_AND_YEAR_FORMAT } from '@/utils/constants/dateFormat.constants'
 
-type ReportKey = 'F1' | 'F3' | 'F4' | 'F5' | 'F6' | 'F7' | 'F12' | 'F15'
+type ReportKey = 'F1' | 'F3' | 'F4' | 'F5' | 'F6' | 'F7' | 'F12' | 'F15' | 'I8' | 'I10'
 
 const reportHooks = {
 	F1: usePostF1Report,
@@ -31,6 +33,8 @@ const reportHooks = {
 	F7: usePostF7Report,
 	F12: usePostF12Report,
 	F15: usePostF15Report,
+	I8: usePostI8Report,
+	I10: usePostI10Report,
 }
 
 const ReportsCard = ({
@@ -86,6 +90,8 @@ const ReportsCard = ({
 		F7: useReportMutation('F7'),
 		F12: useReportMutation('F12'),
 		F15: useReportMutation('F15'),
+		I8: useReportMutation('I8'),
+		I10: useReportMutation('I10'),
 	}
 
 	const handleSubmit = (values: Record<string, string>) => {
@@ -111,6 +117,8 @@ const ReportsCard = ({
 					reportMutations[reportKey].mutate({ currency, year })
 				} else if (reportKey === 'F15') {
 					reportMutations[reportKey].mutate({ from: formattedStartDate, to: formattedEndDate })
+				} else if (reportKey === 'I8' || reportKey === 'I10') {
+					reportMutations[reportKey].mutate({})
 				} else {
 					reportMutations[reportKey].mutate(postBody)
 				}
@@ -124,22 +132,30 @@ const ReportsCard = ({
 		<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
 			{({ touched, errors }) => (
 				<Form className="flex flex-col gap-4">
-					{fieldTypes.some((field) => field.type === 'datePicker') && (
-						<div className="flex gap-2">
-							{fieldTypes
-								.filter((field) => field.type === 'datePicker')
-								.map((field, index) => (
-									<div className="flex flex-col gap-3 w-[48.993333%]" key={index}>
-										<FormFieldElement
-											type={field.type}
-											name={field.name}
-											errors={errors}
-											touched={touched}
-											options={field.options}
-										/>
-									</div>
-								))}
+					{fieldTypes.length === 0 ? (
+						<div className="flex justify-center mb-4">
+							<Image src="/svg/excelIconMedium.svg" width={80} height={80} alt="Excel icon" />
 						</div>
+					) : (
+						<>
+							{fieldTypes.some((field) => field.type === 'datePicker') && (
+								<div className="flex gap-2">
+									{fieldTypes
+										.filter((field) => field.type === 'datePicker')
+										.map((field, index) => (
+											<div className="flex flex-col gap-3 w-[48.993333%]" key={index}>
+												<FormFieldElement
+													type={field.type}
+													name={field.name}
+													errors={errors}
+													touched={touched}
+													options={field.options}
+												/>
+											</div>
+										))}
+								</div>
+							)}
+						</>
 					)}
 					<div className="flex flex-wrap w-[100%] gap-2">
 						{fieldTypes
@@ -163,9 +179,9 @@ const ReportsCard = ({
 					</div>
 					<div className="flex items-center justify-center gap-3">
 						<Button variant="outline" type="submit" disabled>
-						Schedule
+							Schedule
 						</Button>
-						<Button disabled={reportsLoading} type="submit" className="animate-in">
+						<Button disabled={reportsLoading} type="submit" className="animate-in bg-custom-blue text-custom-white">
 							Download
 						</Button>
 					</div>

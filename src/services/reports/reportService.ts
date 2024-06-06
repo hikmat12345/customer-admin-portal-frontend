@@ -67,3 +67,17 @@ export const postF15Report = async (data: any) => {
 		.then(({ data }) => downloadExcelFile(data, 'F15_report.xlsx'))
 		.catch((error) => error)
 }
+
+export const postI8Report = async (data: any) => {
+	return httpClient
+		.post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/I8`, data, { responseType: 'blob' })
+		.then(({ data }) => downloadExcelFile(data, 'I8_report.xlsx'))
+		.catch((error) => error)
+}
+
+export const postI10Report = async (data: any) => {
+	return httpClient
+		.post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/I10`, data, { responseType: 'blob' })
+		.then(({ data }) => downloadExcelFile(data, 'I10_report.xlsx'))
+		.catch((error) => error)
+}

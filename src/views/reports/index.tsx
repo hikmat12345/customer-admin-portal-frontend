@@ -33,12 +33,9 @@ const ReportsPage = () => {
 					<Tabs defaultValue={defaultTabValue} onValueChange={handleTabChange}>
 						<TabsList className="flex gap-8 w-full justify-start">
 							<TabsTrigger
-								value="recent"
-								className="px-3  data-[state=active]:bg-[#1D46F333] data-[state=active]:text-custom-blue data-[state=active]:shadow"
+								value="finance"
+								className="px-3 data-[state=active]:bg-[#1D46F333] data-[state=active]:text-custom-blue data-[state=active]:shadow"
 							>
-								Recent
-							</TabsTrigger>
-							<TabsTrigger value="finance" className="px-3">
 								Finance Reports
 							</TabsTrigger>
 							<TabsTrigger value="inventory" className="px-3">

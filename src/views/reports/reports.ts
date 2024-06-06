@@ -158,70 +158,49 @@ const inventoryReports: Report[] = [
 		reportName: 'Account List',
 		description: 'A list of Accounts and their associated details and settings',
 		title: 'I-2 Account List',
-		fields: [
-			{ type: 'datePicker', name: 'From' },
-			{ type: 'datePicker', name: 'To' },
-		],
+		fields: [],
 	},
 	{
 		label: 'I-4',
 		reportName: 'Client Portal User List',
 		description: 'A list of Accounts and their associated details and settings',
 		title: 'I-4 Client Portal User List',
-		fields: [
-			{ type: 'datePicker', name: 'From' },
-			{ type: 'datePicker', name: 'To' },
-		],
+		fields: [],
 	},
 	{
 		label: 'I-5',
 		reportName: 'Employee List',
 		description: 'A list of Accounts and their associated details and settings',
 		title: 'I-5 Employee List',
-		fields: [
-			{ type: 'datePicker', name: 'From' },
-			{ type: 'datePicker', name: 'To' },
-		],
+		fields: [],
 	},
 	{
 		label: 'I-7',
 		reportName: 'Service List',
 		description: 'A list of Accounts and their associated details and settings',
 		title: 'I-7 Service List',
-		fields: [
-			{ type: 'datePicker', name: 'From' },
-			{ type: 'datePicker', name: 'To' },
-		],
+		fields: [],
 	},
 	{
 		label: 'I-8',
 		reportName: 'Site List',
 		description: 'A list of all sites and their addresses',
 		title: 'I-8 Site List',
-		fields: [
-			{ type: 'datePicker', name: 'From' },
-			{ type: 'datePicker', name: 'To' },
-		],
+		fields: [],
 	},
 	{
 		label: 'I-10',
 		reportName: 'GL Code List',
 		description: 'A list of all GL Codes for a client',
 		title: 'I-10 GL Code List',
-		fields: [
-			{ type: 'datePicker', name: 'From' },
-			{ type: 'datePicker', name: 'To' },
-		],
+		fields: [],
 	},
 	{
 		label: 'I-11',
 		reportName: 'Vendor Document List',
 		description: 'A list of all documents for a client',
 		title: 'I-11 Vendor Document List',
-		fields: [
-			{ type: 'datePicker', name: 'From' },
-			{ type: 'datePicker', name: 'To' },
-		],
+		fields: [],
 	},
 ]
 
