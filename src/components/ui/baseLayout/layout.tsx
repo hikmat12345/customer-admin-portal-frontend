@@ -37,7 +37,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
 							<>
 								{endWord() === "search" && (
 									<button
-										className="flex items-center justify-center absolute left-[-35px] p-2 w-[27px] h-[27px] rounded-full border border-custom-blue"
+										className="flex items-center justify-center absolute left-[-20px] p-2 w-[27px] h-[27px] rounded-full border border-custom-blue"
 										onClick={handleRouteBack}
 									>
 										<Image
@@ -48,7 +48,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
 										/>
 									</button>
 								)}
-								<h2 className="capitalize font-bold text-custom-black text-[30px]">
+								<h2 className={`capitalize font-bold text-custom-black text-[30px] ${endWord() === 'search' ? 'ml-5' : '' }`}>
 									{isSummaryPage ? endWord(2) + " Summary" : endWord()}
 								</h2>
 							</>
