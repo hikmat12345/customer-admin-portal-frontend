@@ -72,8 +72,11 @@ const LineChart = ({ label, data = [], isLoading = false }: LineChartProps) => {
         },
          xaxis: {
             categories: [...data?.map((d) => d.date)].reverse(),
-             type: 'datetime', 
+             type: 'datetime',
+              
          },
+         labels: [...data?.map((d) => d.date)].reverse(),
+        
         yaxis: {
             labels: {
                 formatter: function (value: any) {

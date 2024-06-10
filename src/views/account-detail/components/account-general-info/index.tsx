@@ -68,7 +68,7 @@ export default function AccountGeneralInfo({
                         </div>
                     </div>
                     <div className='w-[17%] max-lg:w-[100%] max-lg:mt-5 '>
-                        <Image src={process.env.NEXT_PUBLIC_ASSETS_LOGOS_PATH + network?.logo} alt="account logo" width={200} height={200} className=" " />
+                        <Image src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + network?.logo} alt="account logo" width={200} height={200} className=" " />
                     </div>
                 </div>}
         </div>

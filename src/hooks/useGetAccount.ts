@@ -1,4 +1,4 @@
-import { getAccountCostTrend, getAccountDetail, getAccountInvoices, getVendorTickets } from '@/services/accounts/accountsService'
+import { getAccountCostTrend, getAccountDetail, getAccountInvoices, getServiceLocations, getServiceTypesVendor, getVendorTickets } from '@/services/accounts/accountsService'
   import { useQuery } from '@tanstack/react-query'
 
 export const useGetAccountDetail = (account_id: number) => {
@@ -24,5 +24,19 @@ export const useGetAccountInvoices = (
 	return useQuery({
 		queryKey: ['account_tickets', vendorId, offset, limit],
 		queryFn: getVendorTickets,
+	})
+}
+
+ export const useGetServiceLocations = (accountId: number) => {
+	return useQuery({
+		queryKey: ['service_locations', accountId],
+		queryFn: getServiceLocations
+	})
+}
+
+ export const useGetServiceTypesVendor = (accountId: number) => {
+	return useQuery({
+		queryKey: ['service_types_vendor', accountId],
+		queryFn: getServiceTypesVendor
 	})
 }
