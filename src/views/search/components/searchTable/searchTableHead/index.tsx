@@ -1,7 +1,8 @@
-import TableHead from "@veroxos/design-system/dist/ui/TableHead/tableHead";
-import TableHeader from "@veroxos/design-system/dist/ui/TableHeader/tableHeader";
-import TableRow from "@veroxos/design-system/dist/ui/TableRow/tableRow";
-const SearchTableHead = () => {
+import TableHead from '@veroxos/design-system/dist/ui/TableHead/tableHead';
+import TableHeader from '@veroxos/design-system/dist/ui/TableHeader/tableHeader';
+import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow';
+
+function SearchTableHead() {
   return (
     <TableHeader>
       <TableRow>

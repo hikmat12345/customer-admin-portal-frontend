@@ -1,77 +1,77 @@
-'use client'
+'use client';
 
-import SearchField from '@/components/ui/search-field'
-import React, { useEffect } from 'react'
-import ReportsCard from './components/reportsCard'
-import TabsList from '@veroxos/design-system/dist/ui/TabsList/tabsList'
-import TabsTrigger from '@veroxos/design-system/dist/ui/TabsTrigger/tabsTrigger'
-import TabsContent from '@veroxos/design-system/dist/ui/TabsContent/tabsContent'
-import Tabs from '@veroxos/design-system/dist/ui/Tabs/tabs'
-import allReports, { ReportCategory } from './reports'
-import CreateQueryString from '@/utils/createQueryString'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import SearchField from '@/components/ui/search-field';
+import React, { useEffect } from 'react';
+import TabsList from '@veroxos/design-system/dist/ui/TabsList/tabsList';
+import TabsTrigger from '@veroxos/design-system/dist/ui/TabsTrigger/tabsTrigger';
+import TabsContent from '@veroxos/design-system/dist/ui/TabsContent/tabsContent';
+import Tabs from '@veroxos/design-system/dist/ui/Tabs/tabs';
+import CreateQueryString from '@/utils/createQueryString';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import allReports, { ReportCategory } from './reports';
+import ReportsCard from './components/reportsCard';
 
-const ReportsPage = () => {
-	const pathname = usePathname()
-	const searchParams = useSearchParams()
-	const defaultTabValue = searchParams?.get('tab') || 'finance'
-	const router = useRouter()
-	const createQueryString = CreateQueryString()
+function ReportsPage() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const defaultTabValue = searchParams?.get('tab') || 'finance';
+  const router = useRouter();
+  const createQueryString = CreateQueryString();
 
-	const handleTabChange = (value: string) => {
-		router.push(`${pathname}?${createQueryString('tab', value)}`)
-	}
+  const handleTabChange = (value: string) => {
+    router.push(`${pathname}?${createQueryString('tab', value)}`);
+  };
 
-	useEffect(() => {
-		router.push(`${pathname}?${createQueryString('tab', 'finance')}`)
-	}, [])
+  useEffect(() => {
+    router.push(`${pathname}?${createQueryString('tab', 'finance')}`);
+  }, []);
 
-	return (
-		<div>
-			<div className="grid grid-auto-flow-column w-full bg-custom-white border-custom-lightGray rounded-lg px-9 py-5 gap-8">
-				<div className="flex justify-start relative">
-					<Tabs defaultValue={defaultTabValue} onValueChange={handleTabChange}>
-						<TabsList className="flex gap-8 w-full justify-start">
-							<TabsTrigger
-								value="finance"
-								className="px-3 data-[state=active]:bg-[#1D46F333] data-[state=active]:text-custom-blue data-[state=active]:shadow"
-							>
-								Finance Reports
-							</TabsTrigger>
-							<TabsTrigger value="inventory" className="px-3">
-								Inventory Reports
-							</TabsTrigger>
-							<TabsTrigger value="service" className="px-3">
-								Service Management Reports
-							</TabsTrigger>
-						</TabsList>
-						{Object.values(allReports).map((category: ReportCategory) => (
-							<TabsContent key={category.categoryName} value={category.value} className="mt-10">
-								<div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-5 h-[100vh] lg:h-[74vh] overflow-y-scroll">
-									{category?.reports?.map((report) => (
-										<ReportsCard
-											key={report.label}
-											label={report.label}
-											description={report.description}
-											reportName={report.reportName}
-											fieldTypes={report.fields}
-										/>
-									))}
-								</div>
-							</TabsContent>
-						))}
-					</Tabs>
-					<div className="absolute right-0">
-						<SearchField
-							className="rounded-none bg-transparent border-b ml-2 outline-none focus:border-[#44444480] w-[500px] xl:min-w-[350px] font-normal"
-							iconWidth={16}
-							iconHeight={16}
-						/>
-					</div>
-				</div>
-			</div>
-		</div>
-	)
+  return (
+    <div>
+      <div className="grid-auto-flow-column grid w-full gap-8 rounded-lg border-custom-lightGray bg-custom-white px-9 py-5">
+        <div className="relative flex justify-start">
+          <Tabs defaultValue={defaultTabValue} onValueChange={handleTabChange}>
+            <TabsList className="flex w-full justify-start gap-8">
+              <TabsTrigger
+                value="finance"
+                className="px-3 data-[state=active]:bg-[#1D46F333] data-[state=active]:text-custom-blue data-[state=active]:shadow"
+              >
+                Finance Reports
+              </TabsTrigger>
+              <TabsTrigger value="inventory" className="px-3">
+                Inventory Reports
+              </TabsTrigger>
+              <TabsTrigger value="service" className="px-3">
+                Service Management Reports
+              </TabsTrigger>
+            </TabsList>
+            {Object.values(allReports).map((category: ReportCategory) => (
+              <TabsContent key={category.categoryName} value={category.value} className="mt-10">
+                <div className="grid h-[100vh] grid-cols-1 gap-5 overflow-y-scroll md:grid-cols-1 lg:h-[74vh] lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
+                  {category?.reports?.map((report) => (
+                    <ReportsCard
+                      key={report.label}
+                      label={report.label}
+                      description={report.description}
+                      reportName={report.reportName}
+                      fieldTypes={report.fields}
+                    />
+                  ))}
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+          <div className="absolute right-0">
+            <SearchField
+              className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:min-w-[350px]"
+              iconWidth={16}
+              iconHeight={16}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default ReportsPage
+export default ReportsPage;

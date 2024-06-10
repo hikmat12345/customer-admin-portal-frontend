@@ -1,27 +1,27 @@
-'use client'
+'use client';
 
-import SearchTextFieldArea from '@/components/ui/searchTextFieldArea'
-import Sidebar from '@/components/ui/sidebar/sidebar'
-import Image from 'next/image'
-import { useParams, usePathname, useRouter } from 'next/navigation'
-import * as React from 'react'
- 
-const BaseLayout = ({ children }: { children: React.ReactNode }) => {
-	const pathname = usePathname()
-	const params = useParams()
-	const router = useRouter()
-	const pathSegments = pathname && pathname.split('/')
-	let endWord =(position:number =1) => {
-		const findPath= pathSegments && pathSegments[pathSegments?.length - position] || 'Home';
-		return findPath.replace(/[-/]+/g, ' ')
-	}
-	
-	const handleRouteBack = () => {
-		router.back()
-	}  
+import SearchTextFieldArea from '@/components/ui/searchTextFieldArea';
+import Sidebar from '@/components/ui/sidebar/sidebar';
+import Image from 'next/image';
+import { useParams, usePathname, useRouter } from 'next/navigation';
+import * as React from 'react';
 
-    const isSummaryPage = !isNaN(Number(params?.id));
-    const isTicketSummaryPage = !isNaN(Number(params?.ticketId));
+function BaseLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const params = useParams();
+  const router = useRouter();
+  const pathSegments = pathname && pathname.split('/');
+  const endWord = (position: number = 1) => {
+    const findPath = (pathSegments && pathSegments[pathSegments?.length - position]) || 'Home';
+    return findPath.replace(/[-/]+/g, ' ');
+  };
+
+  const handleRouteBack = () => {
+    router.back();
+  };
+
+  const isSummaryPage = !isNaN(Number(params?.id));
+  const isTicketSummaryPage = !isNaN(Number(params?.ticketId));
 
  	return (
 		<div className="flex">
@@ -62,4 +62,4 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
 	)
 }
 
-export default BaseLayout
+export default BaseLayout;
