@@ -33,10 +33,8 @@ const SearchPage = () => {
     setInputValidation("");
     if (searchFieldRef.current && searchFieldRef.current.value) {
       const newSearchVal = sanitizeSearchQuery(searchFieldRef.current.value);
-      if (newSearchVal.length < 3) {
-        return setInputValidation(
-          "Query must contain at least three characters"
-        );
+      if (newSearchVal.length < 2) {
+        return setInputValidation("Query must contain at least two characters");
       }
       searchFieldRef.current.value = newSearchVal;
       router.replace(`${pathname}?${createQueryString("query", newSearchVal)}`);
