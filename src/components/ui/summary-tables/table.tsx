@@ -33,7 +33,7 @@ function TableHeaderContent({ data }: any) {
       {(data && typeof data[0] === 'object' && Object.keys(data[0] || {}).length > 1) ? 
         Object.keys(data[0] || {}).map((key) => (
           <TableHead key={key} className="w-[100px] text-left first:pl-10 first:border-tl last:border-none capitalize pl-4 pr-4 last:text-left">
-            {key === "invoiceBreakdowns" ? "Cost" : key.replaceAll('_', ' ')}
+            {key === "invoiceBreakdowns" ? "Cost" : key === "tax_and_fees" ? "Tax & Fees" :  key === "invoiceDate" ? "Invoice Date" : key.replaceAll('_', ' ')}
           </TableHead>
         )) : (
           <div className='text-center text-lg py-8'>Data Not Found</div>
@@ -55,10 +55,9 @@ function TableBodyContent({ record, currencySymbol }: any) {
             Object.keys(record)[index] === 'when' ? formatDate(value) :
             Object.keys(record)[index] === 'service_type' ? getServiceType(value) :
             Object.keys(record)[index] === 'description' ? <div dangerouslySetInnerHTML={{ __html: value }} /> :
-            Object.keys(record)[index] === 'reference' ?  value !=="-"?<Link href={value && `/tickets/reference_id=${value}`} className="text-sky-600 font-normal">{value  ? `SUP${value}`: " - "}</Link> :
+            Object.keys(record)[index] === 'reference' ?  value !=="-"?<Link href={value && `/support/tickets/ticket-summary/${value}`} className="text-sky-600 font-normal">{value  ? `SUP${value}`: " - "}</Link> :
             (Object.keys(record)[index] ==='number_value') ? <Link href={value ? `/inventory/${stringFindAndReplaceAll(value, "-/"," ", 1)}`:''} className="text-sky-600 font-normal">{value.split("-/")[0]}</Link>:"-" :
             (Object.keys(record)[index] === "number") ? <Link href={value ? `/inventory/${stringFindAndReplaceAll(value, "-/"," ", 1)}`:""} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
-
             Object.keys(record)[index] === 'vendor_name' ? stringFindAndReplaceAll(value, " "," ", 0) :
             (Object.keys(record)[index] === "Invoice_#") ? <Link href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, "-/"," ", 1)}`:""} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
             (Object.keys(record)[index] === 'invoice_ref' ) ? <Link href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, "-/"," ", 1)}`:""} className="text-sky-600 font-normal">{stringFindAndReplaceAll(value, "-/"," ", 0)}</Link> :
@@ -69,7 +68,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
             Object.keys(record)[index] === 'currency' ? <><span className="text-[#47de88]">{currencySymbol}</span></> :
             Object.keys(record)[index] === 'total' || Object.keys(record)[index] === 'cost_centre' || Object.keys(record)[index] === 'sub_total' || Object.keys(record)[index] === 'tax_and_fees' || Object.keys(record)[index] === 'total_site_cost' ? `${moneyFormatter(value, currencySymbol)}` :
             Object.keys(record)[index] === 'status' ? <span className={`${value == 1 ? 'text-blue-600' : value == 2 ? 'text-gray-700' : 'text-black'}`}>{TICKETS_STATUS_LIST[value]}</span> :
-            String(value) == 'null' || String(value) == 'undefined' || String(value) == '' ? <span className='pl-[20%]'>-</span> : String(value)
+            String(value) == 'null' || String(value) == 'undefined' || String(value) == '' ? <span className='pl-[10%]'>-</span> : String(value)
           }
          </TableCell>
       ))}
@@ -84,10 +83,10 @@ function TableBodyContent({ record, currencySymbol }: any) {
  * accordingly. The table can be used for different datasets by passing appropriate props.
  */
 
-export default function TableData({ data, loading, label, currency }: TableDataProps) {
+export default function TableData({ data, loading, label, currency, tableClass }: TableDataProps) {
   currency = currency ? currency.toUpperCase() : null;
   const currencySymbol = currency;    
-
+   console.log(tableClass, 'tableClass')
   return (
     <>
     {/* lable of the table  */}
@@ -98,7 +97,7 @@ export default function TableData({ data, loading, label, currency }: TableDataP
       )}
       {/* load the skeleton if the data is still loading */}
       {loading ? (
-        <Table>
+        <Table className={`${tableClass}`}>
           <TableBodySkeleton rowCount={3} columnCount={3} />
         </Table>
       ) : (
@@ -106,7 +105,7 @@ export default function TableData({ data, loading, label, currency }: TableDataP
           <div className='text-center text-lg py-8'>Data Not Found</div>
         ) : (
           <div className='overflow-y-scroll no-scrollbar max-h-[600px]'>
-            <Table style={{ borderColor: "#e2e2e2" }} className='border-[1px] border-[#e2e2e2] rounded-md text-left border-separate border-tools-table-outline'>
+            <Table style={{ borderColor: "#e2e2e2" }} className={`border-[1px] border-[#e2e2e2] rounded-md text-left border-separate border-tools-table-outline  ${tableClass}`}>
               <TableHeader>
                 <TableRow>
                   <TableHeaderContent data={data} />

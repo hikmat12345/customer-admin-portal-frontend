@@ -57,6 +57,7 @@ export type GeneralInfoProps = {
         account: string,
         serviceType: string | number,
         serviceDescription: any,
+		accountLinkid: string | number,
         employee: any,
         purposeOfService: string,
         contractStartDate: string,

@@ -13,6 +13,8 @@ import LineChart from '@/components/ui/line-chart'
 import TableData from '@/components/ui/summary-tables/table'
 import ServiceTypesGrid from '@/components/ui/service-badge'
 import { ScrollTabs } from '@/components/ui/scroll-tabs'
+import TooltipText from '@/components/ui/textbox'
+import Image from 'next/image'
 
 type SiteDetailPageProps = {
 	siteId: number
@@ -101,13 +103,13 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 		cost: number;
 		invoiceDate: string;
 	}[] = siteServices?.data?.map((item: any) => ({
-		number: item.service.number,
-		account: item.service.companyNetwork.network.name,
-		service_type: item.service.service_type,
-		description: item.service.description,
-		["function / purpose"]: item.service["function / purpose"],
-		"service status": item.service["service status"],
-		cost: `${moneyFormatter(parseFloat(item.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item.service?.cost?.taxRaw), "usd")} (${formatDate(item.invoiceDate, 'MM yyyy')})`,
+		number: item?.service?.number,
+		account: item?.service?.companyNetwork?.network?.name + "-" + item?.service?.account,
+		service_type: item?.service?.service_type,
+		description: item?.service?.description,
+		["function / purpose"]: item?.service["function / purpose"],
+		"service status": item?.service["service status"],
+		cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), "usd")} (${item?.service?.cost?.invoice?.invoiceDate})`,
 	}));
 
 	const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
@@ -171,7 +173,13 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 
 				{/* Service Type */}
 				<div id="service-type">
-					<div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pt-8 flex gap-4'>Service Type </div>
+					<div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pt-8 flex gap-4'>Service Type <TooltipText
+						text={'Show the volume of services splited by service type'}
+						maxLength={1}
+						className="text-[#575757] lg:text-[13px] xl:text-[14px] leading-6" 
+						type= 'notification'
+						/>
+					</div>
 					<div className='flex gap-4 mt-4 flex-wrap'>
 						{isServiceTypesLoading ?
 							<Skeleton variant="paragraph" rows={3} /> :
@@ -201,6 +209,7 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 						data={refinedInvoices}
 						currency={siteInvoicesData?.invoices[0]?.currency}
 						loading={isSiteInvoicesLoader}
+						tableClass='whitespace-nowrap'
 					/>
 					<Separator className='h-[2px] bg-[#5d5b5b61]  mt-8' />
 				</div>
@@ -211,6 +220,7 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 						label="Services"
 						data={refinedData}
 						loading={isServicesLoader}
+						tableClass='whitespace-nowrap'
 					/>
 				</div>
 				{totlaPages > 8 && (
@@ -222,12 +232,11 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 							onPageChange={handlePageChange}
 						/>
 					</div>)}
-				{refinedData?.length &&
-					<button
-						onClick={showTerminatedHandler}
-						className="w-[280px] h-[48px] px-[18px] pt-3 pb-4 bg-orange-500 rounded-lg border border-orange-500 my-5   gap-2.5  ml-auto block">
-						<span className="text-white text-base font-semibold ">{showTerminated ? "Show Terminated Service" : "Show Live Services"} </span>
-					</button>}
+				<button
+					onClick={showTerminatedHandler}
+					className="w-[280px] h-[48px] px-[18px] pt-3 pb-4 bg-orange-500 rounded-lg border border-orange-500 my-5   gap-2.5  ml-auto block">
+					<span className="text-white text-base font-semibold ">{showTerminated ? "Show Terminated Service" : "Show Live Services"} </span>
+				</button>
 			</ScrollTabs>
 		</div>
 	)

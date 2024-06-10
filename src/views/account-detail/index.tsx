@@ -11,6 +11,7 @@ import TableData from '@/components/ui/summary-tables/table'
 import { ScrollTabs } from '@/components/ui/scroll-tabs'
 import Skeleton from '@/components/ui/skeleton/skeleton'
 import ServiceTypesGrid from '@/components/ui/service-badge'
+import TooltipText from '@/components/ui/textbox'
 
 type VendorDetailPageProps = {
 	vendorId: number
@@ -45,6 +46,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 		accountPayableGroup,
 		remittanceAddress,
 		displayName,
+		invoiceDueInDays,
 		includeApFeed,
 		rollingContract,
 		network,
@@ -58,6 +60,13 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 	const { data: siteInvoicesData, isLoading: isSiteInvoicesLoader, refetch: getInvoices } = useGetAccountInvoices(Number(account_id), offset, limit)
 	const { data: serviceLocation, isLoading: isVendorServicesLocationLoading } = useGetServiceLocations(Number(account_id))
 	const { data: vendorServicesTypes, isLoading: isVendorServiceTypeLoading } = useGetServiceTypesVendor(Number(account_id))
+
+	const structuredTicketsData = accountTicketsData?.data?.tickets?.map((ticket: any) => ({
+		reference: (ticket?.id ? ticket?.id : ""),
+		description: ticket?.requestType,
+		status: ticket?.status,
+		created: ticket?.created,
+	}))
 	const handlePageChange = async (page: number) => {
 		const params = new URLSearchParams()
 		if (searchParams) {
@@ -97,7 +106,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 
 	return (
 		<div className='w-full border border-custom-lightGray bg-custom-white rounded-lg py-5 px-7 '>
-			<ScrollTabs tabs={["general-information", "service-location", "cost-trend", "service-type", "invoices", "tickets"]}>
+			<ScrollTabs tabs={["general-information", "service-type", "service-location", "cost-trend", "invoices", "tickets"]}>
 				{/* General Information  */}
 				<div id="general-information">
 					<AccountGeneralInfo
@@ -108,7 +117,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 							accountNumber,
 							masterAccount,
 							network,
-							paymentTerms,
+							paymentTerms: invoiceDueInDays,
 							remittanceAddress,
 							displayName,
 							clientenVendorID,
@@ -118,15 +127,6 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 							companyNetworkStatus
 						}} />
 					<Separator className='h-[1.5px] bg-[#5d5b5b61]' />
-				</div>
-				<div id="service-location">
-					<div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pt-8 '>Service Location</div>
-					<Separator className='h-[2.2px] mt-4 bg-[#5d5b5b61]' />
-				</div>
-				{/* Cost Trend  */}
-				<div id="cost-trend">
-					<LineChart label='Cost Trend' data={costTrendData} isLoading={isCostTrendLoading} />
-					<Separator className='h-[2.2px] mt-4 bg-[#5d5b5b61]' />
 				</div>
 
 				{/* Service Type */}
@@ -145,10 +145,27 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 					}
 				</div>
 
+				<div id="service-location">
+					<div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pt-8 '>Service Location</div>
+					<Separator className='h-[2.2px] mt-4 bg-[#5d5b5b61]' />
+				</div>
+				{/* Cost Trend  */}
+				<div id="cost-trend">
+					<LineChart label='Cost Trend' data={costTrendData} isLoading={isCostTrendLoading} />
+					<Separator className='h-[2.2px] mt-4 bg-[#5d5b5b61]' />
+				</div>
+
 				{/* Invoices  */}
 				<div id="invoices">
 					<TableData
-						label="Invoices"
+ 						label = {<>Invoices
+							<TooltipText
+							text={'Show the 10 invoices per page'}
+							maxLength={1}
+							className="text-[#575757] pl-3 pt-3 lg:text-[13px] xl:text-[14px] leading-6" 
+							type= 'notification'
+							/></>
+							}
 						data={siteInvoicesData?.invoices}
 						currency={siteInvoicesData?.invoices[0]?.Currency}
 						loading={isSiteInvoicesLoader}
@@ -159,9 +176,16 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 				{/* Tickets  */}
 				<div id="tickets">
 					<TableData
-						label="Tickets"
+						label={<>Tickets
+							<TooltipText
+								text={'Show the 10 tickets per page'}
+								maxLength={1}
+								className="text-[#575757]  pl-3 pt-3  lg:text-[13px] xl:text-[14px] leading-6"
+								type='notification'
+							/></>
+						}
 						loading={isAccountTicketsLoader}
-						data={accountTicketsData?.data?.tickets}
+						data={structuredTicketsData}
 					/>
 					<Separator className='h-[2px] bg-[#5d5b5b61]  mt-8' />
 				</div>
@@ -174,7 +198,7 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 							currentPage={Number(page)}
 							onPageChange={handlePageChange}
 						/>
-					</div>)} 
+					</div>)}
 			</ScrollTabs>
 		</div>
 	)

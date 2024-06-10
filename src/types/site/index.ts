@@ -1,8 +1,9 @@
 export type TableDataProps = {
     data : any,
     loading?: boolean
-    label?: string,
+    label?: string | JSX.Element
     currency?: string | null
+    tableClass?: string
   }
 export interface CostTableProps {
     data: {

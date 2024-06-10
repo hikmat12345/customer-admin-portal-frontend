@@ -3,13 +3,14 @@ import Image from "next/image";
 import { Separator } from "@/components/ui/separator"
 import { DeviceinfoSkeletons } from "@/components/ui/summary-skeletons";
 import Badge from "@veroxos/design-system/dist/ui/Badge/badge";
+import VImage from "@/components/ui/image";
   
 type DeviceInfoCardProps = {
     label: string;
     imageUrl: string;
     deviceName: string;
     datePurchased: Date;
-    status: string;
+    status: number;
     deviceid: string;
     simNumber: string;
     isAssetLoader: boolean;
@@ -21,15 +22,16 @@ export const DeviceInfoCard: React.FC<DeviceInfoCardProps> = ({label="", imageUr
          {isAssetLoader ?
             <DeviceinfoSkeletons /> :
             <div className="flex gap-[30px]">
-            <div className="flex w-[17%] justify-between px-5">
-                <Image
-                src={imageUrl}
-                height={80}
-                width={200}
-                className='lg:w-[100%] xl:w-[60%]'
-                alt="Logo image"
-                style={{ margin: 'auto' }}
-                loading="lazy"
+            <div className="flex w-[17%] justify-between px-5"> 
+                <VImage
+                   src={imageUrl}
+                    alt="asset Image"
+                    height={169}
+                    width={240}
+                     className='lg:w-[240px] xl:w-[169px]'
+                    priority
+                    placeholder="blur"
+                    blurDataURL="data:image/png;base64,..." // Optional: Use a base64-encoded placeholder
                 />
             </div>
             <div className=" w-[30%]  px-5">
@@ -46,11 +48,7 @@ export const DeviceInfoCard: React.FC<DeviceInfoCardProps> = ({label="", imageUr
                 <div >
                     <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>{datePurchased ? formatSeperateDate(datePurchased) : ' - '}</div>
                     <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>
-                        {status ?
-                          <Badge className={`p-2 rounded-lg text-white
-                          ${status === 'Active' ? 'bg-[#41a673]' : status === 'Suspended' ? 'bg-[#f2994a]'  : 'bg-[#772423]'} variant="success" shape="block">{status? status: "Unkown"}</Badge>
-                          bg-[#41a673] text-white`} variant="success" shape="block">{status? status: "Unkown"}</Badge> : "-"
-                        }
+                       {(status !==undefined && status !==null) ?<Badge className={`py-1 rounded-lg text-white ${status == 1 ? 'bg-[#219653]' : status == 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`} variant="success" shape="block">{status == 1 ? "Live" : status == 0 ? "Terminated" : "Suspended"}</Badge>: " - "}
                     </div>
                     <div className='text-[#575757] lg:text-[13px] xl:text-[14px] leading-9'>
                     {deviceid ? deviceid : ' - '}

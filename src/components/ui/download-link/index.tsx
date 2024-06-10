@@ -51,7 +51,7 @@ export function DownloadAbleLink({ invoice_id, index }: { invoice_id: string | n
     return (
         <div className="  flex justify-around items-center">
 
-            <Button loading={`pdf-${index}` == isPdfFileLoading ? true : false} className="text-black animate-in bg-transparent border-none" onClick={() => fileDownloadFile(invoice_id, "pdf", index)}>
+            <Button loading={`pdf-${index}` == isPdfFileLoading ? true : false} className="text-black animate-in p-0 bg-transparent border-none" onClick={() => fileDownloadFile(invoice_id, "pdf", index)}>
                 <Image className="w-[18.28px] h-6 " src="/svg/pdf-icon.svg" alt="pdf" width={20} height={20} />
             </Button>
 

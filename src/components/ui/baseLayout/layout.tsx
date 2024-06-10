@@ -11,6 +11,23 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
 	const params = useParams()
 	const router = useRouter()
 	const pathSegments = pathname && pathname.split('/')
+
+	const renamePagesTitle = (title:string) => {
+		switch (title) { 
+			case 'inventory':
+				return 'Service Summary'
+			case 'invoices':
+				return 'Invoice Summary' 
+			case 'sites':
+				return 'Site Summary'
+			case 'employees':
+				return 'Employee Summary'
+			case 'vendors':
+				return 'Vendor Account'
+			default:
+				return title+" Summary"
+		}
+	}
 	let endWord =(position:number =1) => {
 		const findPath= pathSegments && pathSegments[pathSegments?.length - position] || 'Home';
 		return findPath.replace(/[-/]+/g, ' ')
@@ -49,7 +66,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
 									</button>
 								)}
 								<h2 className="capitalize font-bold text-custom-black text-[30px]">
-									{isSummaryPage ? endWord(2) + " Summary" : endWord()}
+									{isSummaryPage ? renamePagesTitle(endWord(2)) : endWord()}
 								</h2>
 							</>
 						)}

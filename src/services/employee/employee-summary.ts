@@ -32,9 +32,9 @@ export const getEmployeeServiceTypes = async ({ queryKey }: any) => {
 }
 // getEmployeeServices
 export const getEmployeeServices = async ({ queryKey }: any) => {
-	const [, employeeId] = queryKey
+	const [, employeeId , offset, limit, showTerminated] = queryKey
 
 	return httpClient
-		.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/site-services-employee/${employeeId}`)
+		.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/site-services-employee/${employeeId}?offset=${offset}&limit=${limit}&showTerminated=${showTerminated}`)
 		.then(({ data }) => data)
 }

@@ -12,8 +12,7 @@ type LineChartProps = {
 }
 const LineChart = ({ label, data = [], isLoading = false }: LineChartProps) => {
      const options: ApexOptions =
-    {
-        // width: '98%',
+    { 
         chart: {
             type: 'line',
             zoom: {
@@ -27,9 +26,9 @@ const LineChart = ({ label, data = [], isLoading = false }: LineChartProps) => {
             xaxis: [
                 {
                     x: new Date('1 Jan 2024').getTime(),
-                    x2: new Date('15 Jan 2024 ').getTime(),
+                    x2: new Date('10 Jan 2024 ').getTime(),
                     fillColor: '#B3F7CA',
-                    opacity: 0.8,
+                    opacity: 0.4,
                     label: {
                         borderColor: '#B3F7CA',
                         style: {
@@ -72,8 +71,7 @@ const LineChart = ({ label, data = [], isLoading = false }: LineChartProps) => {
         },
          xaxis: {
             categories: [...data?.map((d) => d.date)].reverse(),
-             type: 'datetime',
-              
+             type: 'datetime', 
          },
          labels: [...data?.map((d) => d.date)].reverse(),
         
@@ -106,21 +104,11 @@ const LineChart = ({ label, data = [], isLoading = false }: LineChartProps) => {
             offsetX: 0,
             offsetY: 0, 
             showNullDataPoints: true,
-            hover: {
-                // borderColor: '#FF4560',
-                // offsetY: 0,
-                // style: {
-                //     color: '#fff',
-                //     background: '#FF4560',
-                // },
-            }
+            
         },
         tooltip: {
             style: {
-                fontSize: '12px',
-                // background: 'red',
-                // color: 'blue',
-                // backgroundColor: 'green'
+                fontSize: '12px', 
             },
             x: {
                 show: false,
@@ -147,8 +135,11 @@ const LineChart = ({ label, data = [], isLoading = false }: LineChartProps) => {
                     <Loader size={50} color='#b1b1b1' />
                 </div>
                 : !data?.length ? <div className='text-center text-lg py-8'> Data Not Found</div> :
-                 <> 
-                    <div id="chart">
+                 <div className='flex' >
+                       <div className='w-[3%] relative top-44 whitespace-pre h-full text-[#000] lg:text-[14px] xl:text-[16px] leading-7  rotate-[270deg] font-bold'>
+                            Total Cost
+                         </div>
+                    <div id="chart " className='w-[97%]'>
                         <ReactApexChart options={options}
                            series={
                                 [{
@@ -158,8 +149,10 @@ const LineChart = ({ label, data = [], isLoading = false }: LineChartProps) => {
                             }
                             type="line" height={350} />
                     </div>
+                   
                     <div id="html-dist"></div>
-                </>}
+                    </div>
+                }
         </div>
     );
 }

@@ -7,7 +7,7 @@ import { Table } from '@/components/ui/table/table'
 import GeneralInfo from './components/general-info'
 import { DeviceInfoCard } from './components/device-info-card'
 import TableData, { CostTable, PlanTable } from '@/components/ui/summary-tables/table'
-import { makeFileUrlFromBase64 } from '@/utils/utils'
+import formatDate, { makeFileUrlFromBase64 } from '@/utils/utils'
 import { ScrollTabs } from '@/components/ui/scroll-tabs'
 
 type InventoryDetailPageProps = {
@@ -21,7 +21,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 	const { data: ticketsRecentActivityData, isLoading: isTicketsRecentActivityLoader } = useGetTickets(searchId)
 	const { data: recentActivityData, isLoading: isRecentActivityLoader } = useGetRecentActivity(searchId)
 
-	const { id, serviceNumber, costCentre, serviceType, spare, zeroUsageAllowed, contractStartDate, contractEndDate, terminationDate, scheduledTerminationDate, scheduledSuspensionDate, note, purposeOfService, accountNumber, vendor, employee, serviceDescription } = singleServiceData?.data?.general_info || {}
+	const { id, serviceNumber,companyNetworkId, live, costCentre, serviceType, spare, zeroUsageAllowed, contractStartDate, contractEndDate, terminationDate, scheduledTerminationDate, scheduledSuspensionDate, note, purposeOfService, account_number, vendor, employee, serviceDescription } = singleServiceData?.data?.general_info || {}
 
 	//get site detail for google map location 
 	const site = singleServiceData?.data?.site || {}
@@ -29,11 +29,19 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 	// make image url from base64 string 
 	const imageUrl = makeFileUrlFromBase64(image ? Buffer.from(image).toString('base64') : null);
 	const refineRecentActivityData = recentActivityData?.data?.recent_activity.map((activity: any) => ({
+		// reference : activity.reference ? activity.reference : '',
+		who: activity.agent,
 		description: activity.description,
-		who: activity.who,
-		created: activity.createdAt
+		when: activity.createdAt
 	}))
-	return (
+ 
+	const structuredTicketsData = ticketsRecentActivityData?.data?.tickets.map((ticket: any) => ({
+		reference: ticket.reference,
+		description: ticket.description,
+		status: ticket.ticketStatusId,
+		created:  ticket.created,
+ 	}))
+ 	return (
 		<div className='w-full border border-custom-lightGray bg-custom-white rounded-lg py-5 px-7 '>
 			<ScrollTabs tabs={['general-information', 'device-information', 'cost-&-plan', 'tickets', 'activity']} >
 				<div id="general-information">
@@ -44,9 +52,10 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 							veroxosId: id,
 							serviceNumber: serviceNumber,
 							vendor,
-							account: accountNumber,
+							accountLinkid: companyNetworkId,
+							account: account_number,
 							serviceType: serviceType,
-							serviceDescription: serviceDescription?.name,
+							serviceDescription: serviceDescription,
 							employee: employee,
 							purposeOfService: purposeOfService,
 							contractStartDate: contractStartDate,
@@ -69,7 +78,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 						imageUrl={imageUrl}
 						deviceName={deviceName}
 						datePurchased={datePurchased}
-						status={status?.name}
+						status={live}
 						deviceid={deviceid}
 						simNumber={simNumber}
 						isAssetLoader={isAssetLoader}
@@ -89,7 +98,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 					<TableData
 						label="Tickets"
 						loading={isTicketsRecentActivityLoader}
-						data={ticketsRecentActivityData?.data?.tickets}
+						data={structuredTicketsData}
 					/>
 					<Separator className='h-[2px] bg-[#5d5b5b61]  mt-8' />
 				</div>

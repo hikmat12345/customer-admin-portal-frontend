@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { ServiceType } from './enums/serviceType.enum'
-import { eachYearOfInterval, format as formatdeteFns} from 'date-fns'
+import { eachYearOfInterval, format as formatdeteFns, isValid, parseISO} from 'date-fns'
  
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
@@ -148,9 +148,44 @@ export function downloadFile(givenFileType: string, response: { data: string, fi
 }
 
 // Function to format a date in the specified format
-const formatDate = (date: string, format: string = 'MM dd, yyyy HH:mm a'): string| null => {
- 	return date? formatdeteFns(new Date(date), format) : null
-}	
+export function formatDate(date: string | Date, format: string = 'MM dd, yyyy'): string {
+	let parsedDate: Date;
+	if (typeof date === 'string') {
+	  parsedDate = parseISO(date);
+	} else {
+	  parsedDate = date;
+	}
+  
+	if (!isValid(parsedDate)) {
+	  console.error('Invalid date:', date);
+	  return 'Invalid date';
+	}
+  
+	return  formatdeteFns(parsedDate, format);
+  }
+  
+  /**
+   * Format a date and time as "Date & Time - MMM dd, yyyy hh:mm a"
+   * @param date - The date to format
+   * @returns The formatted date and time string or an empty string if the date is invalid
+   */
+  export function formatDateTime(date: string | Date, format: string = 'MMM dd, yyyy hh:mm a'): string {
+	let parsedDate: Date;
+	if (typeof date === 'string') {
+		console.log('date', date)
+	  parsedDate =new Date(date);
+	} else {
+	  parsedDate = date;
+	}
+  
+	if (!isValid(parsedDate)) {
+	  console.error('Invalid date:', date);
+	  return 'Invalid date';
+	}
+  
+	return  formatdeteFns(parsedDate, format);
+  }
+
 
 export default formatDate;
 

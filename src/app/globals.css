@@ -126,3 +126,7 @@
     font-size: 13px !important;
     font-weight: 600 !important;
 }
+
+.tooltip-content {
+	@apply bg-gray-800 text-white text-sm rounded shadow-lg p-2;
+  }

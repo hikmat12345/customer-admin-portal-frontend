@@ -12,6 +12,7 @@ import TableData from '@/components/ui/summary-tables/table'
 import { ScrollTabs } from '@/components/ui/scroll-tabs'
 import Skeleton from '@/components/ui/skeleton/skeleton'
 import ServiceTypesGrid from '@/components/ui/service-badge'
+import { moneyFormatter } from '@/utils/utils'
 
 type EmployeeDetailPageProps = {
 	employeeId: number
@@ -44,16 +45,15 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 		employeeLevelId: employee_level,
 		managerEmployeeId: manage_id,
 		externalId: client_employee_id,
-		ticketApprovalManager: vip_executive,
+		vip: vip_executive,
 		costCentreForNewService: cost_center,
 		site
 	} = employeeServiceDetailData || {}
 
 	// cost and trend data
 	const { data: costTrendData, isLoading: isCostTrendLoading } = useGetEmployeeCostTrend(Number(employee_id))
-	const { data: siteTicketsData, isLoading: isSiteTicketsLoader, refetch: refetchTicketsData } = useGetEmployeeTickets(Number(employee_id), offset, limit)
-	const { data: siteInvoicesData, isLoading: isSiteInvoicesLoader, refetch: getInvoices } = useGetSiteInvoices(Number(employee_id), offset, limit)
-	const { data: employeeServices, isLoading: isEmployeeServicesLoading } = useGetEmployeeServices(Number(employee_id))
+	const { data: siteTicketsData, isLoading: isSiteTicketsLoader} = useGetEmployeeTickets(Number(employee_id), offset, limit)
+	const { data: employeeServices, isLoading: isEmployeeServicesLoading,  refetch: refetchServicesData } = useGetEmployeeServices(Number(employee_id), offset, limit, showTerminated)
 	const { data: employeeServiceTypes, isLoading: isEmployeeServiceType } = useGetEmployeeServiceTypes(Number(employee_id))
 
 	const handlePageChange = async (page: number) => {
@@ -65,12 +65,13 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 		}
 		params.set('page', page.toString())
 		router.push(`${pathname}?${params.toString()}`)
-		await refetchTicketsData()
+		await refetchServicesData()
 	}
 	const showTerminatedHandler = async () => {
 		setShowTerminated(!showTerminated)
-		await refetchTicketsData()
+		await refetchServicesData()
 	}
+
 	useEffect(() => {
 		if (searchParams) {
 			if (keys.length > 1 || !keys.includes('page')) {
@@ -80,26 +81,30 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 		if (showTerminated) {
 			router.push(`${pathname}?${createQueryString('showTerminated', showTerminated.toString())}`)
 		}
-	}, [keys.length, showTerminated, createQueryString, pathname, router, searchParams, keys])
-
-	useEffect(() => {
-		if (searchParams) {
-			if (keys.length > 1 || !keys.includes('page')) {
-				router.push(`${pathname}?${createQueryString('page', 1)}`)
-			}
-		}
-	}, [keys.length, createQueryString, pathname, router, searchParams, keys])
-
-	const totalPages = Math.max(siteTicketsData?.total || 0, siteInvoicesData?.total || 0);
-
-	const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
-		const { country_code, ...rest } = item;
-		return rest;
-	});
+	}, [keys.length])
+  
+	const refinedEmployeeData : {
+		number: string;
+		service: string;
+		serviceType: number;
+		serviceDescription: string | null;
+		serviceFunctionPurpose: string;
+		serviceStatus: number;
+		cost: number;
+		invoiceDate: string;
+	}[] = employeeServices?.data?.map((item: any) => ({
+		number: item?.service?.number,
+		account: item?.service?.companyNetwork?.network?.name + "-" + item?.service?.account,
+		service_type: item?.service?.service_type,
+		description: item?.service?.description,
+		["function / purpose"]: item?.service["function / purpose"],
+		"service status": item?.service["service status"],
+		cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), "usd")} (${item?.service?.cost?.invoice?.invoiceDate})`,
+	}));
 
 	return (
 		<div className='w-full border border-custom-lightGray bg-custom-white rounded-lg py-5 px-7 '>
-			<ScrollTabs tabs={['general-information', 'cost-trend', 'service-type', 'tickets', 'services']} >
+			<ScrollTabs tabs={['general-information', 'services','cost-trend', 'service-type', 'tickets' ]} >
 
 				{/* General Information  */}
 				<div id="general-information">
@@ -122,7 +127,28 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 						}} />
 					<Separator className='h-[1.5px] bg-[#5d5b5b61]' />
 				</div>
-
+				{/* Service  */}
+				<div id="services">
+					<TableData
+						label="Services"
+						data={refinedEmployeeData}
+						loading={isEmployeeServicesLoading}
+					/>
+					{employeeServices?.total > 8 && (
+					<div>
+						<Pagination
+							className="flex justify-end pt-4"
+							totalPages={employeeServices?.total}
+							currentPage={Number(page)}
+							onPageChange={handlePageChange}
+						/>
+					</div>)}
+					<button
+						onClick={showTerminatedHandler}
+						className="w-[220px] h-[48px] px-[18px] pt-3 pb-4 bg-orange-500 rounded-lg border border-orange-500 my-5   gap-2.5  ml-auto block">
+						<span className="text-white text-[14px] font-semibold ">{showTerminated ? "Show Terminated Service" : "Show Live Services"} </span>
+					</button>
+				</div>
 				{/* Cost Trend  */}
 				<div id="cost-trend">
 					<LineChart label='Cost Trend' data={costTrendData} isLoading={isCostTrendLoading} />
@@ -137,10 +163,10 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 							<Skeleton variant="paragraph" rows={3} /> :
 							Array.isArray(employeeServiceTypes?.data) && employeeServiceTypes?.data.length > 0 ?
 								<ServiceTypesGrid services={employeeServiceTypes?.data.sort((a: {
-									subTypes: {name:string,service_type:string}[]
+									subTypes: { name: string, service_type: string }[]
 								}, b: {
-									subTypes:{name:string,service_type:string}[]
-								}) => b.subTypes?.length - a.subTypes?.length)} /> 
+									subTypes: { name: string, service_type: string }[]
+								}) => b.subTypes?.length - a.subTypes?.length)} />
 								:
 								<div className='text-center text-lg py-8 w-full'>Data Not Found</div>
 						}
@@ -157,23 +183,8 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 					/>
 					<Separator className='h-[2.px] bg-[#5d5b5b61]  mt-8' />
 				</div>
-				{/* Service  */}
-				<div id="services">
-					<TableData
-						label="Services"
-						data={employeeServices?.data}
-						loading={isEmployeeServicesLoading}
-					/>
-				</div>
-				{totalPages > 8 && (
-					<div>
-						<Pagination
-							className="flex justify-end pt-4"
-							totalPages={totalPages}
-							currentPage={Number(page)}
-							onPageChange={handlePageChange}
-						/>
-					</div>)}
+
+				
 			</ScrollTabs>
 
 		</div>

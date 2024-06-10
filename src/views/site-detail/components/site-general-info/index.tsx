@@ -48,9 +48,9 @@ export default function SiteGeneralInfo({
         <div>
             {label && <div className='text-custom-blue lg:text-[20px] xl:text-[22px] font-[700] pb-6'>{label}</div>}
             {isLoading ? <GeneralInfoSkeletons /> :
-                <div className="flex max-lg:block gap-[19px] pb-6">
-                    <div className="flex w-[33%]  max-lg:w-[100%] max-lg:mt-5  justify-between  ">
-                        <div className='w-[34%]'>
+                <div className="flex max-lg:block lg:gap-x-[32px] xl:gap-x-[71px] pb-6">
+                    <div className="flex w-[32%]  max-lg:w-[100%] max-lg:mt-5  justify-between  lg:gap-x-[32px] xl:gap-x-[71px] ">
+                        <div className='w-[34%] '>
                             {
                                 labels.slice(0, 7).map((label, index) => (
                                     <div key={index} className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-7">{label}</div>
@@ -67,13 +67,13 @@ export default function SiteGeneralInfo({
                             <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-7'>{status ? status : ' - '} </div>
                            </div>
                     </div>
-                    <div className="flex w-[25%] max-lg:w-[100%] max-lg:mt-5  justify-between pr-20"> 
-                        <div className=''>
+                    <div className="flex w-[32%] max-lg:w-[100%] max-lg:mt-5  justify-between lg:gap-x-[32px] xl:gap-x-[71px]"> 
+                        <div className='w-[34%] '>
                             { labels.slice(7, 13).map((label, index) => (
                                     <div key={index} className="text-[#000] lg:text-[13px] xl:text-[16px] font-[600] leading-7">{label}</div>
                                 )) } 
                         </div>
-                        <div >
+                        <div className="w-[66%] ">
                             <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-7'>{siteCode ? siteCode : ' - '} </div>
                             <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-7'>{buildingName ? buildingName : ' - '} </div>
                             <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-7'>{streetLine2 ? streetLine2 : ' - '} </div>
@@ -82,7 +82,7 @@ export default function SiteGeneralInfo({
                             <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-7'>{contactEmail ? contactEmail : ' - '} </div>
                         </div>
                     </div>
-                    <div className='w-[35%] max-lg:w-[100%] max-lg:mt-5 '>
+                    <div className='w-[32%] max-lg:w-[100%] max-lg:mt-5 '>
                         <div className="mapouter  rounded-lg border border-neutral-300 p-1">
                             <div className="gmap_canvas">
                                 {latitude && longitude ?

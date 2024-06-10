@@ -6,6 +6,8 @@ import InvoiceRemittanceAddress from './components/invoice-remittance-address'
 import InvoicePaymentInfo from './components/Invoice-payment-info'
 import InvoiceSummary from './components/general-info'
 import TableData from '@/components/ui/summary-tables/table'
+import Image from 'next/image'
+import ScrollTabs from '@/components/ui/scroll-tabs'
 
 type InvoiceSummaryPageProps = {
 	invoiceId: number
@@ -13,24 +15,23 @@ type InvoiceSummaryPageProps = {
 const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
 	const invoice_id = invoiceId
 	const { data: invoiceSummaryData, isLoading: isInvoiceSummaryLoading } = useGetInvoiceSummary(Number(invoice_id))
-	const { data: invoiceActivityLogData, isLoading: isInvoiceActivityLogLoading } =useGetInvoiceActivityLog(Number(invoice_id))
-
-	const invoiceActivityLog = invoiceActivityLogData?.map((activity:any) => ({
-		description: activity.description,
+	const { data: invoiceActivityLogData, isLoading: isInvoiceActivityLogLoading } = useGetInvoiceActivityLog(Number(invoice_id))
+	const invoiceActivityLog = invoiceActivityLogData?.map((activity: any) => ({
+		stage: activity.description,
 		who: activity.administrator.firstName + ' ' + activity.administrator.lastName,
-		when: activity.created, 
+		when: activity.created,
 	}))
-	const { data: remittanceAddressData, isLoading: isRemittanceAddressLoading } =useGetRemittanceAddress(Number(invoice_id))
-	const { data: vendorInfoData, isLoading: isVendorInfoLoading } =useGetVendorInfo(Number(invoice_id))
-	const { data: paymentInfoData, isLoading: isPaymentInfoLoading } =useGetPaymentInfo(Number(invoice_id))
-   
+	const { data: remittanceAddressData, isLoading: isRemittanceAddressLoading } = useGetRemittanceAddress(Number(invoice_id))
+	const { data: vendorInfoData, isLoading: isVendorInfoLoading } = useGetVendorInfo(Number(invoice_id))
+	const { data: paymentInfoData, isLoading: isPaymentInfoLoading } = useGetPaymentInfo(Number(invoice_id))
+
 	const {
 		invoiceId: id,
 		invoiceDate,
 		country,
 		fiscalMonthYear,
 		dueDate,
-		previousBalancePaid,
+		balancePaid,
 		invoiceNumber,
 		carriedForwardBalance,
 		adjustments,
@@ -41,70 +42,79 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
 		invoicePDF,
 		invoiceType,
 		apfRequestNumber,
-		includeInAPF,
-		dateEntered,
+		includeInAP,
+		createdDate,
 		status,
 	} = invoiceSummaryData || {}
-   const vendorInfo = {
+	const vendorInfo = {
 		vendor: vendorInfoData?.invoice?.companyNetwork?.network?.name,
 		accountNumber: vendorInfoData?.invoice?.companyNetwork?.accountNumber,
 		displayName: vendorInfoData?.invoice?.companyNetwork?.displayName,
 		currency: vendorInfoData?.invoice?.companyNetwork?.network?.country?.currencyCode,
 		clientVendorID: vendorInfoData?.invoice?.companyNetwork?.sapVendorNumber,
-		logo : vendorInfoData?.invoice?.companyNetwork?.network?.logo
+		logo: vendorInfoData?.invoice?.companyNetwork?.network?.logo
 	}
 	return (
 		<div className='w-full border border-custom-lightGray bg-custom-white rounded-lg py-5 px-7 '>
-			<div className='mt-2 rounded-lg border border-neutral-300 p-5  overflow-y-scroll h-[75vh]'>
-			<div id="general-info">
-					<InvoiceSummary
-						invoiceData={{
-							invoiceId: id,
-							invoiceDate:  invoiceDate,
-							country:  country,
-							fiscalMonthYear:  fiscalMonthYear,
-							invoiceDueDate:  dueDate,
-							previousBalancePaid:  previousBalancePaid,
-							invoiceNumber:  invoiceNumber,
-							carriedForwardBalance:  carriedForwardBalance,
-							adjustments: adjustments,
-							taxAndFees:  taxAndFees,
-							subTotal: subTotal,
-							amountToPay: amountToPay,
-							total: total,
-							invoicePDF:  invoicePDF,
-							invoiceType:invoiceType,
-							apfRequestNumber: apfRequestNumber,
-							includeInAPF: includeInAPF,
-							dateEntered: dateEntered,
-							status:  status,
-						}}
-						vendorData={vendorInfo}
-						isLoading={false}
-					/>
-					<Separator className='h-[1.5px] bg-[#5d5b5b61]' />
+			{/* icon with text one is blue and second span number should be black in one line  */}
+			<div className="flex gap-2 py-2">
+				<div className="flex items-center">
+					<Image src={"/svg/notepad.svg"} alt="invoice icon" width={24} height={24} />
+					<p className="text-[16px] font-normal text-custom-blue ml-3">Invoice no.</p>
 				</div>
-
-				<div id="device-information">
-					<div className="flex max-lg:block gap-[19px] pb-6">
-						<div className="w-[55%] max-lg:w-[100%] max-lg:mt-5">
-							<InvoicePaymentInfo paymentData={paymentInfoData} isLoading={isPaymentInfoLoading} />
-						</div>
-						<div className="w-[45%] max-lg:w-[100%] max-lg:mt-5">
-							<InvoiceRemittanceAddress remittanceData={remittanceAddressData?.data} isLoading={isRemittanceAddressLoading} />
-						</div>
-					</div>
-					<Separator className='h-[1.5px] bg-[#5d5b5b61]' />
-				</div>
-
-				<div id="activity">
-					<TableData
-						label="Activity Log"
-						data={invoiceActivityLog}
-						loading={isInvoiceActivityLogLoading}
-					/>
-				</div>
+				<span className="text-[16px] font-normal text-custom-black">{id}</span>
 			</div>
+			<hr className='border-[#5d5b5b61] my-4' />
+			<ScrollTabs tabs={['general-information', 'invoice-payment-&-remittance-address', 'invoice-activity-log']} >
+ 					<div id="general-information">
+						<InvoiceSummary
+							invoiceData={{
+								invoiceId: id,
+								invoiceDate: invoiceDate,
+								country: country,
+								fiscalMonthYear: fiscalMonthYear,
+								invoiceDueDate: dueDate,
+								previousBalancePaid: balancePaid,
+								invoiceNumber: invoiceNumber,
+								carriedForwardBalance: carriedForwardBalance,
+								adjustments: adjustments,
+								taxAndFees: taxAndFees,
+								subTotal: subTotal,
+								amountToPay: amountToPay,
+								total: total,
+								invoicePDF: invoicePDF,
+								invoiceType: invoiceType,
+								apfRequestNumber: apfRequestNumber,
+								includeInAPF: includeInAP,
+								dateEntered: createdDate,
+								status: status,
+							}}
+							vendorData={vendorInfo}
+							isLoading={false}
+						/>
+						<Separator className='h-[1.5px] bg-[#5d5b5b61]' />
+					</div>
+
+					<div id="invoice-payment-&-remittance-address">
+						<div className="flex max-lg:block gap-[19px] pb-6">
+							<div className="w-[55%] max-lg:w-[100%] max-lg:mt-5">
+								<InvoicePaymentInfo paymentData={paymentInfoData} isLoading={isPaymentInfoLoading} />
+							</div>
+							<div className="w-[45%] max-lg:w-[100%] max-lg:mt-5">
+								<InvoiceRemittanceAddress remittanceData={remittanceAddressData?.data} isLoading={isRemittanceAddressLoading} />
+							</div>
+						</div>
+						<Separator className='h-[1.5px] bg-[#5d5b5b61]' />
+					</div>
+
+					<div id="invoice-activity-log">
+						<TableData
+							label="Invoice Activity Log"
+							data={invoiceActivityLog}
+							loading={isInvoiceActivityLogLoading}
+						/>
+					</div>
+ 			</ScrollTabs>
 		</div>
 	)
 }

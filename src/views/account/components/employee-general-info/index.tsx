@@ -34,7 +34,7 @@ export default function SiteGeneralInfo({
                             <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Email</div>
                             <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Status</div>
                             <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Site</div>
-                            <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Manage ID</div>
+                            <div className="text-[#000] lg:text-[13px] xl:text-[14px] font-[600] leading-9">Manager ID</div>
                         </div>
                         <div className='w-[66%]'>
                             <div className='text-[#575757] lg:text-[13px] xl:text-[16px] leading-9'>{veroxosId ? veroxosId : ' - '} </div>

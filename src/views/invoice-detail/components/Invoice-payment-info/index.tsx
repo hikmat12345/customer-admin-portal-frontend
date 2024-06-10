@@ -1,3 +1,4 @@
+import formatDate from "@/utils/utils";
 import React from "react";
 
 type InvoicePaymentInfoProps = {
@@ -18,22 +19,22 @@ export default function InvoicePaymentInfo({ paymentData, isLoading = false }: I
             ) : (
                 <div className="w-[100%] max-lg:w-[100%] max-lg:mt-5 pr-20">
                     <div className="w-[100%]">
-                    <div className="flex gap-2   py-1.5">
+                    <div className="flex gap-2   py-0.5">
                         <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600] w-[35%]">Invoice Paid</div>
                         <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6 w-[w-60%] ">{paymentData?.invoicePaid ? paymentData?.invoicePaid : ' - '}</div>
                     </div>
 
-                         <div className="flex gap-2   py-1.5">
+                         <div className="flex gap-2   py-0.5">
                         <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600] w-[35%]">Payment Reference</div>
                         <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6 w-[w-60%] ">{paymentData?.paymentReference ? paymentData?.paymentReference : ' - '}</div>
                     </div>
 
-                    <div className="flex gap-2 justify-between py-1.5">
+                    <div className="flex gap-2  py-0.5">
                         <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600] w-[35%]">Payment Date</div>
-                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6 w-[60%]">{paymentData?.paymentDate ? paymentData?.paymentDate : ' - '}</div>
+                        <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6 w-[60%]">{paymentData?.paymentDate ? formatDate(paymentData?.paymentDate , 'MMM dd, yyyy'): ' - '}</div>
                     </div>
 
-                    <div className="flex gap-2   py-1.5">
+                    <div className="flex gap-2   py-0.5">
                         <div className="lg:text-[13px] xl:text-[16px] xl:leading-7 lg:leading-6 font-[600] w-[35%]">Payment Note</div>
                         <div className="text-left lg:text-[12px] xl:text-[14px] xl:leading-7 lg:leading-6 w-[w-60%] ">{paymentData?.paymentNote ? paymentData?.paymentNote : ' - '} </div>
                         </div>
