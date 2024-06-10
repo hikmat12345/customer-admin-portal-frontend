@@ -128,4 +128,4 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
   );
 };
 
-export default InvoiceSummaryPage
+export default InvoiceSummaryPage;
