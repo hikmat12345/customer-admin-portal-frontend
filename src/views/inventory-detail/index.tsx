@@ -1,14 +1,21 @@
-'use client'
-import React from 'react'
-import { Separator } from "@/components/ui/separator"
-import { useGetAssets, useGetCostPlan, useGetSingleServiceDetail, useGetTickets, useGetRecentActivity } from '@/hooks/useGetInventories'
-import TableBodySkeleton from '@/components/ui/table/tableBodySkeleton'
-import { Table } from '@/components/ui/table/table'
-import GeneralInfo from './components/general-info'
-import { DeviceInfoCard } from './components/device-info-card'
-import TableData, { CostTable, PlanTable } from '@/components/ui/summary-tables/table'
-import { makeFileUrlFromBase64 } from '@/utils/utils'
-import { ScrollTabs } from '@/components/ui/scroll-tabs'
+'use client';
+
+import React from 'react';
+import { Separator } from '@/components/ui/separator';
+import {
+  useGetAssets,
+  useGetCostPlan,
+  useGetSingleServiceDetail,
+  useGetTickets,
+  useGetRecentActivity,
+} from '@/hooks/useGetInventories';
+import TableBodySkeleton from '@/components/ui/table/tableBodySkeleton';
+import { Table } from '@/components/ui/table/table';
+import TableData, { CostTable, PlanTable } from '@/components/ui/summary-tables/table';
+import { makeFileUrlFromBase64 } from '@/utils/utils';
+import { ScrollTabs } from '@/components/ui/scroll-tabs';
+import { DeviceInfoCard } from './components/device-info-card';
+import GeneralInfo from './components/general-info';
 
 type InventoryDetailPageProps = {
 	serviceId: number
@@ -103,16 +110,12 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
 					<Separator className='h-[2px] bg-[#5d5b5b61]  mt-8' />
 				</div>
 
-				<div id="activity">
-					<TableData
-						label="Recent Activity"
-						data={refineRecentActivityData}
-						loading={isRecentActivityLoader}
-					/>
-				</div>
-			</ScrollTabs>
-		</div>
-	)
+        <div id="activity">
+          <TableData label="Recent Activity" data={refineRecentActivityData} loading={isRecentActivityLoader} />
+        </div>
+      </ScrollTabs>
+    </div>
+  );
 }
 
-export default InventoryDetailPage
+export default InventoryDetailPage;

@@ -1,4 +1,4 @@
-import { getServiceType, getServiceTypeColor, getServiceTypeSubColor } from "@/utils/utils";
+import { getServiceType, getServiceTypeColor, getServiceTypeSubColor } from '@/utils/utils';
 
 type ServiceTypeBadgeProps = {
     services: { service_type: string; count: number; subTypes: { name: string; service_type: number; count:number }[]; }[] 
@@ -34,6 +34,8 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
             ))}
         </div>
     );
+
 };
-  
+
+
 export default ServiceTypesGrid;

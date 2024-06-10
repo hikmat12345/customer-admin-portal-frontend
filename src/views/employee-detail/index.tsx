@@ -14,25 +14,25 @@ import ServiceTypesGrid from '@/components/ui/service-badge'
 import { moneyFormatter } from '@/utils/utils'
 
 type EmployeeDetailPageProps = {
-	employeeId: number
-}
-const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
-	const searchParams = useSearchParams() as ReadonlyURLSearchParams
-	const router = useRouter()
-	const pathname = usePathname()
-	const isTerminated = searchParams.get('showTerminated')
+  employeeId: number;
+};
+function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
+  const searchParams = useSearchParams() as ReadonlyURLSearchParams;
+  const router = useRouter();
+  const pathname = usePathname();
+  const isTerminated = searchParams.get('showTerminated');
 
-	const [showTerminated, setShowTerminated] = React.useState(isTerminated === 'true' ? true : false)
-	const createQueryString = CreateQueryString()
+  const [showTerminated, setShowTerminated] = React.useState(isTerminated === 'true');
+  const createQueryString = CreateQueryString();
 
-	const employee_id = employeeId
-	const page = searchParams?.get('page') || '1'
+  const employee_id = employeeId;
+  const page = searchParams?.get('page') || '1';
 
-	const limit = 7
-	const offset = +page - 1
+  const limit = 7;
+  const offset = +page - 1;
 
-	const queryParams = new URLSearchParams(searchParams?.toString())
-	const keys = Array.from(queryParams.keys())
+  const queryParams = new URLSearchParams(searchParams?.toString());
+  const keys = Array.from(queryParams.keys());
 
 	// get site detail 
 	const { data: employeeServiceDetailData, isLoading: isemployeeServiceDetailLoader } = useGetEmployeeDetail(Number(employee_id))
@@ -190,4 +190,4 @@ const EmployeeDetailPage = ({ employeeId }: EmployeeDetailPageProps) => {
 	)
 }
 
-export default EmployeeDetailPage
+export default EmployeeDetailPage;

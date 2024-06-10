@@ -14,25 +14,25 @@ import ServiceTypesGrid from '@/components/ui/service-badge'
 import TooltipText from '@/components/ui/textbox'
 
 type VendorDetailPageProps = {
-	vendorId: number
-}
-const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
-	const searchParams = useSearchParams() as ReadonlyURLSearchParams
-	const router = useRouter()
-	const pathname = usePathname()
-	const isTerminated = searchParams.get('showTerminated')
+  vendorId: number;
+};
+function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
+  const searchParams = useSearchParams() as ReadonlyURLSearchParams;
+  const router = useRouter();
+  const pathname = usePathname();
+  const isTerminated = searchParams.get('showTerminated');
 
-	const [showTerminated, setShowTerminated] = React.useState(isTerminated === 'true' ? true : false)
-	const createQueryString = CreateQueryString()
+  const [showTerminated, setShowTerminated] = React.useState(isTerminated === 'true');
+  const createQueryString = CreateQueryString();
 
-	const account_id = vendorId
-	const page = searchParams?.get('page') || '1'
+  const account_id = vendorId;
+  const page = searchParams?.get('page') || '1';
 
-	const limit = 7
-	const offset = +page - 1
+  const limit = 7;
+  const offset = +page - 1;
 
-	const queryParams = new URLSearchParams(searchParams?.toString())
-	const keys = Array.from(queryParams.keys())
+  const queryParams = new URLSearchParams(searchParams?.toString());
+  const keys = Array.from(queryParams.keys());
 
 	// get account general information 
 	const { data: accountDetailData, isLoading: isAccountDetailLoader } = useGetAccountDetail(Number(account_id))
@@ -94,15 +94,15 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 		}
 	}, [keys.length, showTerminated, createQueryString, pathname, router, searchParams, keys])
 
-	useEffect(() => {
-		if (searchParams) {
-			if (keys.length > 1 || !keys.includes('page')) {
-				router.push(`${pathname}?${createQueryString('page', 1)}`)
-			}
-		}
-	}, [keys.length, pathname, router, searchParams, keys])
+  useEffect(() => {
+    if (searchParams) {
+      if (keys.length > 1 || !keys.includes('page')) {
+        router.push(`${pathname}?${createQueryString('page', 1)}`);
+      }
+    }
+  }, [keys.length, pathname, router, searchParams, keys]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const totalPages = Math.max(accountTicketsData?.total || 0, siteInvoicesData?.total || 0);
+  const totalPages = Math.max(accountTicketsData?.total || 0, siteInvoicesData?.total || 0);
 
 	return (
 		<div className='w-full border border-custom-lightGray bg-custom-white rounded-lg py-5 px-7 '>
@@ -203,4 +203,4 @@ const VendorDetailPage = ({ vendorId }: VendorDetailPageProps) => {
 		</div>
 	)
 }
-export default VendorDetailPage
+export default VendorDetailPage;

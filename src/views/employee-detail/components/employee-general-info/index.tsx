@@ -1,24 +1,24 @@
- import GeneralInfoSkeletons from "@/components/ui/summary-skeletons";
-import { EmployeeGeneralInfoProps } from "@/types/employee/employee.tds";
-import Link from "next/link";
+import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
+import { EmployeeGeneralInfoProps } from '@/types/employee/employee.tds';
+import Link from 'next/link';
 
 export default function SiteGeneralInfo({
-    label = 'General Information',
-    isLoading = false,
-    data: {
-        veroxosId,
-        firstName,
-        email,
-        status,
-        site,
-        manageId, 
-        clientEmployeeId,
-        lastName,
-        jobTitle,
-        employeeLevel,
-        costCenter,
-        vipExecutive, 
-    }
+  label = 'General Information',
+  isLoading = false,
+  data: {
+    veroxosId,
+    firstName,
+    email,
+    status,
+    site,
+    manageId,
+    clientEmployeeId,
+    lastName,
+    jobTitle,
+    employeeLevel,
+    costCenter,
+    vipExecutive,
+  },
 }: EmployeeGeneralInfoProps) {
      
     const keys = [
@@ -71,4 +71,3 @@ export default function SiteGeneralInfo({
         </div>
     );
 }
-  

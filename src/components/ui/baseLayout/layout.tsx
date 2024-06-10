@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import SearchTextFieldArea from '@/components/ui/searchTextFieldArea'
 import Sidebar from '@/components/ui/sidebar/sidebar'
@@ -37,8 +37,8 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
 		router.back()
 	}  
 
-    const isSummaryPage = !isNaN(Number(params?.id));
-    const isTicketSummaryPage = !isNaN(Number(params?.ticketId));
+  const isSummaryPage = !isNaN(Number(params?.id));
+  const isTicketSummaryPage = !isNaN(Number(params?.ticketId));
 
  	return (
 		<div className="flex">
@@ -79,4 +79,4 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
 	)
 }
 
-export default BaseLayout
+export default BaseLayout;

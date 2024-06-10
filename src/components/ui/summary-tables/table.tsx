@@ -1,27 +1,20 @@
-import React from 'react'
-import TableHead from '@veroxos/design-system/dist/ui/TableHead/tableHead'
-import TableHeader from '@veroxos/design-system/dist/ui/TableHeader/tableHeader'
-import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow'
-import { Table, TableBody, TableCell } from '@/components/ui/table/table'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,} from "@/components/ui/tooltip"
-import Image from 'next/image'
-import formatDate from '@/utils/utils'
-import { TICKETS_STATUS_LIST } from '@/utils/constants/statusList.constants'
-import TableBodySkeleton from '@/components/ui/table/tableBodySkeleton'
-import Link from 'next/link'
-import { getServiceType, moneyFormatter, stringFindAndReplaceAll } from '@/utils/utils'
-import { DownloadAbleLink } from '@/components/ui/download-link'
-import { CostTableProps, PlanTableProps, TableDataProps } from '@/types/site'
-import Badge from '@veroxos/design-system/dist/ui/Badge/badge'
-  
-
+import React from 'react';
+import TableHead from '@veroxos/design-system/dist/ui/TableHead/tableHead';
+import TableHeader from '@veroxos/design-system/dist/ui/TableHeader/tableHeader';
+import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow';
+import { Table, TableBody, TableCell } from '@/components/ui/table/table';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import Image from 'next/image';
+import formatDate, { getServiceType, moneyFormatter, stringFindAndReplaceAll } from '@/utils/utils';
+import { TICKETS_STATUS_LIST } from '@/utils/constants/statusList.constants';
+import TableBodySkeleton from '@/components/ui/table/tableBodySkeleton';
+import Link from 'next/link';
+import { DownloadAbleLink } from '@/components/ui/download-link';
+import { CostTableProps, PlanTableProps, TableDataProps } from '@/types/site';
+import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
 
 /**
- * TableHeaderContent Component 
+ * TableHeaderContent Component
  * This component renders the header of a table based on the keys of the data objects.
  * @param {Array} data - The data array to extract keys for the header.
  * @returns {JSX.Element} The rendered table header content.
@@ -30,19 +23,18 @@ import Badge from '@veroxos/design-system/dist/ui/Badge/badge'
 function TableHeaderContent({ data }: any) {
   return (
     <>
-      {(data && typeof data[0] === 'object' && Object.keys(data[0] || {}).length > 1) ? 
+      {data && typeof data[0] === 'object' && Object.keys(data[0] || {}).length > 1 ? (
         Object.keys(data[0] || {}).map((key) => (
           <TableHead key={key} className="w-[100px] text-left first:pl-10 first:border-tl last:border-none capitalize pl-4 pr-4 last:text-left">
             {key === "invoiceBreakdowns" ? "Cost" : key === "tax_and_fees" ? "Tax & Fees" :  key === "invoiceDate" ? "Invoice Date" : key.replaceAll('_', ' ')}
           </TableHead>
-        )) : (
-          <div className='text-center text-lg py-8'>Data Not Found</div>
-        )
-      }
+        ))
+      ) : (
+        <div className="py-8 text-center text-lg">Data Not Found</div>
+      )}
     </>
   );
 }
-
 
 // part of table component it is used to render the body of the table
 function TableBodyContent({ record, currencySymbol }: any) {
@@ -89,11 +81,9 @@ export default function TableData({ data, loading, label, currency, tableClass }
    console.log(tableClass, 'tableClass')
   return (
     <>
-    {/* lable of the table  */}
+      {/* lable of the table  */}
       {label && (
-        <div className='text-custom-blue lg:text-[18px] xl:text-[20px] font-[700] lg:py-4 xl:py-7'>
-          {label}
-        </div>
+        <div className="font-[700] text-custom-blue lg:py-4 lg:text-[18px] xl:py-7 xl:text-[20px]">{label}</div>
       )}
       {/* load the skeleton if the data is still loading */}
       {loading ? (
@@ -117,86 +107,77 @@ export default function TableData({ data, loading, label, currency, tableClass }
                     <TableBodyContent record={record} currencySymbol={currencySymbol} />
                   </TableRow>
                 ))}
-              </TableBody>
-            </Table>
-          </div>
-        )
-      )}
+            </TableBody>
+          </Table>
+        </div>
+      ))}
     </>
   );
 }
-   
-export const PlanTable: React.FC<PlanTableProps> = ({ data, width = "783px" }) => {
-  return (
-    <div className='pt-10'> 
-    <Table className={`w-[${width}] border rounded-e-lg `}>
+
+export const PlanTable: React.FC<PlanTableProps> = ({ data, width = '783px' }) => (
+  <div className="pt-10">
+    <Table className={`w-[${width}] rounded-e-lg border`}>
       <TableBody>
         {data?.map((plan, index) => (
           <TableRow key={index}>
-            <TableCell className="border last:text-center border-custom-aluminum pl-8 font-bold w-[259px]">Plan</TableCell>
-            <TableCell className="border last:text-center border-custom-aluminum w-[146px]  lg:text-[12px] xl:text-[14px]">{plan.cost} USD</TableCell>
-            <TableCell className="border last:text-center border-custom-aluminum ">
+            <TableCell className="w-[259px] border border-custom-aluminum pl-8 font-bold last:text-center">
+              Plan
+            </TableCell>
+            <TableCell className="w-[146px] border border-custom-aluminum last:text-center lg:text-[12px] xl:text-[14px]">
+              {plan.cost} USD
+            </TableCell>
+            <TableCell className="border border-custom-aluminum last:text-center">
               <TooltipProvider key={plan.name}>
                 <Tooltip>
-                  <TooltipTrigger><Image
-                    src="/notification.svg"
-                    alt="info"
-                    width={16}
-                    height={16}
-                  />
+                  <TooltipTrigger>
+                    <Image src="/notification.svg" alt="info" width={16} height={16} />
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p className='lg:text-[12px] xl:text-[14px]'>{plan.description}</p>
+                    <p className="lg:text-[12px] xl:text-[14px]">{plan.description}</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <span className='relative bottom-1 pl-2 lg:text-[12px] xl:text-[14px]'>
-                {plan.name}
-              </span>
+              <span className="relative bottom-1 pl-2 lg:text-[12px] xl:text-[14px]">{plan.name}</span>
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
     </Table>
-    </div>
-  );
-};
+  </div>
+);
 
-export const CostTable: React.FC<CostTableProps> = ({ data, costCenter = "-" }) => {
-  return (
-    <div className='pb-10  pt-3'> 
-    <Table className={`w-[408px] border rounded-e-lg`}>
+export const CostTable: React.FC<CostTableProps> = ({ data, costCenter = '-' }) => (
+  <div className="pb-10 pt-3">
+    <Table className="w-[408px] rounded-e-lg border">
       <TableBody>
         <TableRow>
-          <TableCell className={`border pl-8 last:text-center border-custom-aluminum font-bold`}>
-            Cost Center
-          </TableCell>
-          <TableCell className={`border lg:text-[12px] xl:text-[14px] last:text-center border-custom-aluminum `}>
+          <TableCell className="border border-custom-aluminum pl-8 font-bold last:text-center">Cost Center</TableCell>
+          <TableCell className="border border-custom-aluminum last:text-center lg:text-[12px] xl:text-[14px]">
             {costCenter}
           </TableCell>
         </TableRow>
-        {data?.map((cost: { gl_code_index: number; name: string; code: string; }) => (
+        {data?.map((cost: { gl_code_index: number; name: string; code: string }) => (
           <>
             <TableRow>
-              <TableCell className={`border last:text-center pl-8 border-custom-aluminum font-bold`}>
+              <TableCell className="border border-custom-aluminum pl-8 font-bold last:text-center">
                 GL Code {cost.gl_code_index}
               </TableCell>
-              <TableCell className={`border last:text-center border-custom-aluminum lg:text-[12px] xl:text-[14px]`}>
-                {cost.name ? cost.name :  <span className='pl-[20%]'>-</span>}
+              <TableCell className="border border-custom-aluminum last:text-center lg:text-[12px] xl:text-[14px]">
+                {cost.name ? cost.name : <span className="pl-[20%]">-</span>}
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className={`border pl-8 last:text-center border-custom-aluminum font-bold`}>
-                 Company Code
+              <TableCell className="border border-custom-aluminum pl-8 font-bold last:text-center">
+                Company Code
               </TableCell>
-              <TableCell className={`border last:text-center border-custom-aluminum lg:text-[12px] xl:text-[14px] `}>
-                {cost.code ? cost.code :  <span className='pl-[20%]'>-</span>}
+              <TableCell className="border border-custom-aluminum last:text-center lg:text-[12px] xl:text-[14px]">
+                {cost.code ? cost.code : <span className="pl-[20%]">-</span>}
               </TableCell>
             </TableRow>
           </>
         ))}
       </TableBody>
     </Table>
-    </div>
-  );
-};
+  </div>
+);

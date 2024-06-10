@@ -1,52 +1,52 @@
-import { ReactNode } from 'react'
+import { ReactNode } from 'react';
 
 export interface Inventory {
-	id: number
-	serviceNumber: string
-	live: number
-	created: Date
-	updated: Date
-	serviceType: number
-	costCentre: string
-	companyNetwork: {
-		id: number
-		displayName: string
-		network: {
-			id: number
-			name: string
-		}
-	}
+  id: number;
+  serviceNumber: string;
+  live: number;
+  created: Date;
+  updated: Date;
+  serviceType: number;
+  costCentre: string;
+  companyNetwork: {
+    id: number;
+    displayName: string;
+    network: {
+      id: number;
+      name: string;
+    };
+  };
 }
 
 export interface InventoryCardData {
-	id: number
-	title: string
-	description: string
-	data: ReactNode
+  id: number;
+  title: string;
+  description: string;
+  data: ReactNode;
 }
- 
+
 export type TableDataProps = {
-	data : any,
-	loading?: boolean
-	label?: string
-  }
-export  interface CostTableProps {
-	data: {
-	  gl_code_index: number;
-	  name: string;
-	  code: string;
-	}[];
-	width?: string;
-	costCenter?: string;
-  }
- export interface PlanTableProps {
-	data: {
-	 cost: number;
-	  name: string;
-	  description: string; 
-	}[];
-	width?: string;
-  }
+  data: any;
+  loading?: boolean;
+  label?: string;
+};
+export interface CostTableProps {
+  data: {
+    gl_code_index: number;
+    name: string;
+    code: string;
+  }[];
+  width?: string;
+  costCenter?: string;
+}
+export interface PlanTableProps {
+  data: {
+    cost: number;
+    name: string;
+    description: string;
+  }[];
+  width?: string;
+}
 export type GeneralInfoProps = {
     label?: string,
     isLoading?: boolean,
@@ -74,8 +74,8 @@ export type GeneralInfoProps = {
 }
 
 export type ServiceTypeBadgeProps = {
-    label: string,
-    count: number,
-    color: string,
-    subTypes?: {name: string, service_type: number}[]
-}
+  label: string;
+  count: number;
+  color: string;
+  subTypes?: { name: string; service_type: number }[];
+};

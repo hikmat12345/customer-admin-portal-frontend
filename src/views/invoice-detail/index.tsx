@@ -118,5 +118,3 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
 		</div>
 	)
 }
-
-export default InvoiceSummaryPage

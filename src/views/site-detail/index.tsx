@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useEffect } from 'react'
 import { Separator } from "@/components/ui/separator"
@@ -16,80 +16,90 @@ import { ScrollTabs } from '@/components/ui/scroll-tabs'
 import TooltipText from '@/components/ui/textbox'
 
 type SiteDetailPageProps = {
-	siteId: number
-}
-const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
-	const searchParams = useSearchParams()
-	const router = useRouter()
-	const pathname = usePathname()
-	const isTerminated = searchParams?.get('showTerminated')
+  siteId: number;
+};
+function SiteDetailPage({ siteId }: SiteDetailPageProps) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const isTerminated = searchParams?.get('showTerminated');
 
-	const [showTerminated, setShowTerminated] = React.useState(isTerminated === 'true' ? true : false)
-	const createQueryString = CreateQueryString()
+  const [showTerminated, setShowTerminated] = React.useState(isTerminated === 'true');
+  const createQueryString = CreateQueryString();
 
-	const site_id = siteId
-	const page = searchParams?.get('page') || '1'
+  const site_id = siteId;
+  const page = searchParams?.get('page') || '1';
 
-	const limit = 7
-	const offset = +page - 1
+  const limit = 7;
+  const offset = +page - 1;
 
-	const queryParams = new URLSearchParams(searchParams?.toString())
-	const keys = Array.from(queryParams.keys())
+  const queryParams = new URLSearchParams(searchParams?.toString());
+  const keys = Array.from(queryParams.keys());
 
-	
+  // get site detail
+  const { data: siteServiceDetailData, isLoading: isSiteServiceDetailLoader } = useGetSiteDetail(Number(site_id));
+  const {
+    veroxosId,
+    siteCode,
+    postCode,
+    name,
+    buildingName,
+    streetLine1,
+    streetLine2,
+    city,
+    stateCounty,
+    country,
+    contactName,
+    contactEmail,
+    latitude,
+    longitude,
+    status,
+  } = siteServiceDetailData || {};
 
-	// get site detail 
-	const { data: siteServiceDetailData, isLoading: isSiteServiceDetailLoader } = useGetSiteDetail(Number(site_id))
-	const {
-		veroxosId,
-		siteCode,
-		postCode,
-		name,
-		buildingName,
-		streetLine1,
-		streetLine2,
-		city,
-		stateCounty,
-		country,
-		contactName,
-		contactEmail,
-		latitude,
-		longitude,
-		status
-	} = siteServiceDetailData || {}
+  // get services types data
+  const { data: serviceTypesData, isLoading: isServiceTypesLoading } = useGetServiceTypes(Number(site_id));
+  const serviceTypes = serviceTypesData?.data || [];
 
-	// get services types data
-	const { data: serviceTypesData, isLoading: isServiceTypesLoading } = useGetServiceTypes(Number(site_id))
-	const serviceTypes = serviceTypesData?.data || []
+  // cost and trend data
+  const { data: costTrendData, isLoading: isCostTrendLoading } = useGetCostTrend(Number(site_id));
+  // site services data
+  const {
+    data: siteServices,
+    isLoading: isServicesLoader,
+    refetch: refetchData,
+  } = useGetSiteServices(Number(site_id), offset, limit, showTerminated);
 
-	// cost and trend data
-	const { data: costTrendData, isLoading: isCostTrendLoading } = useGetCostTrend(Number(site_id))
-	// site services data
-	const { data: siteServices, isLoading: isServicesLoader, refetch: refetchData } = useGetSiteServices(Number(site_id), offset, limit, showTerminated)
+  const {
+    data: siteTicketsData,
+    isLoading: isSiteTicketsLoader,
+    refetch: refetchTicketsData,
+  } = useGetSiteTickets(Number(site_id), offset, limit);
 
-	const { data: siteTicketsData, isLoading: isSiteTicketsLoader, refetch: refetchTicketsData } = useGetSiteTickets(Number(site_id), offset, limit)
+  // get site services useGetSiteInvoices
+  const {
+    data: siteInvoicesData,
+    isLoading: isSiteInvoicesLoader,
+    refetch: getInvoices,
+  } = useGetSiteInvoices(Number(site_id), offset, limit);
 
-	// get site services useGetSiteInvoices
-	const { data: siteInvoicesData, isLoading: isSiteInvoicesLoader, refetch: getInvoices } = useGetSiteInvoices(Number(site_id), offset, limit)
-
-	const handlePageChange = async (page: number) => {
-		const params = new URLSearchParams()
-		if (searchParams) {
-			searchParams.forEach((value, key) => {
-				params.set(key, value)
-			})
-		}
-		params.set('page', page.toString())
-		router.push(`${pathname}?${params.toString()}`)
-		await refetchTicketsData()
-		await refetchData()
-	}
-	const showTerminatedHandler = async () => {
-		setShowTerminated(!showTerminated)
-		await refetchData()
-		await refetchTicketsData()
-	} 
-	const totlaPages = Math.max(siteServices?.total || 0, siteTicketsData?.total || 0, siteInvoicesData?.total || 0);
+  const handlePageChange = async (page: number) => {
+    const params = new URLSearchParams();
+    if (searchParams) {
+      searchParams.forEach((value, key) => {
+        params.set(key, value);
+      });
+    }
+    params.set('page', page.toString());
+    router.push(`${pathname}?${params.toString()}`);
+    await refetchTicketsData();
+    await refetchData();
+  };
+  const showTerminatedHandler = async () => {
+    setShowTerminated(!showTerminated);
+    await refetchData();
+    await refetchTicketsData();
+  };
+  const totlaPages = Math.max(siteServices?.total || 0, siteTicketsData?.total || 0, siteInvoicesData?.total || 0);
 
 	// Refining the data
 	const refinedData: {
@@ -111,64 +121,64 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 		cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), "usd")} (${item?.service?.cost?.invoice?.invoiceDate})`,
 	}));
 
-	const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
-		const { country_code, ...rest } = item;
-		return rest;
-	});
+  const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
+    const { country_code, ...rest } = item;
+    return rest;
+  });
 
-	useEffect(() => {
-		if (searchParams) {
-			if (keys.length > 1 || !keys.includes('page')) {
-				router.push(`${pathname}?${createQueryString('page', 1)}`)
-			}
-		}
-		if (showTerminated) {
-			router.push(`${pathname}?${createQueryString('showTerminated', showTerminated.toString())}`)
-		}
-	}, [keys.length, showTerminated])
+  useEffect(() => {
+    if (searchParams) {
+      if (keys.length > 1 || !keys.includes('page')) {
+        router.push(`${pathname}?${createQueryString('page', 1)}`);
+      }
+    }
+    if (showTerminated) {
+      router.push(`${pathname}?${createQueryString('showTerminated', showTerminated.toString())}`);
+    }
+  }, [keys.length, showTerminated]);
 
-	useEffect(() => {
-		if (searchParams) {
-			if (keys.length > 1 || !keys.includes('page')) {
-				router.push(`${pathname}?${createQueryString('page', 1)}`)
-			}
-		}
-	}, [keys.length])
-	
-	return (
-		<div className='w-full border border-custom-lightGray bg-custom-white rounded-lg py-5 px-7 '>
-			<ScrollTabs tabs={["general-information", "cost-trend", "service-type", "tickets", "invoices", "services"]}>
-				{/* General Information  */}
-				<div id="general-information">
-					<SiteGeneralInfo
-						label='General Information'
-						isLoading={isSiteServiceDetailLoader}
-						data={{
-							veroxosId: veroxosId,
-							siteCode: siteCode,
-							name: name,
-							buildingName: buildingName,
-							streetLine1: streetLine1,
-							streetLine2: streetLine2,
-							city: city,
-							stateCounty: stateCounty,
-							postZipCode: postCode,
-							country: country,
-							contactName: contactName,
-							contactEmail: contactEmail,
-							latitude: latitude,
-							longitude: longitude,
-							status: status === 0 ? "Live" : status === 1 ? "Archived" : ""
-						}}
-					/>
-					<Separator className='h-[1.5px] bg-[#5d5b5b61]' />
-				</div>
+  useEffect(() => {
+    if (searchParams) {
+      if (keys.length > 1 || !keys.includes('page')) {
+        router.push(`${pathname}?${createQueryString('page', 1)}`);
+      }
+    }
+  }, [keys.length]);
 
-				{/* Cost Trend  */}
-				<div id="cost-trend">
-					<LineChart label='Cost Trend' data={costTrendData} isLoading={isCostTrendLoading} />
-					<Separator className='h-[2.2px] mt-4 bg-[#5d5b5b61]' />
-				</div>
+  return (
+    <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
+      <ScrollTabs tabs={['general-information', 'cost-trend', 'service-type', 'tickets', 'invoices', 'services']}>
+        {/* General Information  */}
+        <div id="general-information">
+          <SiteGeneralInfo
+            label="General Information"
+            isLoading={isSiteServiceDetailLoader}
+            data={{
+              veroxosId,
+              siteCode,
+              name,
+              buildingName,
+              streetLine1,
+              streetLine2,
+              city,
+              stateCounty,
+              postZipCode: postCode,
+              country,
+              contactName,
+              contactEmail,
+              latitude,
+              longitude,
+              status: status === 0 ? 'Live' : status === 1 ? 'Archived' : '',
+            }}
+          />
+          <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
+        </div>
+
+        {/* Cost Trend  */}
+        <div id="cost-trend">
+          <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
+          <Separator className="mt-4 h-[2.2px] bg-[#5d5b5b61]" />
+        </div>
 
 				{/* Service Type */}
 				<div id="service-type">
@@ -191,15 +201,11 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 					<Separator className='h-[3.2px] mt-4 bg-[#5d5b5b61]' />
 				</div>
 
-				{/* Tickets  */}
-				<div id="tickets">
-					<TableData
-						label="Tickets"
-						loading={isSiteTicketsLoader}
-						data={siteTicketsData?.data?.tickets}
-					/>
-					<Separator className='h-[2px] bg-[#5d5b5b61]  mt-8' />
-				</div>
+        {/* Tickets  */}
+        <div id="tickets">
+          <TableData label="Tickets" loading={isSiteTicketsLoader} data={siteTicketsData?.data?.tickets} />
+          <Separator className="mt-8 h-[2px] bg-[#5d5b5b61]" />
+        </div>
 
 				{/* Invoices  */}
 				<div id="invoices">
@@ -241,4 +247,4 @@ const SiteDetailPage = ({ siteId }: SiteDetailPageProps) => {
 	)
 }
 
-export default SiteDetailPage
+export default SiteDetailPage;
