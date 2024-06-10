@@ -81,3 +81,10 @@ export const postI10Report = async (data: any) => {
 		.then(({ data }) => downloadExcelFile(data, 'I10_report.xlsx'))
 		.catch((error) => error)
 }
+
+export const postI4Report = async (data: any) => {
+	return httpClient
+		.post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/I4`, data, { responseType: 'blob' })
+		.then(({ data }) => downloadExcelFile(data, 'I10_report.xlsx'))
+		.catch((error) => error)
+}

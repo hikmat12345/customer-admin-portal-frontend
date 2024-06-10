@@ -17,12 +17,13 @@ import {
 	usePostF6Report,
 	usePostF7Report,
 	usePostI10Report,
+	usePostI4Report,
 	usePostI8Report,
 } from '@/hooks/useGetReportData'
 import { format } from 'date-fns'
 import { MONTH_AND_YEAR_FORMAT } from '@/utils/constants/dateFormat.constants'
 
-type ReportKey = 'F1' | 'F3' | 'F4' | 'F5' | 'F6' | 'F7' | 'F12' | 'F15' | 'I8' | 'I10'
+type ReportKey = 'F1' | 'F3' | 'F4' | 'F5' | 'F6' | 'F7' | 'F12' | 'F15' | 'I8' | 'I10' | 'I4'
 
 const reportHooks = {
 	F1: usePostF1Report,
@@ -35,6 +36,7 @@ const reportHooks = {
 	F15: usePostF15Report,
 	I8: usePostI8Report,
 	I10: usePostI10Report,
+	I4: usePostI4Report,
 }
 
 const ReportsCard = ({
@@ -92,6 +94,7 @@ const ReportsCard = ({
 		F15: useReportMutation('F15'),
 		I8: useReportMutation('I8'),
 		I10: useReportMutation('I10'),
+		I4: useReportMutation('I4'),
 	}
 
 	const handleSubmit = (values: Record<string, string>) => {
@@ -117,7 +120,7 @@ const ReportsCard = ({
 					reportMutations[reportKey].mutate({ currency, year })
 				} else if (reportKey === 'F15') {
 					reportMutations[reportKey].mutate({ from: formattedStartDate, to: formattedEndDate })
-				} else if (reportKey === 'I8' || reportKey === 'I10') {
+				} else if (reportKey === 'I8' || reportKey === 'I10' || reportKey === 'I4') {
 					reportMutations[reportKey].mutate({})
 				} else {
 					reportMutations[reportKey].mutate(postBody)
