@@ -29,7 +29,7 @@ const VImage: React.FC<VImageProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
-    <div className={`  ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500`}>
+    <div className={` ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500`}>
       <Image
         src={src}
         alt={alt}
@@ -39,13 +39,13 @@ const VImage: React.FC<VImageProps> = ({
         priority={priority}
         placeholder={placeholder}
         blurDataURL={blurDataURL}
-        className={"rounded-lg hover:scale-105 transition-transform duration-300 "+className}
+        className={'rounded-lg transition-transform duration-300 hover:scale-105 ' + className}
         onLoadingComplete={() => setIsLoaded(true)}
       />
       {!isLoaded && (
         <div className="flex items-center justify-center">
-            <div style={{width:width, height: height}} className="rounded-lg bg-custom-lightGray">
-              <Skeleton variant="block"/>
+          <div style={{ width: width, height: height }} className="rounded-lg bg-custom-lightGray">
+            <Skeleton variant="block" />
           </div>
         </div>
       )}

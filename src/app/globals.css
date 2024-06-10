@@ -127,5 +127,5 @@
 }
 
 .tooltip-content {
-	@apply bg-gray-800 text-white text-sm rounded shadow-lg p-2;
-  }
+  @apply rounded bg-gray-800 p-2 text-sm text-white shadow-lg;
+}

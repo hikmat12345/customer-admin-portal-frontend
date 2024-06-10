@@ -48,30 +48,29 @@ export interface PlanTableProps {
   width?: string;
 }
 export type GeneralInfoProps = {
-    label?: string,
-    isLoading?: boolean,
-    data: {
-        veroxosId: string,
-        serviceNumber: string,
-        vendor: string,
-        account: string,
-        serviceType: string | number,
-        serviceDescription: any,
-		accountLinkid: string | number,
-        employee: any,
-        purposeOfService: string,
-        contractStartDate: string,
-        contractEndDate: string,
-        spare: string,
-        zeroUsageAllowed: string,
-        terminationDate: string,
-        scheduledTerminationDate: string,
-        scheduledSuspensionDate: string,
-        notes: string,
-        site: {streetLine1: string, streetLine2: string, latitude: number, longitude: number, id: number }
-
-    }
-}
+  label?: string;
+  isLoading?: boolean;
+  data: {
+    veroxosId: string;
+    serviceNumber: string;
+    vendor: string;
+    account: string;
+    serviceType: string | number;
+    serviceDescription: any;
+    accountLinkid: string | number;
+    employee: any;
+    purposeOfService: string;
+    contractStartDate: string;
+    contractEndDate: string;
+    spare: string;
+    zeroUsageAllowed: string;
+    terminationDate: string;
+    scheduledTerminationDate: string;
+    scheduledSuspensionDate: string;
+    notes: string;
+    site: { streetLine1: string; streetLine2: string; latitude: number; longitude: number; id: number };
+  };
+};
 
 export type ServiceTypeBadgeProps = {
   label: string;

@@ -56,7 +56,7 @@ export function DownloadAbleLink({ invoice_id, index }: { invoice_id: string | n
 
       <Button
         loading={`xls-${index}` == isExcelFileLoading}
-        className="border-none bg-transparent text-black animate-in p-0"
+        className="border-none bg-transparent p-0 text-black animate-in"
         onClick={() => fileDownloadFile(invoice_id, 'xls', index)}
       >
         <Image className="h-6 w-[18.28px]" src="/svg/excel-icon.svg" alt="excel" width={20} height={20} />

@@ -63,8 +63,9 @@ export function GroupMapBox({
       popupAnchor: [0, -32], // Point from which the popup should open relative to the iconAnchor
     });
 
-    locations.forEach(location => {
-      L.marker([location.lat, location.long], { icon: customIcon }).addTo(map)
+    locations.forEach((location) => {
+      L.marker([location.lat, location.long], { icon: customIcon })
+        .addTo(map)
         .bindPopup(`<a  href="/sites/${location.siteId}">${location.address}</a>`)
         .openPopup();
     });

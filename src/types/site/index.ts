@@ -1,10 +1,10 @@
 export type TableDataProps = {
-    data : any,
-    loading?: boolean
-    label?: string | JSX.Element
-    currency?: string | null
-    tableClass?: string
-  }
+  data: any;
+  loading?: boolean;
+  label?: string | JSX.Element;
+  currency?: string | null;
+  tableClass?: string;
+};
 export interface CostTableProps {
   data: {
     gl_code_index: number;

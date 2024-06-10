@@ -137,28 +137,27 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
         <div className="py-8 text-center text-lg"> Data Not Found</div>
       ) : (
         <>
-         <div className='flex' >
-                       <div className='w-[3%] relative top-44 whitespace-pre h-full text-[#000] lg:text-[14px] xl:text-[16px] leading-7  rotate-[270deg] font-bold'>
-                            Total Cost
-                         </div>
-                    <div id="chart " className='w-[97%]'>
-            <ReactApexChart
-              options={options}
-              series={[
-                {
-                  name: '',
-                  data: [...data?.map((d) => d.total_cost)].reverse(),
-                },
-              ]}
-              type="line"
-              height={350}
-            />
-          </div>
-          <div id="html-dist" />
+          <div className="flex">
+            <div className="relative top-44 h-full w-[3%] rotate-[270deg] whitespace-pre font-bold leading-7 text-[#000] lg:text-[14px] xl:text-[16px]">
+              Total Cost
+            </div>
+            <div id="chart " className="w-[97%]">
+              <ReactApexChart
+                options={options}
+                series={[
+                  {
+                    name: '',
+                    data: [...data?.map((d) => d.total_cost)].reverse(),
+                  },
+                ]}
+                type="line"
+                height={350}
+              />
+            </div>
+            <div id="html-dist" />
           </div>
         </>
       )}
-      
     </div>
   );
 }

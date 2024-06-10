@@ -1,4 +1,3 @@
-import formatDate from "@/utils/utils";
 import React from 'react';
 
 type InvoicePaymentInfoProps = {
