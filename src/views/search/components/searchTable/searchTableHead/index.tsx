@@ -9,11 +9,9 @@ function SearchTableHead() {
         <TableHead className="text-nowrap text-left">ID</TableHead>
         <TableHead className="text-nowrap text-left">Result</TableHead>
         <TableHead className="text-nowrap text-left">Type</TableHead>
-        <TableHead className="text-nowrap text-left w-[250px] last:text-left">
-          Account
-        </TableHead>
+        <TableHead className="w-[250px] text-nowrap text-left last:text-left">Account</TableHead>
       </TableRow>
     </TableHeader>
   );
-};
+}
 export default SearchTableHead;

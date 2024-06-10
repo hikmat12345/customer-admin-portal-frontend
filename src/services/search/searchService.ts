@@ -7,7 +7,7 @@ export const getSearchResults = async ({ queryKey }: any) => {
   if (!query || !filters) {
     return {
       results: [],
-      message: "Query or filters required",
+      message: 'Query or filters required',
       status: false,
     };
   }
@@ -15,12 +15,10 @@ export const getSearchResults = async ({ queryKey }: any) => {
   if (query.length < 2) {
     return {
       results: [],
-      message: "Query must contain at least two characters",
+      message: 'Query must contain at least two characters',
       status: false,
     };
   }
 
-  return httpClient
-    .get(`${NEXT_PUBLIC_API_BASE_URL}/search?q=${query}&f=${filters}`)
-    .then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/search?q=${query}&f=${filters}`).then(({ data }) => data);
 };

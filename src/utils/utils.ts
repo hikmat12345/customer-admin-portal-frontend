@@ -298,14 +298,11 @@ export const yearList = years
   .reverse();
 
 export const sanitizeSearchQuery = (query: string) => {
-  if (query === "") return "";
+  if (query === '') return '';
   // Remove single characters
-  let sanitized = query.replace(/['"`;@=#]/g, "");
+  let sanitized = query.replace(/['"`;@=#]/g, '');
   // Remove SQL comment sequences
-  sanitized = sanitized
-    .replace(/--/g, "")
-    .replace(/\/\*/g, "")
-    .replace(/\*\//g, "");
+  sanitized = sanitized.replace(/--/g, '').replace(/\/\*/g, '').replace(/\*\//g, '');
 
   return sanitized;
 };
