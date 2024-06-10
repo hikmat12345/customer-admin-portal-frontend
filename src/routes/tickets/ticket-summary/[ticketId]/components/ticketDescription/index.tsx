@@ -1,7 +1,10 @@
-const TicketDescription = ({description} : {description : string}) => {
-    return <div
-    dangerouslySetInnerHTML={{
-      __html: `
+/* eslint-disable */
+
+function TicketDescription({ description }: { description: string }) {
+  return (
+    <div
+      dangerouslySetInnerHTML={{
+        __html: `
         <style>
           .green-text {
             font-weight: 600;
@@ -40,8 +43,9 @@ const TicketDescription = ({description} : {description : string}) => {
           }
         </style>
         <table>${description}</table>`,
-    }}
-  />
+      }}
+    />
+  );
 }
 
 export default TicketDescription;

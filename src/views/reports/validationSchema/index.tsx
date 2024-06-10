@@ -1,22 +1,22 @@
-import { ReportField } from '../reports'
-import * as Yup from 'yup'
+import * as Yup from 'yup';
+import { ReportField } from '../reports';
 
 export const generateValidationSchema = (fields: ReportField[]) => {
-	const shape: any = {}
+  const shape: any = {};
 
-	fields.forEach((field) => {
-		switch (field.type) {
-			case 'text':
-			case 'select':
-				shape[field.name] = Yup.string().required(`${field.label || field.name} is required`)
-				break
-			case 'datePicker':
-				shape[field.name] = Yup.date().required(`${field.label || field.name} is required`)
-				break
-			default:
-				break
-		}
-	})
+  fields.forEach((field) => {
+    switch (field.type) {
+      case 'text':
+      case 'select':
+        shape[field.name] = Yup.string().required(`${field.label || field.name} is required`);
+        break;
+      case 'datePicker':
+        shape[field.name] = Yup.date().required(`${field.label || field.name} is required`);
+        break;
+      default:
+        break;
+    }
+  });
 
-	return Yup.object().shape(shape)
-}
+  return Yup.object().shape(shape);
+};
