@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useGetCostTrend, useGetServiceTypes, useGetSiteInvoices, useGetSiteDetail, useGetSiteServices, useGetSiteTickets } from '@/hooks/useGetSites'
 import SiteGeneralInfo from './components/site-general-info'
 import CreateQueryString from '@/utils/createQueryString'
-import formatDate, { moneyFormatter } from '@/utils/utils'
+import { moneyFormatter } from '@/utils/utils'
 import Skeleton from '@/components/ui/skeleton/skeleton'
 import Pagination from '@/components/ui/pagination'
 import LineChart from '@/components/ui/line-chart'
@@ -14,7 +14,6 @@ import TableData from '@/components/ui/summary-tables/table'
 import ServiceTypesGrid from '@/components/ui/service-badge'
 import { ScrollTabs } from '@/components/ui/scroll-tabs'
 import TooltipText from '@/components/ui/textbox'
-import Image from 'next/image'
 
 type SiteDetailPageProps = {
 	siteId: number

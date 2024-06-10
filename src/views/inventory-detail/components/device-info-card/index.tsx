@@ -1,5 +1,4 @@
-import Image from "next/image";
- import { formatSeperateDate } from "@/utils/utils";
+import { formatSeperateDate } from "@/utils/utils";
 import { Separator } from "@/components/ui/separator"
 import { DeviceinfoSkeletons } from "@/components/ui/summary-skeletons";
 import Badge from "@veroxos/design-system/dist/ui/Badge/badge";

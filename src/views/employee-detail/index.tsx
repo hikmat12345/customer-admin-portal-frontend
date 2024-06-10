@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react'
 import { Separator } from "@/components/ui/separator"
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useGetSiteInvoices } from '@/hooks/useGetSites'
 import SiteGeneralInfo from './components/employee-general-info'
 import Pagination from '@/components/ui/pagination'
 import CreateQueryString from '@/utils/createQueryString'

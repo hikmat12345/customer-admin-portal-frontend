@@ -7,7 +7,7 @@ import { Table } from '@/components/ui/table/table'
 import GeneralInfo from './components/general-info'
 import { DeviceInfoCard } from './components/device-info-card'
 import TableData, { CostTable, PlanTable } from '@/components/ui/summary-tables/table'
-import formatDate, { makeFileUrlFromBase64 } from '@/utils/utils'
+import { makeFileUrlFromBase64 } from '@/utils/utils'
 import { ScrollTabs } from '@/components/ui/scroll-tabs'
 
 type InventoryDetailPageProps = {
