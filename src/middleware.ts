@@ -16,12 +16,12 @@ export function middleware(request: NextRequest) {
 
   const access_token = request.cookies.get('token')?.value;
 
-  // if (!access_token) {
-  // 	const authServiceFrontend = String(process.env.NEXT_PUBLIC_AUTH_URL)
-  // 	return NextResponse.redirect(authServiceFrontend)
-  // }
+  if (!access_token) {
+    const authServiceFrontend = String(process.env.NEXT_PUBLIC_AUTH_URL);
+    return NextResponse.redirect(authServiceFrontend);
+  }
 
-  // return NextResponse.next()
+  return NextResponse.next();
 }
 
 export const config = {

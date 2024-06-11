@@ -331,3 +331,13 @@ export const yearList = years
     return { label: year, value: year };
   })
   .reverse();
+
+export const sanitizeSearchQuery = (query: string) => {
+  if (query === '') return '';
+  // Remove single characters
+  let sanitized = query.replace(/['"`;@=#]/g, '');
+  // Remove SQL comment sequences
+  sanitized = sanitized.replace(/--/g, '').replace(/\/\*/g, '').replace(/\*\//g, '');
+
+  return sanitized;
+};
