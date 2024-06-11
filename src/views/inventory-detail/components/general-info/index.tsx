@@ -33,7 +33,6 @@ export default function GeneralInfo({
     site,
   },
 }: GeneralInfoProps) {
-  console.log('GeneralInfoProps', spare);
   const staticData = [
     { label: 'Veroxos ID', value: veroxosId },
     { label: 'Service Number', value: serviceNumber },

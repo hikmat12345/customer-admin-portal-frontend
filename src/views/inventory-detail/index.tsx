@@ -107,7 +107,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
             deviceName={deviceName}
             datePurchased={datePurchased}
             status={live}
-            deviceid={deviceid}
+            deviceId={deviceid}
             simNumber={simNumber}
             isAssetLoader={isAssetLoader}
           />

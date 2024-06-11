@@ -119,8 +119,8 @@ function TableBodyContent({ record, currencySymbol }: any) {
             </Badge>
           ) : Object.keys(record)[index] === 'download' ? (
             <DownloadAbleLink invoice_id={value} index={index} />
-          ) : Object.keys(record)[index] === 'currency' ? ( 
-              <span className="text-[#47de88]">{currencySymbol}</span> 
+          ) : Object.keys(record)[index] === 'currency' ? (
+            <span className="text-[#47de88]">{currencySymbol}</span>
           ) : Object.keys(record)[index] === 'total' ||
             Object.keys(record)[index] === 'cost_centre' ||
             Object.keys(record)[index] === 'sub_total' ||

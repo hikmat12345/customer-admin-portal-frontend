@@ -10,7 +10,7 @@ type DeviceInfoCardProps = {
   deviceName: string;
   datePurchased: Date;
   status: number;
-  deviceid: string;
+  deviceId: string;
   simNumber: string;
   isAssetLoader: boolean;
 };
@@ -20,7 +20,7 @@ export const DeviceInfoCard: React.FC<DeviceInfoCardProps> = ({
   deviceName,
   datePurchased,
   status,
-  deviceid,
+  deviceId,
   simNumber,
   isAssetLoader,
 }) => {
@@ -72,7 +72,7 @@ export const DeviceInfoCard: React.FC<DeviceInfoCardProps> = ({
                   )}
                 </div>
                 <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[14px]">
-                  {deviceid ? deviceid : ' - '}
+                  {deviceId ? deviceId : ' - '}
                 </div>
                 <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[14px]">
                   {simNumber ? simNumber : ' - '}
