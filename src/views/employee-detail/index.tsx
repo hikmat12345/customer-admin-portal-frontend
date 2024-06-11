@@ -18,6 +18,7 @@ import { ScrollTabs } from '@/components/ui/scroll-tabs';
 import Skeleton from '@/components/ui/skeleton/skeleton';
 import ServiceTypesGrid from '@/components/ui/service-badge';
 import { moneyFormatter } from '@/utils/utils';
+import { format, parseISO } from 'date-fns';
 
 type EmployeeDetailPageProps = {
   employeeId: number;
@@ -118,7 +119,14 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     'service status': item?.service['service status'],
     cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${item?.service?.cost?.invoice?.invoiceDate})`,
   }));
-
+const refinedTickets = siteTicketsData?.tickets?.map((item: any) => {
+  return { 
+   "Veroxos REF": item?.reference,
+   "Request Type": item?.description,
+   status: item?.ticketStatusId,
+   created: format(parseISO(item.created), 'MMM dd, yyyy hh:mm a'),
+  };
+})
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
       <ScrollTabs tabs={['general-information', 'services', 'cost-trend', 'service-type', 'tickets']}>
@@ -175,7 +183,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
         {/* Service Type */}
         <div id="service-type">
           <div className="flex gap-4 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Service Type </div>
-          <div className="mt-4 flex flex-wrap gap-4">
+          <div className="mt-4  gap-4">
             {isEmployeeServiceType ? (
               <Skeleton variant="paragraph" rows={3} />
             ) : Array.isArray(employeeServiceTypes?.data) && employeeServiceTypes?.data.length > 0 ? (
@@ -200,7 +208,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
 
         {/* Tickets  */}
         <div id="tickets">
-          <TableData label="Tickets" loading={isSiteTicketsLoader} data={siteTicketsData?.data?.tickets} />
+          <TableData label="Tickets" loading={isSiteTicketsLoader} data={refinedTickets} />
           <Separator className="mt-8 h-[2.px] bg-[#5d5b5b61]" />
         </div>
       </ScrollTabs>

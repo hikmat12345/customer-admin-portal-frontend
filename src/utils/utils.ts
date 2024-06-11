@@ -109,6 +109,16 @@ export const moneyFormatter = (value: number, currency: string | null) => {
   return formatter.format(value);
 };
 
+const base64ToBlob =  (base64: string, mimeType: string) => {
+  const byteCharacters = atob(base64);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  return new Blob([byteArray], { type: mimeType });
+};
+
 export function downloadFile(
   givenFileType: string,
   response: { data: string; filetype: string },
@@ -138,8 +148,10 @@ export function downloadFile(
     const link = document.createElement('a');
     link.href = fileUrl;
     if (showInBrowser) {
-      link.href = URL.createObjectURL(new Blob([base64String], { type: mimeType }));
-      link.target = '_blank'; // Set the target attribute to "_blank" if showInBrowser is true
+      const mimeType = 'application/pdf';
+      const blob = base64ToBlob(base64String, mimeType);
+      const blobUrl = URL.createObjectURL(blob);
+      window.open(blobUrl, '_blank'); 
     } else {
       link.download = `${invoice_id}_invoice.${fileExtension}`;
     }
@@ -158,10 +170,9 @@ export function formatDate(date: string | Date, format: string = 'MM dd, yyyy'):
     parsedDate = date;
   }
 
-  if (!isValid(parsedDate)) {
-    console.error('Invalid date:', date);
-    return 'Invalid date';
-  }
+ if (!isValid(parsedDate)) {
+    return date.toString();
+  } 
 
   return formatdeteFns(parsedDate, format);
 }
@@ -174,14 +185,12 @@ export function formatDate(date: string | Date, format: string = 'MM dd, yyyy'):
 export function formatDateTime(date: string | Date, format: string = 'MMM dd, yyyy hh:mm a'): string {
   let parsedDate: Date;
   if (typeof date === 'string') {
-    console.log('date', date);
     parsedDate = new Date(date);
   } else {
     parsedDate = date;
   }
 
   if (!isValid(parsedDate)) {
-    console.error('Invalid date:', date);
     return 'Invalid date';
   }
 

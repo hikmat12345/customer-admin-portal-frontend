@@ -21,6 +21,7 @@ import TableData from '@/components/ui/summary-tables/table';
 import ServiceTypesGrid from '@/components/ui/service-badge';
 import { ScrollTabs } from '@/components/ui/scroll-tabs';
 import TooltipText from '@/components/ui/textbox';
+import { format, parseISO } from 'date-fns';
 
 type SiteDetailPageProps = {
   siteId: number;
@@ -119,20 +120,29 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     cost: number;
     invoiceDate: string;
   }[] = siteServices?.data?.map((item: any) => ({
-    number: item?.service?.number,
+    ["ID"]: item?.service?.number,
     account: item?.service?.companyNetwork?.network?.name + '-' + item?.service?.account,
     service_type: item?.service?.service_type,
     description: item?.service?.description,
     ['function / purpose']: item?.service['function / purpose'],
     'service status': item?.service['service status'],
-    cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${item?.service?.cost?.invoice?.invoiceDate})`,
+    cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${format(parseISO(item?.service?.cost?.invoice?.invoiceDate), 'MMM dd, yyyy')})`,
   }));
+ 
 
   const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
     const { country_code, ...rest } = item;
     return rest;
   });
 
+  const ticketsData = siteTicketsData?.tickets?.map((item: any) => {
+    return {
+      "Veroxos REF": item.reference,
+      "Request Type": item.description,
+      status: item.ticketStatusId,
+      created: format(parseISO(item.created), 'MMM dd, yyyy hh:mm a'),
+    };
+  })
   useEffect(() => {
     if (searchParams) {
       if (keys.length > 1 || !keys.includes('page')) {
@@ -198,7 +208,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
               type="notification"
             />
           </div>
-          <div className="mt-4 flex flex-wrap gap-4">
+          <div className="mt-4 gap-4">
             {isServiceTypesLoading ? (
               <Skeleton variant="paragraph" rows={3} />
             ) : Array.isArray(serviceTypes) && serviceTypes.length > 0 ? (
@@ -212,7 +222,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
 
         {/* Tickets  */}
         <div id="tickets">
-          <TableData label="Tickets" loading={isSiteTicketsLoader} data={siteTicketsData?.data?.tickets} />
+          <TableData label="Tickets" loading={isSiteTicketsLoader} data={ticketsData} />
           <Separator className="mt-8 h-[2px] bg-[#5d5b5b61]" />
         </div>
 

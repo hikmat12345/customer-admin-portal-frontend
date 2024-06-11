@@ -14,6 +14,7 @@ import InvoiceSummary from './components/general-info';
 import TableData from '@/components/ui/summary-tables/table';
 import Image from 'next/image';
 import ScrollTabs from '@/components/ui/scroll-tabs';
+import { format, parseISO } from 'date-fns';
 
 type InvoiceSummaryPageProps = {
   invoiceId: number;
@@ -27,7 +28,7 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
   const invoiceActivityLog = invoiceActivityLogData?.map((activity: any) => ({
     stage: activity.description,
     who: activity.administrator.firstName + ' ' + activity.administrator.lastName,
-    when: activity.created,
+    when: format(parseISO(activity.created), 'MMM dd, yyyy hh:mm a')
   }));
   const { data: remittanceAddressData, isLoading: isRemittanceAddressLoading } = useGetRemittanceAddress(
     Number(invoice_id),
@@ -65,18 +66,9 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
     logo: vendorInfoData?.invoice?.companyNetwork?.network?.logo,
   };
   return (
-    <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
-      {/* icon with text one is blue and second span number should be black in one line  */}
-      <div className="flex gap-2 py-2">
-        <div className="flex items-center">
-          <Image src={'/svg/notepad.svg'} alt="invoice icon" width={24} height={24} />
-          <p className="ml-3 text-[16px] font-normal text-custom-blue">Invoice no.</p>
-        </div>
-        <span className="text-[16px] font-normal text-custom-black">{id}</span>
-      </div>
-      <hr className="my-4 border-[#5d5b5b61]" />
-      <ScrollTabs tabs={['general-information', 'invoice-payment-&-remittance-address', 'invoice-activity-log']}>
-        <div id="general-information">
+    <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-4 ">
+       <ScrollTabs tabs={['general-information', 'invoice-payment-information', 'invoice-activity-log']} rightText={id}>
+              <div id="general-information">
           <InvoiceSummary
             invoiceData={{
               invoiceId: id,
@@ -100,12 +92,12 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
               status: status,
             }}
             vendorData={vendorInfo}
-            isLoading={false}
+            isLoading={isInvoiceSummaryLoading} 
           />
           <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
         </div>
 
-        <div id="invoice-payment-&-remittance-address">
+        <div id="invoice-payment-information">
           <div className="flex gap-[19px] pb-6 max-lg:block">
             <div className="w-[55%] max-lg:mt-5 max-lg:w-[100%]">
               <InvoicePaymentInfo paymentData={paymentInfoData} isLoading={isPaymentInfoLoading} />

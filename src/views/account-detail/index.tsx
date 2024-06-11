@@ -19,6 +19,7 @@ import { ScrollTabs } from '@/components/ui/scroll-tabs';
 import Skeleton from '@/components/ui/skeleton/skeleton';
 import ServiceTypesGrid from '@/components/ui/service-badge';
 import TooltipText from '@/components/ui/textbox';
+import { format, parseISO } from 'date-fns';
 
 type VendorDetailPageProps = {
   vendorId: number;
@@ -80,11 +81,12 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
   );
 
   const structuredTicketsData = accountTicketsData?.data?.tickets?.map((ticket: any) => ({
-    reference: ticket?.id ? ticket?.id : '',
-    description: ticket?.requestType,
+    "Veroxos REF": ticket?.id ? ticket?.id : '',
+    "Request Type": ticket?.requestType,
     status: ticket?.status,
-    created: ticket?.created,
+    created: format(parseISO(ticket.created), 'MMM dd, yyyy hh:mm a')
   }));
+
   const handlePageChange = async (page: number) => {
     const params = new URLSearchParams();
     if (searchParams) {

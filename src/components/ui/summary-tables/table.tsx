@@ -101,7 +101,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
               {stringFindAndReplaceAll(value, '-/', ' ', 0)}
             </Link>
           ) : Object.keys(record)[index] === 'invoice_date' ? (
-            formatDate(value, 'dd/MM/yyyy')
+            formatDate(value, 'MMM dd, yyyy')
           ) : Object.keys(record)[index] === 'account' ? (
             <Link
               href={value ? `/vendors/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}

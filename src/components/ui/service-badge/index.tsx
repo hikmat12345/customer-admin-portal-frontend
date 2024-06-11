@@ -23,7 +23,7 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
           <>
             <div
               key={index}
-              className={` ${service.subTypes?.length > 1 ? 'w-[99%]' : 'w-[49%]'} flex h-[52px] rounded border border-neutral-300 bg-custom-background ${service.subTypes?.length > 1 ? 'justify-center gap-3' : 'justify-between'} pl-5 pr-1 pt-1.5`}
+              className={` ${service?.subTypes?.length > 1 ? 'w-[99%]' : 'w-[49%]'} flex h-[52px] rounded border border-neutral-300 bg-custom-background ${service.subTypes?.length > 1 ? 'justify-center gap-3' : 'justify-between'} pl-5 pr-1 pt-1.5`}
             >
               <div className="pb-2 pt-2 text-base font-semibold text-black">
                 {getServiceType(Number(service.service_type))}
@@ -39,7 +39,7 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
               </div>
             </div>
 
-            {service.subTypes.map(
+            {service?.subTypes?.map(
               (subType: { name: string; service_type: number; count: number }, subIndex: number) => (
                 <div
                   key={subIndex}

@@ -12,10 +12,11 @@ import {
 import TableBodySkeleton from '@/components/ui/table/tableBodySkeleton';
 import { Table } from '@/components/ui/table/table';
 import TableData, { CostTable, PlanTable } from '@/components/ui/summary-tables/table';
-import { makeFileUrlFromBase64 } from '@/utils/utils';
+import formatDate, { makeFileUrlFromBase64 } from '@/utils/utils';
 import { ScrollTabs } from '@/components/ui/scroll-tabs';
 import { DeviceInfoCard } from './components/device-info-card';
 import GeneralInfo from './components/general-info';
+import { format, parseISO } from 'date-fns';
 
 type InventoryDetailPageProps = {
   serviceId: number;
@@ -59,17 +60,17 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
     // reference : activity.reference ? activity.reference : '',
     who: activity.agent,
     description: activity.description,
-    when: activity.createdAt,
+    when: formatDate(activity.createdAt,  'MMM dd, yyyy hh:mm a'),
   }));
 
   const structuredTicketsData = ticketsRecentActivityData?.data?.tickets.map((ticket: any) => ({
-    reference: ticket.reference,
-    description: ticket.description,
+    "Veroxos REF": ticket.reference,
+    "Request Type": ticket.description,
     status: ticket.ticketStatusId,
-    created: ticket.created,
+    created: formatDate(parseISO(ticket.created), 'MMM dd, yyyy hh:mm a'),
   }));
   return (
-    <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
+    <div className="w-full rounded-lg  px-7 py-5">
       <ScrollTabs tabs={['general-information', 'device-information', 'cost-&-plan', 'tickets', 'activity']}>
         <div id="general-information">
           <GeneralInfo

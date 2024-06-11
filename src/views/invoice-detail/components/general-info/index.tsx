@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
 import { useGetSiteInvoiceFile } from '@/hooks/useGetSites';
 import { InvoiceSummaryTypes } from '@/types/account/acount.tds';
-import formatDate, { downloadFile } from '@/utils/utils';
+import  formatDate, { downloadFile } from '@/utils/utils';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import Image from 'next/image';
 import TooltipText from '@/components/ui/textbox';
@@ -16,7 +16,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
   const [showInBrowser, setShowInBrowser] = useState<boolean>(false);
   const [isPdfFileLoading, setIsPdfFileLoading] = useState<boolean>(false);
   const [isXlsFileLoading, setIsXlsFileLoading] = useState<boolean>(false);
-
+  const [isShowInBrowserLoading, setIsShowInBrowserLoading] = useState<boolean>(false);
   const promisedSetInvoice = (state: any) => {
     return new Promise((resolve) => {
       setInvoiceId(state);
@@ -25,13 +25,16 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
   };
 
   const { data: blobdata, isLoading: isBlobLoading, error: blobError, refetch } = useGetSiteInvoiceFile(invoiceId);
-
-  const fileDownloadFile = async (fileId: string | number, fileType: 'pdf' | 'xls' | 'docs') => {
-    if (fileType === 'pdf') {
+ 
+  const fileDownloadFile = async (fileId: string | number, fileType: 'pdf' | 'xls' | 'docs', isViewPdf?: boolean) => {
+    if (isViewPdf && fileType === 'pdf') {
+      setIsShowInBrowserLoading(true);
+    } else if (fileType === 'pdf') {
       setIsPdfFileLoading(true);
     } else if (fileType === 'xls') {
       setIsXlsFileLoading(true);
     }
+
     const makeInvoiceId: string =
       fileType == 'docs' ? `${fileId}_allocation.csv` : fileType == 'xls' ? `${fileId}.xlsx` : `${fileId}.pdf`;
     await promisedSetInvoice(makeInvoiceId);
@@ -109,15 +112,16 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                         <div>{item.value ? item.value : ' - '}</div>
                       ) : item.isPdf ? (
                         <div className="cursor-pointer text-custom-blue">
-                          <button
+                          <Button
+                            loading={isShowInBrowserLoading}
                             className="leading-7 underline decoration-2 lg:text-[13px] xl:text-[14px]"
                             onClick={() => {
                               setShowInBrowser(true);
-                              fileDownloadFile(item.value, 'pdf');
+                              fileDownloadFile(item.value, 'pdf', true);
                             }}
                           >
                             View
-                          </button>
+                          </Button>
                         </div>
                       ) : typeof item.value == 'string' ? (
                         <TooltipText
@@ -166,7 +170,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
               </div>
             </div>
             <div className="h-[15rem] w-[1px] bg-custom-aluminum lg:block"></div>
-            <div className="w-[41%] max-lg:mt-5">
+            <div className="w-[41%] max-lg:mt-5 block m-auto">
               <div className="flex w-full">
                 <div className="w-[40%]">
                   {vendorStaticData.map((item, index) => (
@@ -200,7 +204,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                 alt="Invoice Summary Logo"
                 width={200}
                 height={200}
-                className="h-[108px] w-[390px] object-contain"
+                className=" w-[390px] h-[108px] object-contain"
               />
             </div>
           </div>
