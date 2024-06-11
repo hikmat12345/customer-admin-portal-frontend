@@ -62,7 +62,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
             getServiceType(value)
           ) : Object.keys(record)[index] === 'description' ? (
             <div dangerouslySetInnerHTML={{ __html: value }} />
-          ) : Object.keys(record)[index] === 'reference' ? (
+          ) : Object.keys(record)[index] === 'Veroxos REF' ? (
             value !== '-' ? (
               <Link href={value && `/support/tickets/ticket-summary/${value}`} className="font-normal text-sky-600">
                 {value ? `SUP${value}` : ' - '}
@@ -77,7 +77,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
             ) : (
               '-'
             )
-          ) : Object.keys(record)[index] === 'number' ? (
+          ) : Object.keys(record)[index] === 'number' || Object.keys(record)[index] === 'ID' ? (
             <Link
               href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
               className="font-normal text-sky-600"

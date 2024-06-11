@@ -17,7 +17,7 @@ import TableData from '@/components/ui/summary-tables/table';
 import { ScrollTabs } from '@/components/ui/scroll-tabs';
 import Skeleton from '@/components/ui/skeleton/skeleton';
 import ServiceTypesGrid from '@/components/ui/service-badge';
-import { moneyFormatter } from '@/utils/utils';
+import formatDate, { moneyFormatter } from '@/utils/utils';
 import { format, parseISO } from 'date-fns';
 
 type EmployeeDetailPageProps = {
@@ -113,11 +113,11 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
   }[] = employeeServices?.data?.map((item: any) => ({
     number: item?.service?.number,
     account: item?.service?.companyNetwork?.network?.name + '-' + item?.service?.account,
-    service_type: item?.service?.service_type,
+    service_type: item?.service?.serviceType,
     description: item?.service?.description,
     ['function / purpose']: item?.service.purposeOfService,
     'service status': item?.service.serviceStatus,
-    cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${item?.service?.cost?.invoice?.invoiceDate})`,
+    cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${formatDate(item?.service?.cost?.invoice?.invoiceDate, 'MMM dd, yyyy')})`,
   }));
   const refinedTickets = siteTicketsData?.tickets?.map((item: any) => {
     return {
@@ -174,10 +174,12 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
             </span>
           </button>
         </div>
+        <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
+
         {/* Cost Trend  */}
         <div id="cost-trend">
           <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
-          <Separator className="mt-4 h-[2.2px] bg-[#5d5b5b61]" />
+          <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
         </div>
 
         {/* Service Type */}
@@ -203,13 +205,13 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
               <div className="w-full py-8 text-center text-lg">Data Not Found</div>
             )}
           </div>
-          <Separator className="mt-4 h-[3.2px] bg-[#5d5b5b61]" />
+          <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
         </div>
 
         {/* Tickets  */}
         <div id="tickets">
           <TableData label="Tickets" loading={isSiteTicketsLoader} data={refinedTickets} />
-          <Separator className="mt-8 h-[2.px] bg-[#5d5b5b61]" />
+          <Separator className="mt-8 h-[1.px] bg-[#5d5b5b61]" />
         </div>
       </ScrollTabs>
     </div>
