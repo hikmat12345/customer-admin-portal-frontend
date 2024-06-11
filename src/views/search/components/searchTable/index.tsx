@@ -39,7 +39,6 @@ function SearchTable({ data }: any) {
                   {row?.id}
                 </Link>
               </TableCell>
-              <TableCell className="text-left">{row?.client}</TableCell>
               <TableCell className="text-left">{row?.result}</TableCell>
               <TableCell className="text-left">{row?.type}</TableCell>
               <TableCell className="last:text-left">{row?.account}</TableCell>

@@ -35,14 +35,16 @@ function BaseLayout({ children }: { children: React.ReactNode }) {
               <>
                 {endWord() === 'search' && (
                   <button
-                    className="absolute left-[-35px] flex h-[27px] w-[27px] items-center justify-center rounded-full border border-custom-blue p-2"
+                    className="absolute left-[-20px] flex h-[27px] w-[27px] items-center justify-center rounded-full border border-custom-blue p-2"
                     onClick={handleRouteBack}
                   >
                     <Image src="/svg/search/arrowBack.svg" alt="Arrow back" width={6} height={6} />
                   </button>
                 )}
-                <h2 className="text-[30px] font-bold capitalize text-custom-black">
-                  {isSummaryPage ? `${endWord(2)} Summary` : endWord()}
+                <h2
+                  className={`text-[30px] font-bold capitalize text-custom-black ${endWord() === 'search' ? 'ml-5' : ''}`}
+                >
+                  {isSummaryPage ? endWord(2) + ' Summary' : endWord()}
                 </h2>
               </>
             )}

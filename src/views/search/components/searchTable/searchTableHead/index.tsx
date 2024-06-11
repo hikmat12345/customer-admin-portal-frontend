@@ -7,10 +7,9 @@ function SearchTableHead() {
     <TableHeader>
       <TableRow>
         <TableHead className="text-nowrap text-left">ID</TableHead>
-        <TableHead className="text-nowrap text-left">Client</TableHead>
         <TableHead className="text-nowrap text-left">Result</TableHead>
         <TableHead className="text-nowrap text-left">Type</TableHead>
-        <TableHead className="w-[120px] text-nowrap text-left last:text-left">Account</TableHead>
+        <TableHead className="w-[250px] text-nowrap text-left last:text-left">Account</TableHead>
       </TableRow>
     </TableHeader>
   );
