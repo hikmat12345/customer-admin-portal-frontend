@@ -1,4 +1,3 @@
-// components/VImage.tsx
 import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton';
 import Image from 'next/image';
 import { useState } from 'react';

@@ -115,8 +115,8 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     account: item?.service?.companyNetwork?.network?.name + '-' + item?.service?.account,
     service_type: item?.service?.service_type,
     description: item?.service?.description,
-    ['function / purpose']: item?.service['function / purpose'],
-    'service status': item?.service['service status'],
+    ['function / purpose']: item?.service.purposeOfService,
+    'service status': item?.service.serviceStatus,
     cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${item?.service?.cost?.invoice?.invoiceDate})`,
   }));
   const refinedTickets = siteTicketsData?.tickets?.map((item: any) => {

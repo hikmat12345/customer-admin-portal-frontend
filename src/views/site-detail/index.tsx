@@ -124,8 +124,8 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     account: item?.service?.companyNetwork?.network?.name + '-' + item?.service?.account,
     service_type: item?.service?.service_type,
     description: item?.service?.description,
-    ['function / purpose']: item?.service['function / purpose'],
-    'service status': item?.service['service status'],
+    ['function / purpose']: item?.service.functionPurpose,
+    'service status': item?.service.serviceStatus,
     cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${format(parseISO(item?.service?.cost?.invoice?.invoiceDate), 'MMM dd, yyyy')})`,
   }));
 
