@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
 import { useGetSiteInvoiceFile } from '@/hooks/useGetSites';
 import { InvoiceSummaryTypes } from '@/types/account/acount.tds';
-import  formatDate, { downloadFile } from '@/utils/utils';
+import formatDate, { downloadFile } from '@/utils/utils';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import Image from 'next/image';
 import TooltipText from '@/components/ui/textbox';
@@ -25,7 +25,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
   };
 
   const { data: blobdata, isLoading: isBlobLoading, error: blobError, refetch } = useGetSiteInvoiceFile(invoiceId);
- 
+
   const fileDownloadFile = async (fileId: string | number, fileType: 'pdf' | 'xls' | 'docs', isViewPdf?: boolean) => {
     if (isViewPdf && fileType === 'pdf') {
       setIsShowInBrowserLoading(true);
@@ -170,7 +170,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
               </div>
             </div>
             <div className="h-[15rem] w-[1px] bg-custom-aluminum lg:block"></div>
-            <div className="w-[41%] max-lg:mt-5 block m-auto">
+            <div className="m-auto block w-[41%] max-lg:mt-5">
               <div className="flex w-full">
                 <div className="w-[40%]">
                   {vendorStaticData.map((item, index) => (
@@ -204,7 +204,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                 alt="Invoice Summary Logo"
                 width={200}
                 height={200}
-                className=" w-[390px] h-[108px] object-contain"
+                className="h-[108px] w-[390px] object-contain"
               />
             </div>
           </div>

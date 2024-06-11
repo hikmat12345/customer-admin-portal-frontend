@@ -120,7 +120,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     cost: number;
     invoiceDate: string;
   }[] = siteServices?.data?.map((item: any) => ({
-    ["ID"]: item?.service?.number,
+    ['ID']: item?.service?.number,
     account: item?.service?.companyNetwork?.network?.name + '-' + item?.service?.account,
     service_type: item?.service?.service_type,
     description: item?.service?.description,
@@ -128,7 +128,6 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     'service status': item?.service['service status'],
     cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${format(parseISO(item?.service?.cost?.invoice?.invoiceDate), 'MMM dd, yyyy')})`,
   }));
- 
 
   const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
     const { country_code, ...rest } = item;
@@ -137,12 +136,12 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
 
   const ticketsData = siteTicketsData?.tickets?.map((item: any) => {
     return {
-      "Veroxos REF": item.reference,
-      "Request Type": item.description,
+      'Veroxos REF': item.reference,
+      'Request Type': item.description,
       status: item.ticketStatusId,
       created: format(parseISO(item.created), 'MMM dd, yyyy hh:mm a'),
     };
-  })
+  });
   useEffect(() => {
     if (searchParams) {
       if (keys.length > 1 || !keys.includes('page')) {

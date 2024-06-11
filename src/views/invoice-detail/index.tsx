@@ -12,7 +12,6 @@ import InvoiceRemittanceAddress from './components/invoice-remittance-address';
 import InvoicePaymentInfo from './components/Invoice-payment-info';
 import InvoiceSummary from './components/general-info';
 import TableData from '@/components/ui/summary-tables/table';
-import Image from 'next/image';
 import ScrollTabs from '@/components/ui/scroll-tabs';
 import { format, parseISO } from 'date-fns';
 
@@ -28,7 +27,7 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
   const invoiceActivityLog = invoiceActivityLogData?.map((activity: any) => ({
     stage: activity.description,
     who: activity.administrator.firstName + ' ' + activity.administrator.lastName,
-    when: format(parseISO(activity.created), 'MMM dd, yyyy hh:mm a')
+    when: format(parseISO(activity.created), 'MMM dd, yyyy hh:mm a'),
   }));
   const { data: remittanceAddressData, isLoading: isRemittanceAddressLoading } = useGetRemittanceAddress(
     Number(invoice_id),
@@ -66,9 +65,9 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
     logo: vendorInfoData?.invoice?.companyNetwork?.network?.logo,
   };
   return (
-    <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-4 ">
-       <ScrollTabs tabs={['general-information', 'invoice-payment-information', 'invoice-activity-log']} rightText={id}>
-              <div id="general-information">
+    <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-4">
+      <ScrollTabs tabs={['general-information', 'invoice-payment-information', 'invoice-activity-log']} rightText={id}>
+        <div id="general-information">
           <InvoiceSummary
             invoiceData={{
               invoiceId: id,
@@ -92,7 +91,7 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
               status: status,
             }}
             vendorData={vendorInfo}
-            isLoading={isInvoiceSummaryLoading} 
+            isLoading={isInvoiceSummaryLoading}
           />
           <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
         </div>

@@ -109,7 +109,7 @@ export const moneyFormatter = (value: number, currency: string | null) => {
   return formatter.format(value);
 };
 
-const base64ToBlob =  (base64: string, mimeType: string) => {
+const base64ToBlob = (base64: string, mimeType: string) => {
   const byteCharacters = atob(base64);
   const byteNumbers = new Array(byteCharacters.length);
   for (let i = 0; i < byteCharacters.length; i++) {
@@ -151,7 +151,7 @@ export function downloadFile(
       const mimeType = 'application/pdf';
       const blob = base64ToBlob(base64String, mimeType);
       const blobUrl = URL.createObjectURL(blob);
-      window.open(blobUrl, '_blank'); 
+      window.open(blobUrl, '_blank');
     } else {
       link.download = `${invoice_id}_invoice.${fileExtension}`;
     }
@@ -170,9 +170,9 @@ export function formatDate(date: string | Date, format: string = 'MM dd, yyyy'):
     parsedDate = date;
   }
 
- if (!isValid(parsedDate)) {
+  if (!isValid(parsedDate)) {
     return date.toString();
-  } 
+  }
 
   return formatdeteFns(parsedDate, format);
 }
