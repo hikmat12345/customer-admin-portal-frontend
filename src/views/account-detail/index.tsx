@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useEffect } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -14,11 +13,13 @@ import {
   useGetServiceLocations,
   useGetServiceTypesVendor,
 } from '@/hooks/useGetAccount';
+import AccountGeneralInfo from './components/account-general-info';
 import TableData from '@/components/ui/summary-tables/table';
 import { ScrollTabs } from '@/components/ui/scroll-tabs';
 import Skeleton from '@/components/ui/skeleton/skeleton';
 import ServiceTypesGrid from '@/components/ui/service-badge';
-import AccountGeneralInfo from './components/account-general-info';
+import TooltipText from '@/components/ui/textbox';
+import { format, parseISO } from 'date-fns';
 
 type VendorDetailPageProps = {
   vendorId: number;
@@ -45,6 +46,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
   const { data: accountDetailData, isLoading: isAccountDetailLoader } = useGetAccountDetail(Number(account_id));
   const {
     veroxosId,
+    status: live,
     accountNumber,
     masterAccount,
     clientenVendorID,
@@ -52,6 +54,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
     accountPayableGroup,
     remittanceAddress,
     displayName,
+    invoiceDueInDays,
     includeApFeed,
     rollingContract,
     network,
@@ -76,6 +79,14 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
   const { data: vendorServicesTypes, isLoading: isVendorServiceTypeLoading } = useGetServiceTypesVendor(
     Number(account_id),
   );
+
+  const structuredTicketsData = accountTicketsData?.data?.tickets?.map((ticket: any) => ({
+    'Veroxos REF': ticket?.id ? ticket?.id : '',
+    'Request Type': ticket?.requestType,
+    status: ticket?.status,
+    created: format(parseISO(ticket.created), 'MMM dd, yyyy hh:mm a'),
+  }));
+
   const handlePageChange = async (page: number) => {
     const params = new URLSearchParams();
     if (searchParams) {
@@ -101,7 +112,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
     if (showTerminated) {
       router.push(`${pathname}?${createQueryString('showTerminated', showTerminated.toString())}`);
     }
-  }, [keys.length, showTerminated, createQueryString, pathname, router, searchParams, keys]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [keys.length, showTerminated, createQueryString, pathname, router, searchParams, keys]);
 
   useEffect(() => {
     if (searchParams) {
@@ -116,7 +127,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
       <ScrollTabs
-        tabs={['general-information', 'service-location', 'cost-trend', 'service-type', 'invoices', 'tickets']}
+        tabs={['general-information', 'service-type', 'service-location', 'cost-trend', 'invoices', 'tickets']}
       >
         {/* General Information  */}
         <div id="general-information">
@@ -128,7 +139,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
               accountNumber,
               masterAccount,
               network,
-              paymentTerms,
+              paymentTerms: invoiceDueInDays,
               remittanceAddress,
               displayName,
               clientenVendorID,
@@ -139,15 +150,6 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
             }}
           />
           <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
-        </div>
-        <div id="service-location">
-          <div className="pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Service Location</div>
-          <Separator className="mt-4 h-[2.2px] bg-[#5d5b5b61]" />
-        </div>
-        {/* Cost Trend  */}
-        <div id="cost-trend">
-          <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
-          <Separator className="mt-4 h-[2.2px] bg-[#5d5b5b61]" />
         </div>
 
         {/* Service Type */}
@@ -173,10 +175,30 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
           )}
         </div>
 
+        <div id="service-location">
+          <div className="pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Service Location</div>
+          <Separator className="mt-4 h-[2.2px] bg-[#5d5b5b61]" />
+        </div>
+        {/* Cost Trend  */}
+        <div id="cost-trend">
+          <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
+          <Separator className="mt-4 h-[2.2px] bg-[#5d5b5b61]" />
+        </div>
+
         {/* Invoices  */}
         <div id="invoices">
           <TableData
-            label="Invoices"
+            label={
+              <>
+                Invoices
+                <TooltipText
+                  text={'Show the 10 invoices per page'}
+                  maxLength={1}
+                  className="pl-3 pt-3 leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                  type="notification"
+                />
+              </>
+            }
             data={siteInvoicesData?.invoices}
             currency={siteInvoicesData?.invoices[0]?.Currency}
             loading={isSiteInvoicesLoader}
@@ -186,7 +208,21 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
 
         {/* Tickets  */}
         <div id="tickets">
-          <TableData label="Tickets" loading={isAccountTicketsLoader} data={accountTicketsData?.data?.tickets} />
+          <TableData
+            label={
+              <>
+                Tickets
+                <TooltipText
+                  text={'Show the 10 tickets per page'}
+                  maxLength={1}
+                  className="pl-3 pt-3 leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                  type="notification"
+                />
+              </>
+            }
+            loading={isAccountTicketsLoader}
+            data={structuredTicketsData}
+          />
           <Separator className="mt-8 h-[2px] bg-[#5d5b5b61]" />
         </div>
 

@@ -1,5 +1,4 @@
 'use client';
-
 import React from 'react';
 import {
   useGetInvoiceActivityLog,
@@ -9,25 +8,26 @@ import {
   useGetVendorInfo,
 } from '@/hooks/useGetInvoices';
 import { Separator } from '@radix-ui/react-dropdown-menu';
-import TableData from '@/components/ui/summary-tables/table';
 import InvoiceRemittanceAddress from './components/invoice-remittance-address';
 import InvoicePaymentInfo from './components/Invoice-payment-info';
 import InvoiceSummary from './components/general-info';
+import TableData from '@/components/ui/summary-tables/table';
+import ScrollTabs from '@/components/ui/scroll-tabs';
+import { format, parseISO } from 'date-fns';
 
 type InvoiceSummaryPageProps = {
   invoiceId: number;
 };
-function InvoiceSummaryPage({ invoiceId }: InvoiceSummaryPageProps) {
+const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
   const invoice_id = invoiceId;
   const { data: invoiceSummaryData, isLoading: isInvoiceSummaryLoading } = useGetInvoiceSummary(Number(invoice_id));
   const { data: invoiceActivityLogData, isLoading: isInvoiceActivityLogLoading } = useGetInvoiceActivityLog(
     Number(invoice_id),
   );
-
   const invoiceActivityLog = invoiceActivityLogData?.map((activity: any) => ({
-    description: activity.description,
-    who: `${activity.administrator.firstName} ${activity.administrator.lastName}`,
-    when: activity.created,
+    stage: activity.description,
+    who: activity.administrator.firstName + ' ' + activity.administrator.lastName,
+    when: format(parseISO(activity.created), 'MMM dd, yyyy hh:mm a'),
   }));
   const { data: remittanceAddressData, isLoading: isRemittanceAddressLoading } = useGetRemittanceAddress(
     Number(invoice_id),
@@ -41,7 +41,7 @@ function InvoiceSummaryPage({ invoiceId }: InvoiceSummaryPageProps) {
     country,
     fiscalMonthYear,
     dueDate,
-    previousBalancePaid,
+    balancePaid,
     invoiceNumber,
     carriedForwardBalance,
     adjustments,
@@ -52,8 +52,8 @@ function InvoiceSummaryPage({ invoiceId }: InvoiceSummaryPageProps) {
     invoicePDF,
     invoiceType,
     apfRequestNumber,
-    includeInAPF,
-    dateEntered,
+    includeInAP,
+    createdDate,
     status,
   } = invoiceSummaryData || {};
   const vendorInfo = {
@@ -65,38 +65,38 @@ function InvoiceSummaryPage({ invoiceId }: InvoiceSummaryPageProps) {
     logo: vendorInfoData?.invoice?.companyNetwork?.network?.logo,
   };
   return (
-    <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
-      <div className="mt-2 h-[75vh] overflow-y-scroll rounded-lg border border-neutral-300 p-5">
-        <div id="general-info">
+    <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-4">
+      <ScrollTabs tabs={['general-information', 'invoice-payment-information', 'invoice-activity-log']} rightText={id}>
+        <div id="general-information">
           <InvoiceSummary
             invoiceData={{
               invoiceId: id,
-              invoiceDate,
-              country,
-              fiscalMonthYear,
+              invoiceDate: invoiceDate,
+              country: country,
+              fiscalMonthYear: fiscalMonthYear,
               invoiceDueDate: dueDate,
-              previousBalancePaid,
-              invoiceNumber,
-              carriedForwardBalance,
-              adjustments,
-              taxAndFees,
-              subTotal,
-              amountToPay,
-              total,
-              invoicePDF,
-              invoiceType,
-              apfRequestNumber,
-              includeInAPF,
-              dateEntered,
-              status,
+              previousBalancePaid: balancePaid,
+              invoiceNumber: invoiceNumber,
+              carriedForwardBalance: carriedForwardBalance,
+              adjustments: adjustments,
+              taxAndFees: taxAndFees,
+              subTotal: subTotal,
+              amountToPay: amountToPay,
+              total: total,
+              invoicePDF: invoicePDF,
+              invoiceType: invoiceType,
+              apfRequestNumber: apfRequestNumber,
+              includeInAPF: includeInAP,
+              dateEntered: createdDate,
+              status: status,
             }}
             vendorData={vendorInfo}
-            isLoading={false}
+            isLoading={isInvoiceSummaryLoading}
           />
           <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
         </div>
 
-        <div id="device-information">
+        <div id="invoice-payment-information">
           <div className="flex gap-[19px] pb-6 max-lg:block">
             <div className="w-[55%] max-lg:mt-5 max-lg:w-[100%]">
               <InvoicePaymentInfo paymentData={paymentInfoData} isLoading={isPaymentInfoLoading} />
@@ -111,12 +111,12 @@ function InvoiceSummaryPage({ invoiceId }: InvoiceSummaryPageProps) {
           <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
         </div>
 
-        <div id="activity">
-          <TableData label="Activity Log" data={invoiceActivityLog} loading={isInvoiceActivityLogLoading} />
+        <div id="invoice-activity-log">
+          <TableData label="Invoice Activity Log" data={invoiceActivityLog} loading={isInvoiceActivityLogLoading} />
         </div>
-      </div>
+      </ScrollTabs>
     </div>
   );
-}
+};
 
 export default InvoiceSummaryPage;

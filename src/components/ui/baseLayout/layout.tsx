@@ -6,12 +6,29 @@ import Image from 'next/image';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
 
-function BaseLayout({ children }: { children: React.ReactNode }) {
+const BaseLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const params = useParams();
   const router = useRouter();
   const pathSegments = pathname && pathname.split('/');
-  const endWord = (position: number = 1) => {
+
+  const renamePagesTitle = (title: string) => {
+    switch (title) {
+      case 'inventory':
+        return 'Service Summary';
+      case 'invoices':
+        return 'Invoice Summary';
+      case 'sites':
+        return 'Site Summary';
+      case 'employees':
+        return 'Employee Summary';
+      case 'vendors':
+        return 'Vendor Account';
+      default:
+        return title + ' Summary';
+    }
+  };
+  let endWord = (position: number = 1) => {
     const findPath = (pathSegments && pathSegments[pathSegments?.length - position]) || 'Home';
     return findPath.replace(/[-/]+/g, ' ');
   };
@@ -41,10 +58,8 @@ function BaseLayout({ children }: { children: React.ReactNode }) {
                     <Image src="/svg/search/arrowBack.svg" alt="Arrow back" width={6} height={6} />
                   </button>
                 )}
-                <h2
-                  className={`text-[30px] font-bold capitalize text-custom-black ${endWord() === 'search' ? 'ml-5' : ''}`}
-                >
-                  {isSummaryPage ? endWord(2) + ' Summary' : endWord()}
+                <h2 className="text-[30px] font-bold capitalize text-custom-black">
+                  {isSummaryPage ? renamePagesTitle(endWord(2)) : endWord()}
                 </h2>
               </>
             )}
@@ -55,6 +70,6 @@ function BaseLayout({ children }: { children: React.ReactNode }) {
       </div>
     </div>
   );
-}
+};
 
 export default BaseLayout;

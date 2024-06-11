@@ -13,7 +13,6 @@ type LineChartProps = {
 };
 function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
   const options: ApexOptions = {
-    // width: '98%',
     chart: {
       type: 'line',
       zoom: {
@@ -27,9 +26,9 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
       xaxis: [
         {
           x: new Date('1 Jan 2024').getTime(),
-          x2: new Date('15 Jan 2024 ').getTime(),
+          x2: new Date('10 Jan 2024 ').getTime(),
           fillColor: '#B3F7CA',
-          opacity: 0.8,
+          opacity: 0.4,
           label: {
             borderColor: '#B3F7CA',
             style: {
@@ -105,21 +104,10 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
       offsetX: 0,
       offsetY: 0,
       showNullDataPoints: true,
-      hover: {
-        // borderColor: '#FF4560',
-        // offsetY: 0,
-        // style: {
-        //     color: '#fff',
-        //     background: '#FF4560',
-        // },
-      },
     },
     tooltip: {
       style: {
         fontSize: '12px',
-        // background: 'red',
-        // color: 'blue',
-        // backgroundColor: 'green'
       },
       x: {
         show: false,
@@ -149,24 +137,28 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
         <div className="py-8 text-center text-lg"> Data Not Found</div>
       ) : (
         <>
-          <div id="chart">
-            <ReactApexChart
-              options={options}
-              series={[
-                {
-                  name: '',
-                  data: [...data?.map((d) => d.total_cost)].reverse(),
-                },
-              ]}
-              type="line"
-              height={350}
-            />
+          <div className="flex">
+            <div className="relative top-44 h-full w-[3%] rotate-[270deg] whitespace-pre font-bold leading-7 text-[#000] lg:text-[14px] xl:text-[16px]">
+              Total Cost
+            </div>
+            <div id="chart " className="w-[97%]">
+              <ReactApexChart
+                options={options}
+                series={[
+                  {
+                    name: '',
+                    data: [...data?.map((d) => d.total_cost)].reverse(),
+                  },
+                ]}
+                type="line"
+                height={350}
+              />
+            </div>
+            <div id="html-dist" />
           </div>
-          <div id="html-dist" />
         </>
       )}
     </div>
   );
 }
-
 export default LineChart;

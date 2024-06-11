@@ -1,9 +1,8 @@
 'use client';
-
 import React, { useEffect } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useGetSiteInvoices } from '@/hooks/useGetSites';
+import SiteGeneralInfo from './components/employee-general-info';
 import Pagination from '@/components/ui/pagination';
 import CreateQueryString from '@/utils/createQueryString';
 import {
@@ -18,7 +17,8 @@ import TableData from '@/components/ui/summary-tables/table';
 import { ScrollTabs } from '@/components/ui/scroll-tabs';
 import Skeleton from '@/components/ui/skeleton/skeleton';
 import ServiceTypesGrid from '@/components/ui/service-badge';
-import SiteGeneralInfo from './components/employee-general-info';
+import { moneyFormatter } from '@/utils/utils';
+import { format, parseISO } from 'date-fns';
 
 type EmployeeDetailPageProps = {
   employeeId: number;
@@ -53,24 +53,23 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     employeeLevelId: employee_level,
     managerEmployeeId: manage_id,
     externalId: client_employee_id,
-    ticketApprovalManager: vip_executive,
+    vip: vip_executive,
     costCentreForNewService: cost_center,
     site,
   } = employeeServiceDetailData || {};
 
   // cost and trend data
   const { data: costTrendData, isLoading: isCostTrendLoading } = useGetEmployeeCostTrend(Number(employee_id));
+  const { data: siteTicketsData, isLoading: isSiteTicketsLoader } = useGetEmployeeTickets(
+    Number(employee_id),
+    offset,
+    limit,
+  );
   const {
-    data: siteTicketsData,
-    isLoading: isSiteTicketsLoader,
-    refetch: refetchTicketsData,
-  } = useGetEmployeeTickets(Number(employee_id), offset, limit);
-  const {
-    data: siteInvoicesData,
-    isLoading: isSiteInvoicesLoader,
-    refetch: getInvoices,
-  } = useGetSiteInvoices(Number(employee_id), offset, limit);
-  const { data: employeeServices, isLoading: isEmployeeServicesLoading } = useGetEmployeeServices(Number(employee_id));
+    data: employeeServices,
+    isLoading: isEmployeeServicesLoading,
+    refetch: refetchServicesData,
+  } = useGetEmployeeServices(Number(employee_id), offset, limit, showTerminated);
   const { data: employeeServiceTypes, isLoading: isEmployeeServiceType } = useGetEmployeeServiceTypes(
     Number(employee_id),
   );
@@ -84,12 +83,13 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     }
     params.set('page', page.toString());
     router.push(`${pathname}?${params.toString()}`);
-    await refetchTicketsData();
+    await refetchServicesData();
   };
   const showTerminatedHandler = async () => {
     setShowTerminated(!showTerminated);
-    await refetchTicketsData();
+    await refetchServicesData();
   };
+
   useEffect(() => {
     if (searchParams) {
       if (keys.length > 1 || !keys.includes('page')) {
@@ -99,41 +99,52 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     if (showTerminated) {
       router.push(`${pathname}?${createQueryString('showTerminated', showTerminated.toString())}`);
     }
-  }, [keys.length, showTerminated, createQueryString, pathname, router, searchParams, keys]);
+  }, [keys.length]);
 
-  useEffect(() => {
-    if (searchParams) {
-      if (keys.length > 1 || !keys.includes('page')) {
-        router.push(`${pathname}?${createQueryString('page', 1)}`);
-      }
-    }
-  }, [keys.length, createQueryString, pathname, router, searchParams, keys]);
-
-  const totalPages = Math.max(siteTicketsData?.total || 0, siteInvoicesData?.total || 0);
-
-  const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
-    const { country_code, ...rest } = item;
-    return rest;
+  const refinedEmployeeData: {
+    number: string;
+    service: string;
+    serviceType: number;
+    serviceDescription: string | null;
+    serviceFunctionPurpose: string;
+    serviceStatus: number;
+    cost: number;
+    invoiceDate: string;
+  }[] = employeeServices?.data?.map((item: any) => ({
+    number: item?.service?.number,
+    account: item?.service?.companyNetwork?.network?.name + '-' + item?.service?.account,
+    service_type: item?.service?.service_type,
+    description: item?.service?.description,
+    ['function / purpose']: item?.service.purposeOfService,
+    'service status': item?.service.serviceStatus,
+    cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${item?.service?.cost?.invoice?.invoiceDate})`,
+  }));
+  const refinedTickets = siteTicketsData?.tickets?.map((item: any) => {
+    return {
+      'Veroxos REF': item?.reference,
+      'Request Type': item?.description,
+      status: item?.ticketStatusId,
+      created: format(parseISO(item.created), 'MMM dd, yyyy hh:mm a'),
+    };
   });
-
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
-      <ScrollTabs tabs={['general-information', 'cost-trend', 'service-type', 'tickets', 'services']}>
+      <ScrollTabs tabs={['general-information', 'services', 'cost-trend', 'service-type', 'tickets']}>
         {/* General Information  */}
         <div id="general-information">
           <SiteGeneralInfo
             label="General Information"
             isLoading={isemployeeServiceDetailLoader}
             data={{
-              veroxosId,
+              veroxosId: veroxosId,
               firstName: search?.split(',')[0],
               email: search?.split(',')[2],
               status: live,
-              site,
+              site: site,
               manageId: manage_id,
               clientEmployeeId: client_employee_id,
               lastName: search?.split(',')[1],
-              jobTitle,
+              jobTitle: jobTitle,
               employeeLevel: employee_level,
               costCenter: cost_center,
               vipExecutive: vip_executive,
@@ -141,7 +152,28 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
           />
           <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
         </div>
-
+        {/* Service  */}
+        <div id="services">
+          <TableData label="Services" data={refinedEmployeeData} loading={isEmployeeServicesLoading} />
+          {employeeServices?.total > 8 && (
+            <div>
+              <Pagination
+                className="flex justify-end pt-4"
+                totalPages={employeeServices?.total}
+                currentPage={Number(page)}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          )}
+          <button
+            onClick={showTerminatedHandler}
+            className="my-5 ml-auto block h-[48px] w-[220px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-3"
+          >
+            <span className="text-[14px] font-semibold text-white">
+              {showTerminated ? 'Show Terminated Service' : 'Show Live Services'}{' '}
+            </span>
+          </button>
+        </div>
         {/* Cost Trend  */}
         <div id="cost-trend">
           <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
@@ -151,7 +183,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
         {/* Service Type */}
         <div id="service-type">
           <div className="flex gap-4 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Service Type </div>
-          <div className="mt-4 flex flex-wrap gap-4">
+          <div className="mt-4 gap-4">
             {isEmployeeServiceType ? (
               <Skeleton variant="paragraph" rows={3} />
             ) : Array.isArray(employeeServiceTypes?.data) && employeeServiceTypes?.data.length > 0 ? (
@@ -176,23 +208,9 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
 
         {/* Tickets  */}
         <div id="tickets">
-          <TableData label="Tickets" loading={isSiteTicketsLoader} data={siteTicketsData?.data?.tickets} />
+          <TableData label="Tickets" loading={isSiteTicketsLoader} data={refinedTickets} />
           <Separator className="mt-8 h-[2.px] bg-[#5d5b5b61]" />
         </div>
-        {/* Service  */}
-        <div id="services">
-          <TableData label="Services" data={employeeServices?.data} loading={isEmployeeServicesLoading} />
-        </div>
-        {totalPages > 8 && (
-          <div>
-            <Pagination
-              className="flex justify-end pt-4"
-              totalPages={totalPages}
-              currentPage={Number(page)}
-              onPageChange={handlePageChange}
-            />
-          </div>
-        )}
       </ScrollTabs>
     </div>
   );

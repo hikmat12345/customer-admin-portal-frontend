@@ -11,15 +11,17 @@ import {
   useGetSiteServices,
   useGetSiteTickets,
 } from '@/hooks/useGetSites';
+import SiteGeneralInfo from './components/site-general-info';
 import CreateQueryString from '@/utils/createQueryString';
-import formatDate, { moneyFormatter } from '@/utils/utils';
+import { moneyFormatter } from '@/utils/utils';
 import Skeleton from '@/components/ui/skeleton/skeleton';
 import Pagination from '@/components/ui/pagination';
 import LineChart from '@/components/ui/line-chart';
 import TableData from '@/components/ui/summary-tables/table';
 import ServiceTypesGrid from '@/components/ui/service-badge';
 import { ScrollTabs } from '@/components/ui/scroll-tabs';
-import SiteGeneralInfo from './components/site-general-info';
+import TooltipText from '@/components/ui/textbox';
+import { format, parseISO } from 'date-fns';
 
 type SiteDetailPageProps = {
   siteId: number;
@@ -118,13 +120,13 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     cost: number;
     invoiceDate: string;
   }[] = siteServices?.data?.map((item: any) => ({
-    number: item.service.number,
-    account: item.service.companyNetwork.network.name,
-    service_type: item.service.service_type,
-    description: item.service.description,
-    'function / purpose': item.service['function / purpose'],
-    'service status': item.service['service status'],
-    cost: `${moneyFormatter(parseFloat(item.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item.service?.cost?.taxRaw), 'usd')} (${formatDate(item.invoiceDate, 'MM yyyy')})`,
+    ['ID']: item?.service?.number,
+    account: item?.service?.companyNetwork?.network?.name + '-' + item?.service?.account,
+    service_type: item?.service?.service_type,
+    description: item?.service?.description,
+    ['function / purpose']: item?.service.functionPurpose,
+    'service status': item?.service.serviceStatus,
+    cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${format(parseISO(item?.service?.cost?.invoice?.invoiceDate), 'MMM dd, yyyy')})`,
   }));
 
   const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
@@ -132,6 +134,14 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     return rest;
   });
 
+  const ticketsData = siteTicketsData?.tickets?.map((item: any) => {
+    return {
+      'Veroxos REF': item.reference,
+      'Request Type': item.description,
+      status: item.ticketStatusId,
+      created: format(parseISO(item.created), 'MMM dd, yyyy hh:mm a'),
+    };
+  });
   useEffect(() => {
     if (searchParams) {
       if (keys.length > 1 || !keys.includes('page')) {
@@ -188,8 +198,16 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
 
         {/* Service Type */}
         <div id="service-type">
-          <div className="flex gap-4 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Service Type </div>
-          <div className="mt-4 flex flex-wrap gap-4">
+          <div className="flex gap-4 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">
+            Service Type{' '}
+            <TooltipText
+              text={'Show the volume of services splited by service type'}
+              maxLength={1}
+              className="leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+              type="notification"
+            />
+          </div>
+          <div className="mt-4 gap-4">
             {isServiceTypesLoading ? (
               <Skeleton variant="paragraph" rows={3} />
             ) : Array.isArray(serviceTypes) && serviceTypes.length > 0 ? (
@@ -203,7 +221,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
 
         {/* Tickets  */}
         <div id="tickets">
-          <TableData label="Tickets" loading={isSiteTicketsLoader} data={siteTicketsData?.data?.tickets} />
+          <TableData label="Tickets" loading={isSiteTicketsLoader} data={ticketsData} />
           <Separator className="mt-8 h-[2px] bg-[#5d5b5b61]" />
         </div>
 
@@ -214,13 +232,14 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
             data={refinedInvoices}
             currency={siteInvoicesData?.invoices[0]?.currency}
             loading={isSiteInvoicesLoader}
+            tableClass="whitespace-nowrap"
           />
           <Separator className="mt-8 h-[2px] bg-[#5d5b5b61]" />
         </div>
 
         {/* Service  */}
         <div id="services">
-          <TableData label="Services" data={refinedData} loading={isServicesLoader} />
+          <TableData label="Services" data={refinedData} loading={isServicesLoader} tableClass="whitespace-nowrap" />
         </div>
         {totlaPages > 8 && (
           <div>
@@ -232,16 +251,14 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
             />
           </div>
         )}
-        {refinedData?.length && (
-          <button
-            onClick={showTerminatedHandler}
-            className="my-5 ml-auto block h-[48px] w-[280px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-3"
-          >
-            <span className="text-base font-semibold text-white">
-              {showTerminated ? 'Show Terminated Service' : 'Show Live Services'}{' '}
-            </span>
-          </button>
-        )}
+        <button
+          onClick={showTerminatedHandler}
+          className="my-5 ml-auto block h-[48px] w-[280px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-3"
+        >
+          <span className="text-base font-semibold text-white">
+            {showTerminated ? 'Show Terminated Service' : 'Show Live Services'}{' '}
+          </span>
+        </button>
       </ScrollTabs>
     </div>
   );

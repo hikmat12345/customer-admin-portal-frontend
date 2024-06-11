@@ -66,7 +66,7 @@ export function GroupMapBox({
     locations.forEach((location) => {
       L.marker([location.lat, location.long], { icon: customIcon })
         .addTo(map)
-        .bindPopup(`<a target="_blank" href="/sites/${location.siteId}">${location.address}</a>`)
+        .bindPopup(`<a  href="/sites/${location.siteId}">${location.address}</a>`)
         .openPopup();
     });
 

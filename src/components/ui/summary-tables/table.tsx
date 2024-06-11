@@ -29,7 +29,13 @@ function TableHeaderContent({ data }: any) {
             key={key}
             className="first:border-tl w-[100px] pl-4 pr-4 text-left capitalize first:pl-10 last:border-none last:text-left"
           >
-            {key === 'invoiceBreakdowns' ? 'Cost' : key.replaceAll('_', ' ')}
+            {key === 'invoiceBreakdowns'
+              ? 'Cost'
+              : key === 'tax_and_fees'
+                ? 'Tax & Fees'
+                : key === 'invoiceDate'
+                  ? 'Invoice Date'
+                  : key.replaceAll('_', ' ')}
           </TableHead>
         ))
       ) : (
@@ -58,7 +64,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
             <div dangerouslySetInnerHTML={{ __html: value }} />
           ) : Object.keys(record)[index] === 'reference' ? (
             value !== '-' ? (
-              <Link href={value && `/tickets/reference_id=${value}`} className="font-normal text-sky-600">
+              <Link href={value && `/support/tickets/ticket-summary/${value}`} className="font-normal text-sky-600">
                 {value ? `SUP${value}` : ' - '}
               </Link>
             ) : Object.keys(record)[index] === 'number_value' ? (
@@ -95,7 +101,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
               {stringFindAndReplaceAll(value, '-/', ' ', 0)}
             </Link>
           ) : Object.keys(record)[index] === 'invoice_date' ? (
-            formatDate(value, 'dd/MM/yyyy')
+            formatDate(value, 'MMM dd, yyyy')
           ) : Object.keys(record)[index] === 'account' ? (
             <Link
               href={value ? `/vendors/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
@@ -126,7 +132,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
               {TICKETS_STATUS_LIST[value]}
             </span>
           ) : String(value) == 'null' || String(value) == 'undefined' || String(value) == '' ? (
-            <span className="pl-[20%]">-</span>
+            <span className="pl-[10%]">-</span>
           ) : (
             String(value)
           )}
@@ -143,10 +149,9 @@ function TableBodyContent({ record, currencySymbol }: any) {
  * accordingly. The table can be used for different datasets by passing appropriate props.
  */
 
-export default function TableData({ data, loading, label, currency }: TableDataProps) {
+export default function TableData({ data, loading, label, currency, tableClass }: TableDataProps) {
   currency = currency ? currency.toUpperCase() : null;
   const currencySymbol = currency;
-
   return (
     <>
       {/* lable of the table  */}
@@ -155,7 +160,7 @@ export default function TableData({ data, loading, label, currency }: TableDataP
       )}
       {/* load the skeleton if the data is still loading */}
       {loading ? (
-        <Table>
+        <Table className={`${tableClass}`}>
           <TableBodySkeleton rowCount={3} columnCount={3} />
         </Table>
       ) : Array.isArray(data) && data.length < 1 ? (
@@ -164,7 +169,7 @@ export default function TableData({ data, loading, label, currency }: TableDataP
         <div className="no-scrollbar max-h-[600px] overflow-y-scroll">
           <Table
             style={{ borderColor: '#e2e2e2' }}
-            className="border-tools-table-outline border-separate rounded-md border-[1px] border-[#e2e2e2] text-left"
+            className={`border-tools-table-outline border-separate rounded-md border-[1px] border-[#e2e2e2] text-left ${tableClass}`}
           >
             <TableHeader>
               <TableRow>

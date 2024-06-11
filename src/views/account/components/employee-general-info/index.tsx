@@ -34,12 +34,16 @@ export default function SiteGeneralInfo({
               <div className="font-[600] leading-9 text-[#000] lg:text-[13px] xl:text-[14px]">Email</div>
               <div className="font-[600] leading-9 text-[#000] lg:text-[13px] xl:text-[14px]">Status</div>
               <div className="font-[600] leading-9 text-[#000] lg:text-[13px] xl:text-[14px]">Site</div>
-              <div className="font-[600] leading-9 text-[#000] lg:text-[13px] xl:text-[14px]">Manage ID</div>
+              <div className="font-[600] leading-9 text-[#000] lg:text-[13px] xl:text-[14px]">Manager ID</div>
             </div>
             <div className="w-[66%]">
-              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">{veroxosId || ' - '} </div>
-              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">{firstName || ' - '} </div>
-              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">{email || ' - '} </div>
+              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {veroxosId ? veroxosId : ' - '}{' '}
+              </div>
+              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {firstName ? firstName : ' - '}{' '}
+              </div>
+              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">{email ? email : ' - '} </div>
               <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">
                 {status !== null ? (
                   <span
@@ -57,7 +61,7 @@ export default function SiteGeneralInfo({
               <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">
                 {manageId ? (
                   <Link href={`/site/${manageId}`} className="text-custom-blue hover:underline">
-                    {manageId || ' - '}
+                    {manageId ? manageId : ' - '}
                   </Link>
                 ) : (
                   ' - '
@@ -75,12 +79,24 @@ export default function SiteGeneralInfo({
               <div className="font-[600] leading-9 text-[#000] lg:text-[13px] xl:text-[14px]">VIP Executive</div>
             </div>
             <div>
-              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">{clientEmployeeId || ' - '} </div>
-              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">{lastName || ' - '} </div>
-              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">{jobTitle || ' - '} </div>
-              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">{employeeLevel || ' - '} </div>
-              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">{costCenter || ' - '} </div>
-              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">{vipExecutive || ' - '} </div>
+              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {clientEmployeeId ? clientEmployeeId : ' - '}{' '}
+              </div>
+              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {lastName ? lastName : ' - '}{' '}
+              </div>
+              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {jobTitle ? jobTitle : ' - '}{' '}
+              </div>
+              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {employeeLevel ? employeeLevel : ' - '}{' '}
+              </div>
+              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {costCenter ? costCenter : ' - '}{' '}
+              </div>
+              <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {vipExecutive ? vipExecutive : ' - '}{' '}
+              </div>
             </div>
           </div>
         </div>

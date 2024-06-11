@@ -12,15 +12,16 @@ import {
 import TableBodySkeleton from '@/components/ui/table/tableBodySkeleton';
 import { Table } from '@/components/ui/table/table';
 import TableData, { CostTable, PlanTable } from '@/components/ui/summary-tables/table';
-import { makeFileUrlFromBase64 } from '@/utils/utils';
+import formatDate, { makeFileUrlFromBase64 } from '@/utils/utils';
 import { ScrollTabs } from '@/components/ui/scroll-tabs';
 import { DeviceInfoCard } from './components/device-info-card';
 import GeneralInfo from './components/general-info';
+import { parseISO } from 'date-fns';
 
 type InventoryDetailPageProps = {
   serviceId: number;
 };
-function InventoryDetailPage({ serviceId }: InventoryDetailPageProps) {
+const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
   const searchId = Number(serviceId);
   const { data: singleServiceData, isLoading: isServiceInfoLoader } = useGetSingleServiceDetail(searchId);
   const { data: costPlanData, isLoading: isCostPlanLoading } = useGetCostPlan(searchId);
@@ -31,6 +32,8 @@ function InventoryDetailPage({ serviceId }: InventoryDetailPageProps) {
   const {
     id,
     serviceNumber,
+    companyNetworkId,
+    live,
     costCentre,
     serviceType,
     spare,
@@ -42,24 +45,32 @@ function InventoryDetailPage({ serviceId }: InventoryDetailPageProps) {
     scheduledSuspensionDate,
     note,
     purposeOfService,
-    accountNumber,
+    account_number,
     vendor,
     employee,
     serviceDescription,
   } = singleServiceData?.data?.general_info || {};
 
-  // get site detail for google map location
+  //get site detail for google map location
   const site = singleServiceData?.data?.site || {};
   const { deviceid, simNumber, datePurchased, deviceName, status, image } = assetsData?.data[0] || {};
   // make image url from base64 string
   const imageUrl = makeFileUrlFromBase64(image ? Buffer.from(image).toString('base64') : null);
   const refineRecentActivityData = recentActivityData?.data?.recent_activity.map((activity: any) => ({
+    // reference : activity.reference ? activity.reference : '',
+    who: activity.agent,
     description: activity.description,
-    who: activity.who,
-    created: activity.createdAt,
+    when: formatDate(activity.createdAt, 'MMM dd, yyyy hh:mm a'),
+  }));
+
+  const structuredTicketsData = ticketsRecentActivityData?.data?.tickets.map((ticket: any) => ({
+    'Veroxos REF': ticket.reference,
+    'Request Type': ticket.description,
+    status: ticket.ticketStatusId,
+    created: formatDate(parseISO(ticket.created), 'MMM dd, yyyy hh:mm a'),
   }));
   return (
-    <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
+    <div className="w-full rounded-lg px-7 py-5">
       <ScrollTabs tabs={['general-information', 'device-information', 'cost-&-plan', 'tickets', 'activity']}>
         <div id="general-information">
           <GeneralInfo
@@ -67,22 +78,23 @@ function InventoryDetailPage({ serviceId }: InventoryDetailPageProps) {
             isLoading={isServiceInfoLoader}
             data={{
               veroxosId: id,
-              serviceNumber,
+              serviceNumber: serviceNumber,
               vendor,
-              account: accountNumber,
-              serviceType,
-              serviceDescription: serviceDescription?.name,
-              employee,
-              purposeOfService,
-              contractStartDate,
-              contractEndDate,
-              spare,
-              zeroUsageAllowed,
-              terminationDate,
-              scheduledTerminationDate,
-              scheduledSuspensionDate,
+              accountLinkid: companyNetworkId,
+              account: account_number,
+              serviceType: serviceType,
+              serviceDescription: serviceDescription,
+              employee: employee,
+              purposeOfService: purposeOfService,
+              contractStartDate: contractStartDate,
+              contractEndDate: contractEndDate,
+              spare: spare,
+              zeroUsageAllowed: zeroUsageAllowed,
+              terminationDate: terminationDate,
+              scheduledTerminationDate: scheduledTerminationDate,
+              scheduledSuspensionDate: scheduledSuspensionDate,
               notes: note,
-              site,
+              site: site,
             }}
           />
           <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
@@ -94,8 +106,8 @@ function InventoryDetailPage({ serviceId }: InventoryDetailPageProps) {
             imageUrl={imageUrl}
             deviceName={deviceName}
             datePurchased={datePurchased}
-            status={status?.name}
-            deviceid={deviceid}
+            status={live}
+            deviceId={deviceid}
             simNumber={simNumber}
             isAssetLoader={isAssetLoader}
           />
@@ -116,11 +128,7 @@ function InventoryDetailPage({ serviceId }: InventoryDetailPageProps) {
         </div>
 
         <div id="tickets">
-          <TableData
-            label="Tickets"
-            loading={isTicketsRecentActivityLoader}
-            data={ticketsRecentActivityData?.data?.tickets}
-          />
+          <TableData label="Tickets" loading={isTicketsRecentActivityLoader} data={structuredTicketsData} />
           <Separator className="mt-8 h-[2px] bg-[#5d5b5b61]" />
         </div>
 
@@ -130,6 +138,6 @@ function InventoryDetailPage({ serviceId }: InventoryDetailPageProps) {
       </ScrollTabs>
     </div>
   );
-}
+};
 
 export default InventoryDetailPage;

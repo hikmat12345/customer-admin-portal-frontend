@@ -37,7 +37,7 @@ export default function SiteGeneralInfo({
     },
     { label: 'Site', value: site?.streetLine1 },
     {
-      label: 'Manage ID',
+      label: 'Manager ID',
       value: manageId ? (
         <Link target="_blank" href={`/employees/${manageId}`} className="text-custom-blue hover:underline">
           {manageId}
@@ -49,9 +49,10 @@ export default function SiteGeneralInfo({
     { label: 'Job Title', value: jobTitle },
     { label: 'Employee Level', value: employeeLevel },
     { label: 'Cost Center', value: costCenter },
-    { label: 'VIP Executive', value: '-' },
-    // need this commented code for later
-    // value:vipExecutive   ? <Link target="_blank" href={`/employees/${vipExecutive}`} className='text-custom-blue hover:underline'>{vipExecutive}</Link> : null },
+    {
+      label: 'VIP Executive',
+      value: vipExecutive !== undefined && vipExecutive !== null ? (vipExecutive ? 'Yes' : 'No') : ' - ',
+    },
   ];
 
   return (
@@ -60,40 +61,40 @@ export default function SiteGeneralInfo({
       {isLoading ? (
         <GeneralInfoSkeletons />
       ) : (
-        <div className="flex gap-[19px] pb-6 max-lg:block">
-          <div className="flex w-[42%] justify-between max-lg:mt-5 max-lg:w-[100%]">
-            <div className="w-[34%]">
+        <div className="flex gap-x-[70px] pb-6 max-lg:block">
+          <div className="flex w-[50%] justify-between gap-x-[70px] max-lg:mt-5 max-lg:w-[100%]">
+            <div className="w-[20%]">
               {keys.slice(0, 6).map((item, index) => (
                 <div
                   key={index}
-                  className="font-[600] text-[#000] lg:text-[13px] lg:leading-7 xl:text-[14px] xl:leading-8"
+                  className="font-[600] text-[#000] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7"
                 >
                   {item.label}
                 </div>
               ))}
             </div>
-            <div className="w-[66%]">
+            <div className="w-[75%]">
               {keys.slice(0, 6).map((item, index) => (
-                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-7 xl:text-[14px] xl:leading-8">
+                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
                   {item.value ? item.value : ' - '}
                 </div>
               ))}
             </div>
           </div>
-          <div className="flex w-[43%] justify-center gap-10 pr-20 max-lg:mt-5 max-lg:w-[100%]">
-            <div className="">
+          <div className="flex w-[50%] justify-center gap-x-[70px] max-lg:mt-5 max-lg:w-[100%]">
+            <div className="w-[32%]">
               {keys.slice(6).map((item, index) => (
                 <div
                   key={index}
-                  className="font-[600] text-[#000] lg:text-[13px] lg:leading-7 xl:text-[14px] xl:leading-8"
+                  className="font-[600] text-[#000] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7"
                 >
                   {item.label}
                 </div>
               ))}
             </div>
-            <div>
+            <div className="w-[68%]">
               {keys.slice(6).map((item, index) => (
-                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-7 xl:text-[14px] xl:leading-8">
+                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
                   {item.value ? item.value : ' - '}
                 </div>
               ))}

@@ -8,7 +8,7 @@ type ServiceTypeBadgeProps = {
   }[];
 };
 
-function ServiceTypesGrid({ services }: ServiceTypeBadgeProps) {
+const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
   return (
     <div className="flex flex-wrap gap-4">
       {services.map(
@@ -23,29 +23,35 @@ function ServiceTypesGrid({ services }: ServiceTypeBadgeProps) {
           <>
             <div
               key={index}
-              className={` ${service.subTypes?.length > 1 ? 'w-[99%]' : 'w-[49%]'} flex h-[52px] rounded border border-neutral-300 bg-custom-background ${service.subTypes?.length > 1 ? 'justify-center gap-3' : 'justify-between'} pl-5 pr-1 pt-1.5`}
+              className={` ${service?.subTypes?.length > 1 ? 'w-[99%]' : 'w-[49%]'} flex h-[52px] rounded border border-neutral-300 bg-custom-background ${service.subTypes?.length > 1 ? 'justify-center gap-3' : 'justify-between'} pl-5 pr-1 pt-1.5`}
             >
               <div className="pb-2 pt-2 text-base font-semibold text-black">
                 {getServiceType(Number(service.service_type))}
               </div>
               <div
-                className={`h-[34px] w-[34px] p-2 ${getServiceTypeColor(Number(service.service_type))} inline-flex items-center justify-start gap-2.5 rounded-[41px] !pt-0 pb-0`}
+                className={`h-[38px] w-[38px] p-1 ${getServiceTypeColor(Number(service.service_type))} inline-flex items-center justify-start gap-2.5 rounded-[41px] !pt-0 pb-0`}
               >
-                <div className="relative top-0 inline-flex h-[34px] w-[34px] items-center justify-center rounded-full text-[16px] font-semibold text-white">
+                <div
+                  className={`relative top-0 inline-flex h-[34px] w-[34px] items-center justify-center rounded-full text-[16px] font-semibold text-white`}
+                >
                   {service.count}
                 </div>
               </div>
             </div>
 
-            {service.subTypes.map(
+            {service?.subTypes?.map(
               (subType: { name: string; service_type: number; count: number }, subIndex: number) => (
                 <div
                   key={subIndex}
                   className={` ${service.subTypes?.length > 2 ? 'w-[32.2%]' : 'w-[49%]'} h-[52px] ${getServiceTypeSubColor(Number(service.service_type))} flex justify-between rounded border border-neutral-300 pl-5 pr-1 pt-2`}
                 >
-                  <div className="pb-2 pt-[0.35rem] text-base font-semibold text-black">{subType?.name}</div>
-                  <div className="inline-flex h-[53px] w-[41px] items-center justify-start gap-2.5 rounded-[41px] p-2 !pt-0">
-                    <div className="relative top-0 inline-flex h-[44px] w-[60px] items-center justify-center text-[16px] font-semibold text-black">
+                  <div className="pb-2 pt-[0.35rem] font-semibold text-black lg:text-[13px] xl:text-[15px]">
+                    {subType?.name}
+                  </div>
+                  <div
+                    className={`inline-flex h-[53px] w-[41px] items-center justify-start gap-2.5 rounded-[41px] p-2 !pt-0`}
+                  >
+                    <div className="relative top-0 inline-flex h-[44px] w-[60px] items-center justify-center pb-2 font-semibold text-black lg:text-[13px] xl:text-[15px]">
                       {subType?.count}
                     </div>
                   </div>
@@ -57,6 +63,6 @@ function ServiceTypesGrid({ services }: ServiceTypeBadgeProps) {
       )}
     </div>
   );
-}
+};
 
 export default ServiceTypesGrid;

@@ -1,4 +1,5 @@
 import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
+import TooltipText from '@/components/ui/textbox';
 import { AccountGeneralInfoProps } from '@/types/account/acount.tds';
 import Image from 'next/image';
 
@@ -28,13 +29,19 @@ export default function AccountGeneralInfo({
     { label: 'Payment Terms', value: paymentTerms },
     { label: 'Remittance Address', value: remittanceAddress },
     { label: 'Display Name', value: displayName },
+    {
+      label: 'Include in the Accounts Payable Feed',
+      value: includeApFeed !== undefined && includeApFeed !== null ? (includeApFeed ? 'Yes' : 'No') : ' - ',
+    },
+    {
+      label: 'Rolling Contract',
+      value: displayName !== undefined && displayName !== null ? (displayName ? 'Yes' : 'No') : ' - ',
+    },
+    { label: 'Vendor', value: network?.name },
+    { label: 'Status', value: companyNetworkStatus?.name },
+    { label: 'Country', value: network?.country?.name },
     { label: 'Client Vendor ID', value: clientenVendorID },
     { label: 'APF Group', value: accountPayableGroup },
-    { label: 'Include in the Accounts Payable Feed', value: includeApFeed === '1' ? 'YES' : 'NO' },
-    { label: 'Rolling Contract', value: rollingContract },
-    { label: 'Vendor', value: network?.name },
-    { label: 'Country', value: network?.country?.name },
-    { label: 'Status', value: companyNetworkStatus?.name },
   ];
 
   return (
@@ -43,40 +50,64 @@ export default function AccountGeneralInfo({
       {isLoading ? (
         <GeneralInfoSkeletons />
       ) : (
-        <div className="flex gap-[19px] pb-6 max-lg:block">
-          <div className="flex w-[43%] justify-between max-lg:mt-5 max-lg:w-[100%]">
-            <div className="w-[34%]">
-              {staticData.slice(0, 8).map((item, index) => (
-                <div key={index} className="font-[600] leading-9 text-[#000] lg:text-[13px] xl:text-[14px]">
+        <div className="flex pb-6 lg:gap-x-[32px] xl:gap-x-[60px] max-lg:block">
+          <div className="flex w-[40%] justify-between lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%]">
+            <div className="w-[40%]">
+              {staticData.slice(0, 7).map((item, index) => (
+                <div key={index} className="font-[600] leading-6 text-[#000] lg:text-[13px] xl:text-[14px]">
                   {item.label}
                 </div>
               ))}
             </div>
-            <div className="w-[66%]">
-              {staticData.slice(0, 8).map((item, index) => (
-                <div key={index} className="leading-9 text-[#575757] lg:text-[13px] xl:text-[14px]">
-                  {item.value ? item.value : ' - '}
+            <div className="w-[60%]">
+              {staticData.slice(0, 7).map((item, index) => (
+                <div key={index} className="">
+                  {typeof item.value !== 'undefined' ? (
+                    typeof item.value === 'boolean' ? (
+                      <div>{item.value ? item.value : ' - '}</div>
+                    ) : (
+                      <TooltipText
+                        text={item.value ? item.value : ' - '}
+                        maxLength={27}
+                        className="leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                      />
+                    )
+                  ) : (
+                    <div>-</div>
+                  )}
                 </div>
               ))}
             </div>
           </div>
-          <div className="flex w-[40%] justify-center gap-10 pr-3 max-lg:mt-5 max-lg:w-[100%]">
-            <div className="">
-              {staticData.slice(8).map((item, index) => (
-                <div key={index} className="font-[600] leading-9 text-[#000] lg:text-[13px] xl:text-[14px]">
+          <div className="flex w-[40%] justify-center pr-3 lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%]">
+            <div className="w-[60%]">
+              {staticData.slice(7).map((item, index) => (
+                <div key={index} className="font-[600] leading-6 text-[#000] lg:text-[13px] xl:text-[14px]">
                   {item.label}
                 </div>
               ))}
             </div>
-            <div>
-              {staticData.slice(8).map((item, index) => (
-                <div key={index} className="leading-9 text-[#575757] lg:text-[13px] xl:text-[14px]">
-                  {item.value ? item.value : ' - '}
+            <div className="w-[40%]">
+              {staticData.slice(7).map((item, index) => (
+                <div key={index}>
+                  {typeof item.value !== 'undefined' ? (
+                    typeof item.value === 'boolean' ? (
+                      <div>{item.value ? item.value : ' - '}</div>
+                    ) : (
+                      <TooltipText
+                        text={item.value ? item.value : ' - '}
+                        maxLength={35}
+                        className="leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                      />
+                    )
+                  ) : (
+                    <div>-</div>
+                  )}
                 </div>
               ))}
             </div>
           </div>
-          <div className="w-[17%] max-lg:mt-5 max-lg:w-[100%]">
+          <div className="w-[20%] max-lg:mt-5 max-lg:w-[100%]">
             <Image
               src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + network?.logo}
               alt="account logo"
