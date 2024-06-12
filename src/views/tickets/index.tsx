@@ -6,7 +6,6 @@ import React, { useEffect } from 'react';
 import Pagination from '@/components/ui/pagination';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import CreateQueryString from '@/utils/createQueryString';
-import debounce from 'lodash.debounce';
 import useGetMenuOptions from './components/select/options';
 import SelectComponent from './components/select';
 import TicketsTableSkeleton from './components/ticketsTableSkeleton';

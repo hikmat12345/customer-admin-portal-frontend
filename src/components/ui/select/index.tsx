@@ -30,7 +30,7 @@ export function SelectComponent({
       <SelectContent>
         <SelectGroup>
           {options?.map((option: { label: string; value: string }) => (
-            <SelectItem value={option.label}>{option.label}</SelectItem>
+            <SelectItem key={option.label} value={option.label}>{option.label}</SelectItem>
           ))}
         </SelectGroup>
       </SelectContent>

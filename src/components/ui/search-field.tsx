@@ -14,7 +14,7 @@ interface IProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   defaultValue?: any;
-  helpText: string;
+  helpText?: string;
 }
 
 const SearchField = forwardRef(
@@ -52,7 +52,7 @@ const SearchField = forwardRef(
             ref={ref}
             required
           />
-          <TooltipProvider delayDuration={200}>
+          {helpText && <TooltipProvider delayDuration={200}>
             <Tooltip>
               <TooltipTrigger>
                 <Image
@@ -67,7 +67,7 @@ const SearchField = forwardRef(
                 <p>{helpText}</p>
               </TooltipContent>
             </Tooltip>
-          </TooltipProvider>
+          </TooltipProvider>}
         </div>
       </div>
     );
