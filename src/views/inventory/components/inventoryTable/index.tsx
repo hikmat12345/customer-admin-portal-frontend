@@ -30,28 +30,29 @@ function InventoryTable({ data }: { data: Inventory[] }) {
         <InventoryTableHead />
         {isNoData && <TableCaption>No inventories available.</TableCaption>}
         <TableBody>
-          {data?.map((inventory: Inventory) => (
-            <TableRow key={inventory.id}>
-              <TableCell className="py-[19px] font-medium">
-                <Link className="text-custom-dryBlue" href={`${pathname}/${inventory.id}`}>
-                  {inventory?.id}
-                </Link>
-              </TableCell>
-              <TableCell className="text-left">{inventory?.serviceNumber || '-'}</TableCell>
-              <TableCell className="text-left">{inventory?.companyNetwork?.network?.name}</TableCell>
-              <TableCell className="text-left">{getServiceType(inventory?.serviceType) || '-'}</TableCell>
-              <TableCell className="text-left">{STATUS_NAME[inventory?.live]}</TableCell>
-              <TableCell className="text-left">-</TableCell>
-              <TableCell className="text-left">{inventory?.costCentre || '-'}</TableCell>
-              <TableCell>
-                <div className="flex items-center justify-center">
-                  <Button variant="null" size="sm" onClick={() => handleServiceClick(inventory.id)}>
-                    <Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
+          {Array.isArray(data) &&
+            data?.map((inventory: Inventory) => (
+              <TableRow key={inventory.id}>
+                <TableCell className="py-[19px] font-medium">
+                  <Link className="text-custom-dryBlue" href={`${pathname}/${inventory.id}`}>
+                    {inventory?.id}
+                  </Link>
+                </TableCell>
+                <TableCell className="text-left">{inventory?.serviceNumber || '-'}</TableCell>
+                <TableCell className="text-left">{inventory?.companyNetwork?.network?.name}</TableCell>
+                <TableCell className="text-left">{getServiceType(inventory?.serviceType) || '-'}</TableCell>
+                <TableCell className="text-left">{STATUS_NAME[inventory?.live]}</TableCell>
+                <TableCell className="text-left">-</TableCell>
+                <TableCell className="text-left">{inventory?.costCentre || '-'}</TableCell>
+                <TableCell>
+                  <div className="flex items-center justify-center">
+                    <Button variant="null" size="sm" onClick={() => handleServiceClick(inventory.id)}>
+                      <Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </div>

@@ -5,7 +5,6 @@ import React from 'react';
 import { useGetMonthlyTickets } from '@/hooks/useTickets';
 import { useGetMonthlyInvoices } from '@/hooks/useGetInvoices';
 import AccountCard from '@/components/ui/accountCard/card';
-import { getFormattedTotal } from '@/utils/utils';
 import ScrollArea from '@veroxos/design-system/dist/ui/ScrollArea/scroll-area';
 import { useGetCostSavings } from '@/hooks/useGetCostSavings';
 import AlertsTable from './components/alertsTable';
