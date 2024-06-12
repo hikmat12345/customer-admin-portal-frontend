@@ -21,15 +21,39 @@ function AccountCard({
   graph?: boolean;
   isLoading: boolean;
 }) {
-  const badgeVariant = data?.percentageDifference > 0 ? 'destructive' : 'success';
+  const peakIndicatorVariant = data?.percentageDifference > 0 ? 'destructive' : 'success';
+
+  const badgeVariant =
+    data?.percentageDifference > 0
+      ? 'destructive'
+      : data?.percentageDifference < 0
+        ? 'success'
+        : data?.percentageDifference === 0
+          ? 'cool'
+          : 'secondary';
 
   const formattedPercentageDifference =
     data?.percentageDifference > 0
       ? `+${data?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
       : data?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
-  const chartVariant = data?.percentageDifference > 0 ? '#E41323' : '#219653';
-
+  const chartVariant =
+    data &&
+    data?.percentageDifference !== null &&
+    data?.percentageDifference !== undefined &&
+    data?.percentageDifference > 0
+      ? '#E41323'
+      : data &&
+          data?.percentageDifference !== null &&
+          data?.percentageDifference !== undefined &&
+          data?.percentageDifference < 0
+        ? '#219653'
+        : data &&
+            data?.percentageDifference !== null &&
+            data?.percentageDifference !== undefined &&
+            data?.percentageDifference === 0
+          ? '#037EC2'
+          : '#6B7280';
   return (
     <div className="relative h-auto min-h-[150px] min-w-[250px] max-w-full rounded-lg border border-custom-plaster pl-7 pt-3 lg:min-h-[140px] xl:min-h-[155px]">
       <div className="flex gap-[10px]">
@@ -42,21 +66,21 @@ function AccountCard({
             <h2 className="text-sm font-semibold text-custom-black md:text-base 2xl:text-lg">{title}</h2>
             <div className="flex items-center gap-5">
               <h1 className="text-nowrap text-lg font-bold lg:text-2xl 2xl:text-3xl">
-                $ {Math.floor(data?.total || data?.totalCostSavings).toLocaleString()}
+                $ {Math.floor(data?.total || data?.totalCostSavings).toLocaleString() || 0}
               </h1>
               {badge && (
-                <Badge className="text-nowrap text-sm lg:text-xs" variant={badgeVariant}>
+                <Badge className="text-nowrap bg-custom- text-sm lg:text-xs" variant={badgeVariant}>
                   {formattedPercentageDifference}%
                 </Badge>
               )}
             </div>
 
-            {message}
+            {message || 'No spending data available.'}
           </div>
         )}
 
         {peakIndicator && (
-          <PeakIndicator variant={badgeVariant} isLoading={isLoading} percentage={data?.percentageDifference}>
+          <PeakIndicator variant={peakIndicatorVariant} isLoading={isLoading} percentage={data?.percentageDifference}>
             {/* <Image
 							src={arrowImageSrc}
 							alt={percentage && percentage > 0 ? 'Up Peak Arrow' : 'Down Peak Arrow'}

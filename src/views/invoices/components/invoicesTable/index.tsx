@@ -13,7 +13,7 @@ function InvoicesTable({ data }: any) {
     <div className="overflow-auto lg:max-h-[225px] xl:max-h-full">
       <Table>
         <InvoicesTableHead />
-        {isNoData && <TableCaption>No invoices available.</TableCaption>}
+        {isNoData && <TableCaption>No data found.</TableCaption>}
 
         <TableBody>
           {data?.invoices?.map((invoice: any) => (

@@ -12,7 +12,7 @@ export function getTimeDifference(updated: string): string {
   const currentTime = new Date().getTime();
   const differenceInSeconds = Math.floor((currentTime - updatedTime) / 1000);
   if (differenceInSeconds < 60) {
-    return 'just now';
+    return 'Just now';
   }
   if (differenceInSeconds < 3600) {
     const minutes = Math.floor(differenceInSeconds / 60);

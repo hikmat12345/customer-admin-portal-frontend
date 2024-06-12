@@ -42,7 +42,9 @@ function InventoryPage() {
     account?.length !== 0 ? account : undefined,
     vendor?.length !== 0 ? vendor : undefined,
     typeof serviceType !== 'undefined' && serviceType !== null ? +serviceType : undefined,
-    typeof serviceStatus !== 'undefined' && serviceStatus !== null ? +serviceStatus : undefined,
+    typeof serviceStatus !== 'undefined' && serviceStatus !== null
+      ? +(serviceStatus === '2' ? '1' : '0') // Convert to number here
+      : undefined,
     searchQuery?.length !== 0 ? searchQuery?.trim() : undefined,
   );
 
@@ -55,7 +57,7 @@ function InventoryPage() {
       description: `Currently, there are ${liveServicesData?.live} active services.`,
       data: (
         <h1 className="text-nowrap text-lg font-bold text-custom-amnesiaBlue lg:text-2xl 2xl:text-3xl">
-          {liveServicesData?.live.toLocaleString()}
+          {Math.floor(liveServicesData?.live).toLocaleString()}
         </h1>
       ),
     },
@@ -65,7 +67,7 @@ function InventoryPage() {
       description: `${monthlyCount?.currentMonth?.disconnected} services are disconnected this month.`,
       data: (
         <h1 className="text-nowrap text-lg font-bold text-custom-red lg:text-2xl 2xl:text-3xl">
-          {monthlyCount?.currentMonth?.disconnected}
+          {Math.floor(monthlyCount?.currentMonth?.disconnected).toLocaleString()}
         </h1>
       ),
     },
@@ -75,7 +77,7 @@ function InventoryPage() {
       description: `${monthlyCount?.lastMonth?.new} New Services were added last month.`,
       data: (
         <h1 className="text-nowrap text-lg font-bold text-[#219653] lg:text-2xl 2xl:text-3xl">
-          {monthlyCount?.lastMonth?.new}
+          {Math.floor(monthlyCount?.lastMonth?.new).toLocaleString()}
         </h1>
       ),
     },

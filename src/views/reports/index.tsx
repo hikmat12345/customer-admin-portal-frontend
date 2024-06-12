@@ -32,7 +32,10 @@ function ReportsPage() {
         <div className="relative flex justify-start">
           <Tabs defaultValue={defaultTabValue} onValueChange={handleTabChange}>
             <TabsList className="flex w-full justify-start gap-8">
-              <TabsTrigger value="finance" className="px-3">
+              <TabsTrigger
+                value="finance"
+                className="px-3 data-[state=active]:bg-[#1D46F333] data-[state=active]:text-custom-blue data-[state=active]:shadow"
+              >
                 Finance Reports
               </TabsTrigger>
               <TabsTrigger value="inventory" className="px-3">

@@ -7,8 +7,9 @@ import { Inventory } from '@/types/inventory/types';
 import { getServiceType } from '@/utils/utils';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import InventoryTableHead from './inventoryTableHead';
+import Link from 'next/link';
 
 function InventoryTable({ data }: any) {
   const STATUS_NAME: Record<number, string> = {
@@ -20,6 +21,9 @@ function InventoryTable({ data }: any) {
   const handleServiceClick = (id: number) => {
     router.push(`/inventory/${id}`);
   };
+
+  const pathname = usePathname();
+
   return (
     <div className="overflow-auto lg:max-h-[225px] xl:max-h-full">
       <Table>
@@ -28,13 +32,17 @@ function InventoryTable({ data }: any) {
         <TableBody>
           {data?.map((inventory: Inventory) => (
             <TableRow key={inventory.id}>
-              <TableCell className="py-[19px] font-normal">{inventory?.id}</TableCell>
-              <TableCell>{inventory?.serviceNumber || '-'}</TableCell>
-              <TableCell>{inventory?.companyNetwork?.network?.name}</TableCell>
-              <TableCell>{getServiceType(inventory?.serviceType) || '-'}</TableCell>
-              <TableCell>{STATUS_NAME[inventory?.live]}</TableCell>
-              <TableCell>-</TableCell>
-              <TableCell>{inventory?.costCentre || '-'}</TableCell>
+              <TableCell className="py-[19px] font-medium">
+                <Link className="text-custom-dryBlue" href={`${pathname}/${inventory.id}`}>
+                  {inventory?.id}
+                </Link>
+              </TableCell>
+              <TableCell className="text-left">{inventory?.serviceNumber || '-'}</TableCell>
+              <TableCell className="text-left">{inventory?.companyNetwork?.network?.name}</TableCell>
+              <TableCell className="text-left">{getServiceType(inventory?.serviceType) || '-'}</TableCell>
+              <TableCell className="text-left">{STATUS_NAME[inventory?.live]}</TableCell>
+              <TableCell className="text-left">-</TableCell>
+              <TableCell className="text-left">{inventory?.costCentre || '-'}</TableCell>
               <TableCell>
                 <div className="flex items-center justify-center">
                   <Button variant="null" size="sm" onClick={() => handleServiceClick(inventory.id)}>
