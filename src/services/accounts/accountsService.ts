@@ -18,7 +18,7 @@ export const getInvoices = async ({ queryKey }: any) => {
       searchQuery: searchQuery,
     },
   };
-  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices`, config).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/invoices`, config).then(({ data }) => data);
 };
 
 export const getMonthlyInvoices = async ({ queryKey }: any) => {

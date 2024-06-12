@@ -60,13 +60,15 @@ export const ScrollTabs: React.FC<ScrollTabsProps> = ({ children, tabs = [''], r
             </button>
           ))}
         </ul>
-        <div className="flex gap-2 py-2">
-          <div className="flex items-center">
-            <Image src={'/svg/notepad.svg'} alt="invoice icon" width={24} height={24} />
-            <p className="ml-3 text-[16px] font-normal text-custom-blue">Invoice ID.</p>
+        {rightText && (
+          <div className="flex gap-2 py-2">
+            <div className="flex items-center">
+              <Image src={'/svg/notepad.svg'} alt="invoice icon" width={24} height={24} />
+              <p className="ml-3 text-[16px] font-normal text-custom-blue">Invoice ID.</p>
+            </div>
+            <span className="text-[16px] font-normal text-custom-black">{rightText}</span>
           </div>
-          <span className="text-[16px] font-normal text-custom-black">{rightText}</span>
-        </div>
+        )}
       </div>
       <div className="relative mt-2 h-[75vh] overflow-y-scroll rounded-lg border border-neutral-300 p-5">
         {children}
