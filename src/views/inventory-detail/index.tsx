@@ -71,19 +71,19 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
     created: formatDate(parseISO(ticket.created), 'MMM dd, yyyy hh:mm a'),
   }));
 
-  const listOfTabs = []
+  const listOfTabs = [];
   if (costPlanData?.data?.plan?.length > 0 || costPlanData?.data?.cost?.length > 0) {
-    listOfTabs.push('cost-&-plan')
+    listOfTabs.push('cost-&-plan');
   }
   if (structuredTicketsData?.length > 0) {
-    listOfTabs.push('tickets')
+    listOfTabs.push('tickets');
   }
   if (refineRecentActivityData?.length > 0) {
-    listOfTabs.push('activity')
+    listOfTabs.push('activity');
   }
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
-      <ScrollTabs tabs={['general-information', 'device-information', ...listOfTabs]} >
+      <ScrollTabs tabs={['general-information', 'device-information', ...listOfTabs]}>
         <div id="general-information">
           <GeneralInfo
             label="General Information"
@@ -125,23 +125,24 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
           />
         </div>
         <div id="cost-&-plan">
-
           {isCostPlanLoading ? (
             <Table>
               <TableBodySkeleton rowCount={2} columnCount={2} />
             </Table>
           ) : (
             <>
-              {costPlanData?.data?.plan?.length > 0 &&
+              {costPlanData?.data?.plan?.length > 0 && (
                 <>
                   <div className="pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Cost & Plan</div>
                   <PlanTable data={costPlanData?.data?.plan} />
-                </>}
-              {costPlanData?.data?.cost?.length > 0 && costCentre &&
+                </>
+              )}
+              {costPlanData?.data?.cost?.length > 0 && costCentre && (
                 <>
                   <div className="pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">GL Allocations</div>
                   <CostTable data={costPlanData?.data?.cost} costCenter={costCentre} />
-                </>}
+                </>
+              )}
             </>
           )}
           <Separator className="mt-4 h-[1.0px] bg-[#5d5b5b61]" />
@@ -151,14 +152,14 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
           <div id="tickets">
             <TableData label="Tickets" loading={isTicketsRecentActivityLoader} data={structuredTicketsData} />
             <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
-          </div>)
-        }
+          </div>
+        )}
 
         {refineRecentActivityData?.length > 0 && isRecentActivityLoader === false && (
           <div id="activity">
             <TableData label="Recent Activity" data={refineRecentActivityData} loading={isRecentActivityLoader} />
-          </div>)
-        }
+          </div>
+        )}
       </ScrollTabs>
     </div>
   );

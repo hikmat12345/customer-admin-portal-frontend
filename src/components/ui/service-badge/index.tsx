@@ -39,13 +39,14 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
               </div>
             </div>
 
-            {service?.subTypes?.sort(
-              (
-                a: { name: string; serviceType: number; count: number },
-                b: { name: string; serviceType: number; count: number },
-              ) =>  b.count - a.count,
-              ).map(
-              (subType: { name: string; serviceType: number; count: number }, subIndex: number) => (
+            {service?.subTypes
+              ?.sort(
+                (
+                  a: { name: string; serviceType: number; count: number },
+                  b: { name: string; serviceType: number; count: number },
+                ) => b.count - a.count,
+              )
+              .map((subType: { name: string; serviceType: number; count: number }, subIndex: number) => (
                 <div
                   key={subIndex}
                   className={` ${service.subTypes?.length > 2 ? 'w-[32.2%]' : 'w-[49%]'} h-[52px] ${getServiceTypeSubColor(Number(service.serviceType))} flex justify-between rounded border border-neutral-300 pl-5 pr-1 pt-2`}
@@ -61,8 +62,7 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
                     </div>
                   </div>
                 </div>
-              ),
-            )}
+              ))}
           </>
         ),
       )}

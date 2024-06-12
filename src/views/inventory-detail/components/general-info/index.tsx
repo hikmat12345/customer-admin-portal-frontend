@@ -85,11 +85,14 @@ export default function GeneralInfo({
       value: scheduledSuspensionDate ? formatDate(scheduledSuspensionDate, 'MMM dd, yyyy') : '-',
     },
     {
-      label: 'Notes', value: <TooltipText
-        text={notes ? `${notes}` : '-'}
-        maxLength={20}
-        className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]"
-      />
+      label: 'Notes',
+      value: (
+        <TooltipText
+          text={notes ? `${notes}` : '-'}
+          maxLength={20}
+          className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]"
+        />
+      ),
     },
   ];
 
@@ -113,7 +116,7 @@ export default function GeneralInfo({
             </div>
             <div className="w-[55%]">
               {staticData.slice(0, 8).map((item, index) => (
-                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[16px] xl:leading-7 ">
+                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[16px] xl:leading-7">
                   {item.value ? item.value : ' - '}
                 </div>
               ))}
@@ -132,7 +135,7 @@ export default function GeneralInfo({
             </div>
             <div className="w-[40%]">
               {staticData.slice(8).map((item, index) => (
-                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[16px] xl:leading-7 ">
+                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[16px] xl:leading-7">
                   {item.value ? item.value : ' - '}
                 </div>
               ))}
@@ -157,14 +160,15 @@ export default function GeneralInfo({
                 </div>
               </div>
             </div>
-            {(site?.streetLine1 || site?.streetLine2) &&
+            {(site?.streetLine1 || site?.streetLine2) && (
               <div className="pt-1 text-center lg:text-[14px] xl:text-[16px]">
                 <span className="font-semibold text-zinc-600">Address:</span>
                 <span className="font-normal text-zinc-600">
                   {' '}
                   {site?.streetLine1 ? site?.streetLine1 : site?.streetLine2 ? site?.streetLine2 : ''}
                 </span>
-              </div>}
+              </div>
+            )}
           </div>
         </div>
       )}

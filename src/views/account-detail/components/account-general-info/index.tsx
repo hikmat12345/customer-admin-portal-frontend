@@ -69,7 +69,7 @@ export default function AccountGeneralInfo({
                       <TooltipText
                         text={item.value ? item.value : ' - '}
                         maxLength={27}
-                        className=" text-[#575757] lg:text-[13px] xl:text-[14px]"
+                        className="text-[#575757] lg:text-[13px] xl:text-[14px]"
                       />
                     )
                   ) : (
@@ -113,7 +113,7 @@ export default function AccountGeneralInfo({
               alt="account logo"
               width={500}
               height={500}
-              className="w-[200px] h-[150px] object-contain  m-auto block"
+              className="m-auto block h-[150px] w-[200px] object-contain"
             />
           </div>
         </div>

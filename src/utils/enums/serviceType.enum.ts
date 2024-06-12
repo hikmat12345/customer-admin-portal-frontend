@@ -60,4 +60,4 @@ export const getServiceType = (id: ServiceType): string => {
     default:
       return '';
   }
-}
+};

@@ -29,10 +29,10 @@ export default function InvoicePaymentInfo({ paymentData, isLoading = false }: I
         <div className="w-[100%] pr-20 max-lg:mt-5 max-lg:w-[100%]">
           <div className="w-[100%]">
             <div className="flex gap-2 py-1.5">
-              <div className="w-[35%] font-[600] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7 ">
+              <div className="w-[35%] font-[600] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
                 Invoice Paid
               </div>
-              <div className="w-[w-60%] text-[#575757]  text-left lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
+              <div className="w-[w-60%] text-left text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
                 {paymentData?.invoicePaid ? paymentData?.invoicePaid : ' - '}
               </div>
             </div>
@@ -41,7 +41,7 @@ export default function InvoicePaymentInfo({ paymentData, isLoading = false }: I
               <div className="w-[35%] font-[600] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
                 Payment Reference
               </div>
-              <div className="w-[w-60%]  text-[#575757]    text-left lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
+              <div className="w-[w-60%] text-left text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
                 {paymentData?.paymentReference ? paymentData?.paymentReference : ' - '}
               </div>
             </div>
@@ -50,7 +50,7 @@ export default function InvoicePaymentInfo({ paymentData, isLoading = false }: I
               <div className="w-[35%] font-[600] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
                 Payment Date
               </div>
-              <div className="w-[60%] text-[#575757] text-left lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
+              <div className="w-[60%] text-left text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
                 {paymentData?.paymentDate ? paymentData?.paymentDate : ' - '}
               </div>
             </div>
@@ -59,7 +59,7 @@ export default function InvoicePaymentInfo({ paymentData, isLoading = false }: I
               <div className="w-[35%] font-[600] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
                 Payment Note
               </div>
-              <div className="w-[w-60%] text-[#575757] text-left lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
+              <div className="w-[w-60%] text-left text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
                 {paymentData?.paymentNote ? paymentData?.paymentNote : ' - '}{' '}
               </div>
             </div>

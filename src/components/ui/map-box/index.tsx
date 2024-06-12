@@ -4,7 +4,19 @@ import React, { useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
-export function MapBox({ lat, long, address, siteId, height ='230px' }: { lat: number; long: number; address: string; siteId: number, height?:string }) {
+export function MapBox({
+  lat,
+  long,
+  address,
+  siteId,
+  height = '230px',
+}: {
+  lat: number;
+  long: number;
+  address: string;
+  siteId: number;
+  height?: string;
+}) {
   useEffect(() => {
     const map = L?.map('map');
     if (!map) return;
@@ -77,7 +89,7 @@ export function GroupMapBox({
 
   return (
     <div>
-      <div id="map" style={{ height: '307px', borderRadius:"3px" }} />
+      <div id="map" style={{ height: '307px', borderRadius: '3px' }} />
     </div>
   );
 }

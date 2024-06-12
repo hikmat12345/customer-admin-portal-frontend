@@ -42,7 +42,7 @@ function TableHeaderContent({ data }: any) {
                       ? 'Vendor'
                       : key === 'Invoice_#'
                         ? 'ID'
-                          : key.replaceAll('_', ' ')}
+                        : key.replaceAll('_', ' ')}
           </TableHead>
         ))
       ) : (
@@ -66,15 +66,15 @@ function TableBodyContent({ record, currencySymbol }: any) {
           ) : Object.keys(record)[index] === 'when' ? (
             formatDate(value)
           ) : Object.keys(record)[index] === 'service_type' ? (
-            <TooltipText
-                text={getServiceType(value)}
-                maxLength={15} 
-              />   
+            <TooltipText text={getServiceType(value)} maxLength={15} />
           ) : Object.keys(record)[index] === 'description' ? (
             <div dangerouslySetInnerHTML={{ __html: value }} />
           ) : Object.keys(record)[index] === 'Veroxos REF' ? (
             value !== '-' ? (
-              <Link href={value && `/support/tickets/ticket-summary/${value}`} className="font-normal text-14 text-[#1175BE]">
+              <Link
+                href={value && `/support/tickets/ticket-summary/${value}`}
+                className="text-14 font-normal text-[#1175BE]"
+              >
                 {value ? `SUP${value}` : ' - '}
               </Link>
             ) : Object.keys(record)[index] === 'number_value' ? (
@@ -82,25 +82,22 @@ function TableBodyContent({ record, currencySymbol }: any) {
                 href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
                 className="font-normal text-[#1175BE]"
               >
-                 <TooltipText
-                  text={value.split('-/')[0]}
-                  maxLength={10}
-                  className=""
-                />  
+                <TooltipText text={value.split('-/')[0]} maxLength={10} className="" />
               </Link>
             ) : (
               '-'
             )
           ) : Object.keys(record)[index] === 'number' || Object.keys(record)[index] === 'ID' ? (
-             value  ? <Link
-              href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
-              className="font-normal text-[#1175BE]"
-            >
-               <TooltipText
-                text={stringFindAndReplaceAll(value, '-/', ' ', 0)}
-                maxLength={10} 
-              /> 
-            </Link> : <span className='pl-5'>-</span>
+            value ? (
+              <Link
+                href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
+                className="font-normal text-[#1175BE]"
+              >
+                <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={10} />
+              </Link>
+            ) : (
+              <span className="pl-5">-</span>
+            )
           ) : Object.keys(record)[index] === 'vendor_name' ? (
             stringFindAndReplaceAll(value, ' ', ' ', 0)
           ) : Object.keys(record)[index] === 'Invoice_#' ? (
@@ -108,29 +105,24 @@ function TableBodyContent({ record, currencySymbol }: any) {
               href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
               className="font-normal text-[#1175BE]"
             >
-               <TooltipText
-                text={stringFindAndReplaceAll(value, '-/', ' ', 0)}
-                maxLength={10} 
-              /> 
-             </Link>
+              <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={10} />
+            </Link>
           ) : Object.keys(record)[index] === 'invoice_ref' ? (
             <Link
               href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
-              className="font-normal text-[#1175BE]">
-              <TooltipText
-                text={stringFindAndReplaceAll(value, '-/', ' ', 0)}
-                maxLength={10} 
-              />  
+              className="font-normal text-[#1175BE]"
+            >
+              <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={10} />
             </Link>
-          ) : (Object.keys(record)[index] === 'invoice_date' || Object.keys(record)[index] === 'invoiceDate' )? (
+          ) : Object.keys(record)[index] === 'invoice_date' || Object.keys(record)[index] === 'invoiceDate' ? (
             formatDate(value, 'MMM dd, yyyy')
           ) : Object.keys(record)[index] === 'account' ? (
             <Link
               href={value ? `/vendors/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
               className="font-normal text-[#1175BE]"
             >
-                {stringFindAndReplaceAll(value, '-/', ' ', 0)} 
-             </Link>
+              {stringFindAndReplaceAll(value, '-/', ' ', 0)}
+            </Link>
           ) : Object.keys(record)[index] === 'service status' ? (
             <Badge
               className={`rounded-lg py-1 text-white ${value == 1 ? 'bg-[#219653]' : value == 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`}
@@ -220,7 +212,7 @@ export const PlanTable: React.FC<PlanTableProps> = ({ data, width = '783px' }) =
       <TableBody>
         {data?.map((plan, index) => (
           <TableRow key={index}>
-            <TableCell className="w-[230px] border border-custom-aluminum pl-8 font-bold last:text-center py-4">
+            <TableCell className="w-[230px] border border-custom-aluminum py-4 pl-8 font-bold last:text-center">
               Plan
             </TableCell>
             <TableCell className="w-[177px] border border-custom-aluminum last:text-center lg:text-[12px] xl:text-[14px]">
@@ -233,7 +225,7 @@ export const PlanTable: React.FC<PlanTableProps> = ({ data, width = '783px' }) =
                     <Image src="/notification.svg" alt="info" width={16} height={16} />
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p className="lg:text-[12px] xl:text-[14px] w-96">{plan.description}</p>
+                    <p className="w-96 lg:text-[12px] xl:text-[14px]">{plan.description}</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -251,7 +243,9 @@ export const CostTable: React.FC<CostTableProps> = ({ data, costCenter = '-' }) 
     <Table className="w-[408px] rounded-e-lg border">
       <TableBody>
         <TableRow>
-          <TableCell className="border border-custom-aluminum pl-8 font-bold last:text-center py-4">Cost Center</TableCell>
+          <TableCell className="border border-custom-aluminum py-4 pl-8 font-bold last:text-center">
+            Cost Center
+          </TableCell>
           <TableCell className="border border-custom-aluminum last:text-center lg:text-[12px] xl:text-[14px]">
             {costCenter}
           </TableCell>

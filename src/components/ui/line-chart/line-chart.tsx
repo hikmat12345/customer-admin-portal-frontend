@@ -74,7 +74,7 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
       categories: [...data?.map((d) => d.date)].reverse(),
       type: 'datetime',
       labels: {
-        format: 'MMM yyyy', 
+        format: 'MMM yyyy',
       },
     },
     labels: [...data?.map((d) => d.date)].reverse(),

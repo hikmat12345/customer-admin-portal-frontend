@@ -62,11 +62,19 @@ export default function SiteGeneralInfo({
             </div>
             <div className="w-[66%]">
               <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{veroxosId || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{ name?.trim() ? name : ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{streetLine1?.trim() || ' - '} </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {name?.trim() ? name : ' - '}{' '}
+              </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {streetLine1?.trim() || ' - '}{' '}
+              </div>
               <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{city?.trim() || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{postZipCode?.trim() || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{contactName?.trim() || ' - '} </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {postZipCode?.trim() || ' - '}{' '}
+              </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {contactName?.trim() || ' - '}{' '}
+              </div>
               <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{status?.trim() || ' - '} </div>
             </div>
           </div>
@@ -80,9 +88,15 @@ export default function SiteGeneralInfo({
             </div>
             <div>
               <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{siteCode?.trim() || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{buildingName?.trim() || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{streetLine2?.trim() || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{stateCounty?.trim() || ' - '} </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {buildingName?.trim() || ' - '}{' '}
+              </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {streetLine2?.trim() || ' - '}{' '}
+              </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
+                {stateCounty?.trim() || ' - '}{' '}
+              </div>
               <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
                 {country?.name?.trim() ? country?.name : ' - '}{' '}
               </div>

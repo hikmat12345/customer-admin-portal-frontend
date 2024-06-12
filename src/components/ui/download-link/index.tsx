@@ -46,21 +46,27 @@ export function DownloadAbleLink({ invoice_id, index }: { invoice_id: string | n
   }, [blobdata, isBlobLoading, blobError, fileType, invoiceId]);
 
   return (
-    <div className="flex items-center w-full">
-      {`pdf-${index}` == isPdfFileLoading ?
-        <Loader className='h-6 w-[24.28px] animate-spin ml-6 mr-2' />
-        : <Button
-          className="border-none bg-transparent text-black "
-          onClick={() => fileDownloadFile(invoice_id, 'pdf', index)} >
+    <div className="flex w-full items-center">
+      {`pdf-${index}` == isPdfFileLoading ? (
+        <Loader className="ml-6 mr-2 h-6 w-[24.28px] animate-spin" />
+      ) : (
+        <Button
+          className="border-none bg-transparent text-black"
+          onClick={() => fileDownloadFile(invoice_id, 'pdf', index)}
+        >
           <Image className="h-10 w-[24.28px]" src="/svg/pdf-icon.svg" alt="pdf" width={60} height={60} />
-        </Button>}
-      {`xls-${index}` == isExcelFileLoading ?
-        <Loader className='h-6 w-[24.28px] animate-spin ml-6 mr-2' />
-        : <Button
-          className="border-none bg-transparent p-0 text-black  !px-1 py-2 "
-          onClick={() => fileDownloadFile(invoice_id, 'xls', index)}>
+        </Button>
+      )}
+      {`xls-${index}` == isExcelFileLoading ? (
+        <Loader className="ml-6 mr-2 h-6 w-[24.28px] animate-spin" />
+      ) : (
+        <Button
+          className="border-none bg-transparent p-0 !px-1 py-2 text-black"
+          onClick={() => fileDownloadFile(invoice_id, 'xls', index)}
+        >
           <Image className="h-10 w-[24.28px]" src="/svg/excel-icon.svg" alt="excel" width={60} height={60} />
-        </Button>}
+        </Button>
+      )}
       {/* I need this commented code later   */}
       {/* <Button loading={`docs-${index}` == isDocsFileLoading ? true : false} className="text-black animate-in bg-transparent border-none" onClick={() => fileDownloadFile(invoice_id, "docs", index)}>
                 <Image className="w-[18.28px] h-6 " src="/svg/word-icon.svg" alt="word" width={20} height={20} />

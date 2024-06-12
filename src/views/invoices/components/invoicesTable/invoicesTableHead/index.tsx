@@ -7,12 +7,12 @@ function InvoicesTableHead() {
     <TableHeader>
       <TableRow>
         <TableHead>ID</TableHead>
-        <TableHead className="text-left text-nowrap">Invoice #</TableHead>
-        <TableHead className="text-left text-nowrap">Vendor</TableHead>
-        <TableHead className="text-left text-nowrap">Account #</TableHead>
-        <TableHead className="text-left text-nowrap">Invoice Date</TableHead>
-        <TableHead className="text-left text-nowrap">Due Date</TableHead>
-        <TableHead className="text-left text-nowrap">Status</TableHead>
+        <TableHead className="text-nowrap text-left">Invoice #</TableHead>
+        <TableHead className="text-nowrap text-left">Vendor</TableHead>
+        <TableHead className="text-nowrap text-left">Account #</TableHead>
+        <TableHead className="text-nowrap text-left">Invoice Date</TableHead>
+        <TableHead className="text-nowrap text-left">Due Date</TableHead>
+        <TableHead className="text-nowrap text-left">Status</TableHead>
         <TableHead className="text-nowrap text-left">APF #</TableHead>
         <TableHead className="text-nowrap text-left">APF Date</TableHead>
         <TableHead className="text-nowrap text-left">Total</TableHead>

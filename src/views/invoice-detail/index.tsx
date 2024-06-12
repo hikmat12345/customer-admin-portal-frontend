@@ -65,14 +65,13 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
     logo: vendorInfoData?.invoice?.companyNetwork?.network?.logo,
   };
 
-  const listOfTabs = []
+  const listOfTabs = [];
   if (invoiceActivityLog?.length > 0) {
-    listOfTabs.push('invoice-activity-log')
+    listOfTabs.push('invoice-activity-log');
   }
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-4">
-      <ScrollTabs tabs={['general-information', 'invoice-payment-information', ...listOfTabs]}
-       rightText={id}>
+      <ScrollTabs tabs={['general-information', 'invoice-payment-information', ...listOfTabs]} rightText={id}>
         <div id="general-information">
           <InvoiceSummary
             invoiceData={{
@@ -118,9 +117,10 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
         </div>
 
         {invoiceActivityLog?.length > 0 && isInvoiceActivityLogLoading == false && (
-         <div id="invoice-activity-log">
-          <TableData label="Invoice Activity Log" data={invoiceActivityLog} loading={isInvoiceActivityLogLoading} />
-        </div>)}
+          <div id="invoice-activity-log">
+            <TableData label="Invoice Activity Log" data={invoiceActivityLog} loading={isInvoiceActivityLogLoading} />
+          </div>
+        )}
       </ScrollTabs>
     </div>
   );

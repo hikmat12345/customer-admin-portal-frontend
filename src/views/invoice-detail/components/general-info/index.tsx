@@ -43,7 +43,9 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
     refetch();
   };
   // Parse the input string to a Date object
-  const parsedDate = invoiceData.fiscalMonthYear ? format(parse(invoiceData.fiscalMonthYear, 'M / yyyy', new Date()), 'MMM yyyy') : " - "
+  const parsedDate = invoiceData.fiscalMonthYear
+    ? format(parse(invoiceData.fiscalMonthYear, 'M / yyyy', new Date()), 'MMM yyyy')
+    : ' - ';
 
   useEffect(() => {
     if (!isBlobLoading && !blobError && blobdata && fileType) {
@@ -78,9 +80,14 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
       value: invoiceData?.invoiceDueDate ? formatDate(invoiceData.invoiceDueDate, 'MMM dd, yyyy') : '-',
     },
     {
-      label: 'Invoice Number', value: <TooltipText text={invoiceData.invoiceNumber ? invoiceData.invoiceNumber : "-"}
-        maxLength={10}
-        className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]" />
+      label: 'Invoice Number',
+      value: (
+        <TooltipText
+          text={invoiceData.invoiceNumber ? invoiceData.invoiceNumber : '-'}
+          maxLength={10}
+          className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]"
+        />
+      ),
     },
     { label: 'Adjustments', value: invoiceData.adjustments },
     { label: 'Sub Total', value: invoiceData.subTotal },
@@ -103,8 +110,8 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
       ) : (
         <div>
           <div className="flex pb-6 lg:gap-x-[32px] xl:gap-x-[60px] max-lg:block">
-            <div className="flex w-[29%] justify-between lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%] relative">
-              <div className="font-[700] text-[#1D46F3] lg:text-[20px] xl:text-[22px] absolute">Invoice Summary</div>
+            <div className="relative flex w-[29%] justify-between lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%]">
+              <div className="absolute font-[700] text-[#1D46F3] lg:text-[20px] xl:text-[22px]">Invoice Summary</div>
               <div className="w-[60%] pt-8">
                 {staticData.slice(0, 9).map((item, index) => (
                   <div key={index} className="font-[600] leading-7 text-[#000] lg:text-[13px] xl:text-[14px]">
@@ -122,7 +129,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                         <div className="cursor-pointer text-custom-blue">
                           <Button
                             loading={isShowInBrowserLoading}
-                            className="leading-7 pl-0 underline decoration-2 lg:text-[13px] xl:text-[14px]"
+                            className="pl-0 leading-7 underline decoration-2 lg:text-[13px] xl:text-[14px]"
                             onClick={() => {
                               setShowInBrowser(true);
                               fileDownloadFile(item.value, 'pdf', true);
@@ -147,7 +154,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                 ))}
               </div>
             </div>
-            <div className="flex w-[29%] justify-center pr-3 lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%] pt-8">
+            <div className="flex w-[29%] justify-center pr-3 pt-8 lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%]">
               <div className="w-[60%]">
                 {staticData.slice(9).map((item, index) => (
                   <div key={index} className="font-[600] leading-7 text-[#000] lg:text-[13px] xl:text-[14px]">
