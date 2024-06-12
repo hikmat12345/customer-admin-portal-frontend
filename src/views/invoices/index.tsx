@@ -79,7 +79,7 @@ function InvoicesPage() {
   const formattedDifferenceThisMonth = getFormattedTotal(absoluteDifferenceThisMonth);
 
   const getLastMonthAndYear = (data: any) => {
-    const lastInvoice = data?.lastSixMonthsInvoices?.[data?.lastSixMonthsInvoices?.length - 1];
+    const lastInvoice = data?.lastSixMonthsInvoices?.at(-1);
     return lastInvoice
       ? {
           month: lastInvoice.month,

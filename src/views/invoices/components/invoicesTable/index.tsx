@@ -13,36 +13,38 @@ function InvoicesTable({ data }: any) {
     <div className="overflow-auto lg:max-h-[225px] xl:max-h-full">
       <Table>
         <InvoicesTableHead />
-        {isNoData && <TableCaption>No data found.</TableCaption>}
-
-        <TableBody>
-          {data?.invoices?.map((invoice: any) => (
-            <TableRow key={invoice.id}>
-              <TableCell className="py-[19px] font-normal">
-                <Link
-                  href={`/accounts/invoices/${invoice.id}`}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="cursor-pointer"
-                >
-                  {invoice?.id}
-                </Link>
-              </TableCell>
-              <TableCell>{invoice?.invoice_number}</TableCell>
-              <TableCell>{invoice?.companyNetwork?.network?.name}</TableCell>
-              <TableCell>{invoice?.companyNetwork?.account_number}</TableCell>
-              <TableCell>{invoice?.invoice_date}</TableCell>
-              <TableCell>{invoice?.invoice_due_date || '-'}</TableCell>
-              <TableCell>{invoice?.status}</TableCell>
-              <TableCell>-</TableCell>
-              <TableCell>-</TableCell>
-              <TableCell>{invoice?.totalRaw}</TableCell>
-              <TableCell className="font-normal last:text-center">
-                <span className="text-[#219653]">$</span> {invoice?.conversion_rate}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        {isNoData ? (
+          <TableCaption>No data found.</TableCaption>
+        ) : (
+          <TableBody>
+            {data?.invoices?.map((invoice: any) => (
+              <TableRow key={invoice.id}>
+                <TableCell className="py-[19px] font-normal">
+                  <Link
+                    href={`/accounts/invoices/${invoice.id}`}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="cursor-pointer"
+                  >
+                    {invoice?.id}
+                  </Link>
+                </TableCell>
+                <TableCell>{invoice?.invoice_number}</TableCell>
+                <TableCell>{invoice?.companyNetwork?.network?.name}</TableCell>
+                <TableCell>{invoice?.companyNetwork?.account_number}</TableCell>
+                <TableCell>{invoice?.invoice_date}</TableCell>
+                <TableCell>{invoice?.invoice_due_date || '-'}</TableCell>
+                <TableCell>{invoice?.status}</TableCell>
+                <TableCell>-</TableCell>
+                <TableCell>-</TableCell>
+                <TableCell>{invoice?.totalRaw}</TableCell>
+                <TableCell className="font-normal last:text-center">
+                  <span className="text-[#219653]">$</span> {invoice?.conversion_rate}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        )}
       </Table>
     </div>
   );

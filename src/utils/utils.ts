@@ -350,3 +350,20 @@ export const sanitizeSearchQuery = (query: string) => {
 
   return sanitized;
 };
+
+export function getPreviousMonthYear(dateString: string) {
+  // Parse the input date string
+  const date = new Date(dateString);
+
+  // Set the date to the first day of the current month
+  date.setDate(1);
+
+  // Subtract one month
+  date.setMonth(date.getMonth() - 1);
+
+  // Format the output as "Month YYYY"
+  const options = { year: 'numeric', month: 'long' };
+  const previousMonthYear = date.toLocaleDateString('en-US', options as any);
+
+  return previousMonthYear;
+}

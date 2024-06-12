@@ -63,7 +63,6 @@ const ChartComponent = ({ data, variant }: { data: any; variant: string }) => {
         background: variant, // Set the color of the tooltip based on the variant prop
       },
       x: {
-        format: 'dd/MM/yy HH:mm',
         formatter: undefined,
       },
       y: {

@@ -11,7 +11,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import InventoryTableHead from './inventoryTableHead';
 import Link from 'next/link';
 
-function InventoryTable({ data }: any) {
+function InventoryTable({ data }: { data: Inventory[] }) {
   const STATUS_NAME: Record<number, string> = {
     0: 'Terminated',
     1: 'Live',

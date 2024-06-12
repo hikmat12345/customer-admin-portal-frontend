@@ -45,7 +45,7 @@ function InventoryPage() {
     typeof serviceStatus !== 'undefined' && serviceStatus !== null
       ? +(serviceStatus === '2' ? '1' : '0') // Convert to number here
       : undefined,
-    searchQuery?.length !== 0 ? searchQuery?.trim() : undefined,
+    searchQuery?.trim() || undefined,
   );
 
   const totalPages = inventories?.total / limit;

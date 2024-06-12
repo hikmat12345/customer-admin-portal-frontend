@@ -21,34 +21,6 @@ function HomePage() {
   const { data: costSavingsData, isLoading: costSavingLoading } = useGetCostSavings(currentYear);
   const { data: monthlyTickets, isLoading: isMonthlyTicketsLoading } = useGetMonthlyTickets(currentYear, currentMonth);
 
-  const absoluteDifferenceThisMonth = Math.abs(invoicesData?.thisMonth?.difference);
-  const absoluteDifferenceLastMonth = Math.abs(invoicesData?.lastMonth?.difference);
-
-  const formattedDifferenceThisMonth = getFormattedTotal(absoluteDifferenceThisMonth);
-  const formattedDifferenceLastMonth = getFormattedTotal(absoluteDifferenceLastMonth);
-
-  const getMessage = (difference: number, formattedDifference: string) => {
-    let message = null;
-    switch (true) {
-      case difference > 0:
-        message = (
-          <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
-            You've spent <span className="text-custom-red">${formattedDifference}</span> more than the previous month.
-          </p>
-        );
-        break;
-      case difference < 0:
-        message = (
-          <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
-            You've spent <span className="text-[#219653]">${formattedDifference}</span> less than the previous month.
-          </p>
-        );
-        break;
-      default:
-    }
-    return message;
-  };
-
   return (
     <>
       <div className="grid-auto-flow-column grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white p-5">
@@ -56,7 +28,6 @@ function HomePage() {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
           <AccountCard
             data={invoicesData?.thisMonth}
-            message={getMessage(invoicesData?.thisMonth?.difference, formattedDifferenceThisMonth)}
             title="This Month"
             isLoading={invoiceLoading}
             peakIndicator
@@ -65,7 +36,6 @@ function HomePage() {
           />
           <AccountCard
             data={invoicesData?.lastMonth}
-            message={getMessage(invoicesData?.lastMonth?.difference, formattedDifferenceLastMonth)}
             title="Last Month"
             isLoading={invoiceLoading}
             peakIndicator
