@@ -109,13 +109,7 @@
 .leaflet-bottom.leaflet-right {
   display: none !important;
 }
-.apexcharts-tooltip.apexcharts-theme-light {
-  background: #ff3162 !important;
-  color: white !important;
-}
-.apexcharts-xaxistooltip {
-  display: none !important;
-}
+
 #SvgjsG2165 text title {
   font-size: 13px !important;
   font-weight: 600 !important;

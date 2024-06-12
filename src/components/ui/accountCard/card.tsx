@@ -3,32 +3,97 @@ import { ReactNode } from 'react';
 import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton';
 import ChartComponent from '@/views/home/components/chartComponent';
 import PeakIndicator from '../peakIndicators/arrow-peaks';
+import { getFormattedTotal, getPreviousMonthYear } from '@/utils/utils';
 
 function AccountCard({
   data,
+  message,
   title,
   peakIndicator,
-  message,
   badge,
   graph,
   isLoading,
 }: {
   data?: any;
+  message?: ReactNode;
   title?: string;
   peakIndicator?: boolean;
-  message: ReactNode;
   badge?: boolean;
   graph?: boolean;
   isLoading: boolean;
 }) {
-  const badgeVariant = data?.percentageDifference > 0 ? 'destructive' : 'success';
+  const peakIndicatorVariant = data?.percentageDifference > 0 ? 'destructive' : 'success';
+
+  const getLastMonthAndYear = (data: any) => {
+    const lastInvoice = data?.lastSixMonthsInvoices?.[data?.lastSixMonthsInvoices?.length - 1];
+    return lastInvoice
+      ? {
+          month: lastInvoice.month,
+          year: lastInvoice.year,
+          formatted: `${lastInvoice.month} ${lastInvoice.year}`,
+        }
+      : undefined;
+  };
+
+  const absoluteDifference = Math.abs(data?.difference);
+
+  const formattedDifference = getFormattedTotal(absoluteDifference);
+
+  const thisMonthAndYear = getLastMonthAndYear(data);
+  const lastMonthAndYear = getLastMonthAndYear(data);
+
+  const previousThisMonth = thisMonthAndYear && getPreviousMonthYear(thisMonthAndYear?.formatted);
+  const previousLastMonth = lastMonthAndYear && getPreviousMonthYear(lastMonthAndYear?.formatted);
+
+  const getMessage = (difference: number, formattedDifference: string) => {
+    let message = null;
+    switch (true) {
+      case difference > 0:
+        message = (
+          <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
+            You've spent <span className="text-custom-red">${formattedDifference}</span> more in{' '}
+            {thisMonthAndYear?.formatted} than {previousThisMonth}.
+          </p>
+        );
+        break;
+      case difference < 0:
+        message = (
+          <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
+            You've spent <span className="text-[#219653]">${formattedDifference}</span> less in{' '}
+            {thisMonthAndYear?.formatted} than {previousLastMonth}.
+          </p>
+        );
+        break;
+      default:
+    }
+    return message;
+  };
+
+  const badgeVariant =
+    data?.percentageDifference > 0
+      ? 'destructive'
+      : data?.percentageDifference < 0
+        ? 'success'
+        : data?.percentageDifference === 0
+          ? 'cool'
+          : 'secondary';
 
   const formattedPercentageDifference =
     data?.percentageDifference > 0
       ? `+${data?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
       : data?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
-  const chartVariant = data?.percentageDifference > 0 ? '#E41323' : '#219653';
+  const getColor = (data: any) => {
+    if (data && data.percentageDifference !== null && data.percentageDifference !== undefined) {
+      if (data.percentageDifference > 0) return '#E41323';
+      if (data.percentageDifference < 0) return '#219653';
+      if (data.percentageDifference === 0) return '#037EC2';
+    }
+    return '#6B7280';
+  };
+
+  //using static colors in the chart because they won't be entertained in apex charts
+  const chartVariant = getColor(data);
 
   return (
     <div className="relative h-auto min-h-[150px] min-w-[250px] max-w-full rounded-lg border border-custom-plaster pl-7 pt-3 lg:min-h-[140px] xl:min-h-[155px]">
@@ -42,7 +107,7 @@ function AccountCard({
             <h2 className="text-sm font-semibold text-custom-black md:text-base 2xl:text-lg">{title}</h2>
             <div className="flex items-center gap-5">
               <h1 className="text-nowrap text-lg font-bold lg:text-2xl 2xl:text-3xl">
-                $ {Math.floor(data?.total || data?.totalCostSavings).toLocaleString()}
+                $ {Math.floor(data?.total || data?.totalCostSavings).toLocaleString() || 0}
               </h1>
               {badge && (
                 <Badge className="text-nowrap text-sm lg:text-xs" variant={badgeVariant}>
@@ -51,12 +116,12 @@ function AccountCard({
               )}
             </div>
 
-            {message}
+            {message ? message : getMessage(data?.difference, formattedDifference) || 'No spending data available.'}
           </div>
         )}
 
         {peakIndicator && (
-          <PeakIndicator variant={badgeVariant} isLoading={isLoading} percentage={data?.percentageDifference}>
+          <PeakIndicator variant={peakIndicatorVariant} isLoading={isLoading} percentage={data?.percentageDifference}>
             {/* <Image
 							src={arrowImageSrc}
 							alt={percentage && percentage > 0 ? 'Up Peak Arrow' : 'Down Peak Arrow'}
