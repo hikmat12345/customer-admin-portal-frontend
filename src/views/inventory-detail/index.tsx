@@ -70,7 +70,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
     created: formatDate(parseISO(ticket.created), 'MMM dd, yyyy hh:mm a'),
   }));
   return (
-    <div className="w-full rounded-lg px-7 py-5">
+    <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
       <ScrollTabs tabs={['general-information', 'device-information', 'cost-&-plan', 'tickets', 'activity']}>
         <div id="general-information">
           <GeneralInfo
