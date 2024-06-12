@@ -81,7 +81,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
   );
 
   const structuredTicketsData = accountTicketsData?.data?.tickets?.map((ticket: any) => ({
-    'Veroxos REF': ticket?.id ? ticket?.id : '',
+    'Veroxos REF': ticket?.reference ? ticket?.reference : '',
     'Request Type': ticket?.requestType,
     status: ticket?.status,
     created: format(parseISO(ticket.created), 'MMM dd, yyyy hh:mm a'),

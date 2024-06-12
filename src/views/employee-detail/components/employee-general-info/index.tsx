@@ -62,7 +62,7 @@ export default function SiteGeneralInfo({
         <GeneralInfoSkeletons />
       ) : (
         <div className="flex gap-x-[70px] pb-6 max-lg:block">
-          <div className="flex w-[50%] justify-between gap-x-[70px] max-lg:mt-5 max-lg:w-[100%]">
+          <div className="flex w-[35%] justify-between gap-x-[70px] max-lg:mt-5 max-lg:w-[100%]">
             <div className="w-[20%]">
               {keys.slice(0, 6).map((item, index) => (
                 <div
@@ -81,7 +81,7 @@ export default function SiteGeneralInfo({
               ))}
             </div>
           </div>
-          <div className="flex w-[50%] justify-center gap-x-[70px] max-lg:mt-5 max-lg:w-[100%]">
+          <div className="flex w-[35%] justify-center gap-x-[70px] max-lg:mt-5 max-lg:w-[100%]">
             <div className="w-[32%]">
               {keys.slice(6).map((item, index) => (
                 <div
