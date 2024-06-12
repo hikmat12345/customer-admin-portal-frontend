@@ -37,6 +37,7 @@ function AccountCard({
       ? `+${data?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
       : data?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
+  //using static colors in the chart because they won't be entertained in apex charts
   const chartVariant =
     data &&
     data?.percentageDifference !== null &&
@@ -69,7 +70,7 @@ function AccountCard({
                 $ {Math.floor(data?.total || data?.totalCostSavings).toLocaleString() || 0}
               </h1>
               {badge && (
-                <Badge className="text-nowrap bg-custom- text-sm lg:text-xs" variant={badgeVariant}>
+                <Badge className="text-nowrap text-sm lg:text-xs" variant={badgeVariant}>
                   {formattedPercentageDifference}%
                 </Badge>
               )}
