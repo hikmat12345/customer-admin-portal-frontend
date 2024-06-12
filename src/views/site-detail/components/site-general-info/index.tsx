@@ -62,12 +62,12 @@ export default function SiteGeneralInfo({
             </div>
             <div className="w-[66%]">
               <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{veroxosId || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{name || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{streetLine1 || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{city || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{postZipCode || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{contactName || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{status || ' - '} </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{ name?.trim() ? name : ' - '} </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{streetLine1?.trim() || ' - '} </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{city?.trim() || ' - '} </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{postZipCode?.trim() || ' - '} </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{contactName?.trim() || ' - '} </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{status?.trim() || ' - '} </div>
             </div>
           </div>
           <div className="flex w-[25%] justify-between pr-20 max-lg:mt-5 max-lg:w-[100%]">
@@ -79,12 +79,12 @@ export default function SiteGeneralInfo({
               ))}
             </div>
             <div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{siteCode || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{buildingName || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{streetLine2 || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{stateCounty || ' - '} </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{siteCode?.trim() || ' - '} </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{buildingName?.trim() || ' - '} </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{streetLine2?.trim() || ' - '} </div>
+              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{stateCounty?.trim() || ' - '} </div>
               <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
-                {country?.name ? country?.name : ' - '}{' '}
+                {country?.name?.trim() ? country?.name : ' - '}{' '}
               </div>
               <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{contactEmail || ' - '} </div>
             </div>
@@ -94,6 +94,7 @@ export default function SiteGeneralInfo({
               <div className="gmap_canvas">
                 {latitude && longitude ? (
                   <MapBox
+                    height="200px"
                     lat={latitude}
                     long={longitude}
                     address={streetLine1 || streetLine2}

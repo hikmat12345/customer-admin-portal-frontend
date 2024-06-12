@@ -39,7 +39,12 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
               </div>
             </div>
 
-            {service?.subTypes?.map(
+            {service?.subTypes?.sort(
+              (
+                a: { name: string; serviceType: number; count: number },
+                b: { name: string; serviceType: number; count: number },
+              ) =>  b.count - a.count,
+              ).map(
               (subType: { name: string; serviceType: number; count: number }, subIndex: number) => (
                 <div
                   key={subIndex}

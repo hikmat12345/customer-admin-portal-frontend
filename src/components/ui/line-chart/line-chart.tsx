@@ -48,7 +48,7 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
         return moneyFormatter(value, 'USD');
       },
       background: {
-        padding: 15,
+        padding: 5,
         borderRadius: 3,
         borderWidth: 0,
 
@@ -73,6 +73,9 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
     xaxis: {
       categories: [...data?.map((d) => d.date)].reverse(),
       type: 'datetime',
+      labels: {
+        format: 'MMM yyyy', 
+      },
     },
     labels: [...data?.map((d) => d.date)].reverse(),
 

@@ -17,6 +17,7 @@ import { ScrollTabs } from '@/components/ui/scroll-tabs';
 import { DeviceInfoCard } from './components/device-info-card';
 import GeneralInfo from './components/general-info';
 import { parseISO } from 'date-fns';
+import { getServiceType } from '@/utils/enums/serviceType.enum';
 
 type InventoryDetailPageProps = {
   serviceId: number;
@@ -69,9 +70,20 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
     status: ticket.ticketStatusId,
     created: formatDate(parseISO(ticket.created), 'MMM dd, yyyy hh:mm a'),
   }));
+
+  const listOfTabs = []
+  if (costPlanData?.data?.plan?.length > 0 || costPlanData?.data?.cost?.length > 0) {
+    listOfTabs.push('cost-&-plan')
+  }
+  if (structuredTicketsData?.length > 0) {
+    listOfTabs.push('tickets')
+  }
+  if (refineRecentActivityData?.length > 0) {
+    listOfTabs.push('activity')
+  }
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
-      <ScrollTabs tabs={['general-information', 'device-information', 'cost-&-plan', 'tickets', 'activity']}>
+      <ScrollTabs tabs={['general-information', 'device-information', ...listOfTabs]} >
         <div id="general-information">
           <GeneralInfo
             label="General Information"
@@ -82,7 +94,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
               vendor,
               accountLinkid: companyNetworkId,
               account: account_number,
-              serviceType: serviceType,
+              serviceType: serviceType !== undefined && serviceType !== null ? getServiceType(serviceType) : '-',
               serviceDescription: serviceDescription,
               employee: employee,
               purposeOfService: purposeOfService,
@@ -97,7 +109,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
               site: site,
             }}
           />
-          <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
+          <Separator className="h-[1.0px] bg-[#5d5b5b61]" />
         </div>
 
         <div id="device-information">
@@ -113,28 +125,40 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
           />
         </div>
         <div id="cost-&-plan">
-          <div className="pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Cost & Plan</div>
+
           {isCostPlanLoading ? (
             <Table>
               <TableBodySkeleton rowCount={2} columnCount={2} />
             </Table>
           ) : (
             <>
-              <PlanTable data={costPlanData?.data?.plan} />
-              <CostTable data={costPlanData?.data?.cost} costCenter={costCentre} />
+              {costPlanData?.data?.plan?.length > 0 &&
+                <>
+                  <div className="pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Cost & Plan</div>
+                  <PlanTable data={costPlanData?.data?.plan} />
+                </>}
+              {costPlanData?.data?.cost?.length > 0 && costCentre &&
+                <>
+                  <div className="pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">GL Allocations</div>
+                  <CostTable data={costPlanData?.data?.cost} costCenter={costCentre} />
+                </>}
             </>
           )}
-          <Separator className="mt-4 h-[2.2px] bg-[#5d5b5b61]" />
+          <Separator className="mt-4 h-[1.0px] bg-[#5d5b5b61]" />
         </div>
 
-        <div id="tickets">
-          <TableData label="Tickets" loading={isTicketsRecentActivityLoader} data={structuredTicketsData} />
-          <Separator className="mt-8 h-[2px] bg-[#5d5b5b61]" />
-        </div>
+        {structuredTicketsData?.length > 0 && isTicketsRecentActivityLoader === false && (
+          <div id="tickets">
+            <TableData label="Tickets" loading={isTicketsRecentActivityLoader} data={structuredTicketsData} />
+            <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
+          </div>)
+        }
 
-        <div id="activity">
-          <TableData label="Recent Activity" data={refineRecentActivityData} loading={isRecentActivityLoader} />
-        </div>
+        {refineRecentActivityData?.length > 0 && isRecentActivityLoader === false && (
+          <div id="activity">
+            <TableData label="Recent Activity" data={refineRecentActivityData} loading={isRecentActivityLoader} />
+          </div>)
+        }
       </ScrollTabs>
     </div>
   );

@@ -64,9 +64,15 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
     clientVendorID: vendorInfoData?.invoice?.companyNetwork?.sapVendorNumber,
     logo: vendorInfoData?.invoice?.companyNetwork?.network?.logo,
   };
+
+  const listOfTabs = []
+  if (invoiceActivityLog?.length > 0) {
+    listOfTabs.push('invoice-activity-log')
+  }
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-4">
-      <ScrollTabs tabs={['general-information', 'invoice-payment-information', 'invoice-activity-log']} rightText={id}>
+      <ScrollTabs tabs={['general-information', 'invoice-payment-information', ...listOfTabs]}
+       rightText={id}>
         <div id="general-information">
           <InvoiceSummary
             invoiceData={{
@@ -93,7 +99,7 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
             vendorData={vendorInfo}
             isLoading={isInvoiceSummaryLoading}
           />
-          <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
+          <Separator className="h-[1.0px] bg-[#5d5b5b61]" />
         </div>
 
         <div id="invoice-payment-information">
@@ -108,12 +114,13 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
               />
             </div>
           </div>
-          <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
+          <Separator className="h-[1.0px] bg-[#5d5b5b61]" />
         </div>
 
-        <div id="invoice-activity-log">
+        {invoiceActivityLog?.length > 0 && isInvoiceActivityLogLoading == false && (
+         <div id="invoice-activity-log">
           <TableData label="Invoice Activity Log" data={invoiceActivityLog} loading={isInvoiceActivityLogLoading} />
-        </div>
+        </div>)}
       </ScrollTabs>
     </div>
   );
