@@ -1,6 +1,7 @@
-const TicketUpdateDescIframe = ({ description }: { description: string }) => {
+function TicketUpdateDescIframe({ description }: { description: string }) {
   return (
     <iframe
+      title="Ticket Updated Iframe"
       width="100%"
       height="350"
       srcDoc={`
@@ -24,8 +25,8 @@ const TicketUpdateDescIframe = ({ description }: { description: string }) => {
         </style>
         ${description}
         </body></html>`}
-    ></iframe>
+    />
   );
-};
+}
 
 export default TicketUpdateDescIframe;

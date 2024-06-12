@@ -1,30 +1,80 @@
-"use client"
+'use client';
 
-import React from "react";
+import Image from 'next/image';
+import React, { useEffect, useRef, useState } from 'react';
 
-export const ScrollTabs = ({ children, tabs = [""] }: { children: React.ReactNode, tabs: string[] }) => {
-    const [isActive, setActive] = React.useState(tabs[0]);
-
-    // Function to handle scrolling to the top of a section
-    const scrollToSection = (id: string) => {
-        const section = document.getElementById(id);
-        if (section) {
-            setActive(id)
-            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    };
-    return (
-     <div>
-        <ul className='w-[828px] max-lg:w-[100%]  h-[19px] justify-start items-start gap-[30px] max-lg:gap-[5px] max-lg:mb-5 flex-wrap inline-flex pb-12'>
-            {tabs.map((tab, index) => (
-                <button key={index} className={`py-1 px-2 text-zinc-600 lg:text-[13px] xl:text-[14px] font-normal capitalize ${isActive === tab && 'active-tab'}`} onClick={() => scrollToSection(tab)}>{
-                    tab.replaceAll( '-', ' ')
-                }</button>
-            ))}
-        </ul>
-        <div className='mt-2 rounded-lg border border-neutral-300 p-5  overflow-y-scroll h-[75vh] relative'>
-            {children}
-        </div>
-     </div>
-    )
+interface ScrollTabsProps {
+  children: React.ReactNode;
+  tabs: string[];
+  rightText?: string;
 }
+
+export const ScrollTabs: React.FC<ScrollTabsProps> = ({ children, tabs = [''], rightText }) => {
+  const [activeTab, setActiveTab] = useState(tabs[0]);
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveTab(entry.target.id);
+        }
+      });
+    };
+
+    observer.current = new IntersectionObserver(handleIntersect, {
+      threshold: 0.7, // Adjust the threshold as needed
+    });
+
+    tabs.forEach((tab) => {
+      const section = document.getElementById(tab);
+      if (section) {
+        observer.current?.observe(section);
+      }
+    });
+
+    return () => {
+      observer.current?.disconnect();
+    };
+  }, [tabs]);
+
+  const scrollToSection = (id: string) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setActiveTab(id);
+    }
+  };
+
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        <ul className="inline-flex h-[19px] w-[828px] flex-wrap items-start justify-start gap-[30px] pb-12 max-lg:mb-5 max-lg:w-[100%] max-lg:gap-[5px]">
+          {tabs.map((tab, index) => (
+            <button
+              key={index}
+              className={`px-2 py-1 font-normal capitalize text-zinc-600 lg:text-[13px] xl:text-[14px] ${activeTab === tab ? 'active-tab' : ''}`}
+              onClick={() => scrollToSection(tab)}
+            >
+              {tab.replaceAll('-', ' ')}
+            </button>
+          ))}
+        </ul>
+        {rightText && (
+          <div className="flex gap-2 py-2">
+            <div className="flex items-center">
+              <Image src={'/svg/notepad.svg'} alt="invoice icon" width={24} height={24} />
+              <p className="ml-3 text-[16px] font-normal text-custom-blue">Invoice ID.</p>
+            </div>
+            <span className="text-[16px] font-normal text-custom-black">{rightText}</span>
+          </div>
+        )}
+      </div>
+      <div className="relative mt-2 h-[75vh] overflow-y-scroll rounded-lg border border-neutral-300 p-5">
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default ScrollTabs;
