@@ -1,29 +1,29 @@
-import * as React from 'react'
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { cn } from '@/utils/utils'
-import { Check } from 'lucide-react'
-import CreateQueryString from '@/utils/createQueryString'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import Image from 'next/image'
-import { Button } from '@veroxos/design-system/dist/ui/Button/button'
+import * as React from 'react';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/utils/utils';
+import { Check } from 'lucide-react';
+import CreateQueryString from '@/utils/createQueryString';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
+import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 
 interface Option {
-	label: string
-	value: number | string
+  label: string;
+  value: number | string;
 }
 interface MenuOption {
-	name: string
-	value: string
-	options: Option[]
+  name: string;
+  value: string;
+  options: Option[];
 }
 
-const SelectComponent = ({ menuOption, index }: { menuOption: MenuOption; index: number }) => {
-	const [open, setOpen] = React.useState(false)
-	const router = useRouter()
-	const pathname = usePathname()
-	const searchParams = useSearchParams()
-	const createQueryString = CreateQueryString()
+function SelectComponent({ menuOption, index }: { menuOption: MenuOption; index: number }) {
+  const [open, setOpen] = React.useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const createQueryString = CreateQueryString();
 
 	const PARAM_NAME: Record<number, string> = {
 		0: 'accountNumber',
@@ -38,11 +38,11 @@ const SelectComponent = ({ menuOption, index }: { menuOption: MenuOption; index:
 		?.flat()
 		.find((option: { value: string | number; label: string }) => option?.value == paramValues[0])?.label
 
-	let truncatedLabel = selectedOptionLabel
+  let truncatedLabel = selectedOptionLabel;
 
-	if (truncatedLabel && truncatedLabel.length > 17) {
-		truncatedLabel = truncatedLabel.slice(0, 17) + '...'
-	}
+  if (truncatedLabel && truncatedLabel.length > 17) {
+    truncatedLabel = `${truncatedLabel.slice(0, 17)}...`;
+  }
 
 	const reset = () => {
 		router.push(`${pathname}?${createQueryString(PARAM_NAME[index], undefined)}`)
@@ -133,4 +133,4 @@ const SelectComponent = ({ menuOption, index }: { menuOption: MenuOption; index:
 	)
 }
 
-export default SelectComponent
+export default SelectComponent;

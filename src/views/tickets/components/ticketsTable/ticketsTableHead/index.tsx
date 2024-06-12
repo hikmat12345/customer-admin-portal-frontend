@@ -1,7 +1,7 @@
-import TableHead from '@veroxos/design-system/dist/ui/TableHead/tableHead'
-import TableHeader from '@veroxos/design-system/dist/ui/TableHeader/tableHeader'
-import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow'
-import React from 'react'
+import TableHead from '@veroxos/design-system/dist/ui/TableHead/tableHead';
+import TableHeader from '@veroxos/design-system/dist/ui/TableHeader/tableHeader';
+import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow';
+import React from 'react';
 
 const TicketsTableHead = () => {
 	return (
@@ -21,4 +21,4 @@ const TicketsTableHead = () => {
 	)
 }
 
-export default TicketsTableHead
+export default TicketsTableHead;

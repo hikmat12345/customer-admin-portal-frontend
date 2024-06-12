@@ -1,6 +1,4 @@
-import { getCostSavings } from '@/services/accounts/accountsService'
-import { useQuery } from '@tanstack/react-query'
+import { getCostSavings } from '@/services/accounts/accountsService';
+import { useQuery } from '@tanstack/react-query';
 
-export const useGetCostSavings = (year: number) => {
-	return useQuery({ queryKey: ['cost-savings', year], queryFn: getCostSavings })
-}
+export const useGetCostSavings = (year: number) => useQuery({ queryKey: ['cost-savings', year], queryFn: getCostSavings });

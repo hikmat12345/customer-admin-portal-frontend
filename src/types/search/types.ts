@@ -1,9 +1,9 @@
-import { ServiceType } from '@/utils/enums/serviceType.enum'
+import { ServiceType } from '@/utils/enums/serviceType.enum';
 
 export interface ISearch {
-	id: number
-	client: number
-	result: string
-	type: ServiceType
-	account: number
+  id: number;
+  client: number;
+  result: string;
+  type: ServiceType;
+  account: number;
 }

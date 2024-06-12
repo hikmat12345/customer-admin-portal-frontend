@@ -44,7 +44,7 @@ const SearchField = forwardRef(
           </div>
           <input
             type="search"
-            className={`block w-full p-2 ps-8 text-sm text-gray-900 rounded-3xl bg-custom-background focus:ring-blue-500 focus:border-[#44444480] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-[#44444480] dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none ${className}`}
+            className={`block w-full p-2 pr-6 ps-8 text-sm text-gray-900 rounded-3xl bg-custom-background focus:ring-blue-500 focus:border-[#44444480] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-[#44444480] dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none ${className}`}
             placeholder="Search"
             onChange={onChange}
             onKeyDown={onKeyDown}
@@ -56,7 +56,7 @@ const SearchField = forwardRef(
             <Tooltip>
               <TooltipTrigger>
                 <Image
-                  className="absolute right-0 top-1"
+                  className="absolute right-0 top-2"
                   src={"/svg/help.svg"}
                   width={20}
                   height={20}

@@ -4,22 +4,22 @@ import PeakIndicator from './peak-indicators/peakIndicators'
 import Badge from '@veroxos/design-system/dist/ui/Badge/badge'
 import { moneyFormatter } from '@/utils/utils'
 
-const MonthlyTickets = ({ title, year, month }: { title: string; year: number; month: number }) => {
-	const { data: monthlyTicketsData, isLoading } = useGetMonthlyTickets(year, month)
+function MonthlyTickets({ title, year, month }: { title: string; year: number; month: number }) {
+  const { data: monthlyTicketsData, isLoading } = useGetMonthlyTickets(year, month);
 
-	const totalTickets = monthlyTicketsData?.totalMonthTickets
+  const totalTickets = monthlyTicketsData?.totalMonthTickets;
 
-	const formattedPercentageDifference =
-		monthlyTicketsData?.percentageDifference > 0
-			? `+${monthlyTicketsData?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
-			: monthlyTicketsData?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })
+  const formattedPercentageDifference =
+    monthlyTicketsData?.percentageDifference > 0
+      ? `+${monthlyTicketsData?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
+      : monthlyTicketsData?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
-	const badgeVariant = monthlyTicketsData?.percentageDifference > 0 ? 'success' : 'destructive'
+  const badgeVariant = monthlyTicketsData?.percentageDifference > 0 ? 'success' : 'destructive';
 
-	function difference(difference: number) {
-		const absDifference = Math.abs(difference)
+  function difference(difference: number) {
+    const absDifference = Math.abs(difference);
 
-		const className = difference > 0 ? '#219653' : '#E41323'
+    const className = difference > 0 ? '#219653' : '#E41323';
 
 		const message =
 			difference > 0
@@ -64,4 +64,4 @@ const MonthlyTickets = ({ title, year, month }: { title: string; year: number; m
 	)
 }
 
-export default MonthlyTickets
+export default MonthlyTickets;

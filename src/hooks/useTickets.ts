@@ -32,64 +32,50 @@ export const useGetAllTickets = (
     ],
     queryFn: getAllTickets,
   });
-};
+}
 
-export const useGetMonthlyTickets = (
-  year: number,
-  month: number,
-  offset?: number,
-  limit?: number
-) => {
-  return useQuery({
-    queryKey: ["monthly_tickets", year, month, offset, limit],
+export const useGetMonthlyTickets = (year: number, month: number, offset?: number, limit?: number) =>
+  useQuery({
+    queryKey: ['monthly_tickets', year, month, offset, limit],
     queryFn: getMonthlyTickets,
   });
-};
 
-export const useGetOpenTickets = () => {
-  return useQuery({
-    queryKey: ["open_tickets"],
+export const useGetOpenTickets = () =>
+  useQuery({
+    queryKey: ['open_tickets'],
     queryFn: getOpenTickets,
     refetchInterval: 20000,
   });
-};
 
-export const useGetVendors = () => {
-  return useQuery({
-    queryKey: ["vendor_accounts"],
+export const useGetVendors = () =>
+  useQuery({
+    queryKey: ['vendor_accounts'],
     queryFn: getVendorAccounts,
   });
-};
 
-export const useGetTicketSummary = (ticketId: number) => {
-  return useQuery({
-    queryKey: ["ticket_summary", ticketId],
+export const useGetTicketSummary = (ticketId: number) =>
+  useQuery({
+    queryKey: ['ticket_summary', ticketId],
     queryFn: getTicketSummary,
   });
-};
 
-export const useGetTicketSecondaryStatuses = () => {
-  return useQuery({
-    queryKey: ["ticket_secondary_statuses"],
+export const useGetTicketSecondaryStatuses = () =>
+  useQuery({
+    queryKey: ['ticket_secondary_statuses'],
     queryFn: getTicketSecondaryStatuses,
   });
-};
 
-export const useGetTicketUpdateStatuses = () => {
-  return useQuery({
-    queryKey: ["ticket_update_statuses"],
+export const useGetTicketUpdateStatuses = () =>
+  useQuery({
+    queryKey: ['ticket_update_statuses'],
     queryFn: getTicketUpdateStatuses,
   });
-};
 
 export const useGetLoggedInUserDetails = () => {  
   return useQuery({
     queryKey: ["user_details"],
     queryFn: getUserDetails,
   });
-};
+}
 
-export const { useMutation: usePostTicketUpdate } = createMutationWithVariables(
-  "post-ticket-update",
-  postTicketUpdate
-);
+export const { useMutation: usePostTicketUpdate } = createMutationWithVariables('post-ticket-update', postTicketUpdate);

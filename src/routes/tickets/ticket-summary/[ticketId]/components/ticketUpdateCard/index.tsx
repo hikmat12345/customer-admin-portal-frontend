@@ -50,10 +50,7 @@ const TicketUpdateCard = ({ ticketUpdate }: { ticketUpdate: TicketUpdate }) => {
   };
 
   return (
-    <div
-      key={ticketUpdate.id}
-      className="flex rounded-lg p-4 bg-custom-background mt-4"
-    >
+    <div key={ticketUpdate.id} className="mt-4 flex rounded-lg bg-custom-background p-4">
       <div className="self-start">
         <div className="h-[3.876rem] w-[3.876rem] bg-custom-blue rounded-full flex items-center justify-center">
           {getTicketUpdateIcon(ticketUpdate)}
@@ -72,6 +69,6 @@ const TicketUpdateCard = ({ ticketUpdate }: { ticketUpdate: TicketUpdate }) => {
       </div>
     </div>
   );
-};
+}
 
 export default TicketUpdateCard;

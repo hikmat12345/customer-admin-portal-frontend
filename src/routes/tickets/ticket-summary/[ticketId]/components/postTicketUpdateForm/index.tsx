@@ -8,7 +8,7 @@ import { Button } from "@veroxos/design-system/dist/ui/Button/button";
 import Image from "next/image";
 import toast from "react-hot-toast";
 
-const PostTicketUpdateForm = ({
+function PostTicketUpdateForm({
   getTicketSummaryRes,
   setShowAddUpdateForm,
   refetchTicketSummary,
@@ -16,7 +16,7 @@ const PostTicketUpdateForm = ({
   getTicketSummaryRes: any;
   setShowAddUpdateForm: any;
   refetchTicketSummary: any;
-}) => {
+}){
   const { data: getTicketUpdateStatusesRes } = useGetTicketUpdateStatuses();
 
 	const {loggedInUser} = useUserStore((state : any) => ({loggedInUser : state.user}));
@@ -25,7 +25,7 @@ const PostTicketUpdateForm = ({
 
   const handlePostTicketUpdate = (e: any) => {
     e.preventDefault();
-    let {
+    const {
       description: { value: description },
       ticketUpdateStatus: { value: ticketUpdateStatusName },
     } = e.target;
@@ -41,10 +41,10 @@ const PostTicketUpdateForm = ({
       onSuccess: () => {
         setShowAddUpdateForm(false);
         refetchTicketSummary();
-        toast.success("Successfully posted ticket update!");
+        toast.success('Successfully posted ticket update!');
       },
       onError: () => {
-        toast.error("Something went wrong. Please try again later!");
+        toast.error('Something went wrong. Please try again later!');
       },
     });
   };
@@ -53,13 +53,8 @@ const PostTicketUpdateForm = ({
     <form onSubmit={handlePostTicketUpdate}>
       <div className="rounded-lg p-4 bg-custom-background mt-4">
         <div className="flex items-center gap-5">
-          <div className="h-[3.876rem] w-[3.876rem] bg-custom-blue rounded-full flex items-center justify-center">
-            <Image
-              src={"/svg/account.svg"}
-              height={36}
-              width={36}
-              alt="account icon"
-            />
+          <div className="flex h-[3.876rem] w-[3.876rem] items-center justify-center rounded-full bg-custom-blue">
+            <Image src="/svg/account.svg" height={36} width={36} alt="account icon" />
           </div>
             <p className="font-[700] text-[1.188rem] leading-[1.477rem]">
               {`${loggedInUser.firstName} ${loggedInUser.lastName}`}
@@ -80,7 +75,7 @@ const PostTicketUpdateForm = ({
             )} />
 
           <Button
-            className="w-1/5 h-full font-[600] leading-[1.023rem] text-[0.813rem] border-custom-blue text-custom-blue hover:text-custom-blue"
+            className="h-full w-1/5 border-custom-blue text-[0.813rem] font-[600] leading-[1.023rem] text-custom-blue hover:text-custom-blue"
             variant="outline"
             onClick={() => setShowAddUpdateForm(false)}
           >
@@ -89,7 +84,7 @@ const PostTicketUpdateForm = ({
           <Button
             disabled={postUpdateLoading}
             type="submit"
-            className="w-1/5 h-full font-[600] leading-[1.023rem] text-[0.813rem] bg-custom-blue text-custom-white"
+            className="h-full w-1/5 bg-custom-blue text-[0.813rem] font-[600] leading-[1.023rem] text-custom-white"
           >
             Submit
           </Button>
@@ -97,6 +92,6 @@ const PostTicketUpdateForm = ({
       </div>
     </form>
   );
-};
+}
 
 export default PostTicketUpdateForm;

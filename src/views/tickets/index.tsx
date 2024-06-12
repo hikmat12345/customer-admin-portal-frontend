@@ -1,43 +1,43 @@
-'use client'
+'use client';
 
-import TotalTicketsOpen from './components/totalTicketsopen'
-import MonthlyTickets from './components/monthlyTickets'
-import { useGetAllTickets, useGetOpenTickets } from '@/hooks/useTickets'
-import SearchField from '@/components/ui/search-field'
-import TicketsTable from './components/ticketsTable'
-import TicketsTableSkeleton from './components/ticketsTableSkeleton'
-import React, { useEffect } from 'react'
-import Pagination from '@/components/ui/pagination'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import CreateQueryString from '@/utils/createQueryString'
-import useGetMenuOptions from './components/select/options'
-import SelectComponent from './components/select'
-import debounce from 'lodash.debounce'
+import { useGetAllTickets, useGetOpenTickets } from '@/hooks/useTickets';
+import SearchField from '@/components/ui/search-field';
+import React, { useEffect } from 'react';
+import Pagination from '@/components/ui/pagination';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import CreateQueryString from '@/utils/createQueryString';
+import debounce from 'lodash.debounce';
+import useGetMenuOptions from './components/select/options';
+import SelectComponent from './components/select';
+import TicketsTableSkeleton from './components/ticketsTableSkeleton';
+import TicketsTable from './components/ticketsTable';
+import MonthlyTickets from './components/monthlyTickets';
+import TotalTicketsOpen from './components/totalTicketsopen';
 
-const TicketsPage = () => {
-	const currentDate = new Date()
-	const currentYear = currentDate.getFullYear()
-	const currentMonth = currentDate.getMonth() + 1
-	let previousMonth = currentMonth - 1
-	if (previousMonth === 0) {
-		previousMonth = 12
-	}
-	const searchParams = useSearchParams()
-	const page = searchParams?.get('page') || '1'
-	const pathname = usePathname()
-	const router = useRouter()
-	const limit = 7
-	const offset = +page - 1;
+function TicketsPage() {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+  let previousMonth = currentMonth - 1;
+  if (previousMonth === 0) {
+    previousMonth = 12;
+  }
+  const searchParams = useSearchParams();
+  const page = searchParams?.get('page') || '1';
+  const pathname = usePathname();
+  const router = useRouter();
+  const limit = 7;
+  const offset = +page - 1;
 
 	const status = searchParams && searchParams?.get('status')
 	const priority = searchParams && searchParams?.get('priority')
 	const accountNumber = searchParams && searchParams?.get('accountNumber')
 	const searchQuery = searchParams && searchParams?.get('searchQuery')
 
-	const createQueryString = CreateQueryString()
-	const menuOptions = useGetMenuOptions()
+  const createQueryString = CreateQueryString();
+  const menuOptions = useGetMenuOptions();
 
-	const { data: openTicketsData, isLoading } = useGetOpenTickets()
+  const { data: openTicketsData, isLoading } = useGetOpenTickets();
 
 	const {
 		data: allTickets,
@@ -68,30 +68,30 @@ const TicketsPage = () => {
 	const rowCount = allTickets?.tickets?.length || 8
 	const totalPages = allTickets?.total / limit;
 
-	const handlePageChange = async (page: number) => {
-		const params = new URLSearchParams()
-		if (searchParams) {
-			//TODO: Will use proper types later
-			searchParams.forEach((value: any, key: any) => {
-				params.set(key, value)
-			})
-		}
-		params.set('page', page.toString())
-		router.push(`${pathname}?${params.toString()}`)
-		await refetchTickets()
-	}
+  const handlePageChange = async (page: number) => {
+    const params = new URLSearchParams();
+    if (searchParams) {
+      // TODO: Will use proper types later
+      searchParams.forEach((value: any, key: any) => {
+        params.set(key, value);
+      });
+    }
+    params.set('page', page.toString());
+    router.push(`${pathname}?${params.toString()}`);
+    await refetchTickets();
+  };
 
-	const queryParams = new URLSearchParams(searchParams?.toString())
-	const keys = Array.from(queryParams.keys())
+  const queryParams = new URLSearchParams(searchParams?.toString());
+  const keys = Array.from(queryParams.keys());
 
-	useEffect(() => {
-		if (searchParams) {
-			if (keys.length > 1 || !keys.includes('page')) {
-				router.push(`${pathname}?${createQueryString('page', 1)}`)
-			}
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [keys.length])
+  useEffect(() => {
+    if (searchParams) {
+      if (keys.length > 1 || !keys.includes('page')) {
+        router.push(`${pathname}?${createQueryString('page', 1)}`);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keys.length]);
 
 	return (
 		<div>
@@ -136,4 +136,4 @@ const TicketsPage = () => {
 	)
 }
 
-export default TicketsPage
+export default TicketsPage;
