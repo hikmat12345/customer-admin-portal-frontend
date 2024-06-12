@@ -84,10 +84,9 @@ export const getAccountInvoices = async ({ queryKey }: any) => {
 export const getVendorTickets = async ({ queryKey }: any) => {
   const [, vendorId, offset, limit] = queryKey;
 
-  return httpClient
-    .get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/ticket/vendor-tickets/${vendorId}?offset=${offset}&limit=${limit}`)
-    .then(({ data }) => data);
-};
+	return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/vendor-tickets/${vendorId}?offset=${offset}&limit=${limit}`)
+		.then(({ data }) => data)
+}
 export const getServiceLocations = async ({ queryKey }: any) => {
   const [, accountId] = queryKey;
 

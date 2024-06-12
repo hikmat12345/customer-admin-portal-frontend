@@ -29,43 +29,40 @@ function TicketsTable({ allTickets }: { allTickets: Tickets }) {
             const fullName = ticket.employee ? `${ticket?.employee?.firstName} ${ticket?.employee?.lastName}` : '-';
             const updatedAt = getTimeDifference(ticket?.updated);
 
-            return (
-              <TableRow key={ticket.id}>
-                <TableCell className="font-medium">
-                  <Link
-                    className="text-custom-dryBlue"
-                    href={`${pathname}/ticket-summary/${ticket.id}`}
-                    target="_blank"
-                  >{`SUP${ticket.id}`}</Link>
-                </TableCell>
-                <TableCell className="text-left">{ticket?.clientReferenceNo || '-'}</TableCell>
-                <TableCell className="text-left">{fullName}</TableCell>
-                <TableCell className="text-left">{ticket?.companyNetwork?.vendor?.name || '-'}</TableCell>
-                <TableCell className="text-left">{ticket?.workflow?.name}</TableCell>
-                <TableCell className={`${ticket?.ticketStatusId === 1 ? 'text-custom-blue' : ''}`}>
-                  {TICKETS_STATUS_LIST[`${ticket?.ticketStatusId}`]}
-                </TableCell>
-                <TableCell>{updatedAt}</TableCell>
-                <TableCell>
-                  <div
-                    className="m-auto flex h-9 w-9 items-center justify-center rounded-full text-custom-white"
-                    style={{ backgroundColor: PRIORITY_COLOR_LIST[ticket?.priority] }}
-                  >{`P${ticket?.priority}`}</div>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Link href={`${pathname}/ticket-summary/${ticket.id}`} target="_blank">
-                    <Button variant="null" size="sm">
-                      <Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />
-                    </Button>
-                  </Link>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </div>
-  );
+						return (
+							<TableRow key={ticket.id}>
+								<TableCell className="font-medium text-left"> 
+									<Link className="text-custom-dryBlue" href={`${pathname}/ticket-summary/${ticket.id}`}>{`SUP${ticket.id}`}</Link>
+								</TableCell>
+								<TableCell className='text-left'>{ticket?.clientReferenceNo || '-'}</TableCell>
+								<TableCell className='text-left'>{fullName}</TableCell>
+								<TableCell className='text-left'>{ticket?.companyNetwork?.network?.name || '-'}</TableCell>
+								<TableCell className='text-left'>{ticket?.workflow?.name}</TableCell>
+								<TableCell className={`${ticket?.ticketStatusId === 1 ? 'text-custom-blue' : ''}`}>
+									{TICKETS_STATUS_LIST[`${ticket?.ticketStatusId}`]}
+								</TableCell>
+								<TableCell>{updatedAt}</TableCell>
+								<TableCell>
+									<div
+										className={`flex items-center justify-center w-9 h-9 m-auto rounded-full text-custom-white`}
+										style={{ backgroundColor: PRIORITY_COLOR_LIST[ticket?.priority] }}
+									>{`P${ticket?.priority}`}</div>
+								</TableCell>
+								<TableCell className="text-right">
+									<Link href={`${pathname}/ticket-summary/${ticket.id}`}>
+									<Button variant="null" size="sm" 
+									>
+										<Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />
+									</Button>
+									</Link>
+								</TableCell>
+							</TableRow>
+						)
+					})}
+				</TableBody>
+			</Table>
+		</div>
+	)
 }
 
 export default TicketsTable;

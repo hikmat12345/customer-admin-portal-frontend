@@ -1,16 +1,18 @@
 'use client';
 
-import SearchTextFieldArea from '@/components/ui/searchTextFieldArea';
-import Sidebar from '@/components/ui/sidebar/sidebar';
-import Image from 'next/image';
-import { useParams, usePathname, useRouter } from 'next/navigation';
-import * as React from 'react';
-
+import SearchTextFieldArea from '@/components/ui/searchTextFieldArea'
+import Sidebar from '@/components/ui/sidebar/sidebar'
+import useGetUser from '@/hooks/useGetUser'
+import Image from 'next/image'
+import { useParams, usePathname, useRouter } from 'next/navigation'
+import * as React from 'react'
+ 
 const BaseLayout = ({ children }: { children: React.ReactNode }) => {
-  const pathname = usePathname();
-  const params = useParams();
-  const router = useRouter();
-  const pathSegments = pathname && pathname.split('/');
+	useGetUser();
+	const pathname = usePathname()
+	const params = useParams()
+	const router = useRouter()
+	const pathSegments = pathname && pathname.split('/')
 
   const renamePagesTitle = (title: string) => {
     switch (title) {

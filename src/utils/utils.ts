@@ -1,10 +1,17 @@
-import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-import { ServiceType } from './enums/serviceType.enum';
-import { eachYearOfInterval, format as formatdeteFns, isValid, parseISO } from 'date-fns';
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+import { ServiceType } from './enums/serviceType.enum'
+import {  eachYearOfInterval, format as formatdeteFns, isValid, parseISO} from 'date-fns'
+import { US_LOCALE_FORMAT } from './constants/constants';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function convertToTimeZone(timeZone : string, dateTime : Date, format = 'MMM dd, yyyy HH:mm a') {
+	dateTime = new Date(dateTime.toLocaleString(US_LOCALE_FORMAT, { timeZone: 'Europe/London' }));
+	dateTime = new Date(dateTime.toLocaleString(US_LOCALE_FORMAT, { timeZone: timeZone }));
+	return formatdeteFns(dateTime, format);
 }
 
 export function getTimeDifference(updated: string): string {
@@ -97,16 +104,15 @@ export function stringFindAndReplaceAll(str: string, find: string, replace: stri
 }
 
 // Create number formatter.
-export const moneyFormatter = (value: number, currency: string | null) => {
-  if (isNaN(value)) {
-    return '-';
-  }
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency || '',
-  });
+export const moneyFormatter = (value: number, currency: string | null = null) => {
+    if (isNaN(value)) {
+        return '-';
+    }
 
-  return formatter.format(value);
+    const options: Intl.NumberFormatOptions = currency ? { style: 'currency', currency: currency } : {};
+    const formatter = new Intl.NumberFormat('en-US', options);
+
+    return formatter.format(value);
 };
 
 const base64ToBlob = (base64: string, mimeType: string) => {
@@ -171,7 +177,7 @@ export function formatDate(date: string | Date, format: string = 'MM dd, yyyy'):
   }
 
   if (!isValid(parsedDate)) {
-    return date.toString();
+    return date?.toString();
   }
 
   return formatdeteFns(parsedDate, format);
