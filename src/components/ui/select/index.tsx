@@ -1,13 +1,6 @@
-import * as React from "react";
+import * as React from 'react';
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export function SelectComponent({
   placeholder,
@@ -30,7 +23,9 @@ export function SelectComponent({
       <SelectContent>
         <SelectGroup>
           {options?.map((option: { label: string; value: string }) => (
-            <SelectItem key={option.label} value={option.label}>{option.label}</SelectItem>
+            <SelectItem key={option.label} value={option.label}>
+              {option.label}
+            </SelectItem>
           ))}
         </SelectGroup>
       </SelectContent>

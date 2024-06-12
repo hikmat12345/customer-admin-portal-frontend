@@ -4,7 +4,7 @@ import { useGetLoggedInUserDetails } from './useTickets';
 
 const useGetUser = () => {
   const { data: getLoggedInUserDetailsRes } = useGetLoggedInUserDetails();
-  const setUser = useUserStore((state : any) => state.setUser);
+  const setUser = useUserStore((state: any) => state.setUser);
 
   useEffect(() => {
     if (getLoggedInUserDetailsRes?.data) {

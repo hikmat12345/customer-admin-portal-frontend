@@ -1,12 +1,12 @@
-import PieChart from '@/components/ui/pieChart'
-import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton'
-import { OpenTicketSummary } from '@/types/tickets/types'
-import { ApexOptions } from 'apexcharts'
-import React from 'react'
-import { moneyFormatter } from '@/utils/utils'
+import PieChart from '@/components/ui/pieChart';
+import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton';
+import { OpenTicketSummary } from '@/types/tickets/types';
+import { ApexOptions } from 'apexcharts';
+import React from 'react';
+import { moneyFormatter } from '@/utils/utils';
 
 const TotalTicketsOpen = ({ data, isLoading }: { data: OpenTicketSummary; isLoading: boolean }) => {
-	const openTicketsCount = moneyFormatter(data?.openTickets?.count);
+  const openTicketsCount = moneyFormatter(data?.openTickets?.count);
 
   const chartOptions: ApexOptions = {
     series: [data?.closedTicketsLast24Hours.count],
@@ -98,6 +98,6 @@ const TotalTicketsOpen = ({ data, isLoading }: { data: OpenTicketSummary; isLoad
       )}
     </div>
   );
-}
+};
 
 export default TotalTicketsOpen;

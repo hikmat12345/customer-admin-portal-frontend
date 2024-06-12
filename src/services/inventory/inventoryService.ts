@@ -51,10 +51,8 @@ export const getAssets = async ({ queryKey }: any) => {
 export const getTicketsRecentActivity = async ({ queryKey }: any) => {
   const [, serviceId] = queryKey;
 
-	return httpClient
-		.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/service-tickets/${serviceId}`)
-		.then(({ data }) => data)
-}
+  return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/service-tickets/${serviceId}`).then(({ data }) => data);
+};
 
 export const getRecentActivity = async ({ queryKey }: any) => {
   const [, serviceId] = queryKey;
