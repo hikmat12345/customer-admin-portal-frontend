@@ -96,7 +96,7 @@ export const getVendorTickets = async ({ queryKey }: any) => {
 		offset,
 		limit] = queryKey
 
-	return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/ticket/vendor-tickets/${vendorId}?offset=${offset}&limit=${limit}`)
+	return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/vendor-tickets/${vendorId}?offset=${offset}&limit=${limit}`)
 		.then(({ data }) => data)
 }
 export const getServiceLocations = async ({ queryKey }: any) => {

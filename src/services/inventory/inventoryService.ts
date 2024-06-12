@@ -58,7 +58,7 @@ export const getTicketsRecentActivity = async ({ queryKey }: any) => {
 	const [, serviceId] = queryKey
 
 	return httpClient
-		.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/ticket/service-tickets?service_id=${serviceId}`)
+		.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/service-tickets/${serviceId}`)
 		.then(({ data }) => data)
 }
 

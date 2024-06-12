@@ -32,13 +32,13 @@ const TicketsTable = ({ allTickets }: { allTickets: Tickets }) => {
 
 						return (
 							<TableRow key={ticket.id}>
-								<TableCell className="font-medium"> 
-									<Link className="text-custom-dryBlue" href={`${pathname}/ticket-summary/${ticket.id}`} target='_blank'>{`SUP${ticket.id}`}</Link>
+								<TableCell className="font-medium text-left"> 
+									<Link className="text-custom-dryBlue" href={`${pathname}/ticket-summary/${ticket.id}`}>{`SUP${ticket.id}`}</Link>
 								</TableCell>
-								<TableCell>{ticket?.clientReferenceNo || '-'}</TableCell>
-								<TableCell>{fullName}</TableCell>
-								<TableCell>{ticket?.companyNetwork?.vendor?.name || '-'}</TableCell>
-								<TableCell>{ticket?.workflow?.name}</TableCell>
+								<TableCell className='text-left'>{ticket?.clientReferenceNo || '-'}</TableCell>
+								<TableCell className='text-left'>{fullName}</TableCell>
+								<TableCell className='text-left'>{ticket?.companyNetwork?.network?.name || '-'}</TableCell>
+								<TableCell className='text-left'>{ticket?.workflow?.name}</TableCell>
 								<TableCell className={`${ticket?.ticketStatusId === 1 ? 'text-custom-blue' : ''}`}>
 									{TICKETS_STATUS_LIST[`${ticket?.ticketStatusId}`]}
 								</TableCell>
@@ -50,7 +50,7 @@ const TicketsTable = ({ allTickets }: { allTickets: Tickets }) => {
 									>{`P${ticket?.priority}`}</div>
 								</TableCell>
 								<TableCell className="text-right">
-									<Link href={`${pathname}/ticket-summary/${ticket.id}`} target='_blank'>
+									<Link href={`${pathname}/ticket-summary/${ticket.id}`}>
 									<Button variant="null" size="sm" 
 									>
 										<Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />

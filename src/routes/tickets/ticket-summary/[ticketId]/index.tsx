@@ -104,22 +104,24 @@ const TicketSummary = ({ ticketId }: { ticketId: number }) => {
   return (
     <div className="grid grid-auto-flow-column w-full border border-custom-lightGray bg-custom-white rounded-lg py-7 px-9">
       <h2 className="flex justify-between items-center text-custom-black text-[1.063rem] leading-[1.326rem] font-[400] mb-7">
-        <div className="flex items-center gap-5">
-          <span className="flex gap-2 text-custom-blue">
+        <div className="flex items-center gap-2">
+          <span className="flex items-center gap-2 text-custom-blue">
             <Image
               src="/svg/receipt.svg"
               width={24}
               height={24}
               alt="receipt icon"
             />
+            <span>
             Ticket no.
+            </span>
           </span>
           {ticketSummaryLoading ? (
             <div className={`w-[15rem]`}>
               <Skeleton variant="paragraph" rows={1} />
             </div>
           ) : (
-            `SUP${getTicketSummaryRes?.data.id} - ${getTicketSummaryRes?.data.workflow?.name}`
+            <span>SUP{getTicketSummaryRes?.data.id} - {getTicketSummaryRes?.data.workflow?.name}</span>
           )}
         </div>
         <div className="flex text-[0.813rem] ">

@@ -1,10 +1,10 @@
+import { SelectComponent } from "@/components/ui/select/index";
 import {
-  useGetLoggedInUserDetails,
   useGetTicketUpdateStatuses,
   usePostTicketUpdate,
 } from "@/hooks/useTickets";
+import useUserStore from "@/stores/useUserStore";
 import { Button } from "@veroxos/design-system/dist/ui/Button/button";
-import Skeleton from "@veroxos/design-system/dist/ui/Skeleton/skeleton";
 import Image from "next/image";
 import toast from "react-hot-toast";
 
@@ -15,28 +15,25 @@ const PostTicketUpdateForm = ({
 }: {
   getTicketSummaryRes: any;
   setShowAddUpdateForm: any;
-  refetchTicketSummary : any;
+  refetchTicketSummary: any;
 }) => {
   const { data: getTicketUpdateStatusesRes } = useGetTicketUpdateStatuses();
-  const { data: getLoggedInUserDetailsRes, isLoading } =
-    useGetLoggedInUserDetails();
 
-  const {
-    mutate,
-    isPending: postUpdateLoading,
-  } = usePostTicketUpdate();
+	const {loggedInUser} = useUserStore((state : any) => ({loggedInUser : state.user}));
+
+  const { mutate, isPending: postUpdateLoading } = usePostTicketUpdate();
 
   const handlePostTicketUpdate = (e: any) => {
     e.preventDefault();
     let {
       description: { value: description },
-      ticketUpdateStatus: { value: ticketUpdateStatusId },
+      ticketUpdateStatus: { value: ticketUpdateStatusName },
     } = e.target;
 
     const ticketUpdate = {
       ticketId: getTicketSummaryRes?.data.id,
       workflowId: getTicketSummaryRes?.data.workflow?.id,
-      ticketUpdateStatusId: parseInt(ticketUpdateStatusId),
+      ticketUpdateStatusId: parseInt(getTicketUpdateStatusesRes.data.find((status : any) => status.name == ticketUpdateStatusName ).id),
       description: description.replace(/(\r\n|\n|\r)/g, "<br/>"),
     };
 
@@ -54,7 +51,7 @@ const PostTicketUpdateForm = ({
 
   return (
     <form onSubmit={handlePostTicketUpdate}>
-      <div className="rounded-lg p-4 bg-[#F8F8F8] mt-4">
+      <div className="rounded-lg p-4 bg-custom-background mt-4">
         <div className="flex items-center gap-5">
           <div className="h-[3.876rem] w-[3.876rem] bg-custom-blue rounded-full flex items-center justify-center">
             <Image
@@ -64,15 +61,9 @@ const PostTicketUpdateForm = ({
               alt="account icon"
             />
           </div>
-          {isLoading ? (
-            <div className={`w-[15rem]`}>
-              <Skeleton variant="paragraph" rows={1} />
-            </div>
-          ) : (
             <p className="font-[700] text-[1.188rem] leading-[1.477rem]">
-              {`${getLoggedInUserDetailsRes?.data.firstName} ${getLoggedInUserDetailsRes?.data.lastName}`}
+              {`${loggedInUser.firstName} ${loggedInUser.lastName}`}
             </p>
-          )}
         </div>
         <textarea
           name="description"
@@ -82,22 +73,12 @@ const PostTicketUpdateForm = ({
           placeholder="Type here..."
         />
         <div className="my-4 flex gap-4 h-[2.563rem]">
-          <select
-            required
-            name="ticketUpdateStatus"
-            className="w-3/5 bg-custom-white h-[2.563rem] border border-custom-aluminum text-[#575757] font-[400] text-[0.688rem] leading-[0.873rem] rounded-lg py-[0.563rem] px-[1.063rem] focus:outline-none"
-          >
-            {getTicketUpdateStatusesRes?.data.map(
+          <SelectComponent required name="ticketUpdateStatus" className="w-3/5 bg-custom-white h-[2.563rem] border border-custom-aluminum text-custom-grey font-[400] sm:xl:text-[0.813rem] leading-[0.873rem] rounded-lg py-[0.563rem] px-[1.063rem] focus:outline-none"placeholder="Select Status" options={getTicketUpdateStatusesRes?.data.map(
               (ticketUpdateStatus: { id: number; name: string }) => (
-                <option
-                  key={ticketUpdateStatus.id}
-                  value={ticketUpdateStatus.id}
-                >
-                  {ticketUpdateStatus.name}
-                </option>
+                {label : ticketUpdateStatus.name, value: ticketUpdateStatus.id}
               )
-            )}
-          </select>
+            )} />
+
           <Button
             className="w-1/5 h-full font-[600] leading-[1.023rem] text-[0.813rem] border-custom-blue text-custom-blue hover:text-custom-blue"
             variant="outline"

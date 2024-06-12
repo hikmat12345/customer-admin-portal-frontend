@@ -2,9 +2,16 @@ import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { ServiceType } from './enums/serviceType.enum'
 import { eachYearOfInterval, format as formatdeteFns} from 'date-fns'
- 
+import { US_LOCALE_FORMAT } from './constants/constants';
+
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
+}
+
+export function convertToTimeZone(timeZone : string, dateTime : Date, format = 'MMM dd, yyyy HH:mm a') {
+	dateTime = new Date(dateTime.toLocaleString(US_LOCALE_FORMAT, { timeZone: 'Europe/London' }));
+	dateTime = new Date(dateTime.toLocaleString(US_LOCALE_FORMAT, { timeZone: timeZone }));
+	return formatdeteFns(dateTime, format);
 }
 
 export function getTimeDifference(updated: string): string {
@@ -12,7 +19,7 @@ export function getTimeDifference(updated: string): string {
 	const currentTime = new Date().getTime()
 	const differenceInSeconds = Math.floor((currentTime - updatedTime) / 1000)
 	if (differenceInSeconds < 60) {
-		return 'just now'
+		return 'Just now'
 	} else if (differenceInSeconds < 3600) {
 		const minutes = Math.floor(differenceInSeconds / 60)
 		return `${minutes} min${minutes > 1 ? 's' : ''} ago`
@@ -96,18 +103,16 @@ export function stringFindAndReplaceAll(str: string, find: string, replace: stri
 }
 
 // Create number formatter.
-export const moneyFormatter = (value: number, currency: string | null) => {
+export const moneyFormatter = (value: number, currency: string | null = null) => {
+    if (isNaN(value)) {
+        return '-';
+    }
 
-	if (isNaN(value)) {
-		return '-';
-	}
-	const formatter = new Intl.NumberFormat('en-US', {
-		style: 'currency',
-		currency: currency ? currency : '',
-	});
+    const options: Intl.NumberFormatOptions = currency ? { style: 'currency', currency: currency } : {};
+    const formatter = new Intl.NumberFormat('en-US', options);
 
-	return formatter.format(value);
-}
+    return formatter.format(value);
+};
 
 
 export function downloadFile(givenFileType: string, response: { data: string, filetype: string }, invoice_id: string, showInBrowser: boolean = false) {

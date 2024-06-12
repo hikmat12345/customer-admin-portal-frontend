@@ -2,6 +2,7 @@ import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton'
 import { useGetMonthlyTickets } from '@/hooks/useTickets'
 import PeakIndicator from './peak-indicators/peakIndicators'
 import Badge from '@veroxos/design-system/dist/ui/Badge/badge'
+import { moneyFormatter } from '@/utils/utils'
 
 const MonthlyTickets = ({ title, year, month }: { title: string; year: number; month: number }) => {
 	const { data: monthlyTicketsData, isLoading } = useGetMonthlyTickets(year, month)
@@ -22,12 +23,12 @@ const MonthlyTickets = ({ title, year, month }: { title: string; year: number; m
 
 		const message =
 			difference > 0
-				? 'more tickets this month compared to the previous month.'
+				? 'more tickets this month so far compared to the previous month.'
 				: 'fewer tickets previous month compared to this month.'
 
 		return (
 			<>
-				<span className={`font-bold text-[${className}]`}>{absDifference}</span> {message}
+				<span className={`font-bold text-[${className}]`}>{moneyFormatter(absDifference)}</span> {message}
 			</>
 		)
 	}
@@ -43,7 +44,7 @@ const MonthlyTickets = ({ title, year, month }: { title: string; year: number; m
 					<div className="flex flex-col gap-4 pb-3 w-full pr-5">
 						<h2 className="text-custom-black text-lg font-semibold">{title}</h2>
 						<div className="flex items-center gap-5">
-							<h1 className="text-lg lg:text-2xl 2xl:text-3xl font-bold">{totalTickets}</h1>
+							<h1 className="text-lg lg:text-2xl 2xl:text-3xl font-bold">{moneyFormatter(totalTickets)}</h1>
 							<Badge className="text-sm lg:text-xs" variant={badgeVariant}>
 								{formattedPercentageDifference}%
 							</Badge>

@@ -2,11 +2,13 @@
 
 import SearchTextFieldArea from '@/components/ui/searchTextFieldArea'
 import Sidebar from '@/components/ui/sidebar/sidebar'
+import useGetUser from '@/hooks/useGetUser'
 import Image from 'next/image'
 import { useParams, usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
  
 const BaseLayout = ({ children }: { children: React.ReactNode }) => {
+	useGetUser();
 	const pathname = usePathname()
 	const params = useParams()
 	const router = useRouter()

@@ -5,19 +5,19 @@ import {
   getTicketSecondaryStatuses,
   getTicketSummary,
   getTicketUpdateStatuses,
-  getUserDetails,
   getVendorAccounts,
   postTicketUpdate,
 } from "@/services/tickets/ticketsService";
+import { getUserDetails } from "@/services/users/usersService";
 import { createMutationWithVariables } from "@/utils/query";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetAllTickets = (
   offset?: number,
   limit?: number,
-  priority?: number | null,
-  status?: number | null,
-  account_number?: string | null,
+  priority?: string | null,
+  status?: string | null,
+  accountNumber?: string | null,
   searchQuery?: string | null
 ) => {
   return useQuery({
@@ -27,7 +27,7 @@ export const useGetAllTickets = (
       limit,
       priority,
       status,
-      account_number,
+      accountNumber,
       searchQuery,
     ],
     queryFn: getAllTickets,
@@ -82,7 +82,7 @@ export const useGetTicketUpdateStatuses = () => {
   });
 };
 
-export const useGetLoggedInUserDetails = () => {
+export const useGetLoggedInUserDetails = () => {  
   return useQuery({
     queryKey: ["user_details"],
     queryFn: getUserDetails,

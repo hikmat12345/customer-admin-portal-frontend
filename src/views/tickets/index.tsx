@@ -29,9 +29,9 @@ const TicketsPage = () => {
 	const limit = 7
 	const offset = +page - 1;
 
-	const status = searchParams && Number(searchParams?.get('status'))
-	const priority = searchParams && Number(searchParams?.get('priority'))
-	const account_number = searchParams && searchParams?.get('account_number')
+	const status = searchParams && searchParams?.get('status')
+	const priority = searchParams && searchParams?.get('priority')
+	const accountNumber = searchParams && searchParams?.get('accountNumber')
 	const searchQuery = searchParams && searchParams?.get('searchQuery')
 
 	const createQueryString = CreateQueryString()
@@ -47,22 +47,23 @@ const TicketsPage = () => {
 	} = useGetAllTickets(
 		offset,
 		limit,
-		priority !== 0 ? priority : undefined,
-		status !== 0 ? status : undefined,
-		account_number?.length !== 0 ? account_number : undefined,
+		priority?.length !== 0 ? priority : undefined,
+		status?.length !== 0 ? status : undefined,
+		accountNumber?.length !== 0 ? accountNumber : undefined,
 		searchQuery?.length !== 0 ? searchQuery?.trim() : undefined
 	)
 
-	const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { value } = event.target
+	const handleSearchField = (event: any) => {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			const { value } = event.target
 		if (value.length === 0) {
 			router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`)
 		} else {
 			router.push(`${pathname}?${createQueryString('searchQuery', value)}`)
 		}
+		}
 	}
-
-	const debouncedSearchFieldHandlder = React.useCallback(debounce(handleSearchField, 500), [])
 
 	const rowCount = allTickets?.tickets?.length || 8
 	const totalPages = allTickets?.total / limit;
@@ -104,10 +105,11 @@ const TicketsPage = () => {
 			<div className="grid grid-auto-flow-column gap-3 w-full border border-custom-lightGray bg-custom-white rounded-lg px-3 pt-5 pb-2 mt-6">
 				<div className="flex items-center justify-between gap-7">
 					<SearchField
-						className="rounded-none bg-transparent border-b ml-2 outline-none focus:border-[#44444480] w-[500px] xl:min-w-[700px] font-normal"
+						className="rounded-none bg-transparent border-b ml-2 outline-none focus:border-[#44444480] w-[500px] xl:w-[600px] font-normal"
 						iconWidth={16}
 						iconHeight={16}
-						onChange={debouncedSearchFieldHandlder}
+						onKeyDown={handleSearchField}
+						helpText="Searches the veroxos reference, client reference number, site / employee, vendor and request type."
 					/>
 					<div className="flex gap-4">
 						{menuOptions?.map((menuOption: any, index: number) => (
