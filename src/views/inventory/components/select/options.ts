@@ -62,8 +62,8 @@ const useGetMenuOptions = () => {
       name: 'Service Status',
       value: 'serviceStatus',
       options: [
-        { value: 0, label: 'Terminated' },
-        { value: 1, label: 'Live' },
+        { value: 1, label: 'Terminated' },
+        { value: 2, label: 'Live' },
       ],
     },
   ];

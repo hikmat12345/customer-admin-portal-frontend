@@ -4,21 +4,34 @@ import Skeleton from '../skeleton/skeleton';
 
 type Variant = 'success' | 'destructive';
 
-function PeakIndicator({ isLoading, percentage }: { variant: Variant; isLoading?: boolean; percentage?: number }) {
+function PeakIndicator({
+  isLoading,
+  percentage,
+}: {
+  variant: Variant;
+  isLoading?: boolean;
+  percentage?: number | null;
+}) {
   let arrowImageSrc;
   let backgroundColor;
-  switch (percentage && percentage > 0) {
-    case true:
-      arrowImageSrc = '/svg/upPeakArrow.svg';
-      backgroundColor = 'bg-custom-red';
-      break;
-    case false:
-      arrowImageSrc = '/svg/downPeakArrow.svg';
-      backgroundColor = 'bg-[#219653]';
-      break;
-    default:
-      arrowImageSrc = '';
-      backgroundColor = '';
+  let margin, border;
+  if (percentage === undefined || percentage === null) {
+    arrowImageSrc = '/svg/linePeakArrow.svg';
+    backgroundColor = '';
+    margin = '-9px 0 0 2px';
+    border = 'border border-[#999999]'; // will add colors to design system once design provide the names
+  } else if (percentage === 0) {
+    arrowImageSrc = '/svg/whiteLinePeakArrow.svg';
+    backgroundColor = 'bg-custom-coolBlue';
+    margin = '-9px 0 0 1px';
+  } else if (percentage > 0) {
+    arrowImageSrc = '/svg/upPeakArrow.svg';
+    backgroundColor = 'bg-custom-red';
+    margin = '';
+  } else {
+    arrowImageSrc = '/svg/downPeakArrow.svg';
+    backgroundColor = 'bg-[#219653]';
+    margin = '';
   }
 
   return (
@@ -28,10 +41,15 @@ function PeakIndicator({ isLoading, percentage }: { variant: Variant; isLoading?
           <Skeleton variant="avatar" height="40px" width="40px" />
         </div>
       ) : (
-        <div className={`absolute right-4 ${backgroundColor} flex h-9 w-9 items-center justify-center rounded-full`}>
+        <div
+          className={`absolute right-4 ${backgroundColor} ${border} flex h-9 w-9 items-center justify-center rounded-full`}
+        >
           <Image
             src={arrowImageSrc}
             alt={percentage && percentage > 0 ? 'Up Peak Arrow' : 'Down Peak Arrow'}
+            style={{
+              margin: margin,
+            }}
             width={15}
             height={15}
           />
