@@ -119,8 +119,13 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     ['cost centre']: item?.service?.cost?.costCentre,
     service_type: item?.service?.serviceType,
     'service status': item?.service.serviceStatus,
-    cost: (item?.service?.cost?.rentalRaw  || item.service?.cost?.usageRaw  || item.service?.cost?.otherRaw  || item?.service?.cost?.taxRaw )?
-    `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw || 0) + parseFloat(item.service?.cost?.usageRaw || 0) + parseFloat(item.service?.cost?.otherRaw || 0) + parseFloat(item?.service?.cost?.taxRaw || 0), 'usd')} (${formatDate(item?.service?.cost?.invoice?.invoiceDate, DATE_FORMAT)})`: "-",
+    cost:
+      item?.service?.cost?.rentalRaw ||
+      item.service?.cost?.usageRaw ||
+      item.service?.cost?.otherRaw ||
+      item?.service?.cost?.taxRaw
+        ? `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw || 0) + parseFloat(item.service?.cost?.usageRaw || 0) + parseFloat(item.service?.cost?.otherRaw || 0) + parseFloat(item?.service?.cost?.taxRaw || 0), 'usd')} (${formatDate(item?.service?.cost?.invoice?.invoiceDate, DATE_FORMAT)})`
+        : '-',
   }));
   const refinedTickets = siteTicketsData?.tickets?.map((item: any) => {
     return {

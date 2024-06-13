@@ -58,7 +58,7 @@ export default function GeneralInfo({
     { label: 'Service Description', value: serviceDescription?.name },
     {
       label: 'Employee',
-      value:  employee?.id ? (
+      value: employee?.id ? (
         <Link href={`/employees/${employee?.id}`} className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]">
           <TooltipText
             text={employee ? `${employee.firstName} ${employee.lastName} - ${employee.email}` : '-'}
@@ -66,7 +66,9 @@ export default function GeneralInfo({
             className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]"
           />
         </Link>
-      ) : " - "
+      ) : (
+        ' - '
+      ),
     },
     { label: 'Purpose / Function', value: purposeOfService },
     { label: 'Contract Start Date', value: contractStartDate ? formatDate(contractStartDate, DATE_FORMAT) : '-' },
@@ -152,7 +154,7 @@ export default function GeneralInfo({
                       long={site?.longitude}
                       address={site?.streetLine1 ? site?.streetLine1 : site?.streetLine2}
                       siteId={site?.id}
-                      height='200px'
+                      height="200px"
                     />
                   ) : (
                     <div className="flex h-[230px] items-center justify-center py-8 text-center align-bottom text-lg">

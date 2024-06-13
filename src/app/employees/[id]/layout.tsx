@@ -8,13 +8,7 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: { id: string };
-}) {
+export default function RootLayout({ children, params }: { children: React.ReactNode; params: { id: string } }) {
   return (
     <>
       <Head>

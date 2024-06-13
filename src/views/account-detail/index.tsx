@@ -261,7 +261,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
                   Tickets
                   <TooltipText
                     text={`Last ${limit} tickets shown`}
-                     maxLength={1}
+                    maxLength={1}
                     className="pl-3 pt-3 leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
                     type="notification"
                   />

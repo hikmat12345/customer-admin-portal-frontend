@@ -128,15 +128,16 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                       typeof item.value === 'boolean' ? (
                         <div>{item.value ? item.value : ' - '}</div>
                       ) : item.isPdf ? (
-                        <div className="cursor-pointer  ">
+                        <div className="cursor-pointer">
                           <Button
                             loading={isShowInBrowserLoading}
-                            className="pl-0 leading-7 underline decoration-2 lg:text-[13px] xl:text-[14px] !bg-transparent text-custom-blue"
+                            className="!bg-transparent pl-0 leading-7 text-custom-blue underline decoration-2 lg:text-[13px] xl:text-[14px]"
                             onClick={() => {
                               setShowInBrowser(true);
                               fileDownloadFile(item.value, 'pdf', true);
-                            }}>
-                              View
+                            }}
+                          >
+                            View
                           </Button>
                         </div>
                       ) : typeof item.value == 'string' ? (
