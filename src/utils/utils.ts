@@ -108,9 +108,6 @@ export const moneyFormatter = (value: number, currency: string | null = null) =>
   if (isNaN(value)) {
     return '-';
   }
-  if (isNaN(value)) {
-    return '-';
-  }
 
   const options: Intl.NumberFormatOptions = currency ? { style: 'currency', currency: currency } : {};
   const formatter = new Intl.NumberFormat('en-US', options);
