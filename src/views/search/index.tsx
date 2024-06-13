@@ -32,12 +32,12 @@ const SearchPage = () => {
     if (searchFieldRef.current && searchFieldRef.current.value) {
       const newSearchVal = sanitizeSearchQuery(searchFieldRef.current.value);
       if (newSearchVal.length < 2) {
-        return setInputValidation('Query must contain at least two characters');
+        return setInputValidation('Must contain at least two characters');
       }
       searchFieldRef.current.value = newSearchVal;
       router.replace(`${pathname}?${createQueryString('query', newSearchVal)}`);
     } else {
-      return setInputValidation('Query is required');
+      return setInputValidation('This field is required');
     }
   };
 
@@ -53,7 +53,7 @@ const SearchPage = () => {
   return (
     <div className="h-screen">
       <div className="my-4 flex items-center justify-between rounded-lg bg-custom-white p-4">
-        <div className="flex-1">
+        <div className="w-4/5">
           <SearchField
             iconWidth={16}
             iconHeight={16}
@@ -85,7 +85,7 @@ const SearchPage = () => {
         <div className="max-h-[75%] overflow-y-auto rounded-lg bg-custom-white">
           <div className="w-[100%] py-4 pl-4">
             <p className="text-base font-bold text-[#000]">Search Result</p>
-            <p className="text-sm text-[#575757]">Maximum 1000 Results Shown.</p>
+            <p className="text-sm text-[#575757]">Maximum 1000 Results Shown</p>
           </div>
           <SearchTable data={searchData} />
         </div>
