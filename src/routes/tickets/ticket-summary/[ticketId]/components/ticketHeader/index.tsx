@@ -12,7 +12,7 @@ function TicketHeader({ ticketSummary, ticketSummaryLoading }: any) {
 
   function HeaderValue({ value, linkUrl }: { value: string; linkUrl?: string }) {
     return (
-      <span className="text-custom-dimGray w-3/4 pl-2 text-[0.813rem] font-[400] leading-[1.023rem]">
+      <span className="w-3/4 pl-2 text-[0.813rem] font-[400] leading-[1.023rem] text-custom-dimGray">
         {ticketSummaryLoading ? (
           <Skeleton variant="paragraph" rows={1} />
         ) : ticketSummary && value ? (
@@ -46,7 +46,7 @@ function TicketHeader({ ticketSummary, ticketSummaryLoading }: any) {
             <Skeleton variant="paragraph" rows={1} />
           ) : (
             <div
-              className={`text-custom-dimGray flex h-[2.313rem] w-[2.313rem] items-center justify-center rounded-full text-[0.813rem] font-[400] leading-[1.023rem] text-custom-white bg-[${
+              className={`flex h-[2.313rem] w-[2.313rem] items-center justify-center rounded-full text-[0.813rem] font-[400] leading-[1.023rem] text-custom-dimGray text-custom-white bg-[${
                 PRIORITY_COLOR_LIST[ticketSummary?.priority]
               }]`}
             >
