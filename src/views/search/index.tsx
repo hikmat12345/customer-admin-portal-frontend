@@ -57,7 +57,7 @@ const SearchPage = () => {
           <SearchField
             iconWidth={16}
             iconHeight={16}
-            className="ml-2 min-w-full max-w-full rounded-none border-b bg-transparent shadow-none"
+            className="ml-2 min-w-full max-w-full rounded-none border-b bg-transparent pr-10 shadow-none"
             defaultValue={search}
             ref={searchFieldRef}
             onKeyDown={handleKeyDown}
