@@ -60,7 +60,9 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
                     <Image src="/svg/search/arrowBack.svg" alt="Arrow back" width={6} height={6} />
                   </button>
                 )}
-                <h2 className="text-[30px] font-bold capitalize text-custom-black">
+                <h2
+                  className={`text-[30px] font-bold capitalize text-custom-black ${endWord() === 'search' && 'ml-5'}`}
+                >
                   {isSummaryPage
                     ? renamePagesTitle(endWord(2))
                     : endWord()?.toLocaleLowerCase() == 'inventory'

@@ -171,6 +171,7 @@ function InvoicesPage() {
             iconWidth={16}
             iconHeight={16}
             onChange={debouncedSearchFieldHandlder}
+            helpText="Searches ID, invoice number, network country ID, network name, company network account number and  conversion rate fields."
           />
           <div className="flex gap-4">
             {menuOptions?.map((menuOption: any, index: number) => (
