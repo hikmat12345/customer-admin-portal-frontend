@@ -9,7 +9,7 @@ import Providers from '../../lib/query-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Veroxos 2.0',
+  title: 'Veroxos',
   description: 'Veroxos',
   icons: {
     icon: '/favicon.svg',

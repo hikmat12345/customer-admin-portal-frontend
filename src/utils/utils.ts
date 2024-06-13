@@ -2,10 +2,16 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { ServiceType } from './enums/serviceType.enum';
 import { eachYearOfInterval, format as formatdeteFns, isValid, parseISO } from 'date-fns';
-import { DATE_FORMAT, DATE_TIME_FORMAT } from './constants/constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT, US_LOCALE_FORMAT } from './constants/constants';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function convertToTimeZone(timeZone: string, dateTime: Date, format = 'MMM dd, yyyy HH:mm a') {
+  dateTime = new Date(dateTime.toLocaleString(US_LOCALE_FORMAT, { timeZone: 'Europe/London' }));
+  dateTime = new Date(dateTime.toLocaleString(US_LOCALE_FORMAT, { timeZone: timeZone }));
+  return formatdeteFns(dateTime, format);
 }
 
 export function getTimeDifference(updated: string): string {
@@ -13,7 +19,7 @@ export function getTimeDifference(updated: string): string {
   const currentTime = new Date().getTime();
   const differenceInSeconds = Math.floor((currentTime - updatedTime) / 1000);
   if (differenceInSeconds < 60) {
-    return 'just now';
+    return 'Just now';
   }
   if (differenceInSeconds < 3600) {
     const minutes = Math.floor(differenceInSeconds / 60);
@@ -98,14 +104,13 @@ export function stringFindAndReplaceAll(str: string, find: string, replace: stri
 }
 
 // Create number formatter.
-export const moneyFormatter = (value: number, currency: string | null) => {
+export const moneyFormatter = (value: number, currency: string | null = null) => {
   if (isNaN(value)) {
     return '-';
   }
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency || '',
-  });
+
+  const options: Intl.NumberFormatOptions = currency ? { style: 'currency', currency: currency } : {};
+  const formatter = new Intl.NumberFormat('en-US', options);
 
   return formatter.format(value);
 };
@@ -172,7 +177,7 @@ export function formatDate(date: string | Date, format: string = 'MM dd, yyyy'):
   }
 
   if (!isValid(parsedDate)) {
-    return date.toString();
+    return date?.toString();
   }
 
   return formatdeteFns(parsedDate, format);
@@ -351,3 +356,20 @@ export const sanitizeSearchQuery = (query: string) => {
 
   return sanitized;
 };
+
+export function getPreviousMonthYear(dateString: string) {
+  // Parse the input date string
+  const date = new Date(dateString);
+
+  // Set the date to the first day of the current month
+  date.setDate(1);
+
+  // Subtract one month
+  date.setMonth(date.getMonth() - 1);
+
+  // Format the output as "Month YYYY"
+  const options = { year: 'numeric', month: 'long' };
+  const previousMonthYear = date.toLocaleDateString('en-US', options as any);
+
+  return previousMonthYear;
+}

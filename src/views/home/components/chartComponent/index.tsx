@@ -1,12 +1,10 @@
 'use client';
-
 import React from 'react';
 
 import dynamic from 'next/dynamic';
-
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-function ChartComponent({ data, variant }: { data: any; variant: string }) {
+const ChartComponent = ({ data, variant }: { data: any; variant: string }) => {
   const invoiceSeriesData =
     data &&
     data.map((invoice: any) => ({
@@ -61,8 +59,10 @@ function ChartComponent({ data, variant }: { data: any; variant: string }) {
     },
     tooltip: {
       enabled: true,
+      style: {
+        background: variant, // Set the color of the tooltip based on the variant prop
+      },
       x: {
-        format: 'dd/MM/yy HH:mm',
         formatter: undefined,
       },
       y: {
@@ -89,7 +89,7 @@ function ChartComponent({ data, variant }: { data: any; variant: string }) {
     },
   };
 
-  return <Chart options={options} series={options.series} type="area" height="75px" width="100%" />;
-}
+  return <Chart options={options} series={options.series} type={'area'} height={'75px'} width={'100%'} />;
+};
 
 export default ChartComponent;

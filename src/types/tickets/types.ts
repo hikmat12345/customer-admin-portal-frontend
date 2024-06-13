@@ -58,7 +58,7 @@ export interface TicketData {
   } | null;
   companyNetwork: {
     id: number;
-    vendor: {
+    network: {
       id: number;
       name: string;
     };

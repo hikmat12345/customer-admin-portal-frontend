@@ -11,19 +11,18 @@ import TableBody from '@veroxos/design-system/dist/ui/TableBody/tableBody';
 import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow';
 import TableCell from '@veroxos/design-system/dist/ui/TableCell/tableCell';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import TicketsTableHead from './ticketsTableHead';
 
 function TicketsTable({ allTickets }: { allTickets: Tickets }) {
   const isNoData = allTickets?.tickets?.length === 0;
-  const router = useRouter();
   const pathname = usePathname();
   return (
     <div className="overflow-auto lg:max-h-[215px] xl:max-h-full">
       <Table>
         <TicketsTableHead />
-        {isNoData && <TableCaption>No tickets available.</TableCaption>}
+        {isNoData && <TableCaption>No data found.</TableCaption>}
 
         <TableBody>
           {allTickets?.tickets?.map((ticket: TicketData) => {
@@ -32,29 +31,28 @@ function TicketsTable({ allTickets }: { allTickets: Tickets }) {
 
             return (
               <TableRow key={ticket.id}>
-                <TableCell className="font-medium">
+                <TableCell className="text-left font-medium">
                   <Link
                     className="text-custom-dryBlue"
                     href={`${pathname}/ticket-summary/${ticket.id}`}
-                    target="_blank"
                   >{`SUP${ticket.id}`}</Link>
                 </TableCell>
-                <TableCell>{ticket?.clientReferenceNo || '-'}</TableCell>
-                <TableCell>{fullName}</TableCell>
-                <TableCell>{ticket?.companyNetwork?.vendor?.name || '-'}</TableCell>
-                <TableCell>{ticket?.workflow?.name}</TableCell>
+                <TableCell className="text-left">{ticket?.clientReferenceNo || '-'}</TableCell>
+                <TableCell className="text-left">{fullName}</TableCell>
+                <TableCell className="text-left">{ticket?.companyNetwork?.network?.name || '-'}</TableCell>
+                <TableCell className="text-left">{ticket?.workflow?.name}</TableCell>
                 <TableCell className={`${ticket?.ticketStatusId === 1 ? 'text-custom-blue' : ''}`}>
                   {TICKETS_STATUS_LIST[`${ticket?.ticketStatusId}`]}
                 </TableCell>
                 <TableCell>{updatedAt}</TableCell>
                 <TableCell>
                   <div
-                    className="m-auto flex h-9 w-9 items-center justify-center rounded-full text-custom-white"
+                    className={`m-auto flex h-9 w-9 items-center justify-center rounded-full text-custom-white`}
                     style={{ backgroundColor: PRIORITY_COLOR_LIST[ticket?.priority] }}
                   >{`P${ticket?.priority}`}</div>
                 </TableCell>
                 <TableCell className="text-right">
-                  <Link href={`${pathname}/ticket-summary/${ticket.id}`} target="_blank">
+                  <Link href={`${pathname}/ticket-summary/${ticket.id}`}>
                     <Button variant="null" size="sm">
                       <Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />
                     </Button>

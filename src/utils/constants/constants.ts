@@ -7,3 +7,4 @@ export const MONTH_YEAR_FORMAT_SLASH = 'M / yyyy';
 export const DATE_FORMAT = 'MMM dd, yyyy';
 // 'MMM dd, yyyy hh:mm a'
 export const DATE_TIME_FORMAT = 'MMM dd, yyyy hh:mm a';
+export const US_LOCALE_FORMAT = 'en-US';

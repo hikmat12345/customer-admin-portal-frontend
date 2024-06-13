@@ -5,25 +5,26 @@ import {
   getTicketSecondaryStatuses,
   getTicketSummary,
   getTicketUpdateStatuses,
-  getUserDetails,
   getVendorAccounts,
   postTicketUpdate,
 } from '@/services/tickets/ticketsService';
+import { getUserDetails } from '@/services/users/usersService';
 import { createMutationWithVariables } from '@/utils/query';
 import { useQuery } from '@tanstack/react-query';
 
 export const useGetAllTickets = (
   offset?: number,
   limit?: number,
-  priority?: number | null,
-  status?: number | null,
-  account_number?: string | null,
+  priority?: string | null,
+  status?: string | null,
+  accountNumber?: string | null,
   searchQuery?: string | null,
-) =>
-  useQuery({
-    queryKey: ['tickets', offset, limit, priority, status, account_number, searchQuery],
+) => {
+  return useQuery({
+    queryKey: ['tickets', offset, limit, priority, status, accountNumber, searchQuery],
     queryFn: getAllTickets,
   });
+};
 
 export const useGetMonthlyTickets = (year: number, month: number, offset?: number, limit?: number) =>
   useQuery({
@@ -62,10 +63,11 @@ export const useGetTicketUpdateStatuses = () =>
     queryFn: getTicketUpdateStatuses,
   });
 
-export const useGetLoggedInUserDetails = () =>
-  useQuery({
+export const useGetLoggedInUserDetails = () => {
+  return useQuery({
     queryKey: ['user_details'],
     queryFn: getUserDetails,
   });
+};
 
 export const { useMutation: usePostTicketUpdate } = createMutationWithVariables('post-ticket-update', postTicketUpdate);

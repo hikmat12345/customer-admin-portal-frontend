@@ -6,7 +6,6 @@ import React, { useEffect } from 'react';
 import Pagination from '@/components/ui/pagination';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import CreateQueryString from '@/utils/createQueryString';
-import debounce from 'lodash.debounce';
 import useGetMenuOptions from './components/select/options';
 import SelectComponent from './components/select';
 import TicketsTableSkeleton from './components/ticketsTableSkeleton';
@@ -29,9 +28,9 @@ function TicketsPage() {
   const limit = 7;
   const offset = +page - 1;
 
-  const status = searchParams && Number(searchParams?.get('status'));
-  const priority = searchParams && Number(searchParams?.get('priority'));
-  const account_number = searchParams && searchParams?.get('account_number');
+  const status = searchParams && searchParams?.get('status');
+  const priority = searchParams && searchParams?.get('priority');
+  const accountNumber = searchParams && searchParams?.get('accountNumber');
   const searchQuery = searchParams && searchParams?.get('searchQuery');
 
   const createQueryString = CreateQueryString();
@@ -47,22 +46,23 @@ function TicketsPage() {
   } = useGetAllTickets(
     offset,
     limit,
-    priority !== 0 ? priority : undefined,
-    status !== 0 ? status : undefined,
-    account_number?.length !== 0 ? account_number : undefined,
+    priority?.length !== 0 ? priority : undefined,
+    status?.length !== 0 ? status : undefined,
+    accountNumber?.length !== 0 ? accountNumber : undefined,
     searchQuery?.length !== 0 ? searchQuery?.trim() : undefined,
   );
 
-  const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    if (value.length === 0) {
-      router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
-    } else {
-      router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
+  const handleSearchField = (event: any) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const { value } = event.target;
+      if (value.length === 0) {
+        router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
+      } else {
+        router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
+      }
     }
   };
-
-  const debouncedSearchFieldHandlder = React.useCallback(debounce(handleSearchField, 500), []);
 
   const rowCount = allTickets?.tickets?.length || 8;
   const totalPages = allTickets?.total / limit;
@@ -104,10 +104,11 @@ function TicketsPage() {
       <div className="grid-auto-flow-column mt-6 grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
         <div className="flex items-center justify-between gap-7">
           <SearchField
-            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:min-w-[700px]"
+            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:w-[600px]"
             iconWidth={16}
             iconHeight={16}
-            onChange={debouncedSearchFieldHandlder}
+            onKeyDown={handleSearchField}
+            helpText="Searches the veroxos reference, client reference number, site / employee, vendor and request type."
           />
           <div className="flex gap-4">
             {menuOptions?.map((menuOption: any, index: number) => (

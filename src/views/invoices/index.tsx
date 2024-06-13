@@ -78,13 +78,27 @@ function InvoicesPage() {
   const absoluteDifferenceThisMonth = Math.abs(invoicesData?.thisMonth?.difference);
   const formattedDifferenceThisMonth = getFormattedTotal(absoluteDifferenceThisMonth);
 
+  const getLastMonthAndYear = (data: any) => {
+    const lastInvoice = data?.lastSixMonthsInvoices?.at(-1);
+    return lastInvoice
+      ? {
+          month: lastInvoice.month,
+          year: lastInvoice.year,
+          formatted: `${lastInvoice.month} ${lastInvoice.year}`,
+        }
+      : undefined;
+  };
+
+  const thisMonthAndYear = getLastMonthAndYear(invoicesData?.thisMonth);
+  const lastMonthAndYear = getLastMonthAndYear(invoicesData?.lastMonth);
+
   const getThisMonthMessage = (difference: number, formattedDifference: string) => {
     let message = null;
     switch (true) {
       case difference > 0:
         message = (
           <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
-            Current expenditure exceeds last month's by over{' '}
+            Current expenditure of {thisMonthAndYear?.formatted} exceeds {lastMonthAndYear?.formatted} by over{' '}
             <span className="font-semibold text-custom-red">${formattedDifference}</span>
           </p>
         );
@@ -92,7 +106,7 @@ function InvoicesPage() {
       case difference < 0:
         message = (
           <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
-            Current expenditure is lower than last month's by over{' '}
+            Current expenditure is lower than {lastMonthAndYear?.formatted} by over{' '}
             <span className="font-semibold text-[#219653]">${formattedDifference}</span>
           </p>
         );
@@ -112,7 +126,7 @@ function InvoicesPage() {
       >
         ${getFormattedTotal(invoicesData?.lastMonth?.total)}
       </span>{' '}
-      processed previous month.
+      processed {lastMonthAndYear?.formatted}.
     </p>
   );
 

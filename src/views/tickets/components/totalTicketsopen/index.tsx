@@ -3,9 +3,10 @@ import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton';
 import { OpenTicketSummary } from '@/types/tickets/types';
 import { ApexOptions } from 'apexcharts';
 import React from 'react';
+import { moneyFormatter } from '@/utils/utils';
 
-function TotalTicketsOpen({ data, isLoading }: { data: OpenTicketSummary; isLoading: boolean }) {
-  const openTicketsCount = data?.openTickets?.count;
+const TotalTicketsOpen = ({ data, isLoading }: { data: OpenTicketSummary; isLoading: boolean }) => {
+  const openTicketsCount = moneyFormatter(data?.openTickets?.count);
 
   const chartOptions: ApexOptions = {
     series: [data?.closedTicketsLast24Hours.count],
@@ -97,6 +98,6 @@ function TotalTicketsOpen({ data, isLoading }: { data: OpenTicketSummary; isLoad
       )}
     </div>
   );
-}
+};
 
 export default TotalTicketsOpen;
