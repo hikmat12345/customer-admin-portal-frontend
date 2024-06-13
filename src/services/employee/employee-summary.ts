@@ -19,10 +19,10 @@ export const getEmployeeCostTrend = async ({ queryKey }: any) => {
 export const getEmployeeTickets = async ({ queryKey }: any) => {
   const [, employeeId, offset, limit] = queryKey;
 
-	return httpClient
-		.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/employee-tickets/${employeeId}?offset=${offset}&limit=${limit}`)
-		.then(({ data }) => data)
-}
+  return httpClient
+    .get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/employee-tickets/${employeeId}?offset=${offset}&limit=${limit}`)
+    .then(({ data }) => data);
+};
 // getEmployeeServiceTypes
 export const getEmployeeServiceTypes = async ({ queryKey }: any) => {
   const [, employeeId] = queryKey;

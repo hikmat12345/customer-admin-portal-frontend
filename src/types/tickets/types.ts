@@ -43,30 +43,30 @@ export interface OpenTicketSummary {
 }
 
 export interface TicketData {
-	id: number
-	companyId: number
-	clientReferenceNo: string
-	priority: number
-	ticketStatusId: number
-	workflowId: number
-	updated: string
-	created: string
-	employee: {
-		id: number
-		firstName: string
-		lastName: string
-	} | null
-	companyNetwork: {
-		id: number
-		network: {
-			id: number
-			name: string
-		}
-	} | null
-	workflow: {
-		id: number
-		name: string
-	}
+  id: number;
+  companyId: number;
+  clientReferenceNo: string;
+  priority: number;
+  ticketStatusId: number;
+  workflowId: number;
+  updated: string;
+  created: string;
+  employee: {
+    id: number;
+    firstName: string;
+    lastName: string;
+  } | null;
+  companyNetwork: {
+    id: number;
+    network: {
+      id: number;
+      name: string;
+    };
+  } | null;
+  workflow: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface Tickets {

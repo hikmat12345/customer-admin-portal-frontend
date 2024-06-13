@@ -85,26 +85,21 @@ function TicketSummary({ ticketId }: { ticketId: number }) {
   }
 
   return (
-    <div className="grid grid-auto-flow-column w-full border border-custom-lightGray bg-custom-white rounded-lg py-7 px-9">
-      <h2 className="flex justify-between items-center text-custom-black text-[1.063rem] leading-[1.326rem] font-[400] mb-7">
+    <div className="grid-auto-flow-column grid w-full rounded-lg border border-custom-lightGray bg-custom-white px-9 py-7">
+      <h2 className="mb-7 flex items-center justify-between text-[1.063rem] font-[400] leading-[1.326rem] text-custom-black">
         <div className="flex items-center gap-2">
           <span className="flex items-center gap-2 text-custom-blue">
-            <Image
-              src="/svg/receipt.svg"
-              width={24}
-              height={24}
-              alt="receipt icon"
-            />
-            <span>
-            Veroxos REF
-            </span>
+            <Image src="/svg/receipt.svg" width={24} height={24} alt="receipt icon" />
+            <span>Veroxos REF</span>
           </span>
           {ticketSummaryLoading ? (
             <div className="w-[15rem]">
               <Skeleton variant="paragraph" rows={1} />
             </div>
           ) : (
-            <span>SUP{getTicketSummaryRes?.data.id} - {getTicketSummaryRes?.data.workflow?.name}</span>
+            <span>
+              SUP{getTicketSummaryRes?.data.id} - {getTicketSummaryRes?.data.workflow?.name}
+            </span>
           )}
         </div>
         <div className="flex text-[0.813rem]">

@@ -15,9 +15,10 @@ export const getSiteDetail = async ({ queryKey }: any) => {
 export const getSiteTickets = async ({ queryKey }: any) => {
   const [, siteId, offset, limit] = queryKey;
 
-	return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/site-tickets/${siteId}?offset=${offset}&limit=${limit}`)
-		.then(({ data }) => data)
-}
+  return httpClient
+    .get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/site-tickets/${siteId}?offset=${offset}&limit=${limit}`)
+    .then(({ data }) => data);
+};
 
 export const getServiceTypes = async ({ queryKey }: any) => {
   const [, siteId] = queryKey;

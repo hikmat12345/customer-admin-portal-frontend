@@ -1,12 +1,9 @@
-import { SelectComponent } from "@/components/ui/select/index";
-import {
-  useGetTicketUpdateStatuses,
-  usePostTicketUpdate,
-} from "@/hooks/useTickets";
-import useUserStore from "@/stores/useUserStore";
-import { Button } from "@veroxos/design-system/dist/ui/Button/button";
-import Image from "next/image";
-import toast from "react-hot-toast";
+import { SelectComponent } from '@/components/ui/select/index';
+import { useGetTicketUpdateStatuses, usePostTicketUpdate } from '@/hooks/useTickets';
+import useUserStore from '@/stores/useUserStore';
+import { Button } from '@veroxos/design-system/dist/ui/Button/button';
+import Image from 'next/image';
+import toast from 'react-hot-toast';
 
 function PostTicketUpdateForm({
   getTicketSummaryRes,
@@ -16,10 +13,10 @@ function PostTicketUpdateForm({
   getTicketSummaryRes: any;
   setShowAddUpdateForm: any;
   refetchTicketSummary: any;
-}){
+}) {
   const { data: getTicketUpdateStatusesRes } = useGetTicketUpdateStatuses();
 
-	const {loggedInUser} = useUserStore((state : any) => ({loggedInUser : state.user}));
+  const { loggedInUser } = useUserStore((state: any) => ({ loggedInUser: state.user }));
 
   const { mutate, isPending: postUpdateLoading } = usePostTicketUpdate();
 
@@ -33,8 +30,10 @@ function PostTicketUpdateForm({
     const ticketUpdate = {
       ticketId: getTicketSummaryRes?.data.id,
       workflowId: getTicketSummaryRes?.data.workflow?.id,
-      ticketUpdateStatusId: parseInt(getTicketUpdateStatusesRes.data.find((status : any) => status.name == ticketUpdateStatusName ).id),
-      description: description.replace(/(\r\n|\n|\r)/g, "<br/>"),
+      ticketUpdateStatusId: parseInt(
+        getTicketUpdateStatusesRes.data.find((status: any) => status.name == ticketUpdateStatusName).id,
+      ),
+      description: description.replace(/(\r\n|\n|\r)/g, '<br/>'),
     };
 
     mutate(ticketUpdate, {
@@ -51,14 +50,14 @@ function PostTicketUpdateForm({
 
   return (
     <form onSubmit={handlePostTicketUpdate}>
-      <div className="rounded-lg p-4 bg-custom-background mt-4">
+      <div className="mt-4 rounded-lg bg-custom-background p-4">
         <div className="flex items-center gap-5">
           <div className="flex h-[3.876rem] w-[3.876rem] items-center justify-center rounded-full bg-custom-blue">
             <Image src="/svg/account.svg" height={36} width={36} alt="account icon" />
           </div>
-            <p className="font-[700] text-[1.188rem] leading-[1.477rem]">
-              {`${loggedInUser.firstName} ${loggedInUser.lastName}`}
-            </p>
+          <p className="text-[1.188rem] font-[700] leading-[1.477rem]">
+            {`${loggedInUser.firstName} ${loggedInUser.lastName}`}
+          </p>
         </div>
         <textarea
           name="description"
@@ -67,12 +66,17 @@ function PostTicketUpdateForm({
           rows={6}
           placeholder="Type here..."
         />
-        <div className="my-4 flex gap-4 h-[2.563rem]">
-          <SelectComponent required name="ticketUpdateStatus" className="w-3/5 bg-custom-white h-[2.563rem] border border-custom-aluminum text-custom-grey font-[400] sm:xl:text-[0.813rem] leading-[0.873rem] rounded-lg py-[0.563rem] px-[1.063rem] focus:outline-none"placeholder="Select Status" options={getTicketUpdateStatusesRes?.data.map(
-              (ticketUpdateStatus: { id: number; name: string }) => (
-                {label : ticketUpdateStatus.name, value: ticketUpdateStatus.id}
-              )
-            )} />
+        <div className="my-4 flex h-[2.563rem] gap-4">
+          <SelectComponent
+            required
+            name="ticketUpdateStatus"
+            className="h-[2.563rem] w-3/5 rounded-lg border border-custom-aluminum bg-custom-white px-[1.063rem] py-[0.563rem] font-[400] leading-[0.873rem] text-custom-grey focus:outline-none sm:xl:text-[0.813rem]"
+            placeholder="Select Status"
+            options={getTicketUpdateStatusesRes?.data.map((ticketUpdateStatus: { id: number; name: string }) => ({
+              label: ticketUpdateStatus.name,
+              value: ticketUpdateStatus.id,
+            }))}
+          />
 
           <Button
             className="h-full w-1/5 border-custom-blue text-[0.813rem] font-[600] leading-[1.023rem] text-custom-blue hover:text-custom-blue"
