@@ -61,6 +61,7 @@ const SearchPage = () => {
             defaultValue={search}
             ref={searchFieldRef}
             onKeyDown={handleKeyDown}
+            helpText="Searches ID, invoice number, first name, last name, client reference number, account number, account display name, serial number, service number, site name, building name, contact name, contact email, etc"
           />
           {inputValidation !== '' && <p className="ml-2 mt-2 text-xs text-red-600">{inputValidation}</p>}
         </div>
