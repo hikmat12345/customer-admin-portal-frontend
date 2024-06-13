@@ -13,6 +13,7 @@ import TicketsTable from './components/ticketsTable';
 import MonthlyTickets from './components/monthlyTickets';
 import TotalTicketsOpen from './components/totalTicketsopen';
 import { sanitizeSearchQuery } from '@/utils/utils';
+import { PAGE_SIZE } from '@/utils/constants/constants';
 
 function TicketsPage() {
   const currentDate = new Date();
@@ -26,7 +27,7 @@ function TicketsPage() {
   const page = searchParams?.get('page') || '1';
   const pathname = usePathname();
   const router = useRouter();
-  const limit = 7;
+  const limit = PAGE_SIZE;
   const offset = +page - 1;
 
   const status = searchParams && searchParams?.get('status');

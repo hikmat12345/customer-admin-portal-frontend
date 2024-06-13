@@ -14,12 +14,13 @@ import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import TicketsTableHead from './ticketsTableHead';
+import { TABLE_HEIGHT } from '@/utils/constants/constants';
 
 function TicketsTable({ allTickets }: { allTickets: Tickets }) {
   const isNoData = allTickets?.tickets?.length === 0;
   const pathname = usePathname();
   return (
-    <div className="overflow-auto lg:max-h-[215px] xl:max-h-full">
+    <div className="overflow-auto" style={{ height: `calc(100vh - ${TABLE_HEIGHT})` }}>
       <Table>
         <TicketsTableHead />
         {isNoData && <TableCaption>No data found.</TableCaption>}

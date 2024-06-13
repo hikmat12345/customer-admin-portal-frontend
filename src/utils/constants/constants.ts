@@ -8,3 +8,11 @@ export const DATE_FORMAT = 'MMM dd, yyyy';
 // 'MMM dd, yyyy hh:mm a'
 export const DATE_TIME_FORMAT = 'MMM dd, yyyy hh:mm a';
 export const US_LOCALE_FORMAT = 'en-US';
+
+// Page size
+
+export const PAGE_SIZE = 15;
+
+// Table height
+
+export const TABLE_HEIGHT = '450px';

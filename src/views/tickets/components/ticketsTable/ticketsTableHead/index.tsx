@@ -5,7 +5,7 @@ import React from 'react';
 
 function TicketsTableHead() {
   return (
-    <TableHeader>
+    <TableHeader className="bg-custom-white">
       <TableRow>
         <TableHead className="text-nowrap">Veroxos REF</TableHead>
         <TableHead className="w-[18%] text-nowrap text-left">Client REF</TableHead>
