@@ -12,6 +12,7 @@ import TicketsTableSkeleton from './components/ticketsTableSkeleton';
 import TicketsTable from './components/ticketsTable';
 import MonthlyTickets from './components/monthlyTickets';
 import TotalTicketsOpen from './components/totalTicketsopen';
+import { sanitizeSearchQuery } from '@/utils/utils';
 
 function TicketsPage() {
   const currentDate = new Date();
@@ -52,20 +53,26 @@ function TicketsPage() {
     searchQuery?.length !== 0 ? searchQuery?.trim() : undefined,
   );
 
-  const handleSearchField = (event: any) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      const { value } = event.target;
-      if (value.length === 0) {
-        router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
-      } else {
-        router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
-      }
-    }
-  };
+	const handleSearchKeydown = (event: any) => {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			let { value } = event.target
+      value = sanitizeSearchQuery(value)
+		if (value.length === 0) {
+			router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`)
+		} else {
+			router.push(`${pathname}?${createQueryString('searchQuery', value)}`)
+		}
+		}
+	}
 
-  const rowCount = allTickets?.tickets?.length || 8;
-  const totalPages = allTickets?.total / limit;
+  const handleSearchChange = (event : any) => {
+    if(event.target.value === '')
+     router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`)
+  }
+
+	const rowCount = allTickets?.tickets?.length || 8
+	const totalPages = allTickets?.total / limit;
 
   const handlePageChange = async (page: number) => {
     const params = new URLSearchParams();
@@ -92,47 +99,49 @@ function TicketsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keys.length]);
 
-  return (
-    <div>
-      <div className="grid-auto-flow-column grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-6 py-7">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
-          <TotalTicketsOpen data={openTicketsData} isLoading={isLoading} />
-          <MonthlyTickets title="Tickets This Month" month={currentMonth} year={currentYear} />
-          <MonthlyTickets title="Last Month Tickets" month={previousMonth} year={currentYear} />
-        </div>
-      </div>
-      <div className="grid-auto-flow-column mt-6 grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
-        <div className="flex items-center justify-between gap-7">
-          <SearchField
-            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:w-[600px]"
-            iconWidth={16}
-            iconHeight={16}
-            onKeyDown={handleSearchField}
-            helpText="Searches the veroxos reference, client reference number, site / employee, vendor and request type."
-          />
-          <div className="flex gap-4">
-            {menuOptions?.map((menuOption: any, index: number) => (
-              <SelectComponent key={index} menuOption={menuOption} index={index} />
-            ))}
-          </div>
-        </div>
-        <div className="mt-2">
-          {isTicketsLoading && <TicketsTableSkeleton limit={rowCount} />}
-          {isTicketsFetched && <TicketsTable allTickets={allTickets} />}
-        </div>
-      </div>
-      {allTickets?.total > 8 && allTickets?.tickets?.length !== 0 && (
-        <div className="">
-          <Pagination
-            className="flex justify-end pt-4"
-            totalPages={Math.ceil(totalPages)}
-            currentPage={Number(page)}
-            onPageChange={handlePageChange}
-          />
-        </div>
-      )}
-    </div>
-  );
+	return ( 
+		<div>
+			<div className="grid grid-auto-flow-column gap-3 w-full border border-custom-lightGray bg-custom-white rounded-lg p-5">
+				<div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4">
+					<TotalTicketsOpen data={openTicketsData} isLoading={isLoading} />
+					<MonthlyTickets title="Tickets This Month" month={currentMonth} year={currentYear} />
+					<MonthlyTickets title="Last Month Tickets" month={previousMonth} year={currentYear} />
+				</div>
+			</div>
+			<div className="grid grid-auto-flow-column gap-3 w-full border border-custom-lightGray bg-custom-white rounded-lg px-3 pt-5 pb-2 mt-6">
+				<div className="flex items-center justify-between gap-7">
+					<SearchField
+						className="rounded-none bg-transparent border-b ml-2 outline-none focus:border-[#44444480] w-[500px] xl:w-[600px] font-normal"
+						iconWidth={16}
+						iconHeight={16}
+						onChange={handleSearchChange}
+						defaultValue={searchQuery}
+						onKeyDown={handleSearchKeydown}
+						helpText="Searches the veroxos reference, client reference number, site / employee, vendor and request type."
+					/>
+					<div className="flex gap-4">
+						{menuOptions?.map((menuOption: any, index: number) => (
+							<SelectComponent key={index} menuOption={menuOption} index={index} />
+						))}
+					</div>
+				</div>
+				<div className="mt-2">
+					{isTicketsLoading && <TicketsTableSkeleton limit={rowCount} />}
+					{isTicketsFetched && <TicketsTable allTickets={allTickets} />}
+				</div>
+			</div>
+			{allTickets?.total > 8 && allTickets?.tickets?.length !== 0 && (
+				<div className="">
+					<Pagination
+						className="flex justify-end pt-4"
+						totalPages={Math.ceil(totalPages)}
+						currentPage={Number(page)}
+						onPageChange={handlePageChange}
+					/>
+				</div>
+			)}
+		</div>
+	)
 }
 
 export default TicketsPage;
