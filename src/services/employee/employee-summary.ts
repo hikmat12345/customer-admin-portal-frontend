@@ -12,9 +12,9 @@ export const getEmployeeDetail = async ({ queryKey }: any) => {
   return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/employee/detail/${employeeId}`).then(({ data }) => data);
 };
 export const getEmployeeCostTrend = async ({ queryKey }: any) => {
-  const [, accountId] = queryKey;
+  const [, accountId, costTrendLimit] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/employee-cost-trend/${accountId}`).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/employee-cost-trend/${accountId}?limit=${costTrendLimit}`).then(({ data }) => data);
 };
 export const getEmployeeTickets = async ({ queryKey }: any) => {
   const [, employeeId, offset, limit] = queryKey;

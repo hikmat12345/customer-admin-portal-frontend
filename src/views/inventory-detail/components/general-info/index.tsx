@@ -90,7 +90,7 @@ export default function GeneralInfo({
       value: (
         <TooltipText
           text={notes ? `${notes}` : '-'}
-          maxLength={20}
+          maxLength={15}
           className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]"
         />
       ),

@@ -61,7 +61,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
                   </button>
                 )}
                 <h2 className="text-[30px] font-bold capitalize text-custom-black">
-                  {isSummaryPage ? renamePagesTitle(endWord(2)) : endWord()}
+                  {isSummaryPage ? renamePagesTitle(endWord(2)) : endWord()?.toLocaleLowerCase()=="inventory" ? "View Services" : endWord()}
                 </h2>
               </>
             )}

@@ -11,8 +11,8 @@ export const useGetEmployeeDetail = (employee_id: number) => {
   return useQuery({ queryKey: ['employee_detail', employee_id], queryFn: getEmployeeDetail });
 };
 
-export const useGetEmployeeCostTrend = (account_id: number) => {
-  return useQuery({ queryKey: ['account_cost_trend', account_id], queryFn: getEmployeeCostTrend });
+export const useGetEmployeeCostTrend = (account_id: number, costTrendLimit: number) => { 
+  return useQuery({ queryKey: ['account_cost_trend', account_id, costTrendLimit], queryFn: getEmployeeCostTrend });
 };
 export const useGetEmployeeTickets = (employee_id: number, offset: number, limit: number) => {
   return useQuery({

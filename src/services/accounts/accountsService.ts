@@ -42,9 +42,9 @@ export const getAccountDetail = async ({ queryKey }: any) => {
   return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/account/detail/${accountId}`).then(({ data }) => data);
 };
 export const getAccountCostTrend = async ({ queryKey }: any) => {
-  const [, accountId] = queryKey;
+  const [, accountId, costTrendLimit] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/account-cost-trend/${accountId}`).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/account-cost-trend/${accountId}?limit=${costTrendLimit}`).then(({ data }) => data);
 };
 
 export const getInvoiceActivityLog = async ({ queryKey }: any) => {
