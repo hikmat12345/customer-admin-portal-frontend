@@ -2,13 +2,13 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { ServiceType } from './enums/serviceType.enum';
 import { eachYearOfInterval, format as formatdeteFns, isValid, parseISO } from 'date-fns';
-import { US_LOCALE_FORMAT } from './constants/constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT, US_LOCALE_FORMAT } from './constants/constants';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function convertToTimeZone(timeZone: string, dateTime: Date, format = 'MMM dd, yyyy HH:mm a') {
+export function convertToTimeZone(timeZone: string, dateTime: Date, format = DATE_TIME_FORMAT) {
   dateTime = new Date(dateTime.toLocaleString(US_LOCALE_FORMAT, { timeZone: 'Europe/London' }));
   dateTime = new Date(dateTime.toLocaleString(US_LOCALE_FORMAT, { timeZone: timeZone }));
   return formatdeteFns(dateTime, format);
@@ -100,7 +100,7 @@ export const serviceOptions: { id: number; label: string }[] = Object.keys(Servi
 // replacer all
 export function stringFindAndReplaceAll(str: string, find: string, replace: string, position: number = 0) {
   const replaceData = typeof str === 'string' ? str.split(find) : null;
-  return replaceData ? replaceData[position] : null;
+  return replaceData ? replaceData[position] : '';
 }
 
 // Create number formatter.
@@ -188,7 +188,7 @@ export function formatDate(date: string | Date, format: string = 'MM dd, yyyy'):
  * @param date - The date to format
  * @returns The formatted date and time string or an empty string if the date is invalid
  */
-export function formatDateTime(date: string | Date, format: string = 'MMM dd, yyyy hh:mm a'): string {
+export function formatDateTime(date: string | Date, format: string = DATE_TIME_FORMAT): string {
   let parsedDate: Date;
   if (typeof date === 'string') {
     parsedDate = new Date(date);
@@ -206,7 +206,7 @@ export function formatDateTime(date: string | Date, format: string = 'MMM dd, yy
 export default formatDate;
 
 // this will be like Jun 27, 2025
-export const formatSeperateDate = (date: Date): string => formatdeteFns(new Date(date), 'MMM dd, yyyy');
+export const formatSeperateDate = (date: Date): string => formatdeteFns(new Date(date), DATE_FORMAT);
 
 export const getServiceTypeColor = (serviceType: number) => {
   switch (serviceType) {
@@ -237,7 +237,7 @@ export const getServiceTypeColor = (serviceType: number) => {
     case 10:
       return 'bg-[#fc7474]';
     case 11:
-      return 'bg-[#affaff]';
+      return 'bg-[#48c6ce]';
     case 12:
       return 'bg-[#56cd34]';
     case 13:

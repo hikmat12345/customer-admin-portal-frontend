@@ -1,5 +1,6 @@
 'use client';
 
+import { MONTH_YEAR_FORMAT } from '@/utils/constants/constants';
 import { moneyFormatter } from '@/utils/utils';
 import { ApexOptions } from 'apexcharts';
 import { Loader } from 'lucide-react';
@@ -48,7 +49,7 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
         return moneyFormatter(value, 'USD');
       },
       background: {
-        padding: 15,
+        padding: 5,
         borderRadius: 3,
         borderWidth: 0,
 
@@ -73,6 +74,9 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
     xaxis: {
       categories: [...data?.map((d) => d.date)].reverse(),
       type: 'datetime',
+      labels: {
+        format: MONTH_YEAR_FORMAT,
+      },
     },
     labels: [...data?.map((d) => d.date)].reverse(),
 

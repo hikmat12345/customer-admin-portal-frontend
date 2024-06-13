@@ -22,6 +22,7 @@ import ServiceTypesGrid from '@/components/ui/service-badge';
 import { ScrollTabs } from '@/components/ui/scroll-tabs';
 import TooltipText from '@/components/ui/textbox';
 import { format, parseISO } from 'date-fns';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/utils/constants/constants';
 
 type SiteDetailPageProps = {
   siteId: number;
@@ -120,13 +121,13 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     cost: number;
     invoiceDate: string;
   }[] = siteServices?.data?.map((item: any) => ({
-    ['ID']: item?.service?.number,
+    ['number']: item?.service?.number,
     account: item?.service?.companyNetwork?.network?.name + '-' + item?.service?.account,
     service_type: item?.service?.service_type,
     description: item?.service?.description,
     ['function / purpose']: item?.service.functionPurpose,
     'service status': item?.service.serviceStatus,
-    cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${format(parseISO(item?.service?.cost?.invoice?.invoiceDate), 'MMM dd, yyyy')})`,
+    cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${format(parseISO(item?.service?.cost?.invoice?.invoiceDate), DATE_FORMAT)})`,
   }));
 
   const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
@@ -139,7 +140,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
       'Veroxos REF': item.reference,
       'Request Type': item.description,
       status: item.ticketStatusId,
-      created: format(parseISO(item.created), 'MMM dd, yyyy hh:mm a'),
+      created: format(parseISO(item.created), DATE_TIME_FORMAT),
     };
   });
   useEffect(() => {
@@ -187,13 +188,13 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
               status: status === 0 ? 'Live' : status === 1 ? 'Archived' : '',
             }}
           />
-          <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
+          <Separator className="h-[1.0px] bg-[#5d5b5b61]" />
         </div>
 
         {/* Cost Trend  */}
         <div id="cost-trend">
           <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
-          <Separator className="mt-4 h-[2.2px] bg-[#5d5b5b61]" />
+          <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
         </div>
 
         {/* Service Type */}
@@ -216,13 +217,13 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
               <div className="flex w-full justify-center py-8 text-center text-lg">Data Not Found</div>
             )}
           </div>
-          <Separator className="mt-4 h-[3.2px] bg-[#5d5b5b61]" />
+          <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
         </div>
 
         {/* Tickets  */}
         <div id="tickets">
           <TableData label="Tickets" loading={isSiteTicketsLoader} data={ticketsData} />
-          <Separator className="mt-8 h-[2px] bg-[#5d5b5b61]" />
+          <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
         </div>
 
         {/* Invoices  */}
@@ -234,7 +235,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
             loading={isSiteInvoicesLoader}
             tableClass="whitespace-nowrap"
           />
-          <Separator className="mt-8 h-[2px] bg-[#5d5b5b61]" />
+          <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
         </div>
 
         {/* Service  */}

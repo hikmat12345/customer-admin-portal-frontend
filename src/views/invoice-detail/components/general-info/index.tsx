@@ -9,6 +9,8 @@ import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import Image from 'next/image';
 import TooltipText from '@/components/ui/textbox';
 import VImage from '@/components/ui/image';
+import { format, parse } from 'date-fns';
+import { DATE_FORMAT, MONTH_YEAR_FORMAT, MONTH_YEAR_FORMAT_SLASH } from '@/utils/constants/constants';
 
 export default function InvoiceSummary({ invoiceData, vendorData, isLoading = false }: InvoiceSummaryTypes) {
   const [invoiceId, setInvoiceId] = useState<string>('');
@@ -41,6 +43,10 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
     setFileType(fileType);
     refetch();
   };
+  // Parse the input string to a Date object
+  const parsedDate = invoiceData.fiscalMonthYear
+    ? format(parse(invoiceData.fiscalMonthYear, MONTH_YEAR_FORMAT_SLASH, new Date()), MONTH_YEAR_FORMAT)
+    : ' - ';
 
   useEffect(() => {
     if (!isBlobLoading && !blobError && blobdata && fileType) {
@@ -56,9 +62,9 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
   const staticData = [
     {
       label: 'Invoice Date',
-      value: invoiceData.invoiceDate ? formatDate(invoiceData.invoiceDate, 'MMM dd, yyyy') : '-',
+      value: invoiceData.invoiceDate ? formatDate(invoiceData.invoiceDate, DATE_FORMAT) : '-',
     },
-    { label: 'Fiscal Month / Year', value: invoiceData.fiscalMonthYear },
+    { label: 'Fiscal Month / Year', value: parsedDate },
     { label: 'Previous Balance Paid', value: invoiceData.previousBalancePaid },
     { label: 'Carried Forward Balance', value: invoiceData.carriedForwardBalance },
     { label: 'Tax & Fees', value: invoiceData.taxAndFees },
@@ -67,14 +73,23 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
     { label: 'APF Request #', value: invoiceData.apfRequestNumber },
     {
       label: 'Date Entered',
-      value: invoiceData.dateEntered ? formatDate(invoiceData.dateEntered, 'MMM dd, yyyy') : '-',
+      value: invoiceData.dateEntered ? formatDate(invoiceData.dateEntered, DATE_FORMAT) : '-',
     },
     { label: 'Country', value: invoiceData.country },
     {
       label: 'Invoice Due Date',
-      value: invoiceData?.invoiceDueDate ? formatDate(invoiceData.invoiceDueDate, 'MMM dd, yyyy') : '-',
+      value: invoiceData?.invoiceDueDate ? formatDate(invoiceData.invoiceDueDate, DATE_FORMAT) : '-',
     },
-    { label: 'Invoice Number', value: invoiceData.invoiceNumber },
+    {
+      label: 'Invoice Number',
+      value: (
+        <TooltipText
+          text={invoiceData.invoiceNumber ? invoiceData.invoiceNumber : '-'}
+          maxLength={10}
+          className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]"
+        />
+      ),
+    },
     { label: 'Adjustments', value: invoiceData.adjustments },
     { label: 'Sub Total', value: invoiceData.subTotal },
     { label: 'Total', value: invoiceData.total },
@@ -96,15 +111,16 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
       ) : (
         <div>
           <div className="flex pb-6 lg:gap-x-[32px] xl:gap-x-[60px] max-lg:block">
-            <div className="flex w-[29%] justify-between lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%]">
-              <div className="w-[60%]">
+            <div className="relative flex w-[29%] justify-between lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%]">
+              <div className="absolute font-[700] text-[#1D46F3] lg:text-[20px] xl:text-[22px]">Invoice Summary</div>
+              <div className="w-[60%] pt-8">
                 {staticData.slice(0, 9).map((item, index) => (
                   <div key={index} className="font-[600] leading-7 text-[#000] lg:text-[13px] xl:text-[14px]">
                     {item.label}
                   </div>
                 ))}
               </div>
-              <div className="w-[40%]">
+              <div className="w-[40%] pt-8">
                 {staticData.slice(0, 9).map((item, index) => (
                   <div key={index}>
                     {typeof item.value !== 'undefined' ? (
@@ -114,7 +130,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                         <div className="cursor-pointer text-custom-blue">
                           <Button
                             loading={isShowInBrowserLoading}
-                            className="leading-7 underline decoration-2 lg:text-[13px] xl:text-[14px]"
+                            className="pl-0 leading-7 underline decoration-2 lg:text-[13px] xl:text-[14px]"
                             onClick={() => {
                               setShowInBrowser(true);
                               fileDownloadFile(item.value, 'pdf', true);
@@ -125,7 +141,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                         </div>
                       ) : typeof item.value == 'string' ? (
                         <TooltipText
-                          text={item.value ? item.value : ' - '}
+                          text={item.value ? item.value?.trim() : ' - '}
                           maxLength={25}
                           className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]"
                         />
@@ -139,7 +155,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                 ))}
               </div>
             </div>
-            <div className="flex w-[29%] justify-center pr-3 lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%]">
+            <div className="flex w-[29%] justify-center pr-3 pt-8 lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%]">
               <div className="w-[60%]">
                 {staticData.slice(9).map((item, index) => (
                   <div key={index} className="font-[600] leading-7 text-[#000] lg:text-[13px] xl:text-[14px]">
@@ -155,7 +171,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                         <div>{item.value ? item.value : ' - '}</div>
                       ) : typeof item.value == 'string' ? (
                         <TooltipText
-                          text={item.value ? item.value : ' - '}
+                          text={item.value?.trim() ? item.value : ' - '}
                           maxLength={25}
                           className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]"
                         />
@@ -169,8 +185,9 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                 ))}
               </div>
             </div>
-            <div className="h-[15rem] w-[1px] bg-custom-aluminum lg:block"></div>
+            <div className="h-[18em] w-[1px] bg-custom-aluminum lg:block"></div>
             <div className="m-auto block w-[41%] max-lg:mt-5">
+              <div className="font-[700] text-[#1D46F3] lg:text-[20px] xl:text-[22px]">Vendor</div>
               <div className="flex w-full">
                 <div className="w-[40%]">
                   {vendorStaticData.map((item, index) => (
@@ -187,7 +204,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                           <div>{item.value ? item.value : ' - '}</div>
                         ) : (
                           <TooltipText
-                            text={item.value ? item.value : ' - '}
+                            text={item.value?.trim() ? item.value : ' - '}
                             maxLength={30}
                             className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]"
                           />

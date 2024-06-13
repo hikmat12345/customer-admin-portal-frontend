@@ -2,7 +2,7 @@ import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
 import { EmployeeGeneralInfoProps } from '@/types/employee/employee.tds';
 import Link from 'next/link';
 
-export default function SiteGeneralInfo({
+export default function EmployeeGeneralInfo({
   label = 'General Information',
   isLoading = false,
   data: {
@@ -63,11 +63,11 @@ export default function SiteGeneralInfo({
       ) : (
         <div className="flex gap-x-[70px] pb-6 max-lg:block">
           <div className="flex w-[35%] justify-between gap-x-[70px] max-lg:mt-5 max-lg:w-[100%]">
-            <div className="w-[20%]">
+            <div className="w-[25%]">
               {keys.slice(0, 6).map((item, index) => (
                 <div
                   key={index}
-                  className="font-[600] text-[#000] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7"
+                  className="font-[600] text-[#000] lg:text-[13px] lg:leading-7 xl:text-[14px] xl:leading-7"
                 >
                   {item.label}
                 </div>
@@ -75,18 +75,18 @@ export default function SiteGeneralInfo({
             </div>
             <div className="w-[75%]">
               {keys.slice(0, 6).map((item, index) => (
-                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
+                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-7 xl:text-[14px] xl:leading-7">
                   {item.value ? item.value : ' - '}
                 </div>
               ))}
             </div>
           </div>
-          <div className="flex w-[35%] justify-center gap-x-[70px] max-lg:mt-5 max-lg:w-[100%]">
+          <div className="flex w-[45%] justify-center gap-x-[70px] max-lg:mt-5 max-lg:w-[100%]">
             <div className="w-[32%]">
               {keys.slice(6).map((item, index) => (
                 <div
                   key={index}
-                  className="font-[600] text-[#000] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7"
+                  className="font-[600] text-[#000] lg:text-[13px] lg:leading-7 xl:text-[14px] xl:leading-7"
                 >
                   {item.label}
                 </div>
@@ -94,7 +94,7 @@ export default function SiteGeneralInfo({
             </div>
             <div className="w-[68%]">
               {keys.slice(6).map((item, index) => (
-                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[14px] xl:leading-7">
+                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-7 xl:text-[14px] xl:leading-7">
                   {item.value ? item.value : ' - '}
                 </div>
               ))}

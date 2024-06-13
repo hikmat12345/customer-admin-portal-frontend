@@ -7,16 +7,16 @@ function InvoicesTableHead() {
     <TableHeader>
       <TableRow>
         <TableHead>ID</TableHead>
-        <TableHead className="text-nowrap">Invoice #</TableHead>
-        <TableHead className="text-nowrap">Vendor</TableHead>
-        <TableHead className="text-nowrap">Account #</TableHead>
-        <TableHead className="text-nowrap">Invoice Date</TableHead>
-        <TableHead className="text-nowrap">Due Date</TableHead>
-        <TableHead className="text-nowrap">Status</TableHead>
-        <TableHead className="text-nowrap text-right">APF #</TableHead>
-        <TableHead className="text-nowrap text-right">APF Date</TableHead>
-        <TableHead className="text-nowrap text-center">Total</TableHead>
-        <TableHead className="last:text-center">Currency</TableHead>
+        <TableHead className="text-nowrap text-left">Invoice #</TableHead>
+        <TableHead className="text-nowrap text-left">Vendor</TableHead>
+        <TableHead className="text-nowrap text-left">Account #</TableHead>
+        <TableHead className="text-nowrap text-left">Invoice Date</TableHead>
+        <TableHead className="text-nowrap text-left">Due Date</TableHead>
+        <TableHead className="text-nowrap text-left">Status</TableHead>
+        <TableHead className="text-nowrap text-left">APF #</TableHead>
+        <TableHead className="text-nowrap text-left">APF Date</TableHead>
+        <TableHead className="text-nowrap text-left">Total</TableHead>
+        <TableHead className="last:text-left">Currency</TableHead>
       </TableRow>
     </TableHeader>
   );
