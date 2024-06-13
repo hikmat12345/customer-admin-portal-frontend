@@ -36,7 +36,7 @@ export function MapBox({
 
     L.marker([lat, long], { icon: customIcon })
       .addTo(map)
-      .bindPopup(`<a target="_blank" href="/sites/${siteId}">${address}</a>`)
+      .bindPopup(`<a href="/sites/${siteId}">${address}</a>`)
       .openPopup();
 
     return () => {

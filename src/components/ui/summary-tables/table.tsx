@@ -80,7 +80,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
               </Link>
             ) : Object.keys(record)[index] === 'number_value' ? (
               <Link
-                href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
+                href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)?.trim()}` : ''}
                 className="font-normal text-[#1175BE]"
               >
                 <TooltipText text={value.split('-/')[0]} maxLength={10} className="" />
@@ -91,7 +91,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
           ) : Object.keys(record)[index] === 'number' || Object.keys(record)[index] === 'ID' ? (
             value ? (
               <Link
-                href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
+                href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)?.trim()}` : ''}
                 className="font-normal text-[#1175BE]"
               >
                 <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={10} />
@@ -103,7 +103,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
             stringFindAndReplaceAll(value, ' ', ' ', 0)
           ) : Object.keys(record)[index] === 'Invoice_#' ? (
             <Link
-              href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
+              href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, '-/', ' ', 1)?.trim()}` : ''}
               className="font-normal text-[#1175BE]"
             >
               <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={10} />

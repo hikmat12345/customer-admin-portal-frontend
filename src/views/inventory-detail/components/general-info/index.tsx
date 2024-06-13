@@ -41,7 +41,7 @@ export default function GeneralInfo({
       value: (
         <TooltipText
           text={vendor ? vendor : '-'}
-          maxLength={30}
+          maxLength={18}
           className="leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
         />
       ),
@@ -58,15 +58,15 @@ export default function GeneralInfo({
     { label: 'Service Description', value: serviceDescription?.name },
     {
       label: 'Employee',
-      value: (
-        <Link href={`mailto:${employee?.email}`} className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]">
+      value:  employee?.id ? (
+        <Link href={`/employees/${employee?.id}`} className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]">
           <TooltipText
             text={employee ? `${employee.firstName} ${employee.lastName} - ${employee.email}` : '-'}
-            maxLength={22}
+            maxLength={20}
             className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]"
           />
         </Link>
-      ),
+      ) : " - "
     },
     { label: 'Purpose / Function', value: purposeOfService },
     { label: 'Contract Start Date', value: contractStartDate ? formatDate(contractStartDate, DATE_FORMAT) : '-' },
@@ -103,8 +103,8 @@ export default function GeneralInfo({
       {isLoading ? (
         <GeneralInfoSkeletons />
       ) : (
-        <div className="flex gap-[19px] pb-6 lg:gap-x-[25px] xl:gap-x-[50px] max-lg:block">
-          <div className="flex w-[33%] justify-between lg:gap-x-[25px] xl:gap-x-[50px] max-lg:mt-5 max-lg:w-[100%]">
+        <div className="flex gap-[19px] pb-6 lg:gap-x-[25px] xl:gap-x-[45px] max-lg:block">
+          <div className="flex w-[35%] justify-between lg:gap-x-[25px] xl:gap-x-[45px] max-lg:mt-5 max-lg:w-[100%]">
             <div className="w-[45%]">
               {staticData.slice(0, 8).map((item, index) => (
                 <div
@@ -123,7 +123,7 @@ export default function GeneralInfo({
               ))}
             </div>
           </div>
-          <div className="flex w-[36%] justify-between lg:gap-x-[25px] xl:gap-x-[50px] max-lg:mt-5 max-lg:w-[100%]">
+          <div className="flex w-[36%] justify-between lg:gap-x-[25px] xl:gap-x-[45px] max-lg:mt-5 max-lg:w-[100%]">
             <div className="w-[60%]">
               {staticData.slice(8).map((item, index) => (
                 <div
@@ -142,7 +142,7 @@ export default function GeneralInfo({
               ))}
             </div>
           </div>
-          <div className="w-[30%] max-lg:mt-5 max-lg:w-[100%]">
+          <div className="w-[29%] max-lg:mt-5 max-lg:w-[100%]">
             <div className="mapouter rounded-lg border border-neutral-300 p-1">
               <div className="gmap_canvas">
                 <div className="gmap_canvas">
@@ -152,6 +152,7 @@ export default function GeneralInfo({
                       long={site?.longitude}
                       address={site?.streetLine1 ? site?.streetLine1 : site?.streetLine2}
                       siteId={site?.id}
+                      height='200px'
                     />
                   ) : (
                     <div className="flex h-[230px] items-center justify-center py-8 text-center align-bottom text-lg">

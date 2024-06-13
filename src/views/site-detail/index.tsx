@@ -33,7 +33,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
   const pathname = usePathname();
   const isTerminated = searchParams?.get('showTerminated');
 
-  const [showTerminated, setShowTerminated] = React.useState(isTerminated === 'true');
+  const [showTerminated, setShowTerminated] = React.useState(true);
   const createQueryString = CreateQueryString();
 
   const site_id = siteId;
@@ -128,7 +128,8 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     description: item?.service?.description,
     ['function / purpose']: item?.service.functionPurpose,
     'service status': item?.service.serviceStatus,
-    cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${format(parseISO(item?.service?.cost?.invoice?.invoiceDate), DATE_FORMAT)})`,
+    cost: (item?.service?.cost?.rentalRaw || item?.service?.cost?.usageRaw || item?.service?.cost?.otherRaw || item?.service?.cost?.taxRaw) ?
+    `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${item?.service?.cost?.invoice?.invoiceDate? format(parseISO(item?.service?.cost?.invoice?.invoiceDate), DATE_FORMAT):"-" })`: "-",
   }));
 
   const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {

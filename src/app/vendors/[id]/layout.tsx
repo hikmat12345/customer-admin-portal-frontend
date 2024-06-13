@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Vendor',
+  title: 'Vendor Details',
   description: 'View Vendor',
   icons: {
     icon: '/favicon.svg',

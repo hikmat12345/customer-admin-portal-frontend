@@ -9,9 +9,14 @@ type ServiceTypeBadgeProps = {
 };
 
 const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
+  const refineServices = services.map((service) => {
+    const subTypes = service?.subTypes?.filter((subType) => subType.count > 0);
+    return { ...service, subTypes };
+  })
   return (
     <div className="flex flex-wrap gap-4">
-      {services.map(
+      {(Array.isArray(refineServices)) ? 
+         refineServices.map(
         (
           service: {
             serviceType: string | number;
@@ -34,13 +39,13 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
                 <div
                   className={`relative top-0 inline-flex ${service.count >= 1000 ? 'h-[24px] w-[134px] rounded-md' : 'h-[34px] w-[34px] rounded-full'} items-center justify-center rounded-full text-[16px] font-semibold text-white`}
                 >
-                  {service.count}
+                  {new Intl.NumberFormat().format(service.count)}
                 </div>
               </div>
             </div>
 
             {service?.subTypes
-              ?.sort(
+              .sort(
                 (
                   a: { name: string; serviceType: number; count: number },
                   b: { name: string; serviceType: number; count: number },
@@ -58,13 +63,15 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
                     className={`inline-flex h-[53px] w-[61px] items-center justify-start gap-2.5 rounded-[41px] p-2 !pt-0`}
                   >
                     <div className="relative top-0 inline-flex h-[44px] w-[61px] items-center justify-center pb-2 font-semibold text-black lg:text-[13px] xl:text-[15px]">
-                      {subType?.count}
+                      {new Intl.NumberFormat().format(subType?.count)}
                     </div>
                   </div>
                 </div>
               ))}
           </>
         ),
+         ) : (
+           <div className="flex w-full justify-center py-8 text-center text-lg">Data Not Found</div>
       )}
     </div>
   );
