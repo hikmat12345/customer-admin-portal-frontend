@@ -1,3 +1,4 @@
+import { NEXT_PUBLIC_AUTH_URL } from 'config/config';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
@@ -10,8 +11,7 @@ export async function POST() {
     cookieStore.delete('token');
   }
 
-  const authServiceFrontendUrl = String(process.env.NEXT_PUBLIC_AUTH_URL);
   return NextResponse.json({
-    redirectUrl: authServiceFrontendUrl,
+    redirectUrl: NEXT_PUBLIC_AUTH_URL,
   });
 }

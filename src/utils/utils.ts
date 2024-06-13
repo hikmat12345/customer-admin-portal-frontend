@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function convertToTimeZone(timeZone: string, dateTime: Date, format = 'MMM dd, yyyy HH:mm a') {
+export function convertToTimeZone(timeZone: string, dateTime: Date, format = DATE_TIME_FORMAT) {
   dateTime = new Date(dateTime.toLocaleString(US_LOCALE_FORMAT, { timeZone: 'Europe/London' }));
   dateTime = new Date(dateTime.toLocaleString(US_LOCALE_FORMAT, { timeZone: timeZone }));
   return formatdeteFns(dateTime, format);
@@ -105,6 +105,9 @@ export function stringFindAndReplaceAll(str: string, find: string, replace: stri
 
 // Create number formatter.
 export const moneyFormatter = (value: number, currency: string | null = null) => {
+  if (isNaN(value)) {
+    return '-';
+  }
   if (isNaN(value)) {
     return '-';
   }
