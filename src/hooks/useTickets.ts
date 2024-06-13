@@ -1,6 +1,7 @@
 import {
   getAllTickets,
   getMonthlyTickets,
+  getMonthlyTicketsStats,
   getOpenTickets,
   getTicketSecondaryStatuses,
   getTicketSummary,
@@ -30,6 +31,12 @@ export const useGetMonthlyTickets = (year: number, month: number, offset?: numbe
   useQuery({
     queryKey: ['monthly_tickets', year, month, offset, limit],
     queryFn: getMonthlyTickets,
+  });
+
+export const useGetMonthlyTicketsStats = (year: number, month: number) =>
+  useQuery({
+    queryKey: ['monthly_tickets_stats', year, month],
+    queryFn: getMonthlyTicketsStats,
   });
 
 export const useGetOpenTickets = () =>

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import React from 'react';
-import { useGetMonthlyTickets } from '@/hooks/useTickets';
+import { useGetMonthlyTicketsStats } from '@/hooks/useTickets';
 import { useGetMonthlyInvoices } from '@/hooks/useGetInvoices';
 import AccountCard from '@/components/ui/accountCard/card';
 import ScrollArea from '@veroxos/design-system/dist/ui/ScrollArea/scroll-area';
@@ -18,7 +18,10 @@ function HomePage() {
   const currentMonth = currentDate.getMonth() + 1;
   const { data: invoicesData, isLoading: invoiceLoading } = useGetMonthlyInvoices();
   const { data: costSavingsData, isLoading: costSavingLoading } = useGetCostSavings(currentYear);
-  const { data: monthlyTickets, isLoading: isMonthlyTicketsLoading } = useGetMonthlyTickets(currentYear, currentMonth);
+  const { data: monthlyTicketsStats, isLoading: isMonthlyTicketsStatsLoading } = useGetMonthlyTicketsStats(
+    currentYear,
+    currentMonth,
+  );
 
   return (
     <>
@@ -89,7 +92,7 @@ function HomePage() {
         <div className="grid-auto-flow-column grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white p-5">
           <h2 className="text-[22px] font-bold text-custom-blue">Customer Service</h2>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2">
-            <TicketsCard data={monthlyTickets} isLoading={isMonthlyTicketsLoading} />
+            <TicketsCard data={monthlyTicketsStats} isLoading={isMonthlyTicketsStatsLoading} />
             <OpenTicketsCard title="Tickets Open" />
           </div>
         </div>
