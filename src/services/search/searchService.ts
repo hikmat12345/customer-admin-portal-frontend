@@ -15,7 +15,7 @@ export const getSearchResults = async ({ queryKey }: any) => {
   if (query.length < 2) {
     return {
       results: [],
-      message: 'Query must contain at least two characters',
+      message: 'Must contain at least two characters',
       status: false,
     };
   }

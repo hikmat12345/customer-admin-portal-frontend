@@ -66,8 +66,44 @@ export const postI8Report = async (data: any) =>
     .then(({ data: responseData }) => downloadExcelFile(responseData, 'I8_report.xlsx'))
     .catch((error) => error);
 
-export const postI10Report = async (data: any) =>
-  httpClient
+export const postI10Report = async (data: any) => {
+  return httpClient
     .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/I10`, data, { responseType: 'blob' })
-    .then(({ data: responseData }) => downloadExcelFile(responseData, 'I10_report.xlsx'))
+    .then(({ data }) => downloadExcelFile(data, 'I10_report.xlsx'))
     .catch((error) => error);
+};
+
+export const postI4Report = async (data: any) => {
+  return httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/I4`, data, { responseType: 'blob' })
+    .then(({ data }) => downloadExcelFile(data, 'I10_report.xlsx'))
+    .catch((error) => error);
+};
+
+export const postS1Report = async (data: any) => {
+  return httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/S1`, data, { responseType: 'blob' })
+    .then(({ data }) => downloadExcelFile(data, 'S1_report.xlsx'))
+    .catch((error) => error);
+};
+
+export const postS2Report = async (data: any) => {
+  return httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/S2`, data, { responseType: 'blob' })
+    .then(({ data }) => downloadExcelFile(data, 'S2_report.xlsx'))
+    .catch((error) => error);
+};
+
+export const postS4Report = async (data: any) => {
+  return httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/S4`, data, { responseType: 'blob' })
+    .then(({ data }) => downloadExcelFile(data, 'S4_report.xlsx'))
+    .catch((error) => error);
+};
+
+export const postS5Report = async (data: any) => {
+  return httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/S5`, data, { responseType: 'blob' })
+    .then(({ data }) => downloadExcelFile(data, 'S5_report.xlsx'))
+    .catch((error) => error);
+};

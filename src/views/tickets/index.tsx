@@ -12,6 +12,7 @@ import TicketsTableSkeleton from './components/ticketsTableSkeleton';
 import TicketsTable from './components/ticketsTable';
 import MonthlyTickets from './components/monthlyTickets';
 import TotalTicketsOpen from './components/totalTicketsopen';
+import { sanitizeSearchQuery } from '@/utils/utils';
 
 function TicketsPage() {
   const currentDate = new Date();
@@ -52,16 +53,21 @@ function TicketsPage() {
     searchQuery?.length !== 0 ? searchQuery?.trim() : undefined,
   );
 
-  const handleSearchField = (event: any) => {
+  const handleSearchKeydown = (event: any) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      const { value } = event.target;
+      let { value } = event.target;
+      value = sanitizeSearchQuery(value);
       if (value.length === 0) {
         router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
       } else {
         router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
       }
     }
+  };
+
+  const handleSearchChange = (event: any) => {
+    if (event.target.value === '') router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
   };
 
   const rowCount = allTickets?.tickets?.length || 8;
@@ -94,7 +100,7 @@ function TicketsPage() {
 
   return (
     <div>
-      <div className="grid-auto-flow-column grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-6 py-7">
+      <div className="grid-auto-flow-column grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white p-5">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
           <TotalTicketsOpen data={openTicketsData} isLoading={isLoading} />
           <MonthlyTickets title="Tickets This Month" month={currentMonth} year={currentYear} />
@@ -107,7 +113,9 @@ function TicketsPage() {
             className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:w-[600px]"
             iconWidth={16}
             iconHeight={16}
-            onKeyDown={handleSearchField}
+            onChange={handleSearchChange}
+            defaultValue={searchQuery}
+            onKeyDown={handleSearchKeydown}
             helpText="Searches the veroxos reference, client reference number, site / employee, vendor and request type."
           />
           <div className="flex gap-4">
