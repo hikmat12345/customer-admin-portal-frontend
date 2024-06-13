@@ -26,7 +26,7 @@ function InventoryPage() {
   const serviceStatus = searchParams && searchParams?.get('service_status');
   const searchQuery = searchParams && searchParams?.get('searchQuery');
 
-  const limit = 7;
+  const limit = 15;
   const offset = +page - 1;
   const menuOptions = useGetMenuOptions();
   const { data: monthlyCount, isLoading: monthInventoryLoading } = useGetMonthlyInventoryCount();
@@ -41,9 +41,12 @@ function InventoryPage() {
     limit,
     account?.length !== 0 ? account : undefined,
     vendor?.length !== 0 ? vendor : undefined,
-    typeof serviceType !== 'undefined' && serviceType !== null ? +serviceType : undefined,
+    typeof serviceType !== 'undefined' && serviceType !== null ? serviceType : undefined,
     typeof serviceStatus !== 'undefined' && serviceStatus !== null
-      ? +(serviceStatus === '2' ? '1' : '0') // Convert to number here
+      ? serviceStatus
+          .split(',')
+          .map((status) => (status === '2' ? '1' : '0'))
+          .join(',')
       : undefined,
     searchQuery?.trim() || undefined,
   );

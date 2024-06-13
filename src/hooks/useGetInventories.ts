@@ -15,14 +15,15 @@ export const useGetInventories = (
   limit: number,
   account?: string | null,
   vendor?: string | null,
-  serviceType?: number,
-  serviceStatus?: number,
+  serviceType?: string | null,
+  serviceStatus?: string | null,
   searchQuery?: string | null,
 ) =>
   useQuery({
     queryKey: ['inventories', offset, limit, account, vendor, serviceType, serviceStatus, searchQuery],
     queryFn: getInventories,
   });
+
 export const useGetMonthlyInventoryCount = () => useQuery({ queryKey: ['monthly_service'], queryFn: getMonthlyInventory });
 export const useGetLiveServices = () => useQuery({ queryKey: ['live_services'], queryFn: getLiveServices });
 export const useGetSingleServiceDetail = (serviceId: number) =>
