@@ -22,6 +22,7 @@ import ServiceTypesGrid from '@/components/ui/service-badge';
 import { ScrollTabs } from '@/components/ui/scroll-tabs';
 import TooltipText from '@/components/ui/textbox';
 import { format, parseISO } from 'date-fns';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/utils/constants/constants';
 
 type SiteDetailPageProps = {
   siteId: number;
@@ -126,7 +127,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     description: item?.service?.description,
     ['function / purpose']: item?.service.functionPurpose,
     'service status': item?.service.serviceStatus,
-    cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${format(parseISO(item?.service?.cost?.invoice?.invoiceDate), 'MMM dd, yyyy')})`,
+    cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${format(parseISO(item?.service?.cost?.invoice?.invoiceDate), DATE_FORMAT)})`,
   }));
 
   const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
@@ -139,7 +140,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
       'Veroxos REF': item.reference,
       'Request Type': item.description,
       status: item.ticketStatusId,
-      created: format(parseISO(item.created), 'MMM dd, yyyy hh:mm a'),
+      created: format(parseISO(item.created),DATE_TIME_FORMAT),
     };
   });
   useEffect(() => {

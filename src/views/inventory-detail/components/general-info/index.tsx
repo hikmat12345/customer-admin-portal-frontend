@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import TooltipText from '@/components/ui/textbox';
 import formatDate from '@/utils/utils';
 import Link from 'next/link';
+import { DATE_FORMAT } from '@/utils/constants/constants';
 const MapBox = dynamic(() => import('../../../../components/ui/map-box').then((mod) => mod.MapBox), {
   loading: () => <p>loading...</p>,
   ssr: false,
@@ -68,8 +69,8 @@ export default function GeneralInfo({
       ),
     },
     { label: 'Purpose / Function', value: purposeOfService },
-    { label: 'Contract Start Date', value: contractStartDate ? formatDate(contractStartDate, 'MMM dd, yyyy') : '-' },
-    { label: 'Contract End Date', value: contractEndDate ? formatDate(contractEndDate, 'MMM dd, yyyy') : '-' },
+    { label: 'Contract Start Date', value: contractStartDate ? formatDate(contractStartDate, DATE_FORMAT) : '-' },
+    { label: 'Contract End Date', value: contractEndDate ? formatDate(contractEndDate, DATE_FORMAT) : '-' },
     { label: 'Spare', value: spare !== undefined && spare !== null ? (spare ? 'Yes' : 'No') : ' - ' },
     {
       label: 'Zero Usage Allowed',
@@ -78,11 +79,11 @@ export default function GeneralInfo({
     { label: 'Termination Date', value: terminationDate },
     {
       label: 'Scheduled Termination Date',
-      value: scheduledTerminationDate ? formatDate(scheduledTerminationDate, 'MMM dd, yyyy') : '-',
+      value: scheduledTerminationDate ? formatDate(scheduledTerminationDate, DATE_FORMAT) : '-',
     },
     {
       label: 'Scheduled Suspension Date',
-      value: scheduledSuspensionDate ? formatDate(scheduledSuspensionDate, 'MMM dd, yyyy') : '-',
+      value: scheduledSuspensionDate ? formatDate(scheduledSuspensionDate, DATE_FORMAT) : '-',
     },
     {
       label: 'Notes',

@@ -13,6 +13,7 @@ import { DownloadAbleLink } from '@/components/ui/download-link';
 import { CostTableProps, PlanTableProps, TableDataProps } from '@/types/site';
 import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
 import TooltipText from '../textbox';
+import { DATE_FORMAT } from '@/utils/constants/constants';
 
 /**
  * TableHeaderContent Component
@@ -115,7 +116,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
               <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={10} />
             </Link>
           ) : Object.keys(record)[index] === 'invoice_date' || Object.keys(record)[index] === 'invoiceDate' ? (
-            formatDate(value, 'MMM dd, yyyy')
+            formatDate(value, DATE_FORMAT)
           ) : Object.keys(record)[index] === 'account' ? (
             <Link
               href={value ? `/vendors/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}

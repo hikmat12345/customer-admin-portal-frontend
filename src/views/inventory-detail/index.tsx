@@ -18,6 +18,7 @@ import { DeviceInfoCard } from './components/device-info-card';
 import GeneralInfo from './components/general-info';
 import { parseISO } from 'date-fns';
 import { getServiceType } from '@/utils/enums/serviceType.enum';
+import { DATE_TIME_FORMAT } from '@/utils/constants/constants';
 
 type InventoryDetailPageProps = {
   serviceId: number;
@@ -61,14 +62,14 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
     // reference : activity.reference ? activity.reference : '',
     who: activity.agent,
     description: activity.description,
-    when: formatDate(activity.createdAt, 'MMM dd, yyyy hh:mm a'),
+    when: formatDate(activity.createdAt, DATE_TIME_FORMAT),
   }));
 
   const structuredTicketsData = ticketsRecentActivityData?.data?.tickets.map((ticket: any) => ({
     'Veroxos REF': ticket.reference,
     'Request Type': ticket.description,
     status: ticket.ticketStatusId,
-    created: formatDate(parseISO(ticket.created), 'MMM dd, yyyy hh:mm a'),
+    created: formatDate(parseISO(ticket.created), DATE_TIME_FORMAT),
   }));
 
   const listOfTabs = [];

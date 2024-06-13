@@ -14,6 +14,7 @@ import InvoiceSummary from './components/general-info';
 import TableData from '@/components/ui/summary-tables/table';
 import ScrollTabs from '@/components/ui/scroll-tabs';
 import { format, parseISO } from 'date-fns';
+import { DATE_TIME_FORMAT } from '@/utils/constants/constants';
 
 type InvoiceSummaryPageProps = {
   invoiceId: number;
@@ -27,7 +28,7 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
   const invoiceActivityLog = invoiceActivityLogData?.map((activity: any) => ({
     stage: activity.description,
     who: activity.administrator.firstName + ' ' + activity.administrator.lastName,
-    when: format(parseISO(activity.created), 'MMM dd, yyyy hh:mm a'),
+    when: format(parseISO(activity.created),DATE_TIME_FORMAT),
   }));
   const { data: remittanceAddressData, isLoading: isRemittanceAddressLoading } = useGetRemittanceAddress(
     Number(invoice_id),

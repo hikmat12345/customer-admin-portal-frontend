@@ -21,6 +21,7 @@ import ServiceTypesGrid from '@/components/ui/service-badge';
 import TooltipText from '@/components/ui/textbox';
 import { format, parseISO } from 'date-fns';
 import dynamic from 'next/dynamic';
+import { DATE_TIME_FORMAT } from '@/utils/constants/constants';
 const GroupMapBox = dynamic(() => import('../../components/ui/map-box').then((mod) => mod.GroupMapBox), {
   loading: () => <p>loading...</p>,
   ssr: false,
@@ -89,7 +90,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
     'Veroxos REF': ticket?.reference ? ticket?.reference : '',
     'Request Type': ticket?.requestType,
     status: ticket?.status,
-    created: format(parseISO(ticket.created), 'MMM dd, yyyy hh:mm a'),
+    created: format(parseISO(ticket.created), DATE_TIME_FORMAT),
   }));
 
   const handlePageChange = async (page: number) => {
@@ -232,7 +233,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
                 <>
                   Invoices
                   <TooltipText
-                    text={'Show the 10 invoices per page'}
+                    text={`Show the ${limit} invoices per page`}
                     maxLength={1}
                     className="pl-3 pt-3 leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
                     type="notification"
@@ -255,7 +256,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
                 <>
                   Tickets
                   <TooltipText
-                    text={'Show the 10 tickets per page'}
+                    text={`Show the ${limit} tickets per page`}
                     maxLength={1}
                     className="pl-3 pt-3 leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
                     type="notification"

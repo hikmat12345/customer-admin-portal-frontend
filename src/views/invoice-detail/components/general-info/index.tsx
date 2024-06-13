@@ -10,6 +10,7 @@ import Image from 'next/image';
 import TooltipText from '@/components/ui/textbox';
 import VImage from '@/components/ui/image';
 import { format, parse } from 'date-fns';
+import { DATE_FORMAT, MONTH_YEAR_FORMAT, MONTH_YEAR_FORMAT_SLASH } from '@/utils/constants/constants';
 
 export default function InvoiceSummary({ invoiceData, vendorData, isLoading = false }: InvoiceSummaryTypes) {
   const [invoiceId, setInvoiceId] = useState<string>('');
@@ -44,7 +45,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
   };
   // Parse the input string to a Date object
   const parsedDate = invoiceData.fiscalMonthYear
-    ? format(parse(invoiceData.fiscalMonthYear, 'M / yyyy', new Date()), 'MMM yyyy')
+    ? format(parse(invoiceData.fiscalMonthYear, MONTH_YEAR_FORMAT_SLASH, new Date()), MONTH_YEAR_FORMAT)
     : ' - ';
 
   useEffect(() => {
@@ -61,7 +62,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
   const staticData = [
     {
       label: 'Invoice Date',
-      value: invoiceData.invoiceDate ? formatDate(invoiceData.invoiceDate, 'MMM dd, yyyy') : '-',
+      value: invoiceData.invoiceDate ? formatDate(invoiceData.invoiceDate, DATE_FORMAT) : '-',
     },
     { label: 'Fiscal Month / Year', value: parsedDate },
     { label: 'Previous Balance Paid', value: invoiceData.previousBalancePaid },
@@ -72,12 +73,12 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
     { label: 'APF Request #', value: invoiceData.apfRequestNumber },
     {
       label: 'Date Entered',
-      value: invoiceData.dateEntered ? formatDate(invoiceData.dateEntered, 'MMM dd, yyyy') : '-',
+      value: invoiceData.dateEntered ? formatDate(invoiceData.dateEntered, DATE_FORMAT) : '-',
     },
     { label: 'Country', value: invoiceData.country },
     {
       label: 'Invoice Due Date',
-      value: invoiceData?.invoiceDueDate ? formatDate(invoiceData.invoiceDueDate, 'MMM dd, yyyy') : '-',
+      value: invoiceData?.invoiceDueDate ? formatDate(invoiceData.invoiceDueDate, DATE_FORMAT) : '-',
     },
     {
       label: 'Invoice Number',

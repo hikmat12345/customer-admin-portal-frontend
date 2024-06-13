@@ -6,6 +6,7 @@ import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow';
 import Link from 'next/link';
 import InvoicesTableHead from './invoicesTableHead';
 import formatDate, { moneyFormatter } from '@/utils/utils';
+import { DATE_FORMAT } from '@/utils/constants/constants';
 
 function InvoicesTable({ data }: any) {
   const isNoData = data?.invoices?.length === 0;
@@ -31,8 +32,8 @@ function InvoicesTable({ data }: any) {
               <TableCell className="text-left">{invoice?.invoiceNumber}</TableCell>
               <TableCell className="text-left">{invoice?.companyNetwork?.network?.name}</TableCell>
               <TableCell className="text-left">{invoice?.companyNetwork?.accountNumber}</TableCell>
-              <TableCell className="text-left">{formatDate(invoice?.invoiceDate, 'MMM dd, yyyy')}</TableCell>
-              <TableCell className="text-left">{formatDate(invoice?.invoiceDate, 'MMM dd, yyyy') || '-'}</TableCell>
+              <TableCell className="text-left">{formatDate(invoice?.invoiceDate,DATE_FORMAT)}</TableCell>
+              <TableCell className="text-left">{formatDate(invoice?.invoiceDate,DATE_FORMAT) || '-'}</TableCell>
               <TableCell className="text-left">{invoice?.status}</TableCell>
               <TableCell className="text-left">-</TableCell>
               <TableCell className="text-left">-</TableCell>

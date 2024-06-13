@@ -18,6 +18,7 @@ import ServiceTypesGrid from '@/components/ui/service-badge';
 import formatDate, { moneyFormatter } from '@/utils/utils';
 import { format, parseISO } from 'date-fns';
 import EmployeeGeneralInfo from './components/employee-general-info';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/utils/constants/constants';
 
 type EmployeeDetailPageProps = {
   employeeId: number;
@@ -114,14 +115,14 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     ['cost centre']: item?.service?.cost?.costCentre,
     service_type: item?.service?.serviceType,
     'service status': item?.service.serviceStatus,
-    cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${formatDate(item?.service?.cost?.invoice?.invoiceDate, 'MMM dd, yyyy')})`,
+    cost: `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${formatDate(item?.service?.cost?.invoice?.invoiceDate, DATE_FORMAT)})`,
   }));
   const refinedTickets = siteTicketsData?.tickets?.map((item: any) => {
     return {
       'Veroxos REF': item?.reference,
       'Request Type': item?.description,
       status: item?.ticketStatusId,
-      created: format(parseISO(item.created), 'MMM dd, yyyy hh:mm a'),
+      created: format(parseISO(item.created), DATE_TIME_FORMAT),
     };
   });
   const listOfTabs = [];
@@ -173,17 +174,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
                 data={refinedEmployeeData}
                 loading={isEmployeeServicesLoading}
                 tableClass="whitespace-nowrap"
-              />
-              {employeeServices?.total > 8 && (
-                <div>
-                  {/* <Pagination
-                className="flex justify-end pt-4"
-                totalPages={employeeServices?.total}
-                currentPage={Number(page)}
-                onPageChange={handlePageChange}
-              /> */}
-                </div>
-              )}
+              /> 
               <button
                 onClick={showTerminatedHandler}
                 className="my-5 ml-auto block h-[40px] w-[220px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-2"
