@@ -23,7 +23,7 @@ import {
   usePostS5Report,
 } from '@/hooks/useGetReportData';
 import { format } from 'date-fns';
-import { MONTH_AND_YEAR_FORMAT } from '@/utils/constants/dateFormat.constants';
+import { DATE_FORMAT_YYYY_MM_DD, MONTH_AND_YEAR_FORMAT } from '@/utils/constants/dateFormat.constants';
 import { ReportField } from '../../reports';
 import { generateValidationSchema } from '../../validationSchema';
 
@@ -137,6 +137,12 @@ function ReportsCard({
     const formattedFromDate = fromDate ? `${`0${fromDate.getMonth() + 1}`.slice(-2)}-${fromDate.getFullYear()}` : '';
     const formattedToDate = toDate ? `${`0${toDate.getMonth() + 1}`.slice(-2)}-${toDate.getFullYear()}` : '';
 
+    console.log('dates ', fromDate, toDate);
+    // Convert to MM-DD-YYYY format for service management reports
+
+    const formattedFromDateYYYYMM = fromDate && format(fromDate, DATE_FORMAT_YYYY_MM_DD);
+    const formattedToDateYYYYMM = toDate && format(toDate, DATE_FORMAT_YYYY_MM_DD);
+
     const formattedStartDate = fromDate ? format(fromDate, MONTH_AND_YEAR_FORMAT) : '';
     const formattedEndDate = toDate ? format(toDate, MONTH_AND_YEAR_FORMAT) : '';
     const postBody = { from: formattedFromDate, to: formattedToDate };
@@ -150,8 +156,16 @@ function ReportsCard({
           reportMutations[reportKey].mutate({ currency, year });
         } else if (reportKey === 'F15') {
           reportMutations[reportKey].mutate({ from: formattedStartDate, to: formattedEndDate });
-        } else if (reportKey === 'I8' || reportKey === 'I10' || reportKey === 'I4') {
+        } else if (
+          reportKey === 'I8' ||
+          reportKey === 'I10' ||
+          reportKey === 'I4' ||
+          reportKey === 'S1' ||
+          reportKey === 'S2'
+        ) {
           reportMutations[reportKey].mutate({});
+        } else if (reportKey === 'S4' || reportKey === 'S5') {
+          reportMutations[reportKey].mutate({ from: formattedFromDateYYYYMM, to: formattedToDateYYYYMM });
         } else {
           reportMutations[reportKey].mutate(postBody);
         }

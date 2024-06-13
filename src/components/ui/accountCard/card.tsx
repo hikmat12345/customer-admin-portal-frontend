@@ -4,6 +4,7 @@ import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton';
 import ChartComponent from '@/views/home/components/chartComponent';
 import PeakIndicator from '../peakIndicators/arrow-peaks';
 import { getFormattedTotal, getPreviousMonthYear } from '@/utils/utils';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip';
 
 function AccountCard({
   data,
@@ -13,6 +14,7 @@ function AccountCard({
   badge,
   graph,
   isLoading,
+  tooltipTitle,
 }: {
   data?: any;
   message?: ReactNode;
@@ -21,6 +23,7 @@ function AccountCard({
   badge?: boolean;
   graph?: boolean;
   isLoading: boolean;
+  tooltipTitle?: string;
 }) {
   const peakIndicatorVariant = data?.percentageDifference > 0 ? 'destructive' : 'success';
 
@@ -95,7 +98,7 @@ function AccountCard({
   //using static colors in the chart because they won't be entertained in apex charts
   const chartVariant = getColor(data);
 
-  return (
+  const card = (
     <div className="relative h-auto min-h-[150px] min-w-[250px] max-w-full rounded-lg border border-custom-plaster pl-7 pt-3 lg:min-h-[140px] xl:min-h-[155px]">
       <div className="flex gap-[10px]">
         {isLoading ? (
@@ -123,11 +126,11 @@ function AccountCard({
         {peakIndicator && (
           <PeakIndicator variant={peakIndicatorVariant} isLoading={isLoading} percentage={data?.percentageDifference}>
             {/* <Image
-							src={arrowImageSrc}
-							alt={percentage && percentage > 0 ? 'Up Peak Arrow' : 'Down Peak Arrow'}
-							width={15}
-							height={15}
-						/> */}
+        src={arrowImageSrc}
+        alt={percentage && percentage > 0 ? 'Up Peak Arrow' : 'Down Peak Arrow'}
+        width={15}
+        height={15}
+      /> */}
           </PeakIndicator>
         )}
 
@@ -138,6 +141,23 @@ function AccountCard({
         )}
       </div>
     </div>
+  );
+
+  return (
+    <>
+      {tooltipTitle ? (
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger className="text-left">{card}</TooltipTrigger>
+            <TooltipContent className="rounded-lg bg-custom-white px-4 py-2 text-[0.813rem] font-[300] leading-[1.023rem] shadow-[0_4px_14px_0px_#00000040]">
+              {tooltipTitle}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ) : (
+        card
+      )}
+    </>
   );
 }
 
