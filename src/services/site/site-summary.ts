@@ -29,7 +29,9 @@ export const getServiceTypes = async ({ queryKey }: any) => {
 export const getCostTrend = async ({ queryKey }: any) => {
   const [, siteId, costTrendLimit] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/cost-trend/${siteId}?limit=${costTrendLimit}`).then(({ data }) => data);
+  return httpClient
+    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/cost-trend/${siteId}?limit=${costTrendLimit}`)
+    .then(({ data }) => data);
 };
 
 export const getSiteServices = async ({ queryKey }: any) => {

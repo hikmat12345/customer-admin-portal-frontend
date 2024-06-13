@@ -69,7 +69,10 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
 
   // cost and trend data
   const costTrendLimit = 12;
-  const { data: costTrendData, isLoading: isCostTrendLoading } = useGetAccountCostTrend(Number(account_id), costTrendLimit);
+  const { data: costTrendData, isLoading: isCostTrendLoading } = useGetAccountCostTrend(
+    Number(account_id),
+    costTrendLimit,
+  );
   const {
     data: accountTicketsData,
     isLoading: isAccountTicketsLoader,
