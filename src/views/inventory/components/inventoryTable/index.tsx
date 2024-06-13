@@ -24,7 +24,6 @@ function InventoryTable({ data }: { data: Inventory[] }) {
   };
 
   const renderStatus = (status: number) => {
-    if (!status) return '-';
     return (
       <Badge
         className={`rounded-lg py-1 text-white ${status === 1 ? 'bg-[#219653]' : status === 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`}
@@ -55,7 +54,7 @@ function InventoryTable({ data }: { data: Inventory[] }) {
   const pathname = usePathname();
 
   return (
-    <div className="overflow-auto lg:max-h-[225px] xl:max-h-full">
+    <div className="overflow-auto lg:max-h-[400px] xl:max-h-full">
       <Table>
         <InventoryTableHead />
         {isNoData && <TableCaption>No inventories available.</TableCaption>}
@@ -71,7 +70,7 @@ function InventoryTable({ data }: { data: Inventory[] }) {
                 <TableCell className="text-left">{inventory?.serviceNumber || '-'}</TableCell>
                 <TableCell className="text-left">{inventory?.companyNetwork?.network?.name}</TableCell>
                 <TableCell className="text-left">{getServiceType(inventory?.serviceType) || '-'}</TableCell>
-                <TableCell className="text-left">{renderStatus(inventory?.live)}</TableCell>
+                <TableCell className="text-left">{renderStatus(inventory?.live) || '-'}</TableCell>
                 <TableCell className="text-left">{renderSiteOrEmployee(inventory)}</TableCell>
                 <TableCell className="text-left">{inventory?.costCentre || '-'}</TableCell>
                 <TableCell>
