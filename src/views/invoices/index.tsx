@@ -14,6 +14,7 @@ import useGetMenuOptions from './components/select/options';
 import InvoicesTable from './components/invoicesTable';
 import InvoicesProcessed from './components/invoicesProcessedCard';
 import AccountCard from '../../components/ui/accountCard/card';
+import { PAGE_SIZE } from '@/utils/constants/constants';
 
 function InvoicesPage() {
   const searchParams = useSearchParams();
@@ -27,7 +28,7 @@ function InvoicesPage() {
 
   const searchQuery = searchParams && searchParams?.get('searchQuery');
 
-  const limit = 7;
+  const limit = PAGE_SIZE;
   const offset = +page - 1;
 
   const { data: invoicesData, isLoading: invoiceLoading } = useGetMonthlyInvoices();

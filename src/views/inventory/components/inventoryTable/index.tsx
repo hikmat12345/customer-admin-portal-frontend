@@ -11,6 +11,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import InventoryTableHead from './inventoryTableHead';
 import Link from 'next/link';
 import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
+import { TABLE_HEIGHT } from '@/utils/constants/constants';
 
 function InventoryTable({ data }: { data: Inventory[] }) {
   const STATUS_NAME: Record<number, string> = {
@@ -54,7 +55,7 @@ function InventoryTable({ data }: { data: Inventory[] }) {
   const pathname = usePathname();
 
   return (
-    <div className="overflow-auto lg:max-h-[400px] xl:max-h-full">
+    <div className="overflow-auto" style={{ height: `calc(100vh - ${TABLE_HEIGHT})` }}>
       <Table>
         <InventoryTableHead />
         {isNoData && <TableCaption>No inventories available.</TableCaption>}

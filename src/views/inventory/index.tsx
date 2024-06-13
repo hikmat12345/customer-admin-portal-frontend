@@ -13,6 +13,7 @@ import InventoryTable from './components/inventoryTable';
 import useGetMenuOptions from './components/select/options';
 import SelectComponent from './components/select';
 import InventoryCard from './components/inventoryCard';
+import { PAGE_SIZE } from '@/utils/constants/constants';
 
 function InventoryPage() {
   const searchParams = useSearchParams() as ReadonlyURLSearchParams;
@@ -26,7 +27,7 @@ function InventoryPage() {
   const serviceStatus = searchParams && searchParams?.get('service_status');
   const searchQuery = searchParams && searchParams?.get('searchQuery');
 
-  const limit = 15;
+  const limit = PAGE_SIZE;
   const offset = +page - 1;
   const menuOptions = useGetMenuOptions();
   const { data: monthlyCount, isLoading: monthInventoryLoading } = useGetMonthlyInventoryCount();
