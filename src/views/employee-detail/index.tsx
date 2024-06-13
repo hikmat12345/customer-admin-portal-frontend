@@ -174,7 +174,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
                 data={refinedEmployeeData}
                 loading={isEmployeeServicesLoading}
                 tableClass="whitespace-nowrap"
-              /> 
+              />
               <button
                 onClick={showTerminatedHandler}
                 className="my-5 ml-auto block h-[40px] w-[220px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-2"

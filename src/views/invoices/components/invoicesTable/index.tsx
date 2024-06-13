@@ -32,8 +32,8 @@ function InvoicesTable({ data }: any) {
               <TableCell className="text-left">{invoice?.invoiceNumber}</TableCell>
               <TableCell className="text-left">{invoice?.companyNetwork?.network?.name}</TableCell>
               <TableCell className="text-left">{invoice?.companyNetwork?.accountNumber}</TableCell>
-              <TableCell className="text-left">{formatDate(invoice?.invoiceDate,DATE_FORMAT)}</TableCell>
-              <TableCell className="text-left">{formatDate(invoice?.invoiceDate,DATE_FORMAT) || '-'}</TableCell>
+              <TableCell className="text-left">{formatDate(invoice?.invoiceDate, DATE_FORMAT)}</TableCell>
+              <TableCell className="text-left">{formatDate(invoice?.invoiceDate, DATE_FORMAT) || '-'}</TableCell>
               <TableCell className="text-left">{invoice?.status}</TableCell>
               <TableCell className="text-left">-</TableCell>
               <TableCell className="text-left">-</TableCell>

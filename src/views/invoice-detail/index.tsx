@@ -28,7 +28,7 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
   const invoiceActivityLog = invoiceActivityLogData?.map((activity: any) => ({
     stage: activity.description,
     who: activity.administrator.firstName + ' ' + activity.administrator.lastName,
-    when: format(parseISO(activity.created),DATE_TIME_FORMAT),
+    when: format(parseISO(activity.created), DATE_TIME_FORMAT),
   }));
   const { data: remittanceAddressData, isLoading: isRemittanceAddressLoading } = useGetRemittanceAddress(
     Number(invoice_id),

@@ -140,7 +140,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
       'Veroxos REF': item.reference,
       'Request Type': item.description,
       status: item.ticketStatusId,
-      created: format(parseISO(item.created),DATE_TIME_FORMAT),
+      created: format(parseISO(item.created), DATE_TIME_FORMAT),
     };
   });
   useEffect(() => {
