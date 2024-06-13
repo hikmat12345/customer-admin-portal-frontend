@@ -142,6 +142,7 @@ function InventoryPage() {
             iconWidth={16}
             iconHeight={16}
             onChange={debouncedSearchFieldHandlder}
+            helpText="Searches the ID, service number, cost center, company network name, display name and account number fields."
           />
           <div className="flex gap-2">
             {menuOptions?.map((menuOption: any, index: number) => (

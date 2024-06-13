@@ -63,6 +63,7 @@ function ReportsPage() {
               className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:min-w-[350px]"
               iconWidth={16}
               iconHeight={16}
+              helpText="Searches report title, description and prefixes such as F1, F3, F4 etc"
             />
           </div>
         </div>
