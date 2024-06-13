@@ -70,7 +70,8 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
   const serviceTypes = serviceTypesData?.data || [];
 
   // cost and trend data
-  const { data: costTrendData, isLoading: isCostTrendLoading } = useGetCostTrend(Number(site_id));
+  const costTrendLimit = 12;
+  const { data: costTrendData, isLoading: isCostTrendLoading } = useGetCostTrend(Number(site_id), costTrendLimit);
   // site services data
   const {
     data: siteServices,

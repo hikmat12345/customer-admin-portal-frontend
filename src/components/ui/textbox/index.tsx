@@ -16,14 +16,14 @@ const TooltipText: FC<TooltipTextProps> = ({ text, maxLength = 10, className, ty
   return shouldTruncate ? (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger className={`relative ${className}`}>
+        <TooltipTrigger className={`relative ${className} `}>
           {type === 'notification' ? (
             <Image src="/notification.svg" alt="info" width={16} height={16} />
           ) : (
             truncatedText
           )}
         </TooltipTrigger>
-        <TooltipContent className="tooltip-content font-normal">{text}</TooltipContent>
+        <TooltipContent className="tooltip-content max-w-80 font-normal">{text}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   ) : (

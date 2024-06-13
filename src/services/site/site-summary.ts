@@ -27,15 +27,15 @@ export const getServiceTypes = async ({ queryKey }: any) => {
 };
 
 export const getCostTrend = async ({ queryKey }: any) => {
-  const [, siteId] = queryKey;
+  const [, siteId, costTrendLimit] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/cost-trend/${siteId}`).then(({ data }) => data);
+  return httpClient
+    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/cost-trend/${siteId}?limit=${costTrendLimit}`)
+    .then(({ data }) => data);
 };
 
 export const getSiteServices = async ({ queryKey }: any) => {
   const [, siteId, offset, limit, showTerminated] = queryKey;
-
-  // return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/site-services/${siteId}?offset=${offset}&limit=${limit}&show_terminated=${showTerminated}`)
   const config = {
     params: {
       offset,

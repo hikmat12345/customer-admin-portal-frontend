@@ -58,7 +58,11 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     site,
   } = employeeServiceDetailData || {};
   // cost and trend data
-  const { data: costTrendData, isLoading: isCostTrendLoading } = useGetEmployeeCostTrend(Number(employee_id));
+  const costTrendLimit = 12;
+  const { data: costTrendData, isLoading: isCostTrendLoading } = useGetEmployeeCostTrend(
+    Number(employee_id),
+    costTrendLimit,
+  );
   const { data: siteTicketsData, isLoading: isSiteTicketsLoader } = useGetEmployeeTickets(
     Number(employee_id),
     offset,

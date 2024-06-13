@@ -11,8 +11,8 @@ import { useQuery } from '@tanstack/react-query';
 export const useGetAccountDetail = (account_id: number) =>
   useQuery({ queryKey: ['account_detail', account_id], queryFn: getAccountDetail });
 
-export const useGetAccountCostTrend = (account_id: number) =>
-  useQuery({ queryKey: ['account_cost_trend', account_id], queryFn: getAccountCostTrend });
+export const useGetAccountCostTrend = (account_id: number, costTrendLimit: number) =>
+  useQuery({ queryKey: ['account_cost_trend', account_id, costTrendLimit], queryFn: getAccountCostTrend });
 export const useGetAccountInvoices = (account_id: number, offset: number, limit: number) =>
   useQuery({
     queryKey: ['account_invoices', account_id, offset, limit],
