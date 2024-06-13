@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import InventoryTableHead from './inventoryTableHead';
 import Link from 'next/link';
+import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
 
 function InventoryTable({ data }: { data: Inventory[] }) {
   const STATUS_NAME: Record<number, string> = {
@@ -20,6 +21,35 @@ function InventoryTable({ data }: { data: Inventory[] }) {
   const isNoData = data?.length === 0;
   const handleServiceClick = (id: number) => {
     router.push(`/inventory/${id}`);
+  };
+
+  const renderStatus = (status: number) => {
+    if (!status) return '-';
+    return (
+      <Badge
+        className={`rounded-lg py-1 text-white ${status === 1 ? 'bg-[#219653]' : status === 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`}
+        variant="success"
+        shape="block"
+      >
+        {STATUS_NAME[status]}
+      </Badge>
+    );
+  };
+
+  const renderSiteOrEmployee = (inventory: Inventory) => {
+    if (inventory?.employee?.email && inventory?.employee?.id)
+      return (
+        <Link className="text-custom-dryBlue" href={`/employees/${inventory.employee.id}`}>
+          {inventory.employee.email}
+        </Link>
+      );
+    else if (inventory?.site?.name && inventory?.site?.id)
+      return (
+        <Link className="text-custom-dryBlue" href={`/sites/${inventory.site.id}`}>
+          {inventory.site.name}
+        </Link>
+      );
+    else return '-';
   };
 
   const pathname = usePathname();
@@ -41,8 +71,8 @@ function InventoryTable({ data }: { data: Inventory[] }) {
                 <TableCell className="text-left">{inventory?.serviceNumber || '-'}</TableCell>
                 <TableCell className="text-left">{inventory?.companyNetwork?.network?.name}</TableCell>
                 <TableCell className="text-left">{getServiceType(inventory?.serviceType) || '-'}</TableCell>
-                <TableCell className="text-left">{STATUS_NAME[inventory?.live]}</TableCell>
-                <TableCell className="text-left">-</TableCell>
+                <TableCell className="text-left">{renderStatus(inventory?.live)}</TableCell>
+                <TableCell className="text-left">{renderSiteOrEmployee(inventory)}</TableCell>
                 <TableCell className="text-left">{inventory?.costCentre || '-'}</TableCell>
                 <TableCell>
                   <div className="flex items-center justify-center">

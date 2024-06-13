@@ -18,7 +18,8 @@ const getEntityLink = (entity: any) => {
 
     case 'ticket':
       return `support/tickets/ticket-summary/${entity?.id}`;
-    case 'accounts':
+
+    case 'account':
       return `vendors/${entity?.id}`;
 
     default:
@@ -35,7 +36,7 @@ function SearchTable({ data }: any) {
           {data?.map((row: ISearch) => (
             <TableRow key={row.id}>
               <TableCell className="py-[19px] text-left font-normal text-[#1175BE]">
-                <Link href={getEntityLink(row)} target="_blank" rel="noreferrer noopener" className="cursor-pointer">
+                <Link href={getEntityLink(row)} className="cursor-pointer">
                   {row?.id}
                 </Link>
               </TableCell>
