@@ -87,8 +87,6 @@ function ReportsPage() {
     router.push(`${pathname}?${createQueryString('tab', 'finance')}`);
   }, []);
 
-  console.log('Filtered reports ', filteredReports);
-
   return (
     <div>
       <div className="grid-auto-flow-column grid w-full gap-8 rounded-lg border-custom-lightGray bg-custom-white px-9 py-5">

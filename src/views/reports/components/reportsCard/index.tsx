@@ -137,7 +137,6 @@ function ReportsCard({
     const formattedFromDate = fromDate ? `${`0${fromDate.getMonth() + 1}`.slice(-2)}-${fromDate.getFullYear()}` : '';
     const formattedToDate = toDate ? `${`0${toDate.getMonth() + 1}`.slice(-2)}-${toDate.getFullYear()}` : '';
 
-    console.log('dates ', fromDate, toDate);
     // Convert to MM-DD-YYYY format for service management reports
 
     const formattedFromDateYYYYMM = fromDate && format(fromDate, DATE_FORMAT_YYYY_MM_DD);
