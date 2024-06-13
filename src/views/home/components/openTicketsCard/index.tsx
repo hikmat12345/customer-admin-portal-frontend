@@ -13,11 +13,17 @@ function OpenTicketsCard({ title }: { title: string }) {
   const closeTicketHighlight = closeTicketsIn24Hours?.count === 0 ? '#E41323' : '#219653';
 
   const statusCounts = openTicketsData?.statusCounts;
-  const statusValues = statusCounts && Object.values(statusCounts);
-  const statusKeys = statusCounts && Object.keys(statusCounts);
-
+  const statusValues = []
+  const statusKeys = []
+  if(statusCounts)
+  for(let key in statusCounts){
+    if(key !== '1' && key !== '2'){
+    statusValues.push(statusCounts[key])
+    statusKeys.push(key)
+    }
+  }
   const statusNames = statusKeys?.map((statusKey: string) => TICKETS_STATUS_LIST[statusKey]);
-
+  
   const chartOptions: ApexOptions = {
     series: statusValues,
     labels: statusNames,
