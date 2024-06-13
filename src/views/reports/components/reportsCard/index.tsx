@@ -239,7 +239,7 @@ function ReportsCard({
 
   return (
     <>
-      <div className="lg:w-11.50/12 flex max-h-[100%] w-full flex-col justify-between rounded-lg border border-custom-aluminum xl:w-11.75/12">
+      <div className="lg:w-11.50/12 flex max-h-[290px] w-full flex-col justify-between rounded-lg border border-custom-aluminum xl:w-11.75/12">
         <div className="flex flex-col justify-start gap-6 p-7">
           <h1 className="lg:text-2xl/2 text-lg font-semibold text-custom-blue xl:text-3xl">{label}</h1>
           <div className="mt-3 flex flex-col gap-4">
