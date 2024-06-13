@@ -1,9 +1,9 @@
-import * as React from 'react';
 import { Metadata } from 'next';
+import * as React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Reporting',
-  description: 'View Reporting',
+  title: 'Reports',
+  description: 'Reports',
   icons: {
     icon: '/favicon.svg',
   },

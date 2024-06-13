@@ -15,14 +15,34 @@ import {
   usePostF6Report,
   usePostF7Report,
   usePostI10Report,
+  usePostI4Report,
   usePostI8Report,
+  usePostS1Report,
+  usePostS2Report,
+  usePostS4Report,
+  usePostS5Report,
 } from '@/hooks/useGetReportData';
 import { format } from 'date-fns';
-import { MONTH_AND_YEAR_FORMAT } from '@/utils/constants/dateFormat.constants';
-import { generateValidationSchema } from '../../validationSchema';
+import { DATE_FORMAT_YYYY_MM_DD, MONTH_AND_YEAR_FORMAT } from '@/utils/constants/dateFormat.constants';
 import { ReportField } from '../../reports';
+import { generateValidationSchema } from '../../validationSchema';
 
-type ReportKey = 'F1' | 'F3' | 'F4' | 'F5' | 'F6' | 'F7' | 'F12' | 'F15' | 'I8' | 'I10';
+type ReportKey =
+  | 'F1'
+  | 'F3'
+  | 'F4'
+  | 'F5'
+  | 'F6'
+  | 'F7'
+  | 'F12'
+  | 'F15'
+  | 'I8'
+  | 'I10'
+  | 'I4'
+  | 'S1'
+  | 'S2'
+  | 'S4'
+  | 'S5';
 
 const reportHooks = {
   F1: usePostF1Report,
@@ -35,6 +55,11 @@ const reportHooks = {
   F15: usePostF15Report,
   I8: usePostI8Report,
   I10: usePostI10Report,
+  I4: usePostI4Report,
+  S1: usePostS1Report,
+  S2: usePostS2Report,
+  S4: usePostS4Report,
+  S5: usePostS5Report,
 };
 
 function ReportsCard({
@@ -95,6 +120,11 @@ function ReportsCard({
     F15: useReportMutation('F15'),
     I8: useReportMutation('I8'),
     I10: useReportMutation('I10'),
+    I4: useReportMutation('I4'),
+    S1: useReportMutation('S1'),
+    S2: useReportMutation('S2'),
+    S4: useReportMutation('S4'),
+    S5: useReportMutation('S5'),
   };
 
   const handleSubmit = (values: Record<string, string>) => {
@@ -106,6 +136,12 @@ function ReportsCard({
 
     const formattedFromDate = fromDate ? `${`0${fromDate.getMonth() + 1}`.slice(-2)}-${fromDate.getFullYear()}` : '';
     const formattedToDate = toDate ? `${`0${toDate.getMonth() + 1}`.slice(-2)}-${toDate.getFullYear()}` : '';
+
+    console.log('dates ', fromDate, toDate);
+    // Convert to MM-DD-YYYY format for service management reports
+
+    const formattedFromDateYYYYMM = fromDate && format(fromDate, DATE_FORMAT_YYYY_MM_DD);
+    const formattedToDateYYYYMM = toDate && format(toDate, DATE_FORMAT_YYYY_MM_DD);
 
     const formattedStartDate = fromDate ? format(fromDate, MONTH_AND_YEAR_FORMAT) : '';
     const formattedEndDate = toDate ? format(toDate, MONTH_AND_YEAR_FORMAT) : '';
@@ -120,8 +156,16 @@ function ReportsCard({
           reportMutations[reportKey].mutate({ currency, year });
         } else if (reportKey === 'F15') {
           reportMutations[reportKey].mutate({ from: formattedStartDate, to: formattedEndDate });
-        } else if (reportKey === 'I8' || reportKey === 'I10') {
+        } else if (
+          reportKey === 'I8' ||
+          reportKey === 'I10' ||
+          reportKey === 'I4' ||
+          reportKey === 'S1' ||
+          reportKey === 'S2'
+        ) {
           reportMutations[reportKey].mutate({});
+        } else if (reportKey === 'S4' || reportKey === 'S5') {
+          reportMutations[reportKey].mutate({ from: formattedFromDateYYYYMM, to: formattedToDateYYYYMM });
         } else {
           reportMutations[reportKey].mutate(postBody);
         }

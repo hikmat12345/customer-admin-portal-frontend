@@ -32,6 +32,7 @@ function HomePage() {
             peakIndicator
             badge
             graph
+            tooltipTitle="This month's cost may change as more invoices are processed."
           />
           <AccountCard
             data={invoicesData?.lastMonth}
