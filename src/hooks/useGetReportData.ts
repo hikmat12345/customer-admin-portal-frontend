@@ -10,6 +10,10 @@ import {
   postI10Report,
   postI4Report,
   postI8Report,
+  postS1Report,
+  postS2Report,
+  postS4Report,
+  postS5Report,
 } from '@/services/reports/reportService';
 import { createMutationWithVariables } from '@/utils/query';
 
@@ -31,6 +35,14 @@ export const { useMutation: usePostF15Report } = createMutationWithVariables('po
 
 export const { useMutation: usePostI8Report } = createMutationWithVariables('post-i8-report', postI8Report);
 
+export const { useMutation: usePostI4Report } = createMutationWithVariables('post-i4-report', postI4Report);
+
 export const { useMutation: usePostI10Report } = createMutationWithVariables('post-i10-report', postI10Report);
 
-export const { useMutation: usePostI4Report } = createMutationWithVariables('post-i4-report', postI4Report);
+export const { useMutation: usePostS1Report } = createMutationWithVariables('post-s1-report', postS1Report);
+
+export const { useMutation: usePostS2Report } = createMutationWithVariables('post-s2-report', postS2Report);
+
+export const { useMutation: usePostS4Report } = createMutationWithVariables('post-s4-report', postS4Report);
+
+export const { useMutation: usePostS5Report } = createMutationWithVariables('post-s5-report', postS5Report);

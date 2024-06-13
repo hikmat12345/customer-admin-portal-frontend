@@ -17,13 +17,32 @@ import {
   usePostI10Report,
   usePostI4Report,
   usePostI8Report,
+  usePostS1Report,
+  usePostS2Report,
+  usePostS4Report,
+  usePostS5Report,
 } from '@/hooks/useGetReportData';
 import { format } from 'date-fns';
 import { MONTH_AND_YEAR_FORMAT } from '@/utils/constants/dateFormat.constants';
 import { ReportField } from '../../reports';
 import { generateValidationSchema } from '../../validationSchema';
 
-type ReportKey = 'F1' | 'F3' | 'F4' | 'F5' | 'F6' | 'F7' | 'F12' | 'F15' | 'I8' | 'I10' | 'I4';
+type ReportKey =
+  | 'F1'
+  | 'F3'
+  | 'F4'
+  | 'F5'
+  | 'F6'
+  | 'F7'
+  | 'F12'
+  | 'F15'
+  | 'I8'
+  | 'I10'
+  | 'I4'
+  | 'S1'
+  | 'S2'
+  | 'S4'
+  | 'S5';
 
 const reportHooks = {
   F1: usePostF1Report,
@@ -37,6 +56,10 @@ const reportHooks = {
   I8: usePostI8Report,
   I10: usePostI10Report,
   I4: usePostI4Report,
+  S1: usePostS1Report,
+  S2: usePostS2Report,
+  S4: usePostS4Report,
+  S5: usePostS5Report,
 };
 
 function ReportsCard({
@@ -98,6 +121,10 @@ function ReportsCard({
     I8: useReportMutation('I8'),
     I10: useReportMutation('I10'),
     I4: useReportMutation('I4'),
+    S1: useReportMutation('S1'),
+    S2: useReportMutation('S2'),
+    S4: useReportMutation('S4'),
+    S5: useReportMutation('S5'),
   };
 
   const handleSubmit = (values: Record<string, string>) => {

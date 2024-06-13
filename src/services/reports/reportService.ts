@@ -79,3 +79,31 @@ export const postI4Report = async (data: any) => {
     .then(({ data }) => downloadExcelFile(data, 'I10_report.xlsx'))
     .catch((error) => error);
 };
+
+export const postS1Report = async (data: any) => {
+  return httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/S1`, data, { responseType: 'blob' })
+    .then(({ data }) => downloadExcelFile(data, 'S1_report.xlsx'))
+    .catch((error) => error);
+};
+
+export const postS2Report = async (data: any) => {
+  return httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/S2`, data, { responseType: 'blob' })
+    .then(({ data }) => downloadExcelFile(data, 'S2_report.xlsx'))
+    .catch((error) => error);
+};
+
+export const postS4Report = async (data: any) => {
+  return httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/S4`, data, { responseType: 'blob' })
+    .then(({ data }) => downloadExcelFile(data, 'S4_report.xlsx'))
+    .catch((error) => error);
+};
+
+export const postS5Report = async (data: any) => {
+  return httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/S5`, data, { responseType: 'blob' })
+    .then(({ data }) => downloadExcelFile(data, 'S5_report.xlsx'))
+    .catch((error) => error);
+};
