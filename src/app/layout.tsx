@@ -9,8 +9,8 @@ import Providers from '../../lib/query-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Veroxos',
-  description: 'Veroxos',
+  title: 'Home',
+  description: 'Home',
   icons: {
     icon: '/favicon.svg',
   },
