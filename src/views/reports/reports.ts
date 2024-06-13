@@ -210,20 +210,14 @@ const serviceManagementReports: Report[] = [
     reportName: 'Open Ticket Listing',
     description: 'A listing of all open tickets',
     title: 'S-1 Open Ticket Listing',
-    fields: [
-      { type: 'datePicker', name: 'From' },
-      { type: 'datePicker', name: 'To' },
-    ],
+    fields: [],
   },
   {
     label: 'S-2',
     reportName: 'Installation Report',
     description: 'A listing of all tickets awaiting installation / delivery',
     title: 'S-2 Installation Report',
-    fields: [
-      { type: 'datePicker', name: 'From' },
-      { type: 'datePicker', name: 'To' },
-    ],
+    fields: [],
   },
   {
     label: 'S-4',

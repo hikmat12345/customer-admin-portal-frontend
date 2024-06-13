@@ -45,7 +45,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="flex max-h-full min-h-[100vh] w-full flex-col bg-custom-background py-[1rem] lg:pl-[279px] lg:pr-[30px] xl:pl-[300px] xl:pr-[55px]">
+      <div className="flex max-h-full min-h-[100vh] w-full flex-col bg-[#f4f7fe] py-[1rem] pl-[290px] pr-[45px]">
         <div className="mb-4 flex items-center justify-between">
           <div className="relative flex items-center gap-5">
             {isTicketSummaryPage ? (
