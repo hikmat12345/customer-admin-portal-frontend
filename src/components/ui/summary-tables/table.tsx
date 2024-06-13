@@ -12,6 +12,8 @@ import Link from 'next/link';
 import { DownloadAbleLink } from '@/components/ui/download-link';
 import { CostTableProps, PlanTableProps, TableDataProps } from '@/types/site';
 import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
+import TooltipText from '../textbox';
+import { DATE_FORMAT } from '@/utils/constants/constants';
 
 /**
  * TableHeaderContent Component
@@ -35,7 +37,13 @@ function TableHeaderContent({ data }: any) {
                 ? 'Tax & Fees'
                 : key === 'invoiceDate'
                   ? 'Invoice Date'
-                  : key.replaceAll('_', ' ')}
+                  : key === 'invoice_ref'
+                    ? 'ID'
+                    : key === 'vendor_name'
+                      ? 'Vendor'
+                      : key === 'Invoice_#'
+                        ? 'ID'
+                        : key.replaceAll('_', ' ')}
           </TableHead>
         ))
       ) : (
@@ -59,53 +67,60 @@ function TableBodyContent({ record, currencySymbol }: any) {
           ) : Object.keys(record)[index] === 'when' ? (
             formatDate(value)
           ) : Object.keys(record)[index] === 'service_type' ? (
-            getServiceType(value)
+            <TooltipText text={getServiceType(value)} maxLength={15} />
           ) : Object.keys(record)[index] === 'description' ? (
             <div dangerouslySetInnerHTML={{ __html: value }} />
           ) : Object.keys(record)[index] === 'Veroxos REF' ? (
             value !== '-' ? (
-              <Link href={value && `/support/tickets/ticket-summary/${value}`} className="font-normal text-sky-600">
+              <Link
+                href={value && `/support/tickets/ticket-summary/${value}`}
+                className="text-14 font-normal text-[#1175BE]"
+              >
                 {value ? `SUP${value}` : ' - '}
               </Link>
             ) : Object.keys(record)[index] === 'number_value' ? (
               <Link
                 href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
-                className="font-normal text-sky-600"
+                className="font-normal text-[#1175BE]"
               >
-                {value.split('-/')[0]}
+                <TooltipText text={value.split('-/')[0]} maxLength={10} className="" />
               </Link>
             ) : (
               '-'
             )
           ) : Object.keys(record)[index] === 'number' || Object.keys(record)[index] === 'ID' ? (
-            <Link
-              href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
-              className="font-normal text-sky-600"
-            >
-              {stringFindAndReplaceAll(value, '-/', ' ', 0)}
-            </Link>
+            value ? (
+              <Link
+                href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
+                className="font-normal text-[#1175BE]"
+              >
+                <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={10} />
+              </Link>
+            ) : (
+              <span className="pl-5">-</span>
+            )
           ) : Object.keys(record)[index] === 'vendor_name' ? (
             stringFindAndReplaceAll(value, ' ', ' ', 0)
           ) : Object.keys(record)[index] === 'Invoice_#' ? (
             <Link
               href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
-              className="font-normal text-sky-600"
+              className="font-normal text-[#1175BE]"
             >
-              {stringFindAndReplaceAll(value, '-/', ' ', 0)}
+              <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={10} />
             </Link>
           ) : Object.keys(record)[index] === 'invoice_ref' ? (
             <Link
               href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
-              className="font-normal text-sky-600"
+              className="font-normal text-[#1175BE]"
             >
-              {stringFindAndReplaceAll(value, '-/', ' ', 0)}
+              <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={10} />
             </Link>
-          ) : Object.keys(record)[index] === 'invoice_date' ? (
-            formatDate(value, 'MMM dd, yyyy')
+          ) : Object.keys(record)[index] === 'invoice_date' || Object.keys(record)[index] === 'invoiceDate' ? (
+            formatDate(value, DATE_FORMAT)
           ) : Object.keys(record)[index] === 'account' ? (
             <Link
               href={value ? `/vendors/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
-              className="font-normal text-sky-600"
+              className="font-normal text-[#1175BE]"
             >
               {stringFindAndReplaceAll(value, '-/', ' ', 0)}
             </Link>
@@ -156,7 +171,7 @@ export default function TableData({ data, loading, label, currency, tableClass }
     <>
       {/* lable of the table  */}
       {label && (
-        <div className="font-[700] text-custom-blue lg:py-4 lg:text-[18px] xl:py-7 xl:text-[20px]">{label}</div>
+        <div className="font-[700] text-custom-blue lg:py-7 lg:text-[18px] xl:py-7 xl:text-[20px]">{label}</div>
       )}
       {/* load the skeleton if the data is still loading */}
       {loading ? (
@@ -166,7 +181,7 @@ export default function TableData({ data, loading, label, currency, tableClass }
       ) : Array.isArray(data) && data.length < 1 ? (
         <div className="py-8 text-center text-lg">Data Not Found</div>
       ) : (
-        <div className="no-scrollbar max-h-[600px] overflow-y-scroll">
+        <div className="no-scrollbar max-h-[600px]">
           <Table
             style={{ borderColor: '#e2e2e2' }}
             className={`border-tools-table-outline border-separate rounded-md border-[1px] border-[#e2e2e2] text-left ${tableClass}`}
@@ -198,10 +213,10 @@ export const PlanTable: React.FC<PlanTableProps> = ({ data, width = '783px' }) =
       <TableBody>
         {data?.map((plan, index) => (
           <TableRow key={index}>
-            <TableCell className="w-[259px] border border-custom-aluminum pl-8 font-bold last:text-center">
+            <TableCell className="w-[230px] border border-custom-aluminum py-4 pl-8 font-bold last:text-center">
               Plan
             </TableCell>
-            <TableCell className="w-[146px] border border-custom-aluminum last:text-center lg:text-[12px] xl:text-[14px]">
+            <TableCell className="w-[177px] border border-custom-aluminum last:text-center lg:text-[12px] xl:text-[14px]">
               {plan.cost} USD
             </TableCell>
             <TableCell className="border border-custom-aluminum last:text-center">
@@ -211,7 +226,7 @@ export const PlanTable: React.FC<PlanTableProps> = ({ data, width = '783px' }) =
                     <Image src="/notification.svg" alt="info" width={16} height={16} />
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p className="lg:text-[12px] xl:text-[14px]">{plan.description}</p>
+                    <p className="w-96 lg:text-[12px] xl:text-[14px]">{plan.description}</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -225,11 +240,13 @@ export const PlanTable: React.FC<PlanTableProps> = ({ data, width = '783px' }) =
 );
 
 export const CostTable: React.FC<CostTableProps> = ({ data, costCenter = '-' }) => (
-  <div className="pb-10 pt-3">
+  <div className="pb-10 pt-10">
     <Table className="w-[408px] rounded-e-lg border">
       <TableBody>
         <TableRow>
-          <TableCell className="border border-custom-aluminum pl-8 font-bold last:text-center">Cost Center</TableCell>
+          <TableCell className="border border-custom-aluminum py-4 pl-8 font-bold last:text-center">
+            Cost Center
+          </TableCell>
           <TableCell className="border border-custom-aluminum last:text-center lg:text-[12px] xl:text-[14px]">
             {costCenter}
           </TableCell>

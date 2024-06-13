@@ -1,7 +1,7 @@
+import VImage from '@/components/ui/image';
 import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
 import TooltipText from '@/components/ui/textbox';
 import { AccountGeneralInfoProps } from '@/types/account/acount.tds';
-import Image from 'next/image';
 
 export default function AccountGeneralInfo({
   label = 'General Information',
@@ -69,7 +69,7 @@ export default function AccountGeneralInfo({
                       <TooltipText
                         text={item.value ? item.value : ' - '}
                         maxLength={27}
-                        className="leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                        className="text-[#575757] lg:text-[13px] xl:text-[14px]"
                       />
                     )
                   ) : (
@@ -80,14 +80,14 @@ export default function AccountGeneralInfo({
             </div>
           </div>
           <div className="flex w-[40%] justify-center pr-3 lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%]">
-            <div className="w-[60%]">
+            <div className="w-[70%]">
               {staticData.slice(7).map((item, index) => (
                 <div key={index} className="font-[600] leading-6 text-[#000] lg:text-[13px] xl:text-[14px]">
                   {item.label}
                 </div>
               ))}
             </div>
-            <div className="w-[40%]">
+            <div className="w-[30%]">
               {staticData.slice(7).map((item, index) => (
                 <div key={index}>
                   {typeof item.value !== 'undefined' ? (
@@ -108,12 +108,12 @@ export default function AccountGeneralInfo({
             </div>
           </div>
           <div className="w-[20%] max-lg:mt-5 max-lg:w-[100%]">
-            <Image
+            <VImage
               src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + network?.logo}
               alt="account logo"
-              width={200}
-              height={200}
-              className=" "
+              width={500}
+              height={500}
+              className="m-auto block h-[150px] w-[200px] object-contain"
             />
           </div>
         </div>

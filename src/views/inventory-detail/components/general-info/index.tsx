@@ -1,10 +1,10 @@
-import { TICKETS_STATUS_LIST } from '@/utils/constants/statusList.constants';
 import { GeneralInfoProps } from '@/types/inventory/types';
 import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
 import dynamic from 'next/dynamic';
 import TooltipText from '@/components/ui/textbox';
 import formatDate from '@/utils/utils';
 import Link from 'next/link';
+import { DATE_FORMAT } from '@/utils/constants/constants';
 const MapBox = dynamic(() => import('../../../../components/ui/map-box').then((mod) => mod.MapBox), {
   loading: () => <p>loading...</p>,
   ssr: false,
@@ -54,23 +54,23 @@ export default function GeneralInfo({
         </Link>
       ),
     },
-    { label: 'Service Type', value: serviceType ? TICKETS_STATUS_LIST[serviceType] : null },
+    { label: 'Service Type', value: serviceType },
     { label: 'Service Description', value: serviceDescription?.name },
     {
       label: 'Employee',
       value: (
         <Link href={`mailto:${employee?.email}`} className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]">
           <TooltipText
-            text={employee ? `${employee.firstName} ${employee.lastName} ${employee.email}` : '-'}
-            maxLength={24}
+            text={employee ? `${employee.firstName} ${employee.lastName} - ${employee.email}` : '-'}
+            maxLength={22}
             className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]"
           />
         </Link>
       ),
     },
     { label: 'Purpose / Function', value: purposeOfService },
-    { label: 'Contract Start Date', value: contractStartDate ? formatDate(contractStartDate, 'MMM dd, yyyy') : '-' },
-    { label: 'Contract End Date', value: contractEndDate ? formatDate(contractEndDate, 'MMM dd, yyyy') : '-' },
+    { label: 'Contract Start Date', value: contractStartDate ? formatDate(contractStartDate, DATE_FORMAT) : '-' },
+    { label: 'Contract End Date', value: contractEndDate ? formatDate(contractEndDate, DATE_FORMAT) : '-' },
     { label: 'Spare', value: spare !== undefined && spare !== null ? (spare ? 'Yes' : 'No') : ' - ' },
     {
       label: 'Zero Usage Allowed',
@@ -79,13 +79,22 @@ export default function GeneralInfo({
     { label: 'Termination Date', value: terminationDate },
     {
       label: 'Scheduled Termination Date',
-      value: scheduledTerminationDate ? formatDate(scheduledTerminationDate, 'MMM dd, yyyy') : '-',
+      value: scheduledTerminationDate ? formatDate(scheduledTerminationDate, DATE_FORMAT) : '-',
     },
     {
       label: 'Scheduled Suspension Date',
-      value: scheduledSuspensionDate ? formatDate(scheduledSuspensionDate, 'MMM dd, yyyy') : '-',
+      value: scheduledSuspensionDate ? formatDate(scheduledSuspensionDate, DATE_FORMAT) : '-',
     },
-    { label: 'Notes', value: notes },
+    {
+      label: 'Notes',
+      value: (
+        <TooltipText
+          text={notes ? `${notes}` : '-'}
+          maxLength={20}
+          className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]"
+        />
+      ),
+    },
   ];
 
   return (
@@ -114,7 +123,7 @@ export default function GeneralInfo({
               ))}
             </div>
           </div>
-          <div className="flex w-[33%] justify-between lg:gap-x-[25px] xl:gap-x-[50px] max-lg:mt-5 max-lg:w-[100%]">
+          <div className="flex w-[36%] justify-between lg:gap-x-[25px] xl:gap-x-[50px] max-lg:mt-5 max-lg:w-[100%]">
             <div className="w-[60%]">
               {staticData.slice(8).map((item, index) => (
                 <div
@@ -133,7 +142,7 @@ export default function GeneralInfo({
               ))}
             </div>
           </div>
-          <div className="w-[33%] max-lg:mt-5 max-lg:w-[100%]">
+          <div className="w-[30%] max-lg:mt-5 max-lg:w-[100%]">
             <div className="mapouter rounded-lg border border-neutral-300 p-1">
               <div className="gmap_canvas">
                 <div className="gmap_canvas">
@@ -152,13 +161,15 @@ export default function GeneralInfo({
                 </div>
               </div>
             </div>
-            <div className="pt-1 text-center lg:text-[14px] xl:text-[16px]">
-              <span className="font-semibold text-zinc-600">Address:</span>
-              <span className="font-normal text-zinc-600">
-                {' '}
-                {site?.streetLine1 ? site?.streetLine1 : site?.streetLine2 ? site?.streetLine2 : ''}
-              </span>
-            </div>
+            {(site?.streetLine1 || site?.streetLine2) && (
+              <div className="pt-1 text-center lg:text-[14px] xl:text-[16px]">
+                <span className="font-semibold text-zinc-600">Address:</span>
+                <span className="font-normal text-zinc-600">
+                  {' '}
+                  {site?.streetLine1 ? site?.streetLine1 : site?.streetLine2 ? site?.streetLine2 : ''}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import { cn } from '@/utils/utils';
 import { CalendarIcon } from 'lucide-react';
-import { endOfMonth, format, getMonth, getYear, isAfter, isBefore, isFuture, startOfMonth } from 'date-fns';
+import { format, getMonth, getYear, isFuture } from 'date-fns';
 import { MONTH_DAY_AND_YEAR } from '@/utils/constants/dateFormat.constants';
 import { Calendar } from '../../DatePicker/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover';
