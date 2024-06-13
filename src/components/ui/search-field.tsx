@@ -43,7 +43,7 @@ const SearchField = forwardRef((props: IProps, ref: React.ForwardedRef<HTMLInput
                   alt="help icon"
                 />
               </TooltipTrigger>
-              <TooltipContent className="rounded-lg bg-custom-white px-4 py-2 shadow-[0_4px_14px_0px_#00000040]">
+              <TooltipContent className="bg-custom-white px-4 py-2 rounded-lg text-[0.813rem] leading-[1.023rem] font-[300] shadow-[0_4px_14px_0px_#00000040]">
                 <p>{helpText}</p>
               </TooltipContent>
             </Tooltip>
