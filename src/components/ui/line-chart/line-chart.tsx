@@ -115,6 +115,7 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
       },
       x: {
         show: false,
+        format: MONTH_YEAR_FORMAT,
       },
       y: {
         title: {
