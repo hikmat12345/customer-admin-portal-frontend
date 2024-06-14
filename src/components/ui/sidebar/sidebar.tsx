@@ -62,7 +62,7 @@ const menuItems: ISidebarItem[] = [
         path: '/inventory',
       },
     ],
-  }, 
+  },
   {
     name: 'Reporting',
     path: '/reporting',

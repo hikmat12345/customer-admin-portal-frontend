@@ -200,59 +200,65 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
 
         {/* Cost Trend  */}
         {costTrendData?.length > 0 && (
-        <div id="cost-trend">
-          <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
-          <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
-        </div>)}
+          <div id="cost-trend">
+            <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
+            <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
+          </div>
+        )}
 
         {/* Service Type */}
-        {serviceTypes.length > 0 && (<div id="service-type">
-          <div className="flex gap-4 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">
-            Service Type{' '}
-            <TooltipText
-              text={'Show the volume of services splited by service type'}
-              maxLength={1}
-              className="leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
-              type="notification"
-            />
+        {serviceTypes.length > 0 && (
+          <div id="service-type">
+            <div className="flex gap-4 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">
+              Service Type{' '}
+              <TooltipText
+                text={'Show the volume of services splited by service type'}
+                maxLength={1}
+                className="leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                type="notification"
+              />
+            </div>
+            <div className="mt-4 gap-4">
+              {isServiceTypesLoading ? (
+                <Skeleton variant="paragraph" rows={3} />
+              ) : Array.isArray(serviceTypes) && serviceTypes.length > 0 ? (
+                <ServiceTypesGrid services={serviceTypes.sort((a, b) => b.subTypes?.length - a.subTypes?.length)} />
+              ) : (
+                <div className="flex w-full justify-center py-8 text-center text-lg">Data Not Found</div>
+              )}
+            </div>
+            <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
           </div>
-          <div className="mt-4 gap-4">
-            {isServiceTypesLoading ? (
-              <Skeleton variant="paragraph" rows={3} />
-            ) : Array.isArray(serviceTypes) && serviceTypes.length > 0 ? (
-              <ServiceTypesGrid services={serviceTypes.sort((a, b) => b.subTypes?.length - a.subTypes?.length)} />
-            ) : (
-              <div className="flex w-full justify-center py-8 text-center text-lg">Data Not Found</div>
-            )}
-          </div>
-          <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
-        </div>)}
+        )}
 
         {/* Tickets  */}
         {ticketsData?.length > 0 && (
-        <div id="tickets">
-          <TableData label="Tickets" loading={isSiteTicketsLoader} data={ticketsData} />
-          <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
-        </div> )}
+          <div id="tickets">
+            <TableData label="Tickets" loading={isSiteTicketsLoader} data={ticketsData} />
+            <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
+          </div>
+        )}
 
         {/* Invoices  */}
         {siteInvoicesData?.invoices?.length > 0 && (
-        <div id="invoices">
-          <TableData
-            label="Invoices"
-            data={refinedInvoices}
-            currency={siteInvoicesData?.invoices[0]?.currency}
-            loading={isSiteInvoicesLoader}
-            tableClass="whitespace-nowrap"
-          />
-          <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
-        </div>)}
+          <div id="invoices">
+            <TableData
+              label="Invoices"
+              data={refinedInvoices}
+              currency={siteInvoicesData?.invoices[0]?.currency}
+              loading={isSiteInvoicesLoader}
+              tableClass="whitespace-nowrap"
+            />
+            <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
+          </div>
+        )}
 
         {/* Service  */}
         {refinedData?.length > 0 && (
-        <div id="services">
-          <TableData label="Services" data={refinedData} loading={isServicesLoader} tableClass="whitespace-nowrap" />
-        </div> )}
+          <div id="services">
+            <TableData label="Services" data={refinedData} loading={isServicesLoader} tableClass="whitespace-nowrap" />
+          </div>
+        )}
         {totlaPages > 8 && (
           <div>
             <Pagination

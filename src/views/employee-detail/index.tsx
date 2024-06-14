@@ -175,31 +175,30 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
           <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
         </div>
         {/* Service  */}
-        
-          <>
-            {' '}
-            <div id="services">
-              
-              <TableData
-                label="Services"
-                data={refinedEmployeeData}
-                loading={isEmployeeServicesLoading}
-                tableClass="whitespace-nowrap"
-              /> 
-              <button
-                onClick={showTerminatedHandler}
-                className="my-5 ml-auto block h-[40px] w-[220px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-2">
-                <span className="text-[14px] font-semibold text-white">
-                  {showTerminated ? 'Show Terminated Service' : 'Show Live Services'}{' '}
-                </span>
-              </button>
-            </div> 
-              <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" /> 
-          </>
-      
+
+        <>
+          {' '}
+          <div id="services">
+            <TableData
+              label="Services"
+              data={refinedEmployeeData}
+              loading={isEmployeeServicesLoading}
+              tableClass="whitespace-nowrap"
+            />
+            <button
+              onClick={showTerminatedHandler}
+              className="my-5 ml-auto block h-[40px] w-[220px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-2"
+            >
+              <span className="text-[14px] font-semibold text-white">
+                {showTerminated ? 'Show Terminated Service' : 'Show Live Services'}{' '}
+              </span>
+            </button>
+          </div>
+          <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
+        </>
 
         {/* Cost Trend  */}
-        {costTrendData?.length > 0 &&   (
+        {costTrendData?.length > 0 && (
           <div id="cost-trend">
             <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
             <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
@@ -207,7 +206,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
         )}
 
         {/* Service Type */}
-        {employeeServiceTypes?.data?.length > 0  && (
+        {employeeServiceTypes?.data?.length > 0 && (
           <div id="service-type">
             <div className="flex gap-4 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">
               Service Type{' '}
@@ -236,7 +235,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
           </div>
         )}
         {/* Tickets  */}
-        {refinedTickets?.length > 0  && (
+        {refinedTickets?.length > 0 && (
           <div id="tickets">
             <TableData label="Tickets" loading={isSiteTicketsLoader} data={refinedTickets} />
             <Separator className="mt-8 h-[1.px] bg-[#5d5b5b61]" />

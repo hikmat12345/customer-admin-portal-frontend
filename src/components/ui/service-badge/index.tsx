@@ -25,7 +25,7 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
             },
             index: number,
           ) => (
-            <div className='flex flex-wrap gap-4 w-full'>
+            <div className="flex w-full flex-wrap gap-4" key={index}>
               <div
                 key={index}
                 className={` ${service?.subTypes?.length > 1 ? 'w-[99%]' : 'w-[49%]'} flex h-[52px] rounded border border-neutral-300 bg-custom-background ${service.subTypes?.length > 1 ? 'justify-center gap-3' : 'justify-between'} pl-5 pr-1 pt-1.5`}

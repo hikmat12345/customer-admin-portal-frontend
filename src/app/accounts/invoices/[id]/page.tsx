@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 }
 
 export default async function Home({ params }: { params: { id: string } }) {
-   return (
+  return (
     <Suspense>
       <InvoiceSummaryPage invoiceId={parseInt(params.id)} />
     </Suspense>

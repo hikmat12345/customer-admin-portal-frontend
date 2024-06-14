@@ -134,10 +134,10 @@
 }
 
 #cost-trend .apexcharts-xaxistooltip {
-  background: #00e396ed; 
-    background: #00e396;
-    color: white;
-    font-weight: bold; 
+  background: #00e396ed;
+  background: #00e396;
+  color: white;
+  font-weight: bold;
 }
 
 #cost-trend .apexcharts-xaxistooltip-bottom:after {

@@ -149,7 +149,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
           <Separator className="mt-4 h-[1.0px] bg-[#5d5b5b61]" />
         </div>
 
-        {structuredTicketsData?.length > 0  && (
+        {structuredTicketsData?.length > 0 && (
           <div id="tickets">
             <TableData label="Tickets" loading={isTicketsRecentActivityLoader} data={structuredTicketsData} />
             <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
