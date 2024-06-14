@@ -16,6 +16,14 @@ export interface Inventory {
       name: string;
     };
   };
+  employee: {
+    id: number;
+    email: string;
+  };
+  site: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface InventoryCardData {

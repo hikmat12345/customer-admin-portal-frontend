@@ -22,7 +22,7 @@ export interface ReportCategory {
   reports: Report[];
 }
 
-interface AllReports {
+export interface AllReports {
   financeReports: ReportCategory;
   inventoryReports: ReportCategory;
   serviceManagementReports: ReportCategory;

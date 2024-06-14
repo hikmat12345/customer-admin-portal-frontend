@@ -1,20 +1,20 @@
 import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton';
-import { useGetMonthlyTickets } from '@/hooks/useTickets';
+import { useGetMonthlyTicketsStats } from '@/hooks/useTickets';
 import PeakIndicator from './peak-indicators/peakIndicators';
 import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
 import { moneyFormatter } from '@/utils/utils';
 
 function MonthlyTickets({ title, year, month }: { title: string; year: number; month: number }) {
-  const { data: monthlyTicketsData, isLoading } = useGetMonthlyTickets(year, month);
+  const { data: monthlyTicketsStats, isLoading } = useGetMonthlyTicketsStats(year, month);
 
-  const totalTickets = monthlyTicketsData?.totalMonthTickets;
+  const totalTickets = monthlyTicketsStats?.totalMonthTickets;
 
   const formattedPercentageDifference =
-    monthlyTicketsData?.percentageDifference > 0
-      ? `+${monthlyTicketsData?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
-      : monthlyTicketsData?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    monthlyTicketsStats?.percentageDifference > 0
+      ? `+${monthlyTicketsStats?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
+      : monthlyTicketsStats?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
-  const badgeVariant = monthlyTicketsData?.percentageDifference > 0 ? 'success' : 'destructive';
+  const badgeVariant = monthlyTicketsStats?.percentageDifference > 0 ? 'success' : 'destructive';
 
   function difference(difference: number) {
     const absDifference = Math.abs(difference);
@@ -51,7 +51,7 @@ function MonthlyTickets({ title, year, month }: { title: string; year: number; m
             </div>
             <div className="flex items-center justify-between">
               <p className="text-xs font-medium text-custom-grey 2xl:text-sm">
-                {difference(monthlyTicketsData?.difference)}
+                {difference(monthlyTicketsStats?.difference)}
               </p>
             </div>
           </div>

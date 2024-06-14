@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: IProps) => {
       // Keeping the log here for debugging purposes
       console.log('Time remaining for token to expire :>>  :>> ', Math.round(timeRemaining / 60));
 
-      // 5 minutes
+      // 5 minutes or less for the token to expire
       if (timeRemaining <= 300) {
         const refreshToken =
           document.cookie
@@ -58,6 +58,9 @@ export const AuthProvider = ({ children }: IProps) => {
   };
 
   React.useEffect(() => {
+    // call immediately
+    checkTokenExpiry();
+    // then in interval
     const interval = setInterval(() => {
       checkTokenExpiry();
     }, 300000); // runs every 5 minutes
