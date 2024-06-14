@@ -53,7 +53,7 @@ const TicketUpdateCard = ({ ticketUpdate }: { ticketUpdate: TicketUpdate }) => {
         <div className="flex items-center justify-between">
           <p className="text-[1.188rem] font-[700] leading-[1.477rem]">{getTicketUpdateTitle(ticketUpdate)}</p>
           <p className="text-[0.938rem] font-[400] leading-[1.361rem]">
-            {convertToTimeZone(loggedInUser?.timezone?.name, new Date(ticketUpdate.created), TICKET_DATE_FORMAT)}
+            {convertToTimeZone(loggedInUser?.timezone?.name, ticketUpdate.created, TICKET_DATE_FORMAT)}
           </p>
         </div>
         {getTicketUpdateDescription(ticketUpdate)}

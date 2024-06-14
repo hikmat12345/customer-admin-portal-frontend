@@ -40,8 +40,8 @@ function SelectComponent({ menuOption, index }: { menuOption: MenuOption; index:
 
   let truncatedLabel = selectedOptionLabel;
 
-  if (truncatedLabel && truncatedLabel.length > 17) {
-    truncatedLabel = `${truncatedLabel.slice(0, 17)}...`;
+  if (truncatedLabel && truncatedLabel.length > 14) {
+    truncatedLabel = `${truncatedLabel.slice(0, 14)}...`;
   }
 
   const reset = () => {
