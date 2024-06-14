@@ -34,18 +34,14 @@ function InvoicesTable({ data }: any) {
               <TableCell className="text-left">{invoice?.companyNetwork?.accountNumber}</TableCell>
               <TableCell className="text-left">{formatDate(invoice?.invoiceDate, DATE_FORMAT)}</TableCell>
               <TableCell className="text-left">{formatDate(invoice?.invoiceDate, DATE_FORMAT) || '-'}</TableCell>
-              <TableCell className="text-left">{invoice?.status}</TableCell>
+              <TableCell className="text-left">{invoice?.status ? invoice?.status : '-'}</TableCell>
               <TableCell className="text-left">-</TableCell>
-              <TableCell className="text-left">-</TableCell>
+              <TableCell className="text-left">
+                {formatDate(invoice?.dateTimeForSentInAccountPayableRequest, DATE_FORMAT) || '-'}
+              </TableCell>
               <TableCell className="text-left">{moneyFormatter(invoice?.totalRaw, 'USD')}</TableCell>
               <TableCell className="text-left font-normal last:text-center">
-                {invoice?.conversionRate ? (
-                  <>
-                    <span className="text-[#219653]">$</span> {invoice?.conversionRate}
-                  </>
-                ) : (
-                  '-'
-                )}
+                {invoice?.companyNetwork?.network?.country ? invoice.companyNetwork.network.country.currencyCode : '-'}
               </TableCell>
             </TableRow>
           ))}

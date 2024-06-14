@@ -52,6 +52,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
     if (!isBlobLoading && !blobError && blobdata && fileType) {
       if (fileType === 'pdf') {
         setIsPdfFileLoading(false);
+        setIsShowInBrowserLoading(false);
       } else if (fileType === 'xls') {
         setIsXlsFileLoading(false);
       }
@@ -127,10 +128,10 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                       typeof item.value === 'boolean' ? (
                         <div>{item.value ? item.value : ' - '}</div>
                       ) : item.isPdf ? (
-                        <div className="cursor-pointer text-custom-blue">
+                        <div className="cursor-pointer">
                           <Button
                             loading={isShowInBrowserLoading}
-                            className="pl-0 leading-7 underline decoration-2 lg:text-[13px] xl:text-[14px]"
+                            className="!bg-transparent pl-0 leading-7 text-custom-blue underline decoration-2 lg:text-[13px] xl:text-[14px]"
                             onClick={() => {
                               setShowInBrowser(true);
                               fileDownloadFile(item.value, 'pdf', true);
