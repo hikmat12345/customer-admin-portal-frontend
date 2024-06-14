@@ -127,7 +127,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
         ? `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw || 0) + parseFloat(item.service?.cost?.usageRaw || 0) + parseFloat(item.service?.cost?.otherRaw || 0) + parseFloat(item?.service?.cost?.taxRaw || 0), 'usd')} (${formatDate(item?.service?.cost?.invoice?.invoiceDate, DATE_FORMAT)})`
         : '-',
   }));
-  const refinedTickets = siteTicketsData?.tickets?.map((item: any) => {
+  const refinedTickets = siteTicketsData?.data?.tickets?.map((item: any) => {
     return {
       'Veroxos REF': item?.reference,
       'Request Type': item?.description,
@@ -146,7 +146,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
   if (employeeServiceTypes?.data?.length > 0) {
     listOfTabs.push('service-type');
   }
-  if (siteTicketsData?.tickets?.length > 0) {
+  if (siteTicketsData?.data?.tickets?.length > 0) {
     listOfTabs.push('tickets');
   }
   return (
@@ -235,7 +235,6 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
             <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
           </div>
         )}
-
         {/* Tickets  */}
         {refinedTickets?.length > 0 && isSiteTicketsLoader == false && (
           <div id="tickets">

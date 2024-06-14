@@ -132,3 +132,12 @@
   height: 30px;
   margin-top: 10px;
 }
+
+
+#cost-trend .apexcharts-xaxistooltip { 
+  background: #00e396ed;
+}
+
+#cost-trend .apexcharts-xaxistooltip:before {
+  background: #00e396ed;
+}
