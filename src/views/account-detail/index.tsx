@@ -205,9 +205,9 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
             ) : (
               <div className="w-full py-8 text-center text-lg">Data Not Found</div>
             )}
+            <Separator className="mt-4 h-[1.0px] bg-[#5d5b5b61]" /> 
           </div>
         )}
-        <Separator className="mt-4 h-[1.0px] bg-[#5d5b5b61]" />
 
         {/* Service Location */}
         {isVendorServicesLocationLoading == false && serviceLocations?.length > 0 && (
@@ -247,30 +247,32 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
               data={siteInvoicesData?.invoices}
               currency={siteInvoicesData?.invoices[0]?.Currency}
               loading={isSiteInvoicesLoader}
-            />
-            <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
+            /> 
           </div>
         )}
 
         {/* Tickets  */}
         {isAccountTicketsLoader == false && structuredTicketsData?.length > 0 && (
-          <div id="tickets">
-            <TableData
-              label={
-                <>
-                  Tickets
-                  <TooltipText
-                    text={`Last ${limit} tickets shown`}
-                    maxLength={1}
-                    className="pl-3 pt-3 leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
-                    type="notification"
-                  />
-                </>
-              }
-              loading={isAccountTicketsLoader}
-              data={structuredTicketsData}
-            />
-          </div>
+          <>
+           <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
+            <div id="tickets">
+              <TableData
+                label={
+                  <>
+                    Tickets
+                    <TooltipText
+                      text={`Last ${limit} tickets shown`}
+                      maxLength={1}
+                      className="pl-3 pt-3 leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                      type="notification"
+                    />
+                  </>
+                }
+                loading={isAccountTicketsLoader}
+                data={structuredTicketsData}
+              />
+            </div>
+          </>
         )}
 
         {totalPages > 8 && (

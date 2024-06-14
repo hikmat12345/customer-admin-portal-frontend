@@ -1,6 +1,6 @@
 'use client';
 
-import { MONTH_YEAR_FORMAT } from '@/utils/constants/constants';
+import {  MONTH_YEAR_FORMAT } from '@/utils/constants/constants';
 import { moneyFormatter } from '@/utils/utils';
 import { ApexOptions } from 'apexcharts';
 import { Loader } from 'lucide-react';
@@ -114,9 +114,11 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
         fontSize: '12px',
       },
       x: {
-        show: false,
+        show: false, 
+         format: MONTH_YEAR_FORMAT,
+         
       },
-      y: {
+      y: { 
         title: {
           formatter: (seriesName: string) => seriesName,
         },

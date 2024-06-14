@@ -14,6 +14,7 @@ import useGetMenuOptions from './components/select/options';
 import InvoicesTable from './components/invoicesTable';
 import InvoicesProcessed from './components/invoicesProcessedCard';
 import AccountCard from '../../components/ui/accountCard/card';
+import { sanitizeSearchQuery } from '@/utils/utils';
 
 function InvoicesPage() {
   const searchParams = useSearchParams();
@@ -46,16 +47,22 @@ function InvoicesPage() {
   );
 
   const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    if (value.length === 0) {
-      router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
-    } else {
-      router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
+     if (event.target.value === '') router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
+   };
+
+  const handleSearchKeydown = (event: any) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      let { value } = event.target;
+      value = sanitizeSearchQuery(value);
+      if (value.length === 0) {
+        router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
+      } else {
+        router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
+      }
     }
   };
-
-  const debouncedSearchFieldHandlder = React.useCallback(debounce(handleSearchField, 500), []);
-
+ 
   const totalPages = allInvoices?.total / limit;
 
   const handlePageChange = async (page: number) => {
@@ -167,10 +174,13 @@ function InvoicesPage() {
       <div className="grid-auto-flow-column mt-6 grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
         <div className="flex items-center justify-between gap-2">
           <SearchField
-            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:min-w-[700px]"
             iconWidth={16}
             iconHeight={16}
-            onChange={debouncedSearchFieldHandlder}
+            onChange={handleSearchField} 
+            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:w-[600px]"
+            defaultValue={searchQuery}
+            onKeyDown={handleSearchKeydown}
+            helpText="Searches the invoice number, account number, vendor name, and country"
           />
           <div className="flex gap-4">
             {menuOptions?.map((menuOption: any, index: number) => (
