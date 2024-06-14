@@ -39,7 +39,7 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
   const createQueryString = CreateQueryString();
 
   const currentParamValue = searchParams?.get(PARAM_NAME[index]) || '';
-
+  const paramValues = currentParamValue.split(',');
   const selectedOptionLabel = menuOption?.options
     ?.flat()
     .find((option: { value: string | number; label: string }) => option?.value == currentParamValue)?.label;
@@ -54,9 +54,8 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
     })?.label;
 
   let truncatedLabel = selectedOptionLabel || selectedVendorOptionLabel;
-
-  if (truncatedLabel && truncatedLabel.length > 17) {
-    truncatedLabel = `${truncatedLabel.slice(0, 17)}...`;
+  if (truncatedLabel && truncatedLabel.length > 14) {
+    truncatedLabel = `${truncatedLabel.slice(0, 14)}...`;
   }
 
   const PLACEHOLDER_NAME = {
@@ -65,34 +64,41 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
     2: 'Search account...',
   };
 
-  const handleSubOptionSelect = (subOptionLabel: string) => {
+  const handleSubOptionSelect = (subOptionLabel: any) => {
     if (subOptionLabel) {
       let selectedOption = null;
       let selectedCountry = null;
 
       for (const country of menuOption.options) {
-        const foundOption = country.options.find((subOption: any) => subOption.label === subOptionLabel);
+        const foundOption = country.options.find((subOption: any) => subOption.label === subOptionLabel.label);
         if (foundOption) {
-          selectedOption = foundOption;
+          selectedOption = index === 0 ? country : foundOption;
           selectedCountry = country;
           break;
         }
       }
-
-      if (selectedOption && selectedCountry) {
-        if (currentParamValue === selectedOption.value) {
-          const updatedQueryString = createQueryString(PARAM_NAME[index], undefined);
+      if (selectedOption) {
+        if (currentParamValue.includes(selectedOption.value.toString())) {
+          const paramIndex = paramValues.findIndex((param) => param == selectedOption.value);
+          paramValues.splice(paramIndex, 1);
+          const joinedParams = paramValues.join(',');
+          const updatedQueryString = createQueryString(PARAM_NAME[index], joinedParams);
           router.push(`${pathname}?${updatedQueryString}`);
         } else {
-          const queryParamValue = selectedOption.value;
+          const queryParamValue = currentParamValue
+            ? `${currentParamValue},${selectedOption?.value}`
+            : selectedOption?.value;
           const updatedQueryString = createQueryString(PARAM_NAME[index], queryParamValue);
           router.push(`${pathname}?${updatedQueryString}`);
         }
       }
     }
-    setOpen(false);
   };
 
+  const resetFilters = () => {
+    router.push(`${pathname}?${createQueryString(PARAM_NAME[index], undefined)}`);
+    setOpen(false);
+  };
   return (
     <React.Suspense>
       <Popover open={open} onOpenChange={setOpen}>
@@ -104,7 +110,9 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
             className="w-[200px] justify-between"
             value={12}
           >
-            {currentParamValue !== '' ? truncatedLabel || currentParamValue : menuOption?.name}
+            {currentParamValue !== ''
+              ? `${truncatedLabel ? truncatedLabel : menuOption?.name}${paramValues.length - 1 ? ` (+${paramValues.length - 1})` : ''}`
+              : menuOption?.name}{' '}
             <Image
               src={open ? '/svg/select/upChevron.svg' : '/svg/select/downChevron.svg'}
               alt="Chevron Icon"
@@ -121,7 +129,57 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
                 <CommandEmpty>No data found</CommandEmpty>
               </>
             )}
-            {index === 1 ? (
+
+            {/* country dropdown */}
+            {index === 0 && (
+              <CommandGroup>
+                <CommandList>
+                  {menuOption?.options
+                    ?.flat()
+                    ?.filter((option: Option) => option?.label !== '')
+                    .map((option: any, indexCount: number) => (
+                      <CommandItem
+                        key={`${option?.label}-${indexCount++}`}
+                        value={option?.label}
+                        onSelect={(currentValue) => {
+                          let selectedOption;
+                          if (index === 0) {
+                            selectedOption = menuOption?.options.flat().find((opt: any) => opt.label === currentValue);
+                          } else {
+                            selectedOption = menuOption?.options.find((opt: any) => opt['label'] === currentValue);
+                          }
+
+                          if (selectedOption) {
+                            if (currentParamValue.includes(selectedOption.value.toString())) {
+                              const paramIndex = paramValues.findIndex((param) => param == selectedOption.value);
+                              paramValues.splice(paramIndex, 1);
+                              const joinedParams = paramValues.join(',');
+                              const updatedQueryString = createQueryString(PARAM_NAME[index], joinedParams);
+                              router.push(`${pathname}?${updatedQueryString}`);
+                            } else {
+                              const queryParamValue = currentParamValue
+                                ? `${currentParamValue},${selectedOption?.value}`
+                                : selectedOption?.value;
+                              const updatedQueryString = createQueryString(PARAM_NAME[index], queryParamValue);
+                              router.push(`${pathname}?${updatedQueryString}`);
+                            }
+                          }
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            currentParamValue.includes(option?.value) ? 'opacity-100' : 'opacity-0',
+                          )}
+                        />
+                        {option?.label}
+                      </CommandItem>
+                    ))}
+                </CommandList>
+              </CommandGroup>
+            )}
+            {/* vendor dropdown  */}
+            {index === 1 && (
               <CommandGroup>
                 <CommandList>
                   {menuOption?.options?.map((option: any, indexCount: number) => (
@@ -130,15 +188,13 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
                       {option?.options?.map((subOption: any) => (
                         <CommandItem
                           key={`${option?.label}-${indexCount++}`}
-                          value={subOption?.value}
-                          onSelect={() => handleSubOptionSelect(subOption.label)}
+                          value={subOption?.label}
+                          onSelect={() => handleSubOptionSelect(subOption)}
                         >
                           <Check
                             className={cn(
                               'mr-2 h-4 w-4',
-                              (+currentParamValue || currentParamValue) == subOption?.value
-                                ? 'opacity-100'
-                                : 'opacity-0',
+                              currentParamValue.includes(subOption?.value) ? 'opacity-100' : 'opacity-0',
                             )}
                           />
                           {subOption?.value}
@@ -148,7 +204,10 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
                   ))}
                 </CommandList>
               </CommandGroup>
-            ) : (
+            )}
+
+            {/* account dropdown */}
+            {index == 2 && (
               <CommandGroup>
                 <CommandList>
                   {menuOption?.options
@@ -157,29 +216,36 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
                     .map((option: any, indexCount: number) => (
                       <CommandItem
                         key={`${option?.label}-${indexCount++}`}
-                        value={option?.value}
+                        value={option?.label}
                         onSelect={(currentValue) => {
                           let selectedOption;
                           if (index === 2) {
-                            selectedOption = menuOption?.options.flat().find((opt: any) => opt.value === currentValue);
+                            selectedOption = menuOption?.options.flat().find((opt: any) => opt.label === currentValue);
                           } else {
-                            selectedOption = menuOption?.options.find((opt: any) => opt.label === currentValue);
+                            selectedOption = menuOption?.options.find((opt: any) => opt['label'] === currentValue);
                           }
-                          if (currentParamValue == selectedOption?.value) {
-                            const updatedQueryString = createQueryString(PARAM_NAME[index], undefined);
-                            router.push(`${pathname}?${updatedQueryString}`);
-                          } else {
-                            const queryParamValue = selectedOption?.value;
-                            const updatedQueryString = createQueryString(PARAM_NAME[index], queryParamValue);
-                            router.push(`${pathname}?${updatedQueryString}`);
+
+                          if (selectedOption) {
+                            if (currentParamValue.includes(selectedOption.value.toString())) {
+                              const paramIndex = paramValues.findIndex((param) => param == selectedOption.value);
+                              paramValues.splice(paramIndex, 1);
+                              const joinedParams = paramValues.join(',');
+                              const updatedQueryString = createQueryString(PARAM_NAME[index], joinedParams);
+                              router.push(`${pathname}?${updatedQueryString}`);
+                            } else {
+                              const queryParamValue = currentParamValue
+                                ? `${currentParamValue},${selectedOption?.value}`
+                                : selectedOption?.value;
+                              const updatedQueryString = createQueryString(PARAM_NAME[index], queryParamValue);
+                              router.push(`${pathname}?${updatedQueryString}`);
+                            }
                           }
-                          setOpen(false);
                         }}
                       >
                         <Check
                           className={cn(
                             'mr-2 h-4 w-4',
-                            (+currentParamValue || currentParamValue) == option?.value ? 'opacity-100' : 'opacity-0',
+                            currentParamValue.includes(option?.value) ? 'opacity-100' : 'opacity-0',
                           )}
                         />
                         {option?.label}
@@ -188,6 +254,14 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
                 </CommandList>
               </CommandGroup>
             )}
+            <CommandGroup>
+              <div className="border-t py-2 text-center">
+                <Button className="bg-transparent text-sm font-bold text-slate-700" onClick={resetFilters}>
+                  <Image src="/svg/timer-reset.svg" height={14} width={14} alt="" />
+                  <span className="text-sm">Reset</span>
+                </Button>
+              </div>
+            </CommandGroup>
           </Command>
         </PopoverContent>
       </Popover>

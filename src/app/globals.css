@@ -123,3 +123,12 @@
 .tooltip-content {
   @apply rounded bg-gray-800 p-2 text-sm text-white shadow-lg;
 }
+/* added parent selector so that it doesn't affect other tooltips */
+#cost-trend .apexcharts-tooltip.apexcharts-theme-light {
+  border: 1px solid #e3e3e3;
+  background: #ff2278;
+  color: white;
+  padding: 0px;
+  height: 30px;
+  margin-top: 10px;
+}

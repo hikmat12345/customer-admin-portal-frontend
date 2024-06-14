@@ -35,7 +35,7 @@ function InvoicesTable({ data }: any) {
               <TableCell className="text-left">{formatDate(invoice?.invoiceDate, DATE_FORMAT)}</TableCell>
               <TableCell className="text-left">{formatDate(invoice?.invoiceDate, DATE_FORMAT) || '-'}</TableCell>
               <TableCell className="text-left">{invoice?.status ? invoice?.status : '-'}</TableCell>
-              <TableCell className="text-left">-</TableCell>
+              <TableCell className="text-left">{invoice?.AccountPayableRequestInvoiceId || '-'}</TableCell>
               <TableCell className="text-left">
                 {formatDate(invoice?.dateTimeForSentInAccountPayableRequest, DATE_FORMAT) || '-'}
               </TableCell>

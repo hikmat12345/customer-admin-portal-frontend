@@ -7,13 +7,13 @@ import Pagination from '@/components/ui/pagination';
 import SearchField from '@/components/ui/search-field';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import CreateQueryString from '@/utils/createQueryString';
-import debounce from 'lodash.debounce';
 import InvoicesTableSkeleton from './components/invoicesTable/invoicesTableSkeleton';
 import SelectComponent from './components/select';
 import useGetMenuOptions from './components/select/options';
 import InvoicesTable from './components/invoicesTable';
 import InvoicesProcessed from './components/invoicesProcessedCard';
 import AccountCard from '../../components/ui/accountCard/card';
+import { sanitizeSearchQuery } from '@/utils/utils';
 import { PAGE_SIZE } from '@/utils/constants/constants';
 
 function InvoicesPage() {
@@ -47,15 +47,21 @@ function InvoicesPage() {
   );
 
   const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    if (value.length === 0) {
-      router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
-    } else {
-      router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
-    }
+    if (event.target.value === '') router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
   };
 
-  const debouncedSearchFieldHandlder = React.useCallback(debounce(handleSearchField, 500), []);
+  const handleSearchKeydown = (event: any) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      let { value } = event.target;
+      value = sanitizeSearchQuery(value);
+      if (value.length === 0) {
+        router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
+      } else {
+        router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
+      }
+    }
+  };
 
   const totalPages = allInvoices?.total / limit;
 
@@ -168,10 +174,12 @@ function InvoicesPage() {
       <div className="grid-auto-flow-column mt-6 grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
         <div className="flex items-center justify-between gap-2">
           <SearchField
-            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:min-w-[700px]"
             iconWidth={16}
             iconHeight={16}
-            onChange={debouncedSearchFieldHandlder}
+            onChange={handleSearchField}
+            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:w-[600px]"
+            defaultValue={searchQuery}
+            onKeyDown={handleSearchKeydown}
             helpText="Searches ID, invoice number, network country ID, network name, company network account number and  conversion rate fields."
           />
           <div className="flex gap-4">
