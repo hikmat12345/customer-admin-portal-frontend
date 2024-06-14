@@ -41,7 +41,7 @@ function InvoicesTable({ data }: any) {
               </TableCell>
               <TableCell className="text-left">{moneyFormatter(invoice?.totalRaw, 'USD')}</TableCell>
               <TableCell className="text-left font-normal last:text-center">
-                <span className="text-[#219653]"> {invoice?.companyNetwork.network.country.currencyCode}</span>
+                {invoice?.companyNetwork?.network?.country ? invoice.companyNetwork.network.country.currencyCode : '-'}
               </TableCell>
             </TableRow>
           ))}

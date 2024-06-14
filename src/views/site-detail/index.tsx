@@ -33,7 +33,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
   const pathname = usePathname();
   const isTerminated = searchParams?.get('showTerminated');
 
-  const [showTerminated, setShowTerminated] = React.useState(true);
+  const [showTerminated, setShowTerminated] = React.useState<boolean>(true);
   const createQueryString = CreateQueryString();
 
   const site_id = siteId;
