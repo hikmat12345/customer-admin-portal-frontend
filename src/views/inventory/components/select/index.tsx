@@ -186,7 +186,8 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
                             if (paramValues.includes(selectedOption.value.toString())) {
                               const paramIndex = paramValues.findIndex((param) => param == selectedOption.value);
                               paramValues.splice(paramIndex, 1);
-                              const updatedQueryString = createQueryString(PARAM_NAME[index], paramValues.join(','));
+                              const updatedParams = paramValues.length > 0 ? paramValues.join(',') : undefined;
+                              const updatedQueryString = createQueryString(PARAM_NAME[index], updatedParams);
                               router.push(`${pathname}?${updatedQueryString}`);
                             } else {
                               const queryParamValue = currentParamValue
