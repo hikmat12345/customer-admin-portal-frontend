@@ -186,7 +186,7 @@ export default function TableData({ data, loading, label, currency, tableClass }
             style={{ borderColor: '#e2e2e2' }}
             className={`border-tools-table-outline border-separate rounded-md border-[1px] border-[#e2e2e2] text-left ${tableClass}`}
           >
-            <TableHeader>
+            <TableHeader className='relative'>
               <TableRow>
                 <TableHeaderContent data={data} />
               </TableRow>

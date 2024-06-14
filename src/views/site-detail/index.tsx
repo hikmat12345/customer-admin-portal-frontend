@@ -199,13 +199,14 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
         </div>
 
         {/* Cost Trend  */}
+        {costTrendData?.length > 0 && (
         <div id="cost-trend">
           <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
           <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
-        </div>
+        </div>)}
 
         {/* Service Type */}
-        <div id="service-type">
+        {serviceTypes.length > 0 && (<div id="service-type">
           <div className="flex gap-4 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">
             Service Type{' '}
             <TooltipText
@@ -225,15 +226,17 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
             )}
           </div>
           <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
-        </div>
+        </div>)}
 
         {/* Tickets  */}
+        {ticketsData?.length > 0 && (
         <div id="tickets">
           <TableData label="Tickets" loading={isSiteTicketsLoader} data={ticketsData} />
           <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
-        </div>
+        </div> )}
 
         {/* Invoices  */}
+        {siteInvoicesData?.invoices?.length > 0 && (
         <div id="invoices">
           <TableData
             label="Invoices"
@@ -243,12 +246,13 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
             tableClass="whitespace-nowrap"
           />
           <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
-        </div>
+        </div>)}
 
         {/* Service  */}
+        {refinedData?.length > 0 && (
         <div id="services">
           <TableData label="Services" data={refinedData} loading={isServicesLoader} tableClass="whitespace-nowrap" />
-        </div>
+        </div> )}
         {totlaPages > 8 && (
           <div>
             <Pagination
