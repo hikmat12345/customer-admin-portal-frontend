@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Account',
   description: 'View Accounts',
   icons: {
-    icon: '/favicon.svg',
+    icon: '/favicon.ico',
   },
 };
 

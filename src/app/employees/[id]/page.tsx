@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
     title: `Employee ${id}`,
     description: 'View Employees',
     icons: {
-      icon: '/favicon.svg',
+      icon: '/favicon.ico',
     },
   };
 }
