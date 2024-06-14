@@ -1,4 +1,3 @@
-import Table from '@veroxos/design-system/dist/ui/Table/table';
 import TableCaption from '@veroxos/design-system/dist/ui/TableCaption/tableCaption';
 import TableCell from '@veroxos/design-system/dist/ui/TableCell/tableCell';
 import TableBody from '@veroxos/design-system/dist/ui/TableBody/tableBody';
@@ -6,13 +5,14 @@ import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow';
 import Link from 'next/link';
 import InvoicesTableHead from './invoicesTableHead';
 import formatDate, { moneyFormatter } from '@/utils/utils';
-import { DATE_FORMAT } from '@/utils/constants/constants';
+import { DATE_FORMAT, TABLE_HEIGHT } from '@/utils/constants/constants';
+import Table from '@veroxos/design-system/dist/ui/Table/table';
 
 function InvoicesTable({ data }: any) {
   const isNoData = data?.invoices?.length === 0;
 
   return (
-    <div className="overflow-auto lg:max-h-[225px] xl:max-h-full">
+    <div className="overflow-auto" style={{ height: `calc(100vh - ${TABLE_HEIGHT})` }}>
       <Table>
         <InvoicesTableHead />
         {isNoData && <TableCaption>No invoices available.</TableCaption>}
@@ -41,7 +41,7 @@ function InvoicesTable({ data }: any) {
               </TableCell>
               <TableCell className="text-left">{moneyFormatter(invoice?.totalRaw, 'USD')}</TableCell>
               <TableCell className="text-left font-normal last:text-center">
-                <span className="text-[#219653]"> {invoice?.companyNetwork.network.country.currencyCode}</span>
+                {invoice?.companyNetwork?.network?.country ? invoice.companyNetwork.network.country.currencyCode : '-'}
               </TableCell>
             </TableRow>
           ))}

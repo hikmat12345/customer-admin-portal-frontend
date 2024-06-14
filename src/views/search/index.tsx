@@ -53,14 +53,15 @@ const SearchPage = () => {
   return (
     <div className="h-screen">
       <div className="my-4 flex items-center justify-between rounded-lg bg-custom-white p-4">
-        <div className="w-4/5">
+        <div className="w-4/6 border-b">
           <SearchField
             iconWidth={16}
             iconHeight={16}
-            className="ml-2 min-w-full max-w-full rounded-none border-b bg-transparent shadow-none"
+            className="ml-2 mr-2 w-full rounded-none bg-transparent shadow-none"
             defaultValue={search}
             ref={searchFieldRef}
             onKeyDown={handleKeyDown}
+            helpText="Searches ID, invoice number, first name, last name, client reference number, account number, account display name, serial number, service number, site name, building name, contact name, contact email, etc"
           />
           {inputValidation !== '' && <p className="ml-2 mt-2 text-xs text-red-600">{inputValidation}</p>}
         </div>

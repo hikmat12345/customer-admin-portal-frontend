@@ -40,25 +40,13 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
   const createQueryString = CreateQueryString();
 
   const currentParamValue = searchParams?.get(PARAM_NAME[index]) || '';
+  const paramValues = currentParamValue.split(',');
 
   const selectedOptionLabel = menuOption?.options
     ?.flat()
-    .find((option: { value: string | number; label: string }) => option?.value == currentParamValue)?.label;
+    .find((option: { value: string | number; label: string }) => option?.value == paramValues[0])?.label;
 
-  const selectedVendorOptionLabel = menuOption?.options
-    ?.flat()
-    .find((option: { value: string | number; label: string }) => {
-      if (index === 1) {
-        return option?.value === currentParamValue;
-      }
-      return true;
-    })?.label;
-
-  const selectedServiceStatusLabel = menuOption?.options?.find(
-    (option: { value: string | number; label: string }) => option?.value == currentParamValue,
-  );
-
-  let truncatedLabel = selectedOptionLabel || selectedVendorOptionLabel || selectedServiceStatusLabel;
+  let truncatedLabel = selectedOptionLabel;
 
   if (truncatedLabel && truncatedLabel.length > 17) {
     truncatedLabel = `${truncatedLabel.slice(0, 17)}...`;
@@ -73,18 +61,16 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
   const handleSubOptionSelect = (subOptionLabel: string) => {
     if (subOptionLabel) {
       let selectedOption = null;
-      let selectedCountry = null;
 
-      for (const country of menuOption.options) {
-        const foundOption = country.options.find((subOption: any) => subOption.label === subOptionLabel);
+      for (const option of menuOption.options) {
+        const foundOption = option.options.find((subOption: any) => subOption.label === subOptionLabel);
         if (foundOption) {
           selectedOption = foundOption;
-          selectedCountry = country;
           break;
         }
       }
 
-      if (selectedOption && selectedCountry) {
+      if (selectedOption) {
         if (currentParamValue === selectedOption.value) {
           const updatedQueryString = createQueryString(PARAM_NAME[index], undefined);
           router.push(`${pathname}?${updatedQueryString}`);
@@ -98,6 +84,24 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
     setOpen(false);
   };
 
+  const reset = () => {
+    router.push(`${pathname}?${createQueryString(PARAM_NAME[index], undefined)}`);
+    setOpen(false);
+  };
+
+  const isOptionChecked = (value: number) => {
+    const paramsArray = currentParamValue.split(',');
+    return paramsArray.includes(value.toString());
+  };
+
+  const buttonTitle = () => {
+    if (currentParamValue === '') return menuOption?.name;
+
+    let count: string | number = paramValues.length - 1;
+    count = count === 0 ? '' : ` +${count}`;
+    return truncatedLabel + count;
+  };
+
   return (
     <React.Suspense>
       <Popover open={open} onOpenChange={setOpen}>
@@ -109,7 +113,7 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
             className="min-w-[160px] max-w-fit justify-between"
             value={12}
           >
-            {currentParamValue !== '' ? truncatedLabel || currentParamValue : menuOption?.name}
+            {buttonTitle()}
             <Image
               src={open ? '/svg/select/upChevron.svg' : '/svg/select/downChevron.svg'}
               alt="Chevron Icon"
@@ -170,32 +174,46 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
                             selectedOption = menuOption?.options.flat().find((opt: any) => opt.value === currentValue);
                           }
                           if (index === 2) {
-                            selectedOption = menuOption?.options.flat().find((opt: any) => opt.label === currentValue);
+                            selectedOption = menuOption?.options.flat().find((opt: any) => {
+                              return opt.label === currentValue;
+                            });
                           }
-
                           if (index === 3) {
                             selectedOption = menuOption?.options.flat().find((opt: any) => opt.label === currentValue);
                           }
-                          if (currentParamValue == selectedOption?.value) {
-                            const updatedQueryString = createQueryString(PARAM_NAME[index], undefined);
-                            router.push(`${pathname}?${updatedQueryString}`);
-                          } else {
-                            const queryParamValue = selectedOption?.value;
-                            const updatedQueryString = createQueryString(PARAM_NAME[index], queryParamValue);
-                            router.push(`${pathname}?${updatedQueryString}`);
+
+                          if (selectedOption) {
+                            if (paramValues.includes(selectedOption.value.toString())) {
+                              const paramIndex = paramValues.findIndex((param) => param == selectedOption.value);
+                              paramValues.splice(paramIndex, 1);
+                              const updatedParams = paramValues.length > 0 ? paramValues.join(',') : undefined;
+                              const updatedQueryString = createQueryString(PARAM_NAME[index], updatedParams);
+                              router.push(`${pathname}?${updatedQueryString}`);
+                            } else {
+                              const queryParamValue = currentParamValue
+                                ? `${currentParamValue},${selectedOption?.value}`
+                                : selectedOption?.value;
+                              const updatedQueryString = createQueryString(PARAM_NAME[index], queryParamValue);
+                              router.push(`${pathname}?${updatedQueryString}`);
+                            }
                           }
+
                           setOpen(false);
                         }}
                       >
                         <Check
-                          className={cn(
-                            'mr-2 h-4 w-4',
-                            (+currentParamValue || currentParamValue) == option?.value ? 'opacity-100' : 'opacity-0',
-                          )}
+                          className={cn('mr-2 h-4 w-4 opacity-0', isOptionChecked(option?.value) && 'opacity-100')}
                         />
                         {option?.label}
                       </CommandItem>
                     ))}
+                  <CommandItem
+                    onSelect={reset}
+                    className="sticky bottom-0 flex cursor-pointer justify-center gap-1 border-t-[1px] border-[#F1F5F9] bg-custom-white py-2 text-[0.875rem] font-[500] leading-[1.063rem]"
+                  >
+                    <Image src={'/svg/reset.svg'} width={16} height={16} alt="reset icon" />
+                    <span>Reset</span>
+                  </CommandItem>
                 </CommandList>
               </CommandGroup>
             )}

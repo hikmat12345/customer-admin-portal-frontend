@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Optimization',
   description: 'View Optimization',
   icons: {
-    icon: '/favicon.svg',
+    icon: '/favicon.ico',
   },
 };
 

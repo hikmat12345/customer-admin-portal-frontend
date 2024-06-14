@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Home',
   description: 'Home',
   icons: {
-    icon: '/favicon.svg',
+    icon: '/favicon.ico',
   },
 };
 

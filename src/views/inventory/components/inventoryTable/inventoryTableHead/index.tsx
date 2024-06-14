@@ -4,7 +4,7 @@ import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow';
 
 function InventoryTableHead() {
   return (
-    <TableHeader>
+    <TableHeader className="bg-custom-white">
       <TableRow>
         <TableHead>ID</TableHead>
         <TableHead className="text-nowrap text-left">Number / Name</TableHead>

@@ -72,7 +72,7 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
           ),
         )
       ) : (
-        <div className="flex w-full justify-center py-8 text-center text-lg">No data found</div>
+        <div className="flex w-full justify-center py-8 text-center text-lg">No data found.</div>
       )}
     </div>
   );

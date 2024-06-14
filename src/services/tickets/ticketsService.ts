@@ -33,6 +33,19 @@ export const getMonthlyTickets = async ({ queryKey }: any) => {
   return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/monthly-tickets`, config).then(({ data }) => data);
 };
 
+export const getMonthlyTicketsStats = async ({ queryKey }: any) => {
+  const [, year, month] = queryKey;
+
+  const config = {
+    params: {
+      month,
+      year,
+    },
+  };
+
+  return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/monthly-tickets-stats`, config).then(({ data }) => data);
+};
+
 export const getOpenTickets = async ({ queryKey }: any) => {
   const [,] = queryKey;
 

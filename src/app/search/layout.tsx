@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Search',
   description: 'View Search',
   icons: {
-    icon: '/favicon.svg',
+    icon: '/favicon.ico',
   },
 };
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

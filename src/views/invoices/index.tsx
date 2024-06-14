@@ -14,6 +14,7 @@ import InvoicesTable from './components/invoicesTable';
 import InvoicesProcessed from './components/invoicesProcessedCard';
 import AccountCard from '../../components/ui/accountCard/card';
 import { sanitizeSearchQuery } from '@/utils/utils';
+import { PAGE_SIZE } from '@/utils/constants/constants';
 
 function InvoicesPage() {
   const searchParams = useSearchParams();
@@ -27,7 +28,7 @@ function InvoicesPage() {
 
   const searchQuery = searchParams && searchParams?.get('searchQuery');
 
-  const limit = 7;
+  const limit = PAGE_SIZE;
   const offset = +page - 1;
 
   const { data: invoicesData, isLoading: invoiceLoading } = useGetMonthlyInvoices();
@@ -179,7 +180,7 @@ function InvoicesPage() {
             className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:w-[600px]"
             defaultValue={searchQuery}
             onKeyDown={handleSearchKeydown}
-            helpText="Searches the invoice number, account number, vendor name, and country"
+            helpText="Searches ID, invoice number, network country ID, network name, company network account number and  conversion rate fields."
           />
           <div className="flex gap-4">
             {menuOptions?.map((menuOption: any, index: number) => (
