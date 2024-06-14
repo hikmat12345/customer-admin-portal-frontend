@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Vendor Details',
   description: 'View Vendor',
   icons: {
-    icon: '/favicon.svg',
+    icon: '/favicon.ico',
   },
 };
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

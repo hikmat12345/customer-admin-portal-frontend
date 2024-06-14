@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Inventory',
   description: 'View Inventory',
   icons: {
-    icon: '/favicon.svg',
+    icon: '/favicon.ico',
   },
 };
 
