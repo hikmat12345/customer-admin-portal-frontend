@@ -205,7 +205,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
             ) : (
               <div className="w-full py-8 text-center text-lg">Data Not Found</div>
             )}
-            <Separator className="mt-4 h-[1.0px] bg-[#5d5b5b61]" /> 
+            <Separator className="mt-4 h-[1.0px] bg-[#5d5b5b61]" />
           </div>
         )}
 
@@ -247,14 +247,14 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
               data={siteInvoicesData?.invoices}
               currency={siteInvoicesData?.invoices[0]?.Currency}
               loading={isSiteInvoicesLoader}
-            /> 
+            />
           </div>
         )}
 
         {/* Tickets  */}
         {isAccountTicketsLoader == false && structuredTicketsData?.length > 0 && (
           <>
-           <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
+            <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
             <div id="tickets">
               <TableData
                 label={

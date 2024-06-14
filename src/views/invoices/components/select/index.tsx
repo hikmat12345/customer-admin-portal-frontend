@@ -31,7 +31,7 @@ const PARAM_NAME: Record<number, string> = {
   2: 'account',
 };
 
-function SelectComponent({ menuOption, index, }: { menuOption: any; index: number }) {
+function SelectComponent({ menuOption, index }: { menuOption: any; index: number }) {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -54,7 +54,7 @@ function SelectComponent({ menuOption, index, }: { menuOption: any; index: numbe
     })?.label;
 
   let truncatedLabel = selectedOptionLabel || selectedVendorOptionLabel;
-   if (truncatedLabel && truncatedLabel.length > 14) {
+  if (truncatedLabel && truncatedLabel.length > 14) {
     truncatedLabel = `${truncatedLabel.slice(0, 14)}...`;
   }
 
@@ -65,29 +65,31 @@ function SelectComponent({ menuOption, index, }: { menuOption: any; index: numbe
   };
 
   const handleSubOptionSelect = (subOptionLabel: any) => {
-     if (subOptionLabel) {
+    if (subOptionLabel) {
       let selectedOption = null;
       let selectedCountry = null;
 
       for (const country of menuOption.options) {
         const foundOption = country.options.find((subOption: any) => subOption.label === subOptionLabel.label);
         if (foundOption) {
-          selectedOption = index===0 ? country : foundOption
+          selectedOption = index === 0 ? country : foundOption;
           selectedCountry = country;
           break;
         }
-      } 
-      if(selectedOption){
+      }
+      if (selectedOption) {
         if (currentParamValue.includes(selectedOption.value.toString())) {
-          const paramIndex = paramValues.findIndex(param => param == selectedOption.value);
+          const paramIndex = paramValues.findIndex((param) => param == selectedOption.value);
           paramValues.splice(paramIndex, 1);
-          const joinedParams = paramValues.join(",")
-          const updatedQueryString = createQueryString(PARAM_NAME[index], joinedParams)
-          router.push(`${pathname}?${updatedQueryString}`)
+          const joinedParams = paramValues.join(',');
+          const updatedQueryString = createQueryString(PARAM_NAME[index], joinedParams);
+          router.push(`${pathname}?${updatedQueryString}`);
         } else {
-          const queryParamValue = currentParamValue ? `${currentParamValue},${selectedOption?.value}` : selectedOption?.value
-          const updatedQueryString = createQueryString(PARAM_NAME[index], queryParamValue)
-          router.push(`${pathname}?${updatedQueryString}`)
+          const queryParamValue = currentParamValue
+            ? `${currentParamValue},${selectedOption?.value}`
+            : selectedOption?.value;
+          const updatedQueryString = createQueryString(PARAM_NAME[index], queryParamValue);
+          router.push(`${pathname}?${updatedQueryString}`);
         }
       }
     }
@@ -108,7 +110,10 @@ function SelectComponent({ menuOption, index, }: { menuOption: any; index: numbe
             className="w-[200px] justify-between"
             value={12}
           >
-               {currentParamValue !== '' ? `${truncatedLabel? truncatedLabel : menuOption?.name}${paramValues.length - 1 ? ` (+${paramValues.length - 1})` : ''}` : menuOption?.name}            <Image
+            {currentParamValue !== ''
+              ? `${truncatedLabel ? truncatedLabel : menuOption?.name}${paramValues.length - 1 ? ` (+${paramValues.length - 1})` : ''}`
+              : menuOption?.name}{' '}
+            <Image
               src={open ? '/svg/select/upChevron.svg' : '/svg/select/downChevron.svg'}
               alt="Chevron Icon"
               width={20}
@@ -124,62 +129,59 @@ function SelectComponent({ menuOption, index, }: { menuOption: any; index: numbe
                 <CommandEmpty>No data found</CommandEmpty>
               </>
             )}
-           
+
             {/* country dropdown */}
-            { index === 0 && 
-                (
-                  <CommandGroup>
-                    <CommandList>
-                      {menuOption?.options
-                        ?.flat()
-                        ?.filter((option: Option) => option?.label !== '')
-                        .map((option: any, indexCount: number) => (
-                          <CommandItem
-                            key={`${option?.label}-${indexCount++}`}
-                            value={option?.label}
-                            onSelect={(currentValue) => {
-                              let selectedOption;
-                              if (index === 0) {
-                                selectedOption = menuOption?.options.flat().find((opt: any) => opt.label === currentValue);
-                              } else {
-                                selectedOption = menuOption?.options.find((opt: any) => opt['label'] === currentValue);
-                              }
-    
-                              if (selectedOption) {
-                                if (currentParamValue.includes(selectedOption.value.toString())) {
-                                  const paramIndex = paramValues.findIndex((param) => param == selectedOption.value);
-                                  paramValues.splice(paramIndex, 1);
-                                  const joinedParams = paramValues.join(',');
-                                  const updatedQueryString = createQueryString(PARAM_NAME[index], joinedParams);
-                                  router.push(`${pathname}?${updatedQueryString}`);
-                                } else {
-                                  const queryParamValue = currentParamValue
-                                    ? `${currentParamValue},${selectedOption?.value}`
-                                    : selectedOption?.value;
-                                  const updatedQueryString = createQueryString(PARAM_NAME[index], queryParamValue);
-                                  router.push(`${pathname}?${updatedQueryString}`);
-                                }
-                              }
-                            }}
-    
-                          >
-                            <Check
-                              className={cn(
-                                'mr-2 h-4 w-4',
-                                currentParamValue.includes(option?.value) ? 'opacity-100' : 'opacity-0',
-                              )}
-                            />
-                            {option?.label}
-                          </CommandItem>
-                        ))}
-                    </CommandList>
-                  </CommandGroup>
-                )
-              }
-              {/* vendor dropdown  */}
-             {index === 1 && (
+            {index === 0 && (
               <CommandGroup>
-                 <CommandList>
+                <CommandList>
+                  {menuOption?.options
+                    ?.flat()
+                    ?.filter((option: Option) => option?.label !== '')
+                    .map((option: any, indexCount: number) => (
+                      <CommandItem
+                        key={`${option?.label}-${indexCount++}`}
+                        value={option?.label}
+                        onSelect={(currentValue) => {
+                          let selectedOption;
+                          if (index === 0) {
+                            selectedOption = menuOption?.options.flat().find((opt: any) => opt.label === currentValue);
+                          } else {
+                            selectedOption = menuOption?.options.find((opt: any) => opt['label'] === currentValue);
+                          }
+
+                          if (selectedOption) {
+                            if (currentParamValue.includes(selectedOption.value.toString())) {
+                              const paramIndex = paramValues.findIndex((param) => param == selectedOption.value);
+                              paramValues.splice(paramIndex, 1);
+                              const joinedParams = paramValues.join(',');
+                              const updatedQueryString = createQueryString(PARAM_NAME[index], joinedParams);
+                              router.push(`${pathname}?${updatedQueryString}`);
+                            } else {
+                              const queryParamValue = currentParamValue
+                                ? `${currentParamValue},${selectedOption?.value}`
+                                : selectedOption?.value;
+                              const updatedQueryString = createQueryString(PARAM_NAME[index], queryParamValue);
+                              router.push(`${pathname}?${updatedQueryString}`);
+                            }
+                          }
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            currentParamValue.includes(option?.value) ? 'opacity-100' : 'opacity-0',
+                          )}
+                        />
+                        {option?.label}
+                      </CommandItem>
+                    ))}
+                </CommandList>
+              </CommandGroup>
+            )}
+            {/* vendor dropdown  */}
+            {index === 1 && (
+              <CommandGroup>
+                <CommandList>
                   {menuOption?.options?.map((option: any, indexCount: number) => (
                     <>
                       <h6 className="px-3 py-3 text-sm font-bold">{option?.value}</h6>
@@ -187,13 +189,14 @@ function SelectComponent({ menuOption, index, }: { menuOption: any; index: numbe
                         <CommandItem
                           key={`${option?.label}-${indexCount++}`}
                           value={subOption?.label}
-                          onSelect={() => handleSubOptionSelect(subOption)} > 
+                          onSelect={() => handleSubOptionSelect(subOption)}
+                        >
                           <Check
-                          className={cn(
-                            'mr-2 h-4 w-4',
-                            currentParamValue.includes(subOption?.value) ? 'opacity-100' : 'opacity-0',
-                          )}
-                        />
+                            className={cn(
+                              'mr-2 h-4 w-4',
+                              currentParamValue.includes(subOption?.value) ? 'opacity-100' : 'opacity-0',
+                            )}
+                          />
                           {subOption?.value}
                         </CommandItem>
                       ))}
@@ -203,8 +206,8 @@ function SelectComponent({ menuOption, index, }: { menuOption: any; index: numbe
               </CommandGroup>
             )}
 
-          {/* account dropdown */}
-            {index ==2 && (
+            {/* account dropdown */}
+            {index == 2 && (
               <CommandGroup>
                 <CommandList>
                   {menuOption?.options
@@ -238,7 +241,6 @@ function SelectComponent({ menuOption, index, }: { menuOption: any; index: numbe
                             }
                           }
                         }}
-
                       >
                         <Check
                           className={cn(

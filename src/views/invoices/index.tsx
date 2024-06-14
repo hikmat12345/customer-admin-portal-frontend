@@ -7,7 +7,6 @@ import Pagination from '@/components/ui/pagination';
 import SearchField from '@/components/ui/search-field';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import CreateQueryString from '@/utils/createQueryString';
-import debounce from 'lodash.debounce';
 import InvoicesTableSkeleton from './components/invoicesTable/invoicesTableSkeleton';
 import SelectComponent from './components/select';
 import useGetMenuOptions from './components/select/options';
@@ -47,8 +46,8 @@ function InvoicesPage() {
   );
 
   const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
-     if (event.target.value === '') router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
-   };
+    if (event.target.value === '') router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
+  };
 
   const handleSearchKeydown = (event: any) => {
     if (event.key === 'Enter') {
@@ -62,7 +61,7 @@ function InvoicesPage() {
       }
     }
   };
- 
+
   const totalPages = allInvoices?.total / limit;
 
   const handlePageChange = async (page: number) => {
@@ -176,7 +175,7 @@ function InvoicesPage() {
           <SearchField
             iconWidth={16}
             iconHeight={16}
-            onChange={handleSearchField} 
+            onChange={handleSearchField}
             className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:w-[600px]"
             defaultValue={searchQuery}
             onKeyDown={handleSearchKeydown}
