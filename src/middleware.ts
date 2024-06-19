@@ -1,29 +1,39 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
-	const a_token = request.nextUrl.searchParams.get('access_token')
+  const { searchParams } = request.nextUrl;
+  const a_token = searchParams.get('access_token');
+  const r_token = searchParams.get('refresh_token');
 
-	if (a_token) {
-		const response = NextResponse.redirect(request.nextUrl.origin)
+  if (a_token && r_token) {
+    const response = NextResponse.redirect(request.nextUrl.origin);
 
-		response.cookies.set({
-			name: 'token',
-			value: a_token,
-			path: '/',
-		})
-		return response
-	}
+    response.cookies.set('token', a_token, {
+      path: '/',
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'development' ? false : true,
+    });
 
-	const access_token = request.cookies.get('token')?.value
+    response.cookies.set('refresh_token', r_token, {
+      path: '/',
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'development' ? false : true,
+    });
 
-	if (!access_token) {
-		const authServiceFrontend = String(process.env.NEXT_PUBLIC_AUTH_URL)
-		return NextResponse.redirect(authServiceFrontend)
-	}
+    return response;
+  }
 
-	return NextResponse.next()
+  const accessToken = request.cookies.get('token')?.value;
+  const refreshToken = request.cookies.get('refresh_token')?.value;
+
+  if (!accessToken || !refreshToken) {
+    const authServiceFrontend = String(process.env.NEXT_PUBLIC_AUTH_URL);
+    return NextResponse.redirect(authServiceFrontend);
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-	matcher: ['/((?!api|_next|.*\\..*).*)'],
-}
+  matcher: ['/((?!api|_next|.*\\..*).*)'],
+};

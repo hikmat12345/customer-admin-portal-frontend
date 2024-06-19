@@ -49,11 +49,15 @@
         },
         {
           "name": "NEXT_PUBLIC_TICKET_SERVICE_URL",
-          "value": "https://ticket-api.dev.v2.veroxos.com/api/v2"
+          "value": "https://ticket-api.dev.v2.veroxos.com/api/v2/customer-admin"
         },
         {
           "name": "NEXT_PUBLIC_INVOICE_SERVICE_URL",
           "value": "https://invoice-api.dev.v2.veroxos.com/api/v2"
+        },
+        {
+          "name": "NEXT_PUBLIC_ASSETS_LOGO_PATH",
+          "value": "https://veroxos-vendor-logo.s3-eu-west-1.amazonaws.com/" 
         },
         {
           "name": "NEXT_PUBLIC_INVENTORY_SERVICE_URL",
@@ -66,6 +70,18 @@
         {
           "name": "NEXT_PUBLIC_AUTH_URL",
           "value": "https://auth.dev.v2.veroxos.com/"
+        },
+        {
+          "name": "NEXT_PUBLIC_AUTH_SERVICE_URL",
+          "value": "https://auth-api.dev.v2.veroxos.com/api/v2"
+        },
+        {
+          "name": "COGNITO_USER_POOL_ID",
+          "value": "us-east-1_P2eZ1Y73y"
+        },
+        {
+          "name": "COGNITO_CLIENT_ID",
+          "value": "1p4kcnvlkv8moou0jou3gqmo6i"
         }
       ],
       "essential": true

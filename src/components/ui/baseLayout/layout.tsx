@@ -1,65 +1,83 @@
-'use client'
+'use client';
 
-import SearchTextFieldArea from '@/components/ui/searchTextFieldArea'
-import Sidebar from '@/components/ui/sidebar/sidebar'
-import Image from 'next/image'
-import { usePathname, useRouter } from 'next/navigation'
-import * as React from 'react'
+import SearchTextFieldArea from '@/components/ui/searchTextFieldArea';
+import Sidebar from '@/components/ui/sidebar/sidebar';
+import useGetUser from '@/hooks/useGetUser';
+import Image from 'next/image';
+import { useParams, usePathname, useRouter } from 'next/navigation';
+import * as React from 'react';
 
 const BaseLayout = ({ children }: { children: React.ReactNode }) => {
-	const pathname = usePathname();
-	const router = useRouter();
-	const pathSegments = pathname ? pathname.split('/') : null;
-	let endWord = (pathSegments && pathSegments[pathSegments.length - 1]) || 'Home';
-	endWord = endWord.replace(/[-/]+/g, ' ');
-	const isNumber = (word: any) => !isNaN(parseFloat(word)) && isFinite(word);
+  useGetUser();
+  const pathname = usePathname();
+  const params = useParams();
+  const router = useRouter();
+  const pathSegments = pathname && pathname.split('/');
 
-	// Recursive function to find the last non-numeric keyword
-	const findLastNonNumericKeyword = (index: number): string => {
-		if (index < 0 || !pathSegments) { 
-			return '';
-		}
+  const renamePagesTitle = (title: string) => {
+    switch (title) {
+      case 'inventory':
+        return 'Service Summary';
+      case 'invoices':
+        return 'Invoice Summary';
+      case 'sites':
+        return 'Site Summary';
+      case 'employees':
+        return 'Employee Summary';
+      case 'vendors':
+        return 'Vendor Account';
+      default:
+        return title + ' Summary';
+    }
+  };
+  let endWord = (position: number = 1) => {
+    const findPath = (pathSegments && pathSegments[pathSegments?.length - position]) || 'Home';
+    return findPath.replace(/[-/]+/g, ' ');
+  };
 
-		const currentWord = pathSegments[index];
-		if (isNumber(currentWord)) {
-			return findLastNonNumericKeyword(index - 1); // Recursively check the previous word
-		} else {
-			return currentWord.replace(/[-/]+/g, ' '); // Return the non-numeric keyword
-		}
-	};
+  const handleRouteBack = () => {
+    router.back();
+  };
 
-	// Check if the last segment is a number
-	if (isNumber(endWord) && pathSegments && pathSegments?.length > 1) {
-		// If the last segment is a number and there is a previous keyword, use the previous non-numeric keyword
-		endWord = findLastNonNumericKeyword(pathSegments.length - 2);
-	}
+  const isSummaryPage = !isNaN(Number(params?.id));
+  const isTicketSummaryPage = !isNaN(Number(params?.ticketId));
 
-	const handleRouteBack = () => {
-		router.back()
-	}
+  return (
+    <div className="flex">
+      <Sidebar />
+      <div className="flex max-h-full min-h-[100vh] w-full flex-col bg-[#f4f7fe] py-[1rem] pl-[290px] pr-[45px]">
+        <div className="mb-4 flex items-center justify-between">
+          <div className="relative flex items-center gap-5">
+            {isTicketSummaryPage ? (
+              <h2 className="text-[30px] font-bold capitalize text-custom-black">{endWord(2)}</h2>
+            ) : (
+              <>
+                {endWord() === 'search' && (
+                  <button
+                    className="absolute left-[-20px] flex h-[27px] w-[27px] items-center justify-center rounded-full border border-custom-blue p-2"
+                    onClick={handleRouteBack}
+                  >
+                    <Image src="/svg/search/arrowBack.svg" alt="Arrow back" width={6} height={6} />
+                  </button>
+                )}
+                <h2
+                  className={`text-[30px] font-bold capitalize text-custom-black ${endWord() === 'search' && 'ml-5'}`}
+                >
+                  {isSummaryPage
+                    ? renamePagesTitle(endWord(2))
+                    : endWord()?.toLocaleLowerCase() == 'inventory'
+                      ? 'View Services'
+                      : endWord()}
+                </h2>
+              </>
+            )}
+          </div>
+          <SearchTextFieldArea />
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+};
 
-	return (
-		<div className="flex">
-			<Sidebar />
-			<div className="flex flex-col py-[1rem] pl-[300px] pr-[55px] w-full min-h-[100vh] max-h-full bg-[#f4f7fe]">
-				<div className="flex items-center justify-between mb-4">
-					<div className="flex items-center gap-5 relative">
-						{endWord === 'search' && (
-							<button
-								className="flex items-center justify-center absolute left-[-35px] p-2 w-[27px] h-[27px] rounded-full border border-[#1D46F3]"
-								onClick={handleRouteBack}
-							>
-								<Image src="/svg/search/arrowBack.svg" alt="Arrow back" width={6} height={6} />
-							</button>
-						)}
-						<h2 className="capitalize font-bold text-[#000000] text-[34px]">{endWord}</h2>
-					</div>
-					<SearchTextFieldArea />
-				</div>
-				{children}
-			</div>
-		</div>
-	)
-}
-
-export default BaseLayout
+export default BaseLayout;

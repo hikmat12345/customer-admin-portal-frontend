@@ -1,25 +1,25 @@
-import { useSearchParams } from 'next/navigation'
-import React from 'react'
+import { useSearchParams } from 'next/navigation';
+import React from 'react';
 
 const CreateQueryString = () => {
-	const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
 
-	const createQueryString = React.useCallback(
-		(name: string, value: number | string | undefined) => {
-			const sParams = new URLSearchParams(searchParams?.toString())
+  const createQueryString = React.useCallback(
+    (name: string, value: number | string | undefined) => {
+      const sParams = new URLSearchParams(searchParams?.toString());
 
-			if (value !== undefined) {
-				sParams.set(name, value.toString())
-			} else {
-				sParams.delete(name)
-			}
+      if (value !== undefined) {
+        sParams.set(name, value.toString());
+      } else {
+        sParams.delete(name);
+      }
 
-			return sParams.toString()
-		},
-		[searchParams]
-	)
+      return sParams.toString();
+    },
+    [searchParams],
+  );
 
-	return createQueryString
-}
+  return createQueryString;
+};
 
-export default CreateQueryString
+export default CreateQueryString;
