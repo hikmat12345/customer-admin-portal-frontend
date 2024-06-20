@@ -1,98 +1,92 @@
 export const jsonObject = {
-  "bf558674-ab85-46ba-806f-bb7188eb9c10": {
-      "type": "SearchService",
-      "parentType": "searchService",
-      "title": "Search Service",
-      "order": "1",
-      "group": "0",
-      "mandatory": true,
-      "refreshOn": [
-          "bf558674-ab85-46ba-806f-bb7188eb9c10"
-      ],
-      "render": [],
-      "defaultValue": ""
+  'bf558674-ab85-46ba-806f-bb7188eb9c10': {
+    'type': 'SearchService',
+    'parentType': 'searchService',
+    'title': 'Search Service',
+    'order': '1',
+    'group': '0',
+    'mandatory': true,
+    'refreshOn': ['bf558674-ab85-46ba-806f-bb7188eb9c10'],
+    'render': [],
+    'defaultValue': '',
   },
-  "bdc7c919-4aef-40d4-bb44-19174c6b0af2": {
-      "type": "InputBox",
-      "parentType": "inputBox",
-      "title": "Enter some text",
-      "order": "1",
-      "group": "0",
-      "mandatory": true,
-      "refreshOn": [
-          "bdc7c919-4aef-40d4-bb44-19174c6b0af2"
-      ],
-      "render": {
-          "placeHolder": "",
-          "multipleLine": false
-      },
-      "defaultValue": ""
+  'bdc7c919-4aef-40d4-bb44-19174c6b0af2': {
+    'type': 'InputBox',
+    'parentType': 'inputBox',
+    'title': 'Enter some text',
+    'order': '1',
+    'group': '0',
+    'mandatory': true,
+    'refreshOn': ['bdc7c919-4aef-40d4-bb44-19174c6b0af2'],
+    'render': {
+      'placeHolder': '',
+      'multipleLine': false,
+    },
+    'defaultValue': '',
   },
-  "3751e4bf-a6a1-4768-bc3d-3b2cb83d0cd3": {
-      "type": "Textarea",
-      "parentType": "inputBox",
-      "title": "Some more text",
-      "order": "2",
-      "group": "0",
-      "mandatory": true,
-      "refreshOn": [],
-      "render": {
-          "placeHolder": "",
-          "multipleLine": true
-      },
-      "defaultValue": ""
+  '3751e4bf-a6a1-4768-bc3d-3b2cb83d0cd3': {
+    'type': 'Textarea',
+    'parentType': 'inputBox',
+    'title': 'Some more text',
+    'order': '2',
+    'group': '0',
+    'mandatory': true,
+    'refreshOn': [],
+    'render': {
+      'placeHolder': '',
+      'multipleLine': true,
+    },
+    'defaultValue': '',
   },
-  "02e0732f-79ff-4b27-9dca-4804266e1800": {
-      "type": "ServiceSuspend",
-      "parentType": "dropdown",
-      "title": "Suspend Service",
-      "order": "4",
-      "group": "0",
-      "mandatory": true,
-      "refreshOn": [],
-      "render": {
-          "items": {
-              "0": "No",
-              "1": "Yes"
-          },
-          "groups": false,
-          "allowMultiple": false
+  '02e0732f-79ff-4b27-9dca-4804266e1800': {
+    'type': 'ServiceSuspend',
+    'parentType': 'dropdown',
+    'title': 'Suspend Service',
+    'order': '4',
+    'group': '0',
+    'mandatory': true,
+    'refreshOn': [],
+    'render': {
+      'items': {
+        '0': 'No',
+        '1': 'Yes',
       },
-      "defaultValue": ""
+      'groups': false,
+      'allowMultiple': false,
+    },
+    'defaultValue': '',
   },
-  "eeb415a6-c36f-4ac5-acd2-f47f6c38bea4": {
-      "type": "ServiceInfo",
-      "parentType": "serviceInfo",
-      "title": "Service Info",
-      "order": "5",
-      "group": "0",
-      "mandatory": false,
-      "refreshOn": [
-          "bf558674-ab85-46ba-806f-bb7188eb9c10"
-      ],
-      "render": {
-          "showEmployeeInfo": true
-      },
-      "defaultValue": ""
+  'eeb415a6-c36f-4ac5-acd2-f47f6c38bea4': {
+    'type': 'ServiceInfo',
+    'parentType': 'serviceInfo',
+    'title': 'Service Info',
+    'order': '5',
+    'group': '0',
+    'mandatory': false,
+    'refreshOn': ['bf558674-ab85-46ba-806f-bb7188eb9c10'],
+    'render': {
+      'showEmployeeInfo': true,
+    },
+    'defaultValue': '',
   },
-  "5b8a8164-3041-4c18-a168-d262adf86d14": {
-      "type": "Text",
-      "parentType": "text",
-      "title": "Text",
-      "order": "6",
-      "group": "0",
-      "mandatory": false,
-      "refreshOn": [],
-      "render": {
-          "text": "this is text",
-          "textHexColour": "#000000",
-          "textFontSize": 12,
-          "backgroundHex": "#bfefff",
-          "titleHexColour": "#2e78bc",
-          "titleFontSize": 20
-      },
-      "defaultValue": ""
-  }
+  '5b8a8164-3041-4c18-a168-d262adf86d14': {
+    'type': 'Text',
+    'parentType': 'text',
+    'title': 'Text',
+    'order': '6',
+    'group': '0',
+    'mandatory': false,
+    'refreshOn': [],
+    'render': {
+      'text': 'this is text',
+      'textHexColour': '#000000',
+      'textFontSize': 12,
+      'backgroundHex': '#bfefff',
+      'titleHexColour': '#2e78bc',
+      'titleFontSize': 20,
+    },
+    'defaultValue': '',
+  },
 
   // Original Value from Database
   // '16b3829b-404f-4743-9142-fd1ea48a0ba3': {
