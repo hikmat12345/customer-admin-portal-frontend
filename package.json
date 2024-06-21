@@ -29,7 +29,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@tanstack/react-query": "^5.29.2",
     "@veroxos/design-system": "bitbucket:sl-faizrasool/veroxos-design-system#691e304",
-    "@veroxos/workflow": "bitbucket:sl-faizrasool/veroxos-workflow#55791ae",
+    "@veroxos/workflow": "bitbucket:sl-faizrasool/veroxos-workflow#d49dff6",
     "apexcharts": "^3.47.0",
     "aws-jwt-verify": "^4.0.1",
     "axios": "^1.6.8",
