@@ -139,7 +139,7 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
           <Loader size={50} color="#b1b1b1" />
         </div>
       ) : !data?.length ? (
-        <div className="py-8 text-center text-lg"> Data Not Found</div>
+        <div className="py-8 text-center text-lg"> No data found</div>
       ) : (
         <>
           <div className="flex">

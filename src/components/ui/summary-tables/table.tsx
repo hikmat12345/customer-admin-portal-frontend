@@ -47,7 +47,7 @@ function TableHeaderContent({ data }: any) {
           </TableHead>
         ))
       ) : (
-        <div className="py-8 text-center text-lg">Data Not Found</div>
+        <div className="py-8 text-center text-lg">No data found</div>
       )}
     </>
   );
@@ -179,14 +179,14 @@ export default function TableData({ data, loading, label, currency, tableClass }
           <TableBodySkeleton rowCount={3} columnCount={3} />
         </Table>
       ) : Array.isArray(data) && data.length < 1 ? (
-        <div className="py-8 text-center text-lg">Data Not Found</div>
+        <div className="py-8 text-center text-lg">No data found</div>
       ) : (
         <div className="no-scrollbar max-h-[600px]">
           <Table
             style={{ borderColor: '#e2e2e2' }}
             className={`border-tools-table-outline border-separate rounded-md border-[1px] border-[#e2e2e2] text-left ${tableClass}`}
           >
-            <TableHeader>
+            <TableHeader className="relative">
               <TableRow>
                 <TableHeaderContent data={data} />
               </TableRow>
