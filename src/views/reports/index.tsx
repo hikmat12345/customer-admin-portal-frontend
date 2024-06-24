@@ -8,10 +8,12 @@ import TabsContent from '@veroxos/design-system/dist/ui/TabsContent/tabsContent'
 import Tabs from '@veroxos/design-system/dist/ui/Tabs/tabs';
 import CreateQueryString from '@/utils/createQueryString';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import allReports, { AllReports, ReportCategory } from './reports';
+import GetAllReports, { AllReports, ReportCategory } from './reports';
 import ReportsCard from './components/reportsCard';
 
 function ReportsPage() {
+  const allReports = GetAllReports();
+
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const defaultTabValue = searchParams?.get('tab') || 'finance';
@@ -31,7 +33,7 @@ function ReportsPage() {
     if (term === '') {
       setFilteredReports(allReports);
       setActiveTab(defaultTabValue);
-      setNoReportsFound(false);
+      -setNoReportsFound(false);
       return;
     }
 
