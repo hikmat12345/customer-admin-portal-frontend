@@ -180,11 +180,11 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
               companyNetworkStatus,
             }}
           />
-          <Separator className="h-[1.0px] bg-[#5d5b5b61]" />
+          <Separator className="separator-bg-1 h-[1.0px]" />
         </div>
 
         {/* Service Type */}
-        {isVendorServiceTypeLoading == false && vendorServicesTypes?.data?.length > 0 && (
+        {vendorServicesTypes?.data?.length > 0 && (
           <div id="service-type">
             <div className="pb-8 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Service Type</div>
             {isVendorServiceTypeLoading ? (
@@ -203,14 +203,14 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
                 )}
               />
             ) : (
-              <div className="w-full py-8 text-center text-lg">Data Not Found</div>
+              <div className="w-full py-8 text-center text-lg">No data found</div>
             )}
-            <Separator className="mt-4 h-[1.0px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-4 h-[1.0px]" />
           </div>
         )}
 
         {/* Service Location */}
-        {isVendorServicesLocationLoading == false && serviceLocations?.length > 0 && (
+        {serviceLocations?.length > 0 && (
           <div id="service-location">
             <div className="pb-6 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Service Location</div>
             {isVendorServicesLocationLoading ? (
@@ -218,43 +218,45 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
             ) : (
               <GroupMapBox locations={serviceLocations} />
             )}
-            <Separator className="mt-8 h-[1.2px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-8 h-[1.2px]" />
           </div>
         )}
         {/* Cost Trend  */}
-        {isCostTrendLoading == false && costTrendData?.length > 0 && (
+        {costTrendData?.length > 0 && (
           <div id="cost-trend">
             <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
-            <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
           </div>
         )}
 
         {/* Invoices  */}
-        {isCostTrendLoading == false && siteInvoicesData?.invoices?.length > 0 && (
-          <div id="invoices">
-            <TableData
-              label={
-                <>
-                  Invoices
-                  <TooltipText
-                    text={`Last ${limit} invoices shown`}
-                    maxLength={1}
-                    className="pl-3 pt-3 leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
-                    type="notification"
-                  />
-                </>
-              }
-              data={siteInvoicesData?.invoices}
-              currency={siteInvoicesData?.invoices[0]?.Currency}
-              loading={isSiteInvoicesLoader}
-            />
-          </div>
+        {siteInvoicesData?.invoices?.length > 0 && (
+          <>
+            <div id="invoices">
+              <TableData
+                label={
+                  <>
+                    Invoices
+                    <TooltipText
+                      text={`Last ${limit} invoices shown`}
+                      maxLength={1}
+                      className="pl-3 pt-3 leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                      type="notification"
+                    />
+                  </>
+                }
+                data={siteInvoicesData?.invoices}
+                currency={siteInvoicesData?.invoices[0]?.Currency}
+                loading={isSiteInvoicesLoader}
+              />
+            </div>
+            <Separator className="separator-bg-1 mt-8 h-[1px]" />
+          </>
         )}
 
         {/* Tickets  */}
-        {isAccountTicketsLoader == false && structuredTicketsData?.length > 0 && (
+        {structuredTicketsData?.length > 0 && (
           <>
-            <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
             <div id="tickets">
               <TableData
                 label={
