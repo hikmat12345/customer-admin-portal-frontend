@@ -172,12 +172,11 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
               vipExecutive: vip_executive,
             }}
           />
-          <Separator className="h-[1.5px] bg-[#5d5b5b61]" />
+          <Separator className="separator-bg-1 h-[1.5px]" />
         </div>
         {/* Service  */}
 
         <>
-          {' '}
           <div id="services">
             <TableData
               label="Services"
@@ -194,14 +193,14 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
               </span>
             </button>
           </div>
-          <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
+          <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
         </>
 
         {/* Cost Trend  */}
         {costTrendData?.length > 0 && (
           <div id="cost-trend">
             <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
-            <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
           </div>
         )}
 
@@ -231,14 +230,14 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
                 <div className="w-full py-8 text-center text-lg">Data Not Found</div>
               )}
             </div>
-            <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
           </div>
         )}
         {/* Tickets  */}
         {refinedTickets?.length > 0 && (
           <div id="tickets">
             <TableData label="Tickets" loading={isSiteTicketsLoader} data={refinedTickets} />
-            <Separator className="mt-8 h-[1.px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-8 h-[1.px]" />
           </div>
         )}
       </ScrollTabs>

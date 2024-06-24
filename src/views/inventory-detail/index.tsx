@@ -110,7 +110,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
               site: site,
             }}
           />
-          <Separator className="h-[1.0px] bg-[#5d5b5b61]" />
+          <Separator className="separator-bg-1 h-[1.0px]" />
         </div>
 
         <div id="device-information">
@@ -146,13 +146,13 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
               )}
             </>
           )}
-          <Separator className="mt-4 h-[1.0px] bg-[#5d5b5b61]" />
+          <Separator className="separator-bg-1 mt-4 h-[1.0px]" />
         </div>
 
         {structuredTicketsData?.length > 0 && (
           <div id="tickets">
             <TableData label="Tickets" loading={isTicketsRecentActivityLoader} data={structuredTicketsData} />
-            <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-8 h-[1px]" />
           </div>
         )}
 

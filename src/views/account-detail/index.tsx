@@ -180,7 +180,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
               companyNetworkStatus,
             }}
           />
-          <Separator className="h-[1.0px] bg-[#5d5b5b61]" />
+          <Separator className="separator-bg-1 h-[1.0px]" />
         </div>
 
         {/* Service Type */}
@@ -205,7 +205,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
             ) : (
               <div className="w-full py-8 text-center text-lg">Data Not Found</div>
             )}
-            <Separator className="mt-4 h-[1.0px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-4 h-[1.0px]" />
           </div>
         )}
 
@@ -218,14 +218,14 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
             ) : (
               <GroupMapBox locations={serviceLocations} />
             )}
-            <Separator className="mt-8 h-[1.2px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-8 h-[1.2px]" />
           </div>
         )}
         {/* Cost Trend  */}
         {costTrendData?.length > 0 && (
           <div id="cost-trend">
             <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
-            <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
           </div>
         )}
 
@@ -250,7 +250,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
                 loading={isSiteInvoicesLoader}
               />
             </div>
-            <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-8 h-[1px]" />
           </>
         )}
 

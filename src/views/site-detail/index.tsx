@@ -195,14 +195,14 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
               status: status === 0 ? 'Live' : status === 1 ? 'Archived' : '',
             }}
           />
-          <Separator className="h-[1.0px] bg-[#5d5b5b61]" />
+          <Separator className="separator-bg-1 h-[1.0px]" />
         </div>
 
         {/* Cost Trend  */}
         {costTrendData?.length > 0 && (
           <div id="cost-trend">
             <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
-            <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
           </div>
         )}
 
@@ -224,10 +224,10 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
               ) : Array.isArray(serviceTypes) && serviceTypes.length > 0 ? (
                 <ServiceTypesGrid services={serviceTypes.sort((a, b) => b.subTypes?.length - a.subTypes?.length)} />
               ) : (
-                <div className="flex w-full justify-center py-8 text-center text-lg">Data Not Found</div>
+                <div className="flex w-full justify-center py-8 text-center text-lg">No data found.</div>
               )}
             </div>
-            <Separator className="mt-4 h-[1.2px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
           </div>
         )}
 
@@ -235,7 +235,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
         {ticketsData?.length > 0 && (
           <div id="tickets">
             <TableData label="Tickets" loading={isSiteTicketsLoader} data={ticketsData} />
-            <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-8 h-[1px]" />
           </div>
         )}
 
@@ -249,7 +249,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
               loading={isSiteInvoicesLoader}
               tableClass="whitespace-nowrap"
             />
-            <Separator className="mt-8 h-[1px] bg-[#5d5b5b61]" />
+            <Separator className="separator-bg-1 mt-8 h-[1px]" />
           </div>
         )}
 
