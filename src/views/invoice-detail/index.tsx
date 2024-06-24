@@ -99,7 +99,7 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
             vendorData={vendorInfo}
             isLoading={isInvoiceSummaryLoading}
           />
-          <Separator className="h-[1.0px] bg-[#5d5b5b61]" />
+          <Separator className="separator-bg-1 h-[1.0px]" />
         </div>
 
         <div id="invoice-payment-information">
@@ -114,7 +114,7 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
               />
             </div>
           </div>
-          <Separator className="h-[1.0px] bg-[#5d5b5b61]" />
+          <Separator className="separator-bg-1 h-[1.0px]" />
         </div>
 
         {invoiceActivityLog?.length > 0 && isInvoiceActivityLogLoading == false && (
