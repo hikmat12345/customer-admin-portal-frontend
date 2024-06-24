@@ -11,8 +11,8 @@
     "lint:fix": "yarn eslint:fix",
     "lint:strict": "next lint '*/**/*.{js,jsx,ts,tsx}'",
     "check-types": "tsc --noEmit --pretty",
-    "design-system": "npm update @veroxos/design-system --legacy-peer-deps",
-    "workflow": "npm update @veroxos/workflow --legacy-peer-deps",
+    "design-system": "npm install @veroxos/design-system --legacy-peer-deps",
+    "workflow": "npm install @veroxos/workflow --legacy-peer-deps",
     "prepare": "husky install",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,md,json,scss} --config ./.prettierrc"
   },
