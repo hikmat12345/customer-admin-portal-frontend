@@ -33,7 +33,7 @@ function ReportsPage() {
     if (term === '') {
       setFilteredReports(allReports);
       setActiveTab(defaultTabValue);
-      -setNoReportsFound(false);
+      setNoReportsFound(false);
       return;
     }
 
