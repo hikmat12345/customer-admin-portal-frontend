@@ -227,7 +227,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
                   )}
                 />
               ) : (
-                <div className="w-full py-8 text-center text-lg">Data Not Found</div>
+                <div className="w-full py-8 text-center text-lg">No data found</div>
               )}
             </div>
             <Separator className="separator-bg-1 mt-4 h-[1.2px]" />

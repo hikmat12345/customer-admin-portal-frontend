@@ -203,7 +203,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
                 )}
               />
             ) : (
-              <div className="w-full py-8 text-center text-lg">Data Not Found</div>
+              <div className="w-full py-8 text-center text-lg">No data found</div>
             )}
             <Separator className="separator-bg-1 mt-4 h-[1.0px]" />
           </div>
