@@ -1,6 +1,6 @@
 'use client';
 
-import { MONTH_YEAR_FORMAT } from '@/utils/constants/constants';
+import { MONTH_FORMAT, MONTH_YEAR_FORMAT } from '@/utils/constants/constants';
 import { moneyFormatter } from '@/utils/utils';
 import { ApexOptions } from 'apexcharts';
 import { format } from 'date-fns';
@@ -78,7 +78,7 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
         format: MONTH_YEAR_FORMAT,
         formatter: function (value: string) {
           const [year, month] = value?.split('-') || [];
-          return `${Date.parse(value) ? format(new Date(value), 'MMM') : month} ${year}`;
+          return `${Date.parse(value) ? format(new Date(value), MONTH_FORMAT) : month} ${year}`;
         },
       },
     },
