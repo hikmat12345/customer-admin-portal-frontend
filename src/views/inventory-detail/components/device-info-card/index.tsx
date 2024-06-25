@@ -82,7 +82,7 @@ export const DeviceInfoCard: React.FC<DeviceInfoCardProps> = ({
           </div>
         </div>
       )}
-      <Separator className="mt-8 h-[1.0px] bg-[#5d5b5b61]" />
+      <Separator className="separator-bg-1 mt-8 h-[1.0px]" />
     </div>
   );
 };
