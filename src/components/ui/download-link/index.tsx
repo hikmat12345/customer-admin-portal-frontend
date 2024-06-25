@@ -75,7 +75,7 @@ export function DownloadAbleLink({
       ) : (
         <Button
           className="border-none bg-transparent text-black"
-          onClick={() => fileDownloadFile(invoiceId , 'pdf', index, invoiceNumber)}
+          onClick={() => fileDownloadFile(invoiceId, 'pdf', index, invoiceNumber)}
         >
           <Image className="h-10 w-[24.28px]" src="/svg/pdf-icon.svg" alt="pdf" width={60} height={60} />
         </Button>
