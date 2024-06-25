@@ -5,7 +5,15 @@ import { Loader } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-export function DownloadAbleLink({ invoice_id, index, invoiceNumber }: { invoice_id: string | number; index: number, invoiceNumber: string }) {
+export function DownloadAbleLink({
+  invoice_id,
+  index,
+  invoiceNumber,
+}: {
+  invoice_id: string | number;
+  index: number;
+  invoiceNumber: string;
+}) {
   const [invoiceId, setInvoiceId] = useState<string>('');
   const [invoiceNumberState, setInvoiceNumberState] = useState<string>('');
   const [fileType, setFileType] = useState<string>('');
@@ -21,7 +29,12 @@ export function DownloadAbleLink({ invoice_id, index, invoiceNumber }: { invoice
 
   const { data: blobdata, isLoading: isBlobLoading, error: blobError, refetch } = useGetSiteInvoiceFile(invoiceId);
 
-  const fileDownloadFile = async (fileId: string | number, fileType: 'pdf' | 'xls' | 'docs', index: number, invoiceNumber?: string) => {
+  const fileDownloadFile = async (
+    fileId: string | number,
+    fileType: 'pdf' | 'xls' | 'docs',
+    index: number,
+    invoiceNumber?: string,
+  ) => {
     if (fileType == 'pdf') {
       setIsPdfFileLoading(`pdf-${index}`);
     } else if (fileType == 'xls') {
@@ -32,7 +45,7 @@ export function DownloadAbleLink({ invoice_id, index, invoiceNumber }: { invoice
     const makeInvoiceId: string =
       fileType === 'docs' ? `${fileId}_allocation.csv` : fileType === 'xls' ? `${fileId}.xlsx` : `${fileId}.pdf`;
     setInvoiceId(makeInvoiceId);
-   await promisedSetInvoiceNumber(invoiceNumber);
+    await promisedSetInvoiceNumber(invoiceNumber);
     setFileType(fileType);
   };
 
@@ -50,8 +63,8 @@ export function DownloadAbleLink({ invoice_id, index, invoiceNumber }: { invoice
       } else if (fileType == 'docs') {
         setIsDocsFileLoading(false);
       }
-            
-      downloadFile(fileType, blobdata, invoiceId,false, invoiceNumberState);
+
+      downloadFile(fileType, blobdata, invoiceId, false, invoiceNumberState);
     }
   }, [blobdata, isBlobLoading, blobError, fileType, invoiceId]);
 

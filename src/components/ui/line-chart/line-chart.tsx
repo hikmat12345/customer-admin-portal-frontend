@@ -76,13 +76,12 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
       categories: [...data?.map((d) => d.date)].reverse(),
       // type: 'datetime',
       labels: {
-        format: MONTH_YEAR_FORMAT, 
-        formatter: function (value:string, dateObj) {
-            const [year, month] = value?.split('-') || [];
-            // month should be like 'Jan', 'Feb', 'Mar' etc
-          return `${ Date.parse(value) ? format(new Date(value), 'MMM') : month } ${year}`;
-
-         }, 
+        format: MONTH_YEAR_FORMAT,
+        formatter: function (value: string, dateObj) {
+          const [year, month] = value?.split('-') || [];
+          // month should be like 'Jan', 'Feb', 'Mar' etc
+          return `${Date.parse(value) ? format(new Date(value), 'MMM') : month} ${year}`;
+        },
       },
     },
     labels: [...data?.map((d) => d.date)].reverse(),

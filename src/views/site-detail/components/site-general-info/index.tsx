@@ -77,14 +77,18 @@ export default function SiteGeneralInfo({
                 {contactName?.trim() || ' - '}{' '}
               </div>
               <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
-              {status !== undefined && status !==null? <Badge
-              className={`rounded-lg py-[3px] text-white ${status == 1 ? 'bg-[#219653]' : status == 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`}
-              variant="success"
-              shape="block"
-            >
-              {status == 1 ? 'Live' : status == 0 ? 'Terminated' : 'Suspended'}
-            </Badge>
-             : ' - '} </div>
+                {status !== undefined && status !== null ? (
+                  <Badge
+                    className={`rounded-lg py-[3px] text-white ${status == 1 ? 'bg-[#219653]' : status == 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`}
+                    variant="success"
+                    shape="block"
+                  >
+                    {status == 1 ? 'Live' : status == 0 ? 'Terminated' : 'Suspended'}
+                  </Badge>
+                ) : (
+                  ' - '
+                )}{' '}
+              </div>
             </div>
           </div>
           <div className="flex w-[25%] justify-between pr-20 max-lg:mt-5 max-lg:w-[100%]">

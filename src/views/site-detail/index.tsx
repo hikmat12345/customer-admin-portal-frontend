@@ -192,7 +192,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
               contactEmail,
               latitude,
               longitude,
-              status
+              status,
             }}
           />
           <Separator className="separator-bg-1 h-[1.0px]" />
@@ -269,14 +269,16 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
             />
           </div>
         )}
-         {!isServicesLoader && (<button
-          onClick={showTerminatedHandler}
-          className="my-5 ml-auto block h-[48px] w-[280px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-3"
-        >
-          <span className="text-base font-semibold text-white">
-            {showTerminated ? 'Show Terminated Services' : 'Show Live Services'}{' '}
-          </span>
-        </button>)}
+        {!isServicesLoader && (
+          <button
+            onClick={showTerminatedHandler}
+            className="my-5 ml-auto block h-[48px] w-[280px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-3"
+          >
+            <span className="text-base font-semibold text-white">
+              {showTerminated ? 'Show Terminated Services' : 'Show Live Services'}{' '}
+            </span>
+          </button>
+        )}
       </ScrollTabs>
     </div>
   );

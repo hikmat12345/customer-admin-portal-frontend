@@ -55,8 +55,8 @@ function TableHeaderContent({ data }: any) {
 
 // part of table component it is used to render the body of the table
 function TableBodyContent({ record, currencySymbol }: any) {
-  const invoiceNumber = stringFindAndReplaceAll(record['Invoice_#'], '-/', ' ', 0)
- 
+  const invoiceNumber = stringFindAndReplaceAll(record['Invoice_#'], '-/', ' ', 0);
+
   return (
     <>
       {Object.values(record).map((value: any, index: number) => (
@@ -137,7 +137,9 @@ function TableBodyContent({ record, currencySymbol }: any) {
           ) : Object.keys(record)[index] === 'download' ? (
             <DownloadAbleLink invoice_id={value} index={index} invoiceNumber={invoiceNumber} />
           ) : Object.keys(record)[index]?.toLocaleLowerCase() === 'currency' ? (
-            <><span className="text-[#47de88]">{findCurrencySymbol(currencySymbol?.trim())}</span> {currencySymbol} </>
+            <>
+              <span className="text-[#47de88]">{findCurrencySymbol(currencySymbol?.trim())}</span> {currencySymbol}{' '}
+            </>
           ) : Object.keys(record)[index] === 'total' ||
             Object.keys(record)[index] === 'cost_centre' ||
             Object.keys(record)[index] === 'sub_total' ||

@@ -50,7 +50,7 @@ export default function AccountGeneralInfo({
       {isLoading ? (
         <GeneralInfoSkeletons />
       ) : (
-        <div className="flex pb-6 lg:gap-x-[32px] xl:gap-x-[60px] max-lg:block max-h-52">
+        <div className="flex max-h-52 pb-6 lg:gap-x-[32px] xl:gap-x-[60px] max-lg:block">
           <div className="flex w-[40%] justify-between lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%]">
             <div className="w-[40%]">
               {staticData.slice(0, 7).map((item, index) => (
@@ -97,7 +97,7 @@ export default function AccountGeneralInfo({
                       <TooltipText
                         text={item.value ? item.value : ' - '}
                         maxLength={13}
-                        className="leading-6 text-[#575757] lg:text-[13px] text-left xl:text-[14px]"
+                        className="text-left leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
                       />
                     )
                   ) : (

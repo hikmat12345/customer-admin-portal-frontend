@@ -338,7 +338,7 @@ export const currencyList = [
   },
 ];
 
- // switch for currency symbol 
+// switch for currency symbol
 export const findCurrencySymbol = (currency: string) => {
   switch (currency) {
     case 'USD':
@@ -394,7 +394,7 @@ export const findCurrencySymbol = (currency: string) => {
     case 'BHD':
       return 'د.ب';
     case 'OMR':
-      return 'ر.ع.'; 
+      return 'ر.ع.';
     case 'EGP':
       return 'E£';
     case 'MYR':

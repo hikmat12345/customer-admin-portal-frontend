@@ -36,7 +36,12 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
 
   const { data: blobdata, isLoading: isBlobLoading, error: blobError, refetch } = useGetSiteInvoiceFile(invoiceId);
 
-  const fileDownloadFile = async (fileId: string | number, fileType: 'pdf' | 'xls' | 'docs', invoice_number:string, isViewPdf?: boolean) => {
+  const fileDownloadFile = async (
+    fileId: string | number,
+    fileType: 'pdf' | 'xls' | 'docs',
+    invoice_number: string,
+    isViewPdf?: boolean,
+  ) => {
     if (isViewPdf && fileType === 'pdf') {
       setIsShowInBrowserLoading(true);
     } else if (fileType === 'pdf') {
@@ -53,10 +58,11 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
     refetch();
   };
   // Parse the input string to a Date object
-  const monthAndYear =invoiceData.fiscalMonthYear?.split('/') 
-  const parsedDate = invoiceData.fiscalMonthYear && monthAndYear[0]?.trim() !=="null" && monthAndYear[1]?.trim() !=="null"
-    ? format(parse(invoiceData.fiscalMonthYear, MONTH_YEAR_FORMAT_SLASH, new Date()), MONTH_YEAR_FORMAT)
-    : ' - ';
+  const monthAndYear = invoiceData.fiscalMonthYear?.split('/');
+  const parsedDate =
+    invoiceData.fiscalMonthYear && monthAndYear[0]?.trim() !== 'null' && monthAndYear[1]?.trim() !== 'null'
+      ? format(parse(invoiceData.fiscalMonthYear, MONTH_YEAR_FORMAT_SLASH, new Date()), MONTH_YEAR_FORMAT)
+      : ' - ';
 
   useEffect(() => {
     if (!isBlobLoading && !blobError && blobdata && fileType) {
@@ -76,10 +82,10 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
       value: invoiceData.invoiceDate ? formatDate(invoiceData.invoiceDate, DATE_FORMAT) : '-',
     },
     { label: 'Fiscal Month / Year', value: parsedDate },
-    { label: 'Previous Balance Paid', value: moneyFormatter(invoiceData.previousBalancePaid, vendorData.currency) },  
-    { label: 'Carried Forward Balance', value:  moneyFormatter(invoiceData.carriedForwardBalance, vendorData.currency) },  
-    { label: 'Tax & Fees', value:  moneyFormatter(invoiceData.taxAndFees, vendorData.currency) }, 
-    { label: 'Amount to Pay', value:  moneyFormatter(invoiceData.amountToPay, vendorData.currency) }, 
+    { label: 'Previous Balance Paid', value: moneyFormatter(invoiceData.previousBalancePaid, vendorData.currency) },
+    { label: 'Carried Forward Balance', value: moneyFormatter(invoiceData.carriedForwardBalance, vendorData.currency) },
+    { label: 'Tax & Fees', value: moneyFormatter(invoiceData.taxAndFees, vendorData.currency) },
+    { label: 'Amount to Pay', value: moneyFormatter(invoiceData.amountToPay, vendorData.currency) },
     { label: 'Invoice (PDF)', value: invoiceData.invoiceId, isPdf: true },
     { label: 'APF Request #', value: invoiceData.apfRequestNumber },
     {
@@ -97,12 +103,12 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
         <TooltipText
           text={invoiceData.invoiceNumber ? invoiceData.invoiceNumber : '-'}
           maxLength={10}
-          className=" text-[#575757] lg:text-[13px] xl:text-[14px]"
+          className="text-[#575757] lg:text-[13px] xl:text-[14px]"
         />
       ),
     },
-    { label: 'Adjustments', value:  moneyFormatter(invoiceData.adjustments, vendorData.currency) },   
-    { label: 'Sub Total', value:  moneyFormatter(invoiceData.subTotal, vendorData.currency) },  
+    { label: 'Adjustments', value: moneyFormatter(invoiceData.adjustments, vendorData.currency) },
+    { label: 'Sub Total', value: moneyFormatter(invoiceData.subTotal, vendorData.currency) },
     { label: 'Total', value: moneyFormatter(invoiceData.total, vendorData.currency) },
     { label: 'Invoice Type', value: invoiceData.invoiceType ? invoiceData.invoiceType : '-' },
     { label: 'Include in APF', value: invoiceData.includeInAPF ? 'Yes' : 'No' },
@@ -141,7 +147,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                         <div className="cursor-pointer">
                           <Button
                             loading={isShowInBrowserLoading}
-                            className="!bg-transparent pl-0 py-0 h-0  leading-7 text-custom-blue underline decoration-2 lg:text-[13px] xl:text-[14px]"
+                            className="h-0 !bg-transparent py-0 pl-0 leading-7 text-custom-blue underline decoration-2 lg:text-[13px] xl:text-[14px]"
                             onClick={() => {
                               setShowInBrowser(true);
                               fileDownloadFile(item.value, 'pdf', invoiceData.invoiceNumber, true);
@@ -160,7 +166,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                         <div>{item.value ? item.value : ' - '}</div>
                       )
                     ) : (
-                      <div  className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]">-</div>
+                      <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]">-</div>
                     )}
                   </div>
                 ))}
@@ -190,7 +196,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                         <div>{item.value ? item.value : ' - '}</div>
                       )
                     ) : (
-                      <div  className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]">-</div>
+                      <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]">-</div>
                     )}
                   </div>
                 ))}
@@ -227,7 +233,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                   ))}
                 </div>
               </div>
-              <div className='flex justify-center'>
+              <div className="flex justify-center">
                 <VImage
                   src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + vendorData.logo}
                   alt="Invoice Summary Logo"
