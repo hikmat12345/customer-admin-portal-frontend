@@ -14,6 +14,7 @@ import {
   postS2Report,
   postS4Report,
   postS5Report,
+  postS6Report,
 } from '@/services/reports/reportService';
 import { createMutationWithVariables } from '@/utils/query';
 
@@ -46,3 +47,5 @@ export const { useMutation: usePostS2Report } = createMutationWithVariables('pos
 export const { useMutation: usePostS4Report } = createMutationWithVariables('post-s4-report', postS4Report);
 
 export const { useMutation: usePostS5Report } = createMutationWithVariables('post-s5-report', postS5Report);
+
+export const { useMutation: usePostS6Report } = createMutationWithVariables('post-s6-report', postS6Report);

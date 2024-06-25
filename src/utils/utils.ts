@@ -316,6 +316,10 @@ export const makeFileUrlFromBase64 = (base64String?: string | null, mimeType?: s
 
 export const currencyList = [
   {
+    label: 'Native',
+    value: 'raw',
+  },
+  {
     label: 'British Pound',
     value: 'gbp',
   },
