@@ -104,6 +104,13 @@ export const postS4Report = async (data: any) => {
 export const postS5Report = async (data: any) => {
   return httpClient
     .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/S5`, data, { responseType: 'blob' })
-    .then(({ data }) => downloadExcelFile(data, 'S5_report.xlsx'))
+    .then(({ data }) => downloadExcelFile(data, 'S5_Ticket_Listing.xlsx'))
+    .catch((error) => error);
+};
+
+export const postS6Report = async (data: any) => {
+  return httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/S6`, data, { responseType: 'blob' })
+    .then(({ data }) => downloadExcelFile(data, 'S-6_Ticket_Feedback.xlsx'))
     .catch((error) => error);
 };
