@@ -342,7 +342,7 @@ export const currencyList = [
   },
 ];
 
-// switch for currency symbol
+// switch for currency symbol, later we will write api for them.
 export const findCurrencySymbol = (currency: string) => {
   switch (currency) {
     case 'USD':
