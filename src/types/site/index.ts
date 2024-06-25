@@ -43,6 +43,6 @@ export type SiteGeneralInfoProps = {
     contactEmail: string;
     longitude: number;
     latitude: number;
-    status: string | number;
+    status: number;
   };
 };

@@ -87,7 +87,7 @@ export default function SiteGeneralInfo({
                   </Badge>
                 ) : (
                   ' - '
-                )}{' '}
+                )}
               </div>
             </div>
           </div>

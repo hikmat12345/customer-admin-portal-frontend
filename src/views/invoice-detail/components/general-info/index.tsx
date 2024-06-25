@@ -37,9 +37,9 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
   const { data: blobdata, isLoading: isBlobLoading, error: blobError, refetch } = useGetSiteInvoiceFile(invoiceId);
 
   const fileDownloadFile = async (
-    fileId: string | number,
+    fileId: number,
     fileType: 'pdf' | 'xls' | 'docs',
-    invoice_number: string,
+    invoiceNumber: string,
     isViewPdf?: boolean,
   ) => {
     if (isViewPdf && fileType === 'pdf') {
@@ -53,7 +53,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
     const makeInvoiceId: string =
       fileType == 'docs' ? `${fileId}_allocation.csv` : fileType == 'xls' ? `${fileId}.xlsx` : `${fileId}.pdf`;
     await promisedSetInvoice(makeInvoiceId);
-    await promisedSetInvoiceNumber(invoice_number);
+    await promisedSetInvoiceNumber(invoiceNumber);
     setFileType(fileType);
     refetch();
   };
@@ -150,7 +150,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                             className="h-0 !bg-transparent py-0 pl-0 leading-7 text-custom-blue underline decoration-2 lg:text-[13px] xl:text-[14px]"
                             onClick={() => {
                               setShowInBrowser(true);
-                              fileDownloadFile(item.value, 'pdf', invoiceData.invoiceNumber, true);
+                              fileDownloadFile(Number(item.value), 'pdf', invoiceData.invoiceNumber, true);
                             }}
                           >
                             View
@@ -250,7 +250,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
               loading={isXlsFileLoading}
               type="submit"
               className="flex items-center rounded border-none bg-transparent px-0 py-2 text-[#219653] animate-in hover:text-[#21965492]"
-              onClick={() => fileDownloadFile(invoiceData?.invoiceId, 'xls', invoiceData.invoiceNumber)}
+              onClick={() => fileDownloadFile(Number(invoiceData?.invoiceId), 'xls', invoiceData.invoiceNumber)}
             >
               <Image src="/svg/excel-icon.svg" width={20} height={20} alt="Download Invoice Summary" className="mr-2" />
               <span className="w-[55%] font-[600] underline decoration-2 lg:text-[13px] lg:leading-7 xl:text-[16px] xl:leading-7">
@@ -261,7 +261,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
               loading={isPdfFileLoading}
               type="submit"
               className="flex items-center rounded border-none bg-transparent px-4 py-2 text-[#E41323] animate-in hover:text-[#e4132499]"
-              onClick={() => fileDownloadFile(invoiceData?.invoiceId, 'pdf', invoiceData.invoiceNumber)}
+              onClick={() => fileDownloadFile(Number(invoiceData?.invoiceId), 'pdf', invoiceData.invoiceNumber)}
             >
               <Image src="/svg/pdf-icon.svg" width={20} height={20} alt="Download PDF" className="mr-2" />
               <span className="w-[55%] font-[600] underline decoration-2 lg:text-[13px] lg:leading-7 xl:text-[16px] xl:leading-7">

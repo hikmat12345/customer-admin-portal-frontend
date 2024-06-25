@@ -135,7 +135,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
               {value == 1 ? 'Live' : value == 0 ? 'Terminated' : 'Suspended'}
             </Badge>
           ) : Object.keys(record)[index] === 'download' ? (
-            <DownloadAbleLink invoice_id={value} index={index} invoiceNumber={invoiceNumber} />
+            <DownloadAbleLink invoiceId={value} index={index} invoiceNumber={invoiceNumber} />
           ) : Object.keys(record)[index]?.toLocaleLowerCase() === 'currency' ? (
             <>
               <span className="text-[#47de88]">{findCurrencySymbol(currencySymbol?.trim())}</span> {currencySymbol}

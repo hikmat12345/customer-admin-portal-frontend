@@ -37,8 +37,8 @@ export function MapBox({
     L.marker([lat, long], { icon: customIcon })
       .addTo(map)
       .bindPopup(`<a href="/sites/${siteId}">${address}</a>`)
-      .openPopup();
-
+      .openPopup(); 
+      map.zoomOut(2);
     return () => {
       map.remove();
     };
@@ -81,7 +81,7 @@ export function GroupMapBox({
         .bindPopup(`<a  href="/sites/${location.siteId}">${location.address}</a>`)
         .openPopup();
     });
-
+     map.zoomOut(10);
     return () => {
       map.remove();
     };
