@@ -5,7 +5,7 @@ import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow';
 import { Table, TableBody, TableCell } from '@/components/ui/table/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import Image from 'next/image';
-import formatDate, { getServiceType, moneyFormatter, stringFindAndReplaceAll } from '@/utils/utils';
+import formatDate, { findCurrencySymbol, getServiceType, moneyFormatter, stringFindAndReplaceAll } from '@/utils/utils';
 import { TICKETS_STATUS_LIST } from '@/utils/constants/statusList.constants';
 import TableBodySkeleton from '@/components/ui/table/tableBodySkeleton';
 import Link from 'next/link';
@@ -55,6 +55,8 @@ function TableHeaderContent({ data }: any) {
 
 // part of table component it is used to render the body of the table
 function TableBodyContent({ record, currencySymbol }: any) {
+  const invoiceNumber = stringFindAndReplaceAll(record['Invoice_#'], '-/', ' ', 0)
+ 
   return (
     <>
       {Object.values(record).map((value: any, index: number) => (
@@ -83,7 +85,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
                 href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)?.trim()}` : ''}
                 className="font-normal text-[#1175BE]"
               >
-                <TooltipText text={value.split('-/')[0]} maxLength={10} className="" />
+                <TooltipText text={value.split('-/')[0]} maxLength={11} className="" />
               </Link>
             ) : (
               '-'
@@ -94,7 +96,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
                 href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)?.trim()}` : ''}
                 className="font-normal text-[#1175BE]"
               >
-                <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={10} />
+                <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={11} />
               </Link>
             ) : (
               <span className="pl-5">-</span>
@@ -106,14 +108,14 @@ function TableBodyContent({ record, currencySymbol }: any) {
               href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, '-/', ' ', 1)?.trim()}` : ''}
               className="font-normal text-[#1175BE]"
             >
-              <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={10} />
+              <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={11} />
             </Link>
           ) : Object.keys(record)[index] === 'invoice_ref' ? (
             <Link
               href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
               className="font-normal text-[#1175BE]"
             >
-              <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={10} />
+              <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={11} />
             </Link>
           ) : Object.keys(record)[index] === 'invoice_date' || Object.keys(record)[index] === 'invoiceDate' ? (
             formatDate(value, DATE_FORMAT)
@@ -133,9 +135,9 @@ function TableBodyContent({ record, currencySymbol }: any) {
               {value == 1 ? 'Live' : value == 0 ? 'Terminated' : 'Suspended'}
             </Badge>
           ) : Object.keys(record)[index] === 'download' ? (
-            <DownloadAbleLink invoice_id={value} index={index} />
-          ) : Object.keys(record)[index] === 'currency' ? (
-            <span className="text-[#47de88]">{currencySymbol}</span>
+            <DownloadAbleLink invoice_id={value} index={index} invoiceNumber={invoiceNumber} />
+          ) : Object.keys(record)[index]?.toLocaleLowerCase() === 'currency' ? (
+            <><span className="text-[#47de88]">{findCurrencySymbol(currencySymbol?.trim())}</span> {currencySymbol} </>
           ) : Object.keys(record)[index] === 'total' ||
             Object.keys(record)[index] === 'cost_centre' ||
             Object.keys(record)[index] === 'sub_total' ||

@@ -23,7 +23,7 @@ export const ScrollTabs: React.FC<ScrollTabsProps> = ({ children, tabs = [''], r
     };
 
     observer.current = new IntersectionObserver(handleIntersect, {
-      threshold: 0.9, // Adjust the threshold as needed
+      threshold: 0.7, // Adjust the threshold as needed
     });
 
     tabs.forEach((tab) => {
