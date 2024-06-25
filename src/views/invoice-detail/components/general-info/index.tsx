@@ -260,7 +260,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
             <Button
               loading={isPdfFileLoading}
               type="submit"
-              className="flex items-center rounded border-none bg-transparent px-4 py-2 text-[#E41323] animate-in hover:text-[#e4132499]"
+              className="flex items-center rounded border-none bg-transparent ml-[10px] px-4 py-2 text-[#E41323] animate-in hover:text-[#e4132499]"
               onClick={() => fileDownloadFile(Number(invoiceData?.invoiceId), 'pdf', invoiceData.invoiceNumber)}
             >
               <Image src="/svg/pdf-icon.svg" width={20} height={20} alt="Download PDF" className="mr-2" />
