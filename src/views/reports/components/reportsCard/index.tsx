@@ -21,6 +21,7 @@ import {
   usePostS2Report,
   usePostS4Report,
   usePostS5Report,
+  usePostS6Report,
 } from '@/hooks/useGetReportData';
 import { format } from 'date-fns';
 import { DATE_FORMAT_YYYY_MM_DD, MONTH_AND_YEAR_FORMAT } from '@/utils/constants/dateFormat.constants';
@@ -42,7 +43,8 @@ type ReportKey =
   | 'S1'
   | 'S2'
   | 'S4'
-  | 'S5';
+  | 'S5'
+  | 'S6';
 
 const reportHooks = {
   F1: usePostF1Report,
@@ -60,6 +62,7 @@ const reportHooks = {
   S2: usePostS2Report,
   S4: usePostS4Report,
   S5: usePostS5Report,
+  S6: usePostS6Report,
 };
 
 function ReportsCard({
@@ -125,6 +128,7 @@ function ReportsCard({
     S2: useReportMutation('S2'),
     S4: useReportMutation('S4'),
     S5: useReportMutation('S5'),
+    S6: useReportMutation('S6'),
   };
 
   const handleSubmit = (values: Record<string, string>) => {
@@ -163,7 +167,7 @@ function ReportsCard({
           reportKey === 'S2'
         ) {
           reportMutations[reportKey].mutate({});
-        } else if (reportKey === 'S4' || reportKey === 'S5') {
+        } else if (reportKey === 'S4' || reportKey === 'S5' || 'S6') {
           reportMutations[reportKey].mutate({ from: formattedFromDateYYYYMM, to: formattedToDateYYYYMM });
         } else {
           reportMutations[reportKey].mutate(postBody);
@@ -206,22 +210,26 @@ function ReportsCard({
           <div className="flex w-[100%] flex-wrap gap-2">
             {fieldTypes
               .filter((field) => field.type !== 'datePicker')
-              .map((field, index) => (
-                <div
-                  className={`${
-                    fieldTypes.filter((field) => field.type !== 'datePicker').length === 1 ? 'w-full' : 'w-[48.993333%]'
-                  } mb-2 mt-1`}
-                  key={index}
-                >
-                  <FormFieldElement
-                    type={field.type}
-                    name={field.name}
-                    placeholder={field.placeholder}
-                    label={field.label}
-                    options={field.options}
-                  />
-                </div>
-              ))}
+              .map((field, index) => {
+                return (
+                  <div
+                    className={`${
+                      fieldTypes.filter((field) => field.type !== 'datePicker').length === 1
+                        ? 'w-full'
+                        : 'w-[48.993333%]'
+                    } mb-2 mt-1`}
+                    key={index}
+                  >
+                    <FormFieldElement
+                      type={field.type}
+                      name={field.name}
+                      placeholder={field.placeholder}
+                      label={field.label}
+                      options={field.options}
+                    />
+                  </div>
+                );
+              })}
           </div>
           <div className="flex items-center justify-center gap-3">
             <Button variant="outline" type="submit" disabled>
