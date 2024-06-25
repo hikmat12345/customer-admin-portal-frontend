@@ -1,7 +1,7 @@
 import { useGetVendorsByCountries } from '@/hooks/useGetVendorByCountries';
 import { useGetVendors } from '@/hooks/useTickets';
 import { VendorAccount } from '@/types/tickets/types';
-import { serviceOptions } from '@/utils/utils';
+import { serviceTypeDropdown } from '@/utils/utils';
 
 const useGetMenuOptions = () => {
   const { data: vendorAccounts } = useGetVendors();
@@ -12,10 +12,7 @@ const useGetMenuOptions = () => {
     label: item?.displayName,
   }));
 
-  const filterServiceType = serviceOptions?.map((item: { id: number; label: string }) => ({
-    value: item?.id,
-    label: item?.label,
-  }));
+  const filterServiceType = serviceTypeDropdown();
 
   const vendorOptions: { [key: string]: any[] } = {};
 

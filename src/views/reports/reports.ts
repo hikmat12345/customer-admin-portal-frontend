@@ -1,4 +1,4 @@
-import { currencyList, serviceOptions, yearList } from '@/utils/utils';
+import { currencyList, serviceTypeDropdown, yearList } from '@/utils/utils';
 
 export interface ReportField {
   type: 'text' | 'select' | 'datePicker';
@@ -28,10 +28,7 @@ export interface AllReports {
   serviceManagementReports: ReportCategory;
 }
 
-const filterServiceType = serviceOptions?.map((item: { id: number; label: string }) => ({
-  value: item?.id,
-  label: item?.label,
-}));
+const filterServiceType = serviceTypeDropdown();
 
 const financeReports: Report[] = [
   {
