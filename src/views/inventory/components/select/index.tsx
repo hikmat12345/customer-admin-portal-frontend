@@ -37,20 +37,39 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const createQueryString = CreateQueryString();
-
   const currentParamValue = searchParams?.get(PARAM_NAME[index]) || '';
   const paramValues = currentParamValue.split(',');
+  const createQueryString = CreateQueryString();
 
-  const selectedOptionLabel = menuOption?.options
-    ?.flat()
-    .find((option: { value: string | number; label: string }) => option?.value == paramValues[0])?.label;
+  const getSelectedOptionLabel = () => {
+    let selectedOptLabel = '';
 
-  let truncatedLabel = selectedOptionLabel;
+    if (index === 1) {
+      for (const parentOpt of menuOption?.options) {
+        const optFound = parentOpt.options.find((subOption: any) => subOption.label === paramValues[0]);
+        if (optFound) {
+          selectedOptLabel = optFound.label;
+          break;
+        }
+      }
+    } else {
+      selectedOptLabel = menuOption?.options
+        ?.flat()
+        .find((option: { value: string | number; label: string }) => option?.value == paramValues[0])?.label;
+    }
 
-  if (truncatedLabel && truncatedLabel.length > 17) {
-    truncatedLabel = `${truncatedLabel.slice(0, 17)}...`;
-  }
+    return selectedOptLabel;
+  };
+
+  const getTruncatedLabel = () => {
+    let truncLabel = getSelectedOptionLabel();
+
+    if (truncLabel && truncLabel.length > 17) {
+      truncLabel = `${truncLabel.slice(0, 17)}...`;
+    }
+
+    return truncLabel;
+  };
 
   const PLACEHOLDER_NAME = {
     0: 'Search account...',
@@ -71,11 +90,17 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
       }
 
       if (selectedOption) {
-        if (currentParamValue === selectedOption.value) {
-          const updatedQueryString = createQueryString(PARAM_NAME[index], undefined);
+        if (paramValues.includes(selectedOption.value.toString())) {
+          const paramIndex = paramValues.findIndex((param) => param == selectedOption.value);
+          paramValues.splice(paramIndex, 1);
+          const updatedParams = paramValues.length > 0 ? paramValues.join(',') : undefined;
+          const updatedQueryString = createQueryString(PARAM_NAME[index], updatedParams);
           router.push(`${pathname}?${updatedQueryString}`);
         } else {
-          const queryParamValue = selectedOption.value;
+          const queryParamValue = currentParamValue
+            ? `${currentParamValue},${selectedOption?.value}`
+            : selectedOption?.value;
+
           const updatedQueryString = createQueryString(PARAM_NAME[index], queryParamValue);
           router.push(`${pathname}?${updatedQueryString}`);
         }
@@ -99,6 +124,7 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
 
     let count: string | number = paramValues.length - 1;
     count = count === 0 ? '' : ` +${count}`;
+    let truncatedLabel = getTruncatedLabel();
     return truncatedLabel + count;
   };
 
@@ -143,18 +169,20 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
                           onSelect={() => handleSubOptionSelect(subOption.label)}
                         >
                           <Check
-                            className={cn(
-                              'mr-2 h-4 w-4',
-                              (+currentParamValue || currentParamValue) == subOption?.value
-                                ? 'opacity-100'
-                                : 'opacity-0',
-                            )}
+                            className={cn('mr-2 h-4 w-4 opacity-0', isOptionChecked(subOption?.value) && 'opacity-100')}
                           />
                           {subOption?.value}
                         </CommandItem>
                       ))}
                     </>
                   ))}
+                  <CommandItem
+                    onSelect={reset}
+                    className="sticky bottom-0 flex cursor-pointer justify-center gap-1 border-t-[1px] border-[#F1F5F9] bg-custom-white py-2 text-[0.875rem] font-[500] leading-[1.063rem]"
+                  >
+                    <Image src={'/svg/reset.svg'} width={16} height={16} alt="reset icon" />
+                    <span>Reset</span>
+                  </CommandItem>
                 </CommandList>
               </CommandGroup>
             ) : (

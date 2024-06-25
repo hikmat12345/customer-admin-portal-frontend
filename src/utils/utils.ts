@@ -98,7 +98,7 @@ export const serviceOptions: { id: number; label: string }[] = Object.keys(Servi
   .filter((key: string) => !isNaN(Number(ServiceType[key as keyof typeof ServiceType])))
   .map((key: string) => ({
     id: ServiceType[key as keyof typeof ServiceType],
-    label: capitalize(key.toLowerCase().replace(/_/g, ' ')),
+    label: getServiceType(ServiceType[key as keyof typeof ServiceType]),
   }));
 
 // replacer all
@@ -381,3 +381,26 @@ export function getPreviousMonthYear(dateString: string) {
 
   return previousMonthYear;
 }
+
+export const serviceTypeDropdown = (showUnknown = false, subAccount = false, showDeprecated = false) => {
+  return serviceOptions
+    .filter((item) => {
+      if (!showUnknown && item.id === ServiceType.UNKNOWN) {
+        return false;
+      }
+
+      if (!subAccount && item.id === ServiceType.SUB_ACCOUNT) {
+        return false;
+      }
+
+      if (!showDeprecated && item.id === ServiceType.FIXED_DATA) {
+        return false;
+      }
+
+      return true;
+    })
+    .map((item) => ({
+      value: item.id,
+      label: item.label,
+    }));
+};
