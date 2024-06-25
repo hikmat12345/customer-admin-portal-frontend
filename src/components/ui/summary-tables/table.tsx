@@ -138,7 +138,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
             <DownloadAbleLink invoice_id={value} index={index} invoiceNumber={invoiceNumber} />
           ) : Object.keys(record)[index]?.toLocaleLowerCase() === 'currency' ? (
             <>
-              <span className="text-[#47de88]">{findCurrencySymbol(currencySymbol?.trim())}</span> {currencySymbol}{' '}
+              <span className="text-[#47de88]">{findCurrencySymbol(currencySymbol?.trim())}</span> {currencySymbol}
             </>
           ) : Object.keys(record)[index] === 'total' ||
             Object.keys(record)[index] === 'cost_centre' ||
