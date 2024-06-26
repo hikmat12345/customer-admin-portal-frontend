@@ -168,10 +168,27 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
       }
     }
   }, [keys.length]);
+  const listOfTabs = [];
+
+  if (costTrendData?.length > 0) {
+    listOfTabs.push('cost-trend');
+  }
+  if (serviceTypes?.length > 0) {
+    listOfTabs.push('service-type');
+  }
+  if (ticketsData?.length > 0) {
+    listOfTabs.push('tickets');
+  }
+  if (refinedInvoices?.length > 0) {
+    listOfTabs.push('invoices');
+  }
+  if (refinedData?.length > 0) {
+    listOfTabs.push('services');
+  }
 
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
-      <ScrollTabs tabs={['general-information', 'cost-trend', 'service-type', 'tickets', 'invoices', 'services']}>
+      <ScrollTabs tabs={['general-information', ...listOfTabs]}>
         {/* General Information  */}
         <div id="general-information">
           <SiteGeneralInfo

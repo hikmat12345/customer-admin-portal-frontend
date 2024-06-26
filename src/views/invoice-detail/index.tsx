@@ -72,7 +72,11 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
   }
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-4">
-      <ScrollTabs tabs={['general-information', 'invoice-payment-information', ...listOfTabs]} rightText={id}>
+      <ScrollTabs
+        tabs={['general-information', 'invoice-payment-information', ...listOfTabs]}
+        rightText={id}
+        page="invoice-detail"
+      >
         <div id="general-information">
           <InvoiceSummary
             invoiceData={{

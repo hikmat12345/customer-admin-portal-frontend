@@ -172,7 +172,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
               vipExecutive: vip_executive,
             }}
           />
-          <Separator className="separator-bg-1 h-[1.5px]" />
+          <Separator className="separator-bg-1 h-[1.2px]" />
         </div>
         {/* Service  */}
 
