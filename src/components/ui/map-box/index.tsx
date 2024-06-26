@@ -38,7 +38,7 @@ export function MapBox({
       .addTo(map)
       .bindPopup(`<a href="/sites/${siteId}">${address}</a>`)
       .openPopup();
-
+    map.zoomOut(2);
     return () => {
       map.remove();
     };
@@ -81,7 +81,7 @@ export function GroupMapBox({
         .bindPopup(`<a  href="/sites/${location.siteId}">${location.address}</a>`)
         .openPopup();
     });
-
+    map.zoomOut(10);
     return () => {
       map.remove();
     };

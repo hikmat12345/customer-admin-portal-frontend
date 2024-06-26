@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
 import { useGetSiteInvoiceFile } from '@/hooks/useGetSites';
 import { InvoiceSummaryTypes } from '@/types/account/acount.tds';
-import formatDate, { downloadFile } from '@/utils/utils';
+import formatDate, { downloadFile, moneyFormatter } from '@/utils/utils';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import Image from 'next/image';
 import TooltipText from '@/components/ui/textbox';
@@ -14,6 +14,7 @@ import { DATE_FORMAT, MONTH_YEAR_FORMAT, MONTH_YEAR_FORMAT_SLASH } from '@/utils
 
 export default function InvoiceSummary({ invoiceData, vendorData, isLoading = false }: InvoiceSummaryTypes) {
   const [invoiceId, setInvoiceId] = useState<string>('');
+  const [invoiceNumber, setInvoiceNumber] = useState<string>('');
   const [fileType, setFileType] = useState<string>('');
   const [showInBrowser, setShowInBrowser] = useState<boolean>(false);
   const [isPdfFileLoading, setIsPdfFileLoading] = useState<boolean>(false);
@@ -26,9 +27,21 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
     });
   };
 
+  const promisedSetInvoiceNumber = (state: any) => {
+    return new Promise((resolve) => {
+      setInvoiceNumber(state);
+      resolve(state);
+    });
+  };
+
   const { data: blobdata, isLoading: isBlobLoading, error: blobError, refetch } = useGetSiteInvoiceFile(invoiceId);
 
-  const fileDownloadFile = async (fileId: string | number, fileType: 'pdf' | 'xls' | 'docs', isViewPdf?: boolean) => {
+  const fileDownloadFile = async (
+    fileId: number,
+    fileType: 'pdf' | 'xls' | 'docs',
+    invoiceNumber: string,
+    isViewPdf?: boolean,
+  ) => {
     if (isViewPdf && fileType === 'pdf') {
       setIsShowInBrowserLoading(true);
     } else if (fileType === 'pdf') {
@@ -40,13 +53,16 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
     const makeInvoiceId: string =
       fileType == 'docs' ? `${fileId}_allocation.csv` : fileType == 'xls' ? `${fileId}.xlsx` : `${fileId}.pdf`;
     await promisedSetInvoice(makeInvoiceId);
+    await promisedSetInvoiceNumber(invoiceNumber);
     setFileType(fileType);
     refetch();
   };
   // Parse the input string to a Date object
-  const parsedDate = invoiceData.fiscalMonthYear
-    ? format(parse(invoiceData.fiscalMonthYear, MONTH_YEAR_FORMAT_SLASH, new Date()), MONTH_YEAR_FORMAT)
-    : ' - ';
+  const monthAndYear = invoiceData.fiscalMonthYear?.split('/');
+  const parsedDate =
+    invoiceData.fiscalMonthYear && monthAndYear[0]?.trim() !== 'null' && monthAndYear[1]?.trim() !== 'null'
+      ? format(parse(invoiceData.fiscalMonthYear, MONTH_YEAR_FORMAT_SLASH, new Date()), MONTH_YEAR_FORMAT)
+      : ' - ';
 
   useEffect(() => {
     if (!isBlobLoading && !blobError && blobdata && fileType) {
@@ -56,7 +72,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
       } else if (fileType === 'xls') {
         setIsXlsFileLoading(false);
       }
-      downloadFile(fileType, blobdata, invoiceId, showInBrowser);
+      downloadFile(fileType, blobdata, invoiceId, showInBrowser, invoiceNumber);
     }
   }, [blobdata, isBlobLoading, blobError, fileType, invoiceId]);
 
@@ -66,10 +82,10 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
       value: invoiceData.invoiceDate ? formatDate(invoiceData.invoiceDate, DATE_FORMAT) : '-',
     },
     { label: 'Fiscal Month / Year', value: parsedDate },
-    { label: 'Previous Balance Paid', value: invoiceData.previousBalancePaid },
-    { label: 'Carried Forward Balance', value: invoiceData.carriedForwardBalance },
-    { label: 'Tax & Fees', value: invoiceData.taxAndFees },
-    { label: 'Amount to Pay', value: invoiceData.amountToPay },
+    { label: 'Previous Balance Paid', value: moneyFormatter(invoiceData.previousBalancePaid, vendorData.currency) },
+    { label: 'Carried Forward Balance', value: moneyFormatter(invoiceData.carriedForwardBalance, vendorData.currency) },
+    { label: 'Tax & Fees', value: moneyFormatter(invoiceData.taxAndFees, vendorData.currency) },
+    { label: 'Amount to Pay', value: moneyFormatter(invoiceData.amountToPay, vendorData.currency) },
     { label: 'Invoice (PDF)', value: invoiceData.invoiceId, isPdf: true },
     { label: 'APF Request #', value: invoiceData.apfRequestNumber },
     {
@@ -87,13 +103,13 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
         <TooltipText
           text={invoiceData.invoiceNumber ? invoiceData.invoiceNumber : '-'}
           maxLength={10}
-          className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]"
+          className="text-[#575757] lg:text-[13px] xl:text-[14px]"
         />
       ),
     },
-    { label: 'Adjustments', value: invoiceData.adjustments },
-    { label: 'Sub Total', value: invoiceData.subTotal },
-    { label: 'Total', value: invoiceData.total },
+    { label: 'Adjustments', value: moneyFormatter(invoiceData.adjustments, vendorData.currency) },
+    { label: 'Sub Total', value: moneyFormatter(invoiceData.subTotal, vendorData.currency) },
+    { label: 'Total', value: moneyFormatter(invoiceData.total, vendorData.currency) },
     { label: 'Invoice Type', value: invoiceData.invoiceType ? invoiceData.invoiceType : '-' },
     { label: 'Include in APF', value: invoiceData.includeInAPF ? 'Yes' : 'No' },
     { label: 'Status', value: invoiceData.status },
@@ -131,10 +147,10 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                         <div className="cursor-pointer">
                           <Button
                             loading={isShowInBrowserLoading}
-                            className="!bg-transparent pl-0 leading-7 text-custom-blue underline decoration-2 lg:text-[13px] xl:text-[14px]"
+                            className="h-0 !bg-transparent py-0 pl-0 leading-7 text-custom-blue underline decoration-2 lg:text-[13px] xl:text-[14px]"
                             onClick={() => {
                               setShowInBrowser(true);
-                              fileDownloadFile(item.value, 'pdf', true);
+                              fileDownloadFile(Number(item.value), 'pdf', invoiceData.invoiceNumber, true);
                             }}
                           >
                             View
@@ -150,7 +166,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                         <div>{item.value ? item.value : ' - '}</div>
                       )
                     ) : (
-                      <div>-</div>
+                      <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]">-</div>
                     )}
                   </div>
                 ))}
@@ -180,7 +196,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                         <div>{item.value ? item.value : ' - '}</div>
                       )
                     ) : (
-                      <div>-</div>
+                      <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]">-</div>
                     )}
                   </div>
                 ))}
@@ -217,13 +233,15 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                   ))}
                 </div>
               </div>
-              <VImage
-                src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + vendorData.logo}
-                alt="Invoice Summary Logo"
-                width={200}
-                height={200}
-                className="h-[108px] w-[390px] object-contain"
-              />
+              <div className="flex justify-center">
+                <VImage
+                  src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + vendorData.logo}
+                  alt="Invoice Summary Logo"
+                  width={500}
+                  height={500}
+                  className="h-[190px] w-[230px] object-contain"
+                />
+              </div>
             </div>
           </div>
 
@@ -232,7 +250,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
               loading={isXlsFileLoading}
               type="submit"
               className="flex items-center rounded border-none bg-transparent px-0 py-2 text-[#219653] animate-in hover:text-[#21965492]"
-              onClick={() => fileDownloadFile(invoiceData?.invoiceId, 'xls')}
+              onClick={() => fileDownloadFile(Number(invoiceData?.invoiceId), 'xls', invoiceData.invoiceNumber)}
             >
               <Image src="/svg/excel-icon.svg" width={20} height={20} alt="Download Invoice Summary" className="mr-2" />
               <span className="w-[55%] font-[600] underline decoration-2 lg:text-[13px] lg:leading-7 xl:text-[16px] xl:leading-7">
@@ -242,8 +260,8 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
             <Button
               loading={isPdfFileLoading}
               type="submit"
-              className="flex items-center rounded border-none bg-transparent px-4 py-2 text-[#E41323] animate-in hover:text-[#e4132499]"
-              onClick={() => fileDownloadFile(invoiceData?.invoiceId, 'pdf')}
+              className="ml-[10px] flex items-center rounded border-none bg-transparent px-4 py-2 text-[#E41323] animate-in hover:text-[#e4132499]"
+              onClick={() => fileDownloadFile(Number(invoiceData?.invoiceId), 'pdf', invoiceData.invoiceNumber)}
             >
               <Image src="/svg/pdf-icon.svg" width={20} height={20} alt="Download PDF" className="mr-2" />
               <span className="w-[55%] font-[600] underline decoration-2 lg:text-[13px] lg:leading-7 xl:text-[16px] xl:leading-7">
