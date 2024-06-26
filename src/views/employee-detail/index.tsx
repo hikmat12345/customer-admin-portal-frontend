@@ -18,7 +18,7 @@ import ServiceTypesGrid from '@/components/ui/service-badge';
 import formatDate, { moneyFormatter } from '@/utils/utils';
 import { format, parseISO } from 'date-fns';
 import EmployeeGeneralInfo from './components/employee-general-info';
-import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/utils/constants/constants';
+import { DATE_TIME_FORMAT, MONTH_YEAR_FORMAT } from '@/utils/constants/constants';
 
 type EmployeeDetailPageProps = {
   employeeId: number;
@@ -124,7 +124,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
       item.service?.cost?.usageRaw ||
       item.service?.cost?.otherRaw ||
       item?.service?.cost?.taxRaw
-        ? `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw || 0) + parseFloat(item.service?.cost?.usageRaw || 0) + parseFloat(item.service?.cost?.otherRaw || 0) + parseFloat(item?.service?.cost?.taxRaw || 0), 'usd')} (${formatDate(item?.service?.cost?.invoice?.invoiceDate, DATE_FORMAT)})`
+        ? `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw || 0) + parseFloat(item.service?.cost?.usageRaw || 0) + parseFloat(item.service?.cost?.otherRaw || 0) + parseFloat(item?.service?.cost?.taxRaw || 0), 'usd')} (${formatDate(item?.service?.cost?.invoice?.invoiceDate, MONTH_YEAR_FORMAT)})`
         : '-',
   }));
   const refinedTickets = siteTicketsData?.data?.tickets?.map((item: any) => {
@@ -178,22 +178,28 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
 
         <>
           <div id="services">
-            <TableData
-              label="Services"
-              data={refinedEmployeeData}
-              loading={isEmployeeServicesLoading}
-              tableClass="whitespace-nowrap"
-            />
-            <button
-              onClick={showTerminatedHandler}
-              className="my-5 ml-auto block h-[40px] w-[220px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-2"
-            >
-              <span className="text-[14px] font-semibold text-white">
-                {showTerminated ? 'Show Terminated Service' : 'Show Live Services'}{' '}
-              </span>
-            </button>
+            {refinedEmployeeData?.length > 0 && (
+              <TableData
+                label="Services"
+                data={refinedEmployeeData}
+                loading={isEmployeeServicesLoading}
+                tableClass="whitespace-nowrap"
+              />
+            )}
+            {!isemployeeServiceDetailLoader && (
+              <>
+                <button
+                  onClick={showTerminatedHandler}
+                  className="my-5 ml-auto block h-[40px] w-[220px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-2"
+                >
+                  <span className="text-[14px] font-semibold text-white">
+                    {showTerminated ? 'Show Terminated Services' : 'Show Live Services'}{' '}
+                  </span>
+                </button>
+                <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
+              </>
+            )}
           </div>
-          <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
         </>
 
         {/* Cost Trend  */}

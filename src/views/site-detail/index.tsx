@@ -22,7 +22,7 @@ import ServiceTypesGrid from '@/components/ui/service-badge';
 import { ScrollTabs } from '@/components/ui/scroll-tabs';
 import TooltipText from '@/components/ui/textbox';
 import { format, parseISO } from 'date-fns';
-import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/utils/constants/constants';
+import { DATE_TIME_FORMAT, MONTH_YEAR_FORMAT } from '@/utils/constants/constants';
 
 type SiteDetailPageProps = {
   siteId: number;
@@ -133,7 +133,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
       item?.service?.cost?.usageRaw ||
       item?.service?.cost?.otherRaw ||
       item?.service?.cost?.taxRaw
-        ? `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${item?.service?.cost?.invoice?.invoiceDate ? format(parseISO(item?.service?.cost?.invoice?.invoiceDate), DATE_FORMAT) : '-'})`
+        ? `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${item?.service?.cost?.invoice?.invoiceDate ? format(parseISO(item?.service?.cost?.invoice?.invoiceDate), MONTH_YEAR_FORMAT) : '-'})`
         : '-',
   }));
 
@@ -192,7 +192,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
               contactEmail,
               latitude,
               longitude,
-              status: status === 0 ? 'Live' : status === 1 ? 'Archived' : '',
+              status,
             }}
           />
           <Separator className="separator-bg-1 h-[1.0px]" />
@@ -212,7 +212,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
             <div className="flex gap-4 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">
               Service Type{' '}
               <TooltipText
-                text={'Show the volume of services splited by service type'}
+                text={'Shows the volume of services splited by service type'}
                 maxLength={1}
                 className="leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
                 type="notification"
@@ -269,14 +269,16 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
             />
           </div>
         )}
-        <button
-          onClick={showTerminatedHandler}
-          className="my-5 ml-auto block h-[48px] w-[280px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-3"
-        >
-          <span className="text-base font-semibold text-white">
-            {showTerminated ? 'Show Terminated Service' : 'Show Live Services'}{' '}
-          </span>
-        </button>
+        {!isServicesLoader && (
+          <button
+            onClick={showTerminatedHandler}
+            className="my-5 ml-auto block h-[48px] w-[280px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-3"
+          >
+            <span className="text-base font-semibold text-white">
+              {showTerminated ? 'Show Terminated Services' : 'Show Live Services'}{' '}
+            </span>
+          </button>
+        )}
       </ScrollTabs>
     </div>
   );
