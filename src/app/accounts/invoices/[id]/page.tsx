@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
   const { id } = params;
 
   return {
-    title: `Invocie - ${id}`,
+    title: `Invoice - ${id}`,
     description: 'Invoice Summary',
     icons: {
       icon: '/favicon.ico',

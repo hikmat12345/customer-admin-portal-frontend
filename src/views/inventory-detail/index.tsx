@@ -73,6 +73,9 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
   }));
 
   const listOfTabs = [];
+  if (assetsData?.data?.length > 0) {
+    listOfTabs.push('device-information');
+  }
   if (costPlanData?.data?.plan?.length > 0 || costPlanData?.data?.cost?.length > 0) {
     listOfTabs.push('cost-&-plan');
   }
@@ -84,7 +87,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
   }
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
-      <ScrollTabs tabs={['general-information', 'device-information', ...listOfTabs]}>
+      <ScrollTabs tabs={['general-information',  ...listOfTabs]} page="inventory-detail">
         <div id="general-information">
           <GeneralInfo
             label="General Information"
