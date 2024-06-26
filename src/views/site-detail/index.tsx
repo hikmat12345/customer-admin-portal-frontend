@@ -170,22 +170,21 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
   }, [keys.length]);
   const listOfTabs = [];
 
-  if(costTrendData?.length > 0){
+  if (costTrendData?.length > 0) {
     listOfTabs.push('cost-trend');
-  } 
-  if(serviceTypes?.length > 0){
+  }
+  if (serviceTypes?.length > 0) {
     listOfTabs.push('service-type');
-  }  
-  if(ticketsData?.length > 0){
+  }
+  if (ticketsData?.length > 0) {
     listOfTabs.push('tickets');
   }
-  if(refinedInvoices?.length > 0){
+  if (refinedInvoices?.length > 0) {
     listOfTabs.push('invoices');
   }
-  if(refinedData?.length > 0){
+  if (refinedData?.length > 0) {
     listOfTabs.push('services');
   }
-
 
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">

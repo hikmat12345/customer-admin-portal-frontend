@@ -100,11 +100,18 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
     setOpen(false);
   };
   const loadDrodownHeader = () => {
-    return    currentParamValue !== ''
-    ? `${truncatedLabel ? truncatedLabel : searchParams.get(PARAM_NAME[1]) ? paramValues[0].length>13 ? `${paramValues[0].slice(0, 13)}...` : paramValues[0] :
-       menuOption?.name}${paramValues.length - 1 ? ` (+${paramValues.length - 1})` : ''}`
-    : menuOption?.name
-  }
+    return currentParamValue !== ''
+      ? `${
+          truncatedLabel
+            ? truncatedLabel
+            : searchParams.get(PARAM_NAME[1])
+              ? paramValues[0].length > 13
+                ? `${paramValues[0].slice(0, 13)}...`
+                : paramValues[0]
+              : menuOption?.name
+        }${paramValues.length - 1 ? ` (+${paramValues.length - 1})` : ''}`
+      : menuOption?.name;
+  };
   return (
     <React.Suspense>
       <Popover open={open} onOpenChange={setOpen}>

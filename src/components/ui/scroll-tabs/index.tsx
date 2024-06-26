@@ -17,13 +17,14 @@ export const ScrollTabs: React.FC<ScrollTabsProps> = ({ children, tabs = [''], r
   useEffect(() => {
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        const rect = entry.boundingClientRect
-         const innerHeight = (page === 'inventory-detail' ||  page === 'invoice-detail') ?window.innerHeight-100 : window.innerHeight;
-          if( rect.top >= 0 && rect.bottom <= window.innerHeight){
-              setActiveTab(entry.target.id); 
-          } else {
-               setActiveTab(tabs[0]);
-          }
+        const rect = entry.boundingClientRect;
+        const innerHeight =
+          page === 'inventory-detail' || page === 'invoice-detail' ? window.innerHeight - 100 : window.innerHeight;
+        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+          setActiveTab(entry.target.id);
+        } else {
+          setActiveTab(tabs[0]);
+        }
       });
     };
 

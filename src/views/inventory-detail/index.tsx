@@ -87,7 +87,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
   }
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
-      <ScrollTabs tabs={['general-information',  ...listOfTabs]} page="inventory-detail">
+      <ScrollTabs tabs={['general-information', ...listOfTabs]} page="inventory-detail">
         <div id="general-information">
           <GeneralInfo
             label="General Information"
