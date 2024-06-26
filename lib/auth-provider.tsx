@@ -15,20 +15,20 @@ export const AuthProvider = ({ children }: IProps) => {
   let retries = 0;
 
   const checkTokenExpiry: any = async () => {
-    const accessToken =
+    const authToken =
       document.cookie
         .split('; ')
         .find((row) => row.startsWith('token='))
         ?.split('=')[1] || '';
 
-    const payload = await verifyJwtToken(accessToken);
+    const payload = await verifyJwtToken(authToken);
     if (!payload) {
       if (retries <= 2) {
         retries += 1;
         return checkTokenExpiry();
       }
       toast.error('Session expired, redirecting you to login page');
-      const response = await httpClient.post('/api/logout', {});
+      const response = await httpClient.post('/api/session/logout');
       window.location.href = response.data.redirectUrl;
     }
 
@@ -43,13 +43,7 @@ export const AuthProvider = ({ children }: IProps) => {
 
       // 5 minutes or less for the token to expire
       if (timeRemaining <= 300) {
-        const refreshToken =
-          document.cookie
-            .split('; ')
-            .find((row) => row.startsWith('refresh_token='))
-            ?.split('=')[1] || '';
-
-        await httpClient.post('/api/session/refresh', { refreshToken });
+        await httpClient.post('/api/session/refresh');
         return;
       }
 
