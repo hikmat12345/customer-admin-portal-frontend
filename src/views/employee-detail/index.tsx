@@ -131,7 +131,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     return {
       'Veroxos REF': item?.reference,
       'Request Type': item?.description,
-      status: item?.ticketStatusId,
+      status: item?.status,
       created: format(parseISO(item.created), DATE_TIME_FORMAT),
     };
   });

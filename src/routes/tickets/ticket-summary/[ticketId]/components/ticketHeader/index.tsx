@@ -81,7 +81,9 @@ function TicketHeader({ ticketSummary, ticketSummaryLoading }: any) {
       <div className="flex h-[2.6rem] items-center p-3">
         <HeaderLabel label="Employee" />
         <HeaderValue
-          value={`${ticketSummary?.employee?.firstName} ${ticketSummary?.employee?.lastName}`}
+          value={
+            ticketSummary?.employee && `${ticketSummary?.employee?.firstName} ${ticketSummary?.employee?.lastName}`
+          }
           linkUrl={`/employees/${ticketSummary?.employee?.id}`}
         />
       </div>

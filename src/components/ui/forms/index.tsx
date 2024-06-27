@@ -2,6 +2,8 @@ import { Field } from 'formik';
 import FormikDatePicker from './formik/FormikDatePicker';
 import FormikSelectComponent from './formik/FormikSelectComponent';
 import FormikTextField from './formik/FormikTextField';
+import { useGetVendors } from '@/hooks/useTickets';
+import { VendorAccount } from '@/types/tickets/types';
 
 interface IProps {
   id?: number;
@@ -24,7 +26,13 @@ interface IProps {
   touched?: any;
 }
 
-const getFieldComponent = (props: IProps) => {
+const GetFieldComponent = (props: IProps) => {
+  const { data: vendorAccounts } = useGetVendors();
+
+  const filterVendorAccounts = vendorAccounts?.map((item: VendorAccount) => ({
+    value: item?.account_no,
+    label: item?.displayName,
+  }));
   const {
     type,
     name,
@@ -61,7 +69,7 @@ const getFieldComponent = (props: IProps) => {
           component={FormikSelectComponent}
           label={label}
           placeholder={placeholder}
-          options={options}
+          options={name === 'accounts' ? filterVendorAccounts : options}
           reportValue={name}
           {...rest}
         />
@@ -71,6 +79,6 @@ const getFieldComponent = (props: IProps) => {
   }
 };
 
-const FormFieldElement: React.FC<IProps> = (props: IProps) => getFieldComponent(props);
+const FormFieldElement: React.FC<IProps> = (props: IProps) => GetFieldComponent(props);
 
 export default FormFieldElement;

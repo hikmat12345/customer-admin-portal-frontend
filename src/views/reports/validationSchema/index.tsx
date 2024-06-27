@@ -8,7 +8,17 @@ export const generateValidationSchema = (fields: ReportField[]) => {
     switch (field.type) {
       case 'text':
       case 'select':
-        shape[field.name] = Yup.string().required(`${field.label || field.name} is required`);
+        if (field.name === 'accounts') {
+          shape[field.name] = Yup.array()
+            .of(Yup.string())
+            .required(`${field.label || field.name} is required`);
+        } else if (field.name === 'serviceType') {
+          shape[field.name] = Yup.array()
+            .of(Yup.number())
+            .required(`${field.label || field.name} is required`);
+        } else {
+          shape[field.name] = Yup.string().required(`${field.label || field.name} is required`);
+        }
         break;
       case 'datePicker':
         shape[field.name] = Yup.date().required(`${field.label || field.name} is required`);
