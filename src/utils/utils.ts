@@ -91,15 +91,31 @@ export function getServiceType(id: ServiceType): string {
 }
 
 function capitalize(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  const words = str.split(' ');
+  const capitalizedWords = words.map((word) => word.charAt(0).toUpperCase() + word.slice(1));
+  return capitalizedWords.join(' ');
 }
 
-export const serviceOptions: { id: number; label: string }[] = Object.keys(ServiceType)
-  .filter((key: string) => !isNaN(Number(ServiceType[key as keyof typeof ServiceType])))
-  .map((key: string) => ({
-    id: ServiceType[key as keyof typeof ServiceType],
-    label: getServiceType(ServiceType[key as keyof typeof ServiceType]),
-  }));
+export const serviceOptions: { id: number; label: string }[] = [
+  { id: 14, label: capitalize('Billing') },
+  { id: 15, label: capitalize('CCaaS') },
+  { id: 1, label: capitalize('Fixed voice') },
+  { id: 2, label: capitalize('Mobile') },
+  { id: 3, label: capitalize('Fixed data') },
+  { id: 4, label: capitalize('Data circuit') },
+  { id: 5, label: capitalize('PBX') },
+  { id: 6, label: capitalize('Conferencing') },
+  { id: 16, label: capitalize('UCaaS') },
+  { id: 7, label: capitalize('Unknown') },
+  { id: 8, label: capitalize('Sub account') },
+  { id: 9, label: capitalize('Public cCloud') },
+  { id: 10, label: capitalize('Service management') },
+  { id: 11, label: capitalize('Microsoft365') },
+  { id: 12, label: capitalize('Data centre') },
+  { id: 13, label: capitalize('Other') },
+  { id: 17, label: capitalize('Virtual fax') },
+  { id: 18, label: capitalize('Cable tv') },
+];
 
 // replacer all
 export function stringFindAndReplaceAll(str: string, find: string, replace: string, position: number = 0) {

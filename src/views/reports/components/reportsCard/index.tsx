@@ -137,6 +137,7 @@ function ReportsCard({
     const currency = values.currency || null;
     const year = values.year || null;
     const serviceType = values.serviceType || null;
+    const accounts = values.accounts;
 
     const formattedFromDate = fromDate ? `${`0${fromDate.getMonth() + 1}`.slice(-2)}-${fromDate.getFullYear()}` : '';
     const formattedToDate = toDate ? `${`0${toDate.getMonth() + 1}`.slice(-2)}-${toDate.getFullYear()}` : '';
@@ -154,7 +155,7 @@ function ReportsCard({
       const reportKey = key as ReportKey;
       if (dialogOpenRef.current[reportKey]) {
         if (reportKey === 'F7') {
-          reportMutations[reportKey].mutate({ ...postBody, currency, serviceType });
+          reportMutations[reportKey].mutate({ ...postBody, accounts, currency, serviceType });
         } else if (reportKey === 'F12') {
           reportMutations[reportKey].mutate({ currency, year });
         } else if (reportKey === 'F15') {
@@ -180,67 +181,69 @@ function ReportsCard({
 
   const dialogContent = (
     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-      {({ touched, errors }) => (
-        <Form className="flex flex-col gap-4">
-          {fieldTypes.length === 0 ? (
-            <div className="mb-4 flex justify-center">
-              <Image src="/svg/excelIconMedium.svg" width={80} height={80} alt="Excel icon" />
-            </div>
-          ) : (
-            <>
-              {fieldTypes.some((field) => field.type === 'datePicker') && (
-                <div className="flex gap-2">
-                  {fieldTypes
-                    .filter((field) => field.type === 'datePicker')
-                    .map((field, index) => (
-                      <div className="flex w-[48.993333%] flex-col gap-3" key={index}>
-                        <FormFieldElement
-                          type={field.type}
-                          name={field.name}
-                          errors={errors}
-                          touched={touched}
-                          options={field.options}
-                        />
-                      </div>
-                    ))}
-                </div>
-              )}
-            </>
-          )}
-          <div className="flex w-[100%] flex-wrap gap-2">
-            {fieldTypes
-              .filter((field) => field.type !== 'datePicker')
-              .map((field, index) => {
-                return (
-                  <div
-                    className={`${
-                      fieldTypes.filter((field) => field.type !== 'datePicker').length === 1
-                        ? 'w-full'
-                        : 'w-[48.993333%]'
-                    } mb-2 mt-1`}
-                    key={index}
-                  >
-                    <FormFieldElement
-                      type={field.type}
-                      name={field.name}
-                      placeholder={field.placeholder}
-                      label={field.label}
-                      options={field.options}
-                    />
+      {({ touched, errors }) => {
+        return (
+          <Form className="flex flex-col gap-4">
+            {fieldTypes.length === 0 ? (
+              <div className="mb-4 flex justify-center">
+                <Image src="/svg/excelIconMedium.svg" width={80} height={80} alt="Excel icon" />
+              </div>
+            ) : (
+              <>
+                {fieldTypes.some((field) => field.type === 'datePicker') && (
+                  <div className="flex gap-2">
+                    {fieldTypes
+                      .filter((field) => field.type === 'datePicker')
+                      .map((field, index) => (
+                        <div className="flex w-[48.993333%] flex-col gap-3" key={index}>
+                          <FormFieldElement
+                            type={field.type}
+                            name={field.name}
+                            errors={errors}
+                            touched={touched}
+                            options={field.options}
+                          />
+                        </div>
+                      ))}
                   </div>
-                );
-              })}
-          </div>
-          <div className="flex items-center justify-center gap-3">
-            <Button variant="outline" type="submit" disabled>
-              Schedule
-            </Button>
-            <Button disabled={reportsLoading} type="submit" className="bg-custom-blue text-custom-white animate-in">
-              Download
-            </Button>
-          </div>
-        </Form>
-      )}
+                )}
+              </>
+            )}
+            <div className="flex w-[100%] flex-wrap gap-2">
+              {fieldTypes
+                .filter((field) => field.type !== 'datePicker')
+                .map((field, index) => {
+                  return (
+                    <div
+                      className={`${
+                        fieldTypes.filter((field) => field.type !== 'datePicker').length === 1
+                          ? 'w-full'
+                          : 'w-[48.993333%]'
+                      } mb-2 mt-1`}
+                      key={index}
+                    >
+                      <FormFieldElement
+                        type={field.type}
+                        name={field.name}
+                        placeholder={field.placeholder}
+                        label={field.label}
+                        options={field.options}
+                      />
+                    </div>
+                  );
+                })}
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <Button variant="outline" type="submit" disabled>
+                Schedule
+              </Button>
+              <Button disabled={reportsLoading} type="submit" className="bg-custom-blue text-custom-white animate-in">
+                Download
+              </Button>
+            </div>
+          </Form>
+        );
+      }}
     </Formik>
   );
 
