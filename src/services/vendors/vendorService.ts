@@ -6,3 +6,18 @@ export const getVendorsByCountries = async ({ queryKey }: any) => {
 
   return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/vendor`).then(({ data }) => data);
 };
+
+export const getVendorAccounts = async ({ queryKey }: any) => {
+  const [, offset, limit, searchQuery, vendor, countryId, showArchived] = queryKey;
+  const config = {
+    params: {
+      offset,
+      limit,
+      searchQuery,
+      vendor,
+      countryId,
+      showArchived,
+    },
+  };
+  return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/vendor/accounts/all`, config).then(({ data }) => data);
+};
