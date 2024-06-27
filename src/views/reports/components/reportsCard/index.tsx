@@ -17,6 +17,7 @@ import {
   usePostI10Report,
   usePostI11Report,
   usePostI4Report,
+  usePostI5Report,
   usePostI8Report,
   usePostS1Report,
   usePostS2Report,
@@ -46,7 +47,8 @@ type ReportKey =
   | 'S2'
   | 'S4'
   | 'S5'
-  | 'S6';
+  | 'S6'
+  | 'I5';
 
 const reportHooks = {
   F1: usePostF1Report,
@@ -61,6 +63,7 @@ const reportHooks = {
   I10: usePostI10Report,
   I11: usePostI11Report,
   I4: usePostI4Report,
+  I5: usePostI5Report,
   S1: usePostS1Report,
   S2: usePostS2Report,
   S4: usePostS4Report,
@@ -128,6 +131,7 @@ function ReportsCard({
     I10: useReportMutation('I10'),
     I11: useReportMutation('I11'),
     I4: useReportMutation('I4'),
+    I5: useReportMutation('I5'),
     S1: useReportMutation('S1'),
     S2: useReportMutation('S2'),
     S4: useReportMutation('S4'),
@@ -155,28 +159,58 @@ function ReportsCard({
     const formattedEndDate = toDate ? format(toDate, MONTH_AND_YEAR_FORMAT) : '';
     const postBody = { from: formattedFromDate, to: formattedToDate };
 
+    const toastId = toast.loading('Loading report...');
+
     Object.keys(dialogOpenRef.current).forEach((key) => {
       const reportKey = key as ReportKey;
       if (dialogOpenRef.current[reportKey]) {
         if (reportKey === 'F7') {
-          reportMutations[reportKey].mutate({ ...postBody, accounts, currency, serviceType });
+          reportMutations[reportKey].mutate(
+            { ...postBody, accounts, currency, serviceType },
+            {
+              onSettled: () => toast.dismiss(toastId),
+            },
+          );
         } else if (reportKey === 'F12') {
-          reportMutations[reportKey].mutate({ currency, year });
+          reportMutations[reportKey].mutate(
+            { currency, year },
+            {
+              onSettled: () => toast.dismiss(toastId),
+            },
+          );
         } else if (reportKey === 'F15') {
-          reportMutations[reportKey].mutate({ from: formattedStartDate, to: formattedEndDate });
+          reportMutations[reportKey].mutate(
+            { from: formattedStartDate, to: formattedEndDate },
+            {
+              onSettled: () => toast.dismiss(toastId),
+            },
+          );
         } else if (
           reportKey === 'I8' ||
           reportKey === 'I10' ||
           reportKey === 'I4' ||
           reportKey === 'S1' ||
           reportKey === 'S2' ||
-          reportKey === 'I11'
+          reportKey === 'I11' ||
+          reportKey === 'I5'
         ) {
-          reportMutations[reportKey].mutate({});
+          reportMutations[reportKey].mutate(
+            {},
+            {
+              onSettled: () => toast.dismiss(toastId),
+            },
+          );
         } else if (reportKey === 'S4' || reportKey === 'S5' || 'S6') {
-          reportMutations[reportKey].mutate({ from: formattedFromDateYYYYMM, to: formattedToDateYYYYMM });
+          reportMutations[reportKey].mutate(
+            { from: formattedFromDateYYYYMM, to: formattedToDateYYYYMM },
+            {
+              onSettled: () => toast.dismiss(toastId),
+            },
+          );
         } else {
-          reportMutations[reportKey].mutate(postBody);
+          reportMutations[reportKey].mutate(postBody, {
+            onSettled: () => toast.dismiss(toastId),
+          });
         }
       }
     });
