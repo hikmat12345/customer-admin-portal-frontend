@@ -3,7 +3,7 @@ export type EmployeeGeneralInfoProps = {
     veroxosId: string;
     firstName: string;
     email: string;
-    status: string | number;
+    status: number;
     site: {
       streetLine1: string;
       name?: string;

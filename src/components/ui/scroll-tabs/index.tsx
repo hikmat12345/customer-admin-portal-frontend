@@ -7,17 +7,23 @@ interface ScrollTabsProps {
   children: React.ReactNode;
   tabs: string[];
   rightText?: string;
+  page?: string;
 }
 
-export const ScrollTabs: React.FC<ScrollTabsProps> = ({ children, tabs = [''], rightText }) => {
+export const ScrollTabs: React.FC<ScrollTabsProps> = ({ children, tabs = [''], rightText, page }) => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const observer = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        const rect = entry.boundingClientRect;
+        const innerHeight =
+          page === 'inventory-detail' || page === 'invoice-detail' ? window.innerHeight - 100 : window.innerHeight;
+        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
           setActiveTab(entry.target.id);
+        } else {
+          setActiveTab(tabs[0]);
         }
       });
     };

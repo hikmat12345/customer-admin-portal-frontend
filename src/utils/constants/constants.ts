@@ -16,3 +16,5 @@ export const PAGE_SIZE = 15;
 // Table height
 
 export const TABLE_HEIGHT = '450px';
+
+export const MONTH_FORMAT = 'MMM';

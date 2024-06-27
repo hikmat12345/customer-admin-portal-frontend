@@ -78,7 +78,7 @@ export default function GeneralInfo({
       label: 'Zero Usage Allowed',
       value: zeroUsageAllowed !== undefined && zeroUsageAllowed !== null ? (zeroUsageAllowed ? 'Yes' : 'No') : ' - ',
     },
-    { label: 'Termination Date', value: terminationDate },
+    { label: 'Termination Date', value: formatDate(terminationDate, DATE_FORMAT) },
     {
       label: 'Scheduled Termination Date',
       value: scheduledTerminationDate ? formatDate(scheduledTerminationDate, DATE_FORMAT) : '-',

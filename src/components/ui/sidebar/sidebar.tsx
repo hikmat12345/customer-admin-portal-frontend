@@ -111,9 +111,14 @@ function Sidebar() {
 
   const confirmLogout = async () => {
     setIsLogoutDialogOpen(false);
-    const response = await httpClient.post('/api/logout', {});
-    toast.success('Success, you are now being redirected to the login page');
-    window.location.href = response.data.redirectUrl;
+    try {
+      const response = await httpClient.post('/api/session/logout');
+      toast.success('Success, you are now being redirected to the login page');
+      window.location.href = response.data.redirectUrl;
+    } catch (error) {
+      console.error('error :>> ', error);
+      toast.error('Something went wrong, please try again');
+    }
   };
 
   const onClickLogout = async () => {

@@ -150,6 +150,7 @@ export function downloadFile(
   response: { data: string; filetype: string },
   invoice_id: string,
   showInBrowser: boolean = false,
+  invoiceNumber: string,
 ) {
   let base64String: string | null = null;
   let mimeType: string | null = null;
@@ -179,7 +180,7 @@ export function downloadFile(
       const blobUrl = URL.createObjectURL(blob);
       window.open(blobUrl, '_blank');
     } else {
-      link.download = `${invoice_id}_invoice.${fileExtension}`;
+      link.download = `invoice_${invoiceNumber}.${fileExtension}`;
     }
     document.body.appendChild(link);
     link.click();
@@ -357,6 +358,73 @@ export const currencyList = [
   },
 ];
 
+// switch for currency symbol, later we will write api for them.
+export const findCurrencySymbol = (currency: string) => {
+  switch (currency) {
+    case 'USD':
+      return '$';
+    case 'GBP':
+      return '£';
+    case 'EUR':
+      return '€';
+    case 'AUD':
+      return 'A$';
+    case 'CAD':
+      return 'C$';
+    case 'NZD':
+      return 'NZ$';
+    case 'ZAR':
+      return 'R';
+    case 'INR':
+      return '₹';
+    case 'JPY':
+      return '¥';
+    case 'CNY':
+      return '¥';
+    case 'SGD':
+      return 'S$';
+    case 'HKD':
+      return 'HK$';
+    case 'CHF':
+      return 'CHF';
+    case 'SEK':
+      return 'kr';
+    case 'NOK':
+      return 'kr';
+    case 'DKK':
+      return 'kr';
+    case 'PLN':
+      return 'zł';
+    case 'HUF':
+      return 'Ft';
+    case 'CZK':
+      return 'Kč';
+    case 'ILS':
+      return '₪';
+    case 'TRY':
+      return '₺';
+    case 'AED':
+      return 'د.إ';
+    case 'SAR':
+      return 'ر.س';
+    case 'QAR':
+      return 'ر.ق';
+    case 'KWD':
+      return 'د.ك';
+    case 'BHD':
+      return 'د.ب';
+    case 'OMR':
+      return 'ر.ع.';
+    case 'EGP':
+      return 'E£';
+    case 'MYR':
+      return 'RM';
+    case 'IDR':
+      return 'Rp';
+    default:
+      return currency;
+  }
+};
 // getting list of years till the current year
 
 const startYear = 2000;
@@ -397,3 +465,26 @@ export function getPreviousMonthYear(dateString: string) {
 
   return previousMonthYear;
 }
+
+export const serviceTypeDropdown = (showUnknown = false, subAccount = false, showDeprecated = false) => {
+  return serviceOptions
+    .filter((item) => {
+      if (!showUnknown && item.id === ServiceType.UNKNOWN) {
+        return false;
+      }
+
+      if (!subAccount && item.id === ServiceType.SUB_ACCOUNT) {
+        return false;
+      }
+
+      if (!showDeprecated && item.id === ServiceType.FIXED_DATA) {
+        return false;
+      }
+
+      return true;
+    })
+    .map((item) => ({
+      value: item.id,
+      label: item.label,
+    }));
+};

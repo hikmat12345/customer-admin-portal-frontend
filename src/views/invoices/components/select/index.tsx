@@ -99,6 +99,19 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
     router.push(`${pathname}?${createQueryString(PARAM_NAME[index], undefined)}`);
     setOpen(false);
   };
+  const loadDrodownHeader = () => {
+    return currentParamValue !== ''
+      ? `${
+          truncatedLabel
+            ? truncatedLabel
+            : searchParams.get(PARAM_NAME[1])
+              ? paramValues[0].length > 13
+                ? `${paramValues[0].slice(0, 13)}...`
+                : paramValues[0]
+              : menuOption?.name
+        }${paramValues.length - 1 ? ` (+${paramValues.length - 1})` : ''}`
+      : menuOption?.name;
+  };
   return (
     <React.Suspense>
       <Popover open={open} onOpenChange={setOpen}>
@@ -110,9 +123,7 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
             className="w-[200px] justify-between"
             value={12}
           >
-            {currentParamValue !== ''
-              ? `${truncatedLabel ? truncatedLabel : menuOption?.name}${paramValues.length - 1 ? ` (+${paramValues.length - 1})` : ''}`
-              : menuOption?.name}{' '}
+            {loadDrodownHeader()}
             <Image
               src={open ? '/svg/select/upChevron.svg' : '/svg/select/downChevron.svg'}
               alt="Chevron Icon"

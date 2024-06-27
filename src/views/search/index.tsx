@@ -53,11 +53,11 @@ const SearchPage = () => {
   return (
     <div className="h-screen">
       <div className="my-4 flex items-center justify-between rounded-lg bg-custom-white p-4">
-        <div className="w-4/6 border-b">
+        <div className="w-4/6">
           <SearchField
             iconWidth={16}
             iconHeight={16}
-            className="ml-2 mr-2 w-full rounded-none bg-transparent shadow-none"
+            className="ml-2 mr-2 w-full rounded-none border-b bg-transparent shadow-none"
             defaultValue={search}
             ref={searchFieldRef}
             onKeyDown={handleKeyDown}

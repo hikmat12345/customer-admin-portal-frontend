@@ -1,22 +1,24 @@
 export enum ServiceType {
   BILLING = 14,
   C_CAAS = 15,
-  FIXED_VOICE = 1,
-  MOBILE = 2,
-  FIXED_DATA = 3,
-  DATA_CIRCUIT = 4,
-  PBX = 5,
+  CABLE_TV = 18,
   CONFERENCING = 6,
-  U_CAAS = 16,
-  UNKNOWN = 7,
-  SUB_ACCOUNT = 8,
+  DATA_CENTRE = 12,
+  DATA_CIRCUIT = 4,
+  FIXED_VOICE = 1,
+  MICROSOFT365 = 11,
+  MOBILE = 2,
+  PBX = 5,
   PUBLIC_CLOUD = 9,
   SERVICE_MANAGEMENT = 10,
-  MICROSOFT365 = 11,
-  DATA_CENTRE = 12,
-  OTHER = 13,
+  SUB_ACCOUNT = 8,
+  U_CAAS = 16,
+  UNKNOWN = 7,
   VIRTUAL_FAX = 17,
-  CABLE_TV = 18,
+  OTHER = 13,
+
+  // removed
+  FIXED_DATA = 3,
 }
 
 export const getServiceType = (id: ServiceType): string => {

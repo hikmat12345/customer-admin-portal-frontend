@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN --mount=type=ssh \
     --mount=type=bind,target=~/.ssh/known_hosts,source=known_hosts \
-    npm install
+    npm install --legacy-peer-deps
 COPY . .
 RUN npm run build
 
