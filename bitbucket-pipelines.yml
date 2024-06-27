@@ -53,7 +53,7 @@ pipelines:
 
     main:
       - step: *deploy-to-ecr
-      
+
   custom:
     deploy-to-DEV-&-PROD:
     - step:
@@ -91,6 +91,7 @@ pipelines:
         name: "Prepare Deployment for Production"
         services:
           - docker
+        size: 2x
         script:
           - cd deployment/
           - bash prepare-deployment.sh
