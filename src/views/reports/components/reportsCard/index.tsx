@@ -15,6 +15,7 @@ import {
   usePostF6Report,
   usePostF7Report,
   usePostI10Report,
+  usePostI11Report,
   usePostI4Report,
   usePostI8Report,
   usePostS1Report,
@@ -39,6 +40,7 @@ type ReportKey =
   | 'F15'
   | 'I8'
   | 'I10'
+  | 'I11'
   | 'I4'
   | 'S1'
   | 'S2'
@@ -57,6 +59,7 @@ const reportHooks = {
   F15: usePostF15Report,
   I8: usePostI8Report,
   I10: usePostI10Report,
+  I11: usePostI11Report,
   I4: usePostI4Report,
   S1: usePostS1Report,
   S2: usePostS2Report,
@@ -123,6 +126,7 @@ function ReportsCard({
     F15: useReportMutation('F15'),
     I8: useReportMutation('I8'),
     I10: useReportMutation('I10'),
+    I11: useReportMutation('I11'),
     I4: useReportMutation('I4'),
     S1: useReportMutation('S1'),
     S2: useReportMutation('S2'),
@@ -165,7 +169,8 @@ function ReportsCard({
           reportKey === 'I10' ||
           reportKey === 'I4' ||
           reportKey === 'S1' ||
-          reportKey === 'S2'
+          reportKey === 'S2' ||
+          reportKey === 'I11'
         ) {
           reportMutations[reportKey].mutate({});
         } else if (reportKey === 'S4' || reportKey === 'S5' || 'S6') {

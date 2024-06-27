@@ -80,6 +80,13 @@ export const postI4Report = async (data: any) => {
     .catch((error) => error);
 };
 
+export const postI11Report = async (data: any) => {
+  return httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/I11`, data, { responseType: 'blob' })
+    .then(({ data }) => downloadExcelFile(data, 'I11 Vendor Document.xlsx'))
+    .catch((error) => error);
+};
+
 export const postS1Report = async (data: any) => {
   return httpClient
     .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/S1`, data, { responseType: 'blob' })
