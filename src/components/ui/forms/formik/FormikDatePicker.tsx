@@ -35,9 +35,11 @@ function FormikDatePicker(props: FormikDatePickerProps) {
   const startDate = getIn(values, 'From');
   const endDate = getIn(values, 'To');
 
-  const isStartDateGreaterThanEndDate = new Date(values.To) < new Date(values.From);
-
   const handleDateSelect = (value: Date | undefined) => {
+    if (value && isDateDisabled(value)) {
+      return; // prevent selecting disabled dates
+    }
+
     if (name === 'To' && startDate && value && value < new Date(startDate)) {
       // setting value and message of the error
       setFieldError('To', 'End date cannot be less than start date');
