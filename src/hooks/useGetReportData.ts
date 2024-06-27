@@ -10,6 +10,7 @@ import {
   postI10Report,
   postI11Report,
   postI4Report,
+  postI5Report,
   postI8Report,
   postS1Report,
   postS2Report,
@@ -40,6 +41,8 @@ export const { useMutation: usePostI8Report } = createMutationWithVariables('pos
 export const { useMutation: usePostI11Report } = createMutationWithVariables('post-i11-report', postI11Report);
 
 export const { useMutation: usePostI4Report } = createMutationWithVariables('post-i4-report', postI4Report);
+
+export const { useMutation: usePostI5Report } = createMutationWithVariables('post-i5-report', postI5Report);
 
 export const { useMutation: usePostI10Report } = createMutationWithVariables('post-i10-report', postI10Report);
 
