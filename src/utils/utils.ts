@@ -3,19 +3,17 @@ import { twMerge } from 'tailwind-merge';
 import { ServiceType } from './enums/serviceType.enum';
 import { eachYearOfInterval, format as formatdeteFns, isValid, parseISO } from 'date-fns';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from './constants/constants';
-import { format as tzFormat, toZonedTime, fromZonedTime } from 'date-fns-tz';
+import { format as tzFormat, toZonedTime } from 'date-fns-tz';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 export function convertToTimeZone(timeZone: string, dateTime: string, format = DATE_TIME_FORMAT) {
-  // Convert the date to UTC first
-  const utcDate = fromZonedTime(dateTime, 'UTC');
-  // Convert the UTC date to the target time zone
-  const zonedDate = toZonedTime(utcDate, timeZone);
-  // Format the date in the target time zone
-  return tzFormat(zonedDate, format, { timeZone });
+  if (timeZone && isValid(parseISO(dateTime))) {
+    const zonedDate = toZonedTime(dateTime, timeZone);
+    return tzFormat(zonedDate, format, { timeZone: timeZone });
+  }
 }
 
 export function getTimeDifference(updated: string): string {
