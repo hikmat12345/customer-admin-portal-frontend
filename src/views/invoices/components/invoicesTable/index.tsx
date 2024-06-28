@@ -4,7 +4,7 @@ import TableBody from '@veroxos/design-system/dist/ui/TableBody/tableBody';
 import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow';
 import Link from 'next/link';
 import InvoicesTableHead from './invoicesTableHead';
-import formatDate, { moneyFormatter } from '@/utils/utils';
+import formatDate, { findCurrencySymbol, moneyFormatter } from '@/utils/utils';
 import { DATE_FORMAT, TABLE_HEIGHT } from '@/utils/constants/constants';
 import Table from '@veroxos/design-system/dist/ui/Table/table';
 
@@ -41,7 +41,16 @@ function InvoicesTable({ data }: any) {
               </TableCell>
               <TableCell className="text-left">{moneyFormatter(invoice?.totalRaw, 'USD')}</TableCell>
               <TableCell className="text-left font-normal last:text-center">
-                {invoice?.companyNetwork?.network?.country ? invoice.companyNetwork.network.country.currencyCode : '-'}
+                {invoice?.companyNetwork?.network?.country ? (
+                  <>
+                    <span className="text-[#47de88]">
+                      {findCurrencySymbol(invoice.companyNetwork.network.country.currencyCode?.trim())}
+                    </span>
+                    {invoice.companyNetwork.network.country.currencyCode}
+                  </>
+                ) : (
+                  '-'
+                )}
               </TableCell>
             </TableRow>
           ))}
