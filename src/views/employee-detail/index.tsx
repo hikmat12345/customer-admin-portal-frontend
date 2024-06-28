@@ -73,6 +73,9 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     isLoading: isEmployeeServicesLoading,
     refetch: refetchServicesData,
   } = useGetEmployeeServices(Number(employee_id), offset, limit, showTerminated);
+
+  const { data: employeeTerminatedServices } = useGetEmployeeServices(Number(employee_id), offset, limit, false);
+
   const { data: employeeServiceTypes, isLoading: isEmployeeServiceType } = useGetEmployeeServiceTypes(
     Number(employee_id),
   );
@@ -186,19 +189,20 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
                 tableClass="whitespace-nowrap"
               />
             )}
-            {!isemployeeServiceDetailLoader && (
-              <>
-                <button
-                  onClick={showTerminatedHandler}
-                  className="my-5 ml-auto block h-[40px] w-[220px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-2"
-                >
-                  <span className="text-[14px] font-semibold text-white">
-                    {showTerminated ? 'Show Terminated Services' : 'Show Live Services'}{' '}
-                  </span>
-                </button>
-                <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
-              </>
-            )}
+            {!isemployeeServiceDetailLoader &&
+              (refinedEmployeeData?.length > 0 || employeeTerminatedServices?.data?.length > 0) && (
+                <>
+                  <button
+                    onClick={showTerminatedHandler}
+                    className="my-5 ml-auto block h-[40px] w-[220px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-2"
+                  >
+                    <span className="text-[14px] font-semibold text-white">
+                      {showTerminated ? 'Show Terminated Services' : 'Show Live Services'}{' '}
+                    </span>
+                  </button>
+                  <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
+                </>
+              )}
           </div>
         </>
 

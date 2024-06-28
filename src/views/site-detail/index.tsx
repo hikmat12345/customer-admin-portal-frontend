@@ -79,6 +79,13 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     refetch: refetchData,
   } = useGetSiteServices(Number(site_id), offset, limit, showTerminated);
 
+  const { data: siteTerminatedServices, isLoading: isTerminatedServicesLoader } = useGetSiteServices(
+    Number(site_id),
+    offset,
+    limit,
+    false,
+  );
+
   const {
     data: siteTicketsData,
     isLoading: isSiteTicketsLoader,
@@ -286,7 +293,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
             />
           </div>
         )}
-        {!isServicesLoader && (
+        {!isServicesLoader && (siteServices?.data?.length > 0 || siteTerminatedServices?.data?.length > 0) && (
           <button
             onClick={showTerminatedHandler}
             className="my-5 ml-auto block h-[48px] w-[280px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-3"
