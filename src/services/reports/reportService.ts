@@ -51,7 +51,7 @@ export const postF7Report = async (data: any) =>
 export const postF12Report = async (data: any) =>
   httpClient
     .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/F12`, data, { responseType: 'blob' })
-    .then(({ data: responseData }) => downloadExcelFile(responseData, 'F12_report.xlsx'))
+    .then(({ data: responseData }) => downloadExcelFile(responseData, 'F-12 Service Type Report.xlsx'))
     .catch((error) => error);
 
 export const postF15Report = async (data: any) =>
