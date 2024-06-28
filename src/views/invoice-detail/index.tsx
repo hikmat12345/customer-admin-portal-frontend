@@ -107,11 +107,11 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
         </div>
 
         <div id="invoice-payment-information">
-          <div className="flex gap-[19px] pb-6 max-lg:block">
-            <div className="w-[55%] max-lg:mt-5 max-lg:w-[100%]">
+          <div className="gap-[19px] pb-6 sm:block lg:flex">
+            <div className="sm:w-[55%] max-lg:mt-5 max-lg:w-[100%]">
               <InvoicePaymentInfo paymentData={paymentInfoData} isLoading={isPaymentInfoLoading} />
             </div>
-            <div className="w-[45%] max-lg:mt-5 max-lg:w-[100%]">
+            <div className="sm:w-[45%] max-lg:mt-5 max-lg:w-[100%]">
               <InvoiceRemittanceAddress
                 remittanceData={remittanceAddressData?.data}
                 isLoading={isRemittanceAddressLoading}

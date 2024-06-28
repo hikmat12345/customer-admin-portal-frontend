@@ -4,7 +4,7 @@ function Reviews() {
   return (
     <div className="inline-flex size-3 items-center justify-center rounded-full text-2xl text-yellow-400 disabled:pointer-events-none disabled:opacity-50 dark:text-yellow-500">
       <svg
-        className="size-2 flex-shrink-0 lg:size-4 xl:size-4 2xl:size-5"
+        className="size-4 flex-shrink-0 lg:size-4 xl:size-4 2xl:size-5"
         xmlns="http://www.w3.org/2000/svg"
         width="16"
         height="16"

@@ -54,8 +54,8 @@ export const ScrollTabs: React.FC<ScrollTabsProps> = ({ children, tabs = [''], r
 
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <ul className="inline-flex h-[19px] w-[828px] flex-wrap items-start justify-start gap-[30px] pb-12 max-lg:mb-5 max-lg:w-[100%] max-lg:gap-[5px]">
+      <div className="items-center justify-between pb-4 sm:block 2md:flex">
+        <div className="sm:flex sm:w-full sm:gap-[1rem] 2md:block 2md:w-[65%] 2md:gap-[2rem]">
           {tabs.map((tab, index) => (
             <button
               key={index}
@@ -65,7 +65,7 @@ export const ScrollTabs: React.FC<ScrollTabsProps> = ({ children, tabs = [''], r
               {tab.replaceAll('-', ' ')}
             </button>
           ))}
-        </ul>
+        </div>
         {rightText && (
           <div className="flex gap-2 py-2">
             <div className="flex items-center">

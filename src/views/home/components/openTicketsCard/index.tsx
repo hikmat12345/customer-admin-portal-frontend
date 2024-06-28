@@ -100,7 +100,7 @@ function OpenTicketsCard({ title }: { title: string }) {
                 <span className={`text-[${closeTicketHighlight}] font-bold`}>{closeTicketsIn24Hours?.count}</span>{' '}
                 tickets closed in last 24 hours.
               </p>
-              <div className="mt-[-115px] h-[110px] w-[120px]">
+              <div className="mt-[-5.8rem] h-[110px] w-[120px] xl:mt-[-7.188rem]">
                 <PieChart chartOptions={chartOptions} />
               </div>
             </div>

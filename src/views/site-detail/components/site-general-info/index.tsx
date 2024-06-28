@@ -47,81 +47,69 @@ export default function SiteGeneralInfo({
     'Contact Email',
   ];
   return (
-    <div>
-      {label && <div className="pb-6 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">{label}</div>}
+    <div className="w-full">
+      {label && <div className="pb-6 text-[1.375rem] font-[700] text-custom-blue">{label}</div>}
       {isLoading ? (
         <GeneralInfoSkeletons />
       ) : (
-        <div className="flex gap-[19px] pb-6 max-lg:block">
-          <div className="flex w-[33%] justify-between max-lg:mt-5 max-lg:w-[100%]">
-            <div className="w-[34%]">
-              {labels.slice(0, 7).map((label, index) => (
-                <div key={index} className="font-[600] leading-7 text-[#000] lg:text-[13px] xl:text-[16px]">
-                  {label}
+        <div className="justify-between gap-[1.188rem] text-nowrap pb-6 lg:block xl:flex">
+          <div className="gap-2 sm:block lg:flex lg:w-[100%] xl:w-[70%] 2xl:w-[65%]">
+            <div className="flex justify-between lg:w-[50%] xl:w-[60%] 2xl:w-[55%]">
+              <div className="sm:w-[50%] lg:w-[40%] 2xl:w-[34%]">
+                {labels.slice(0, 7).map((label, index) => (
+                  <div key={index} className="text-[1rem] font-[600] leading-7 text-[#000]">
+                    {label}
+                  </div>
+                ))}
+              </div>
+              <div className="sm:w-[50%] lg:w-[60%] 2xl:w-[66%]">
+                <div className="text-[1rem] leading-7 text-[#575757]">{veroxosId || ' - '} </div>
+                <div className="text-[1rem] leading-7 text-[#575757]">{name?.trim() ? name : ' - '} </div>
+                <div className="text-[1rem] leading-7 text-[#575757]">{streetLine1?.trim() || ' - '} </div>
+                <div className="text-[1rem] leading-7 text-[#575757]">{city?.trim() || ' - '} </div>
+                <div className="text-[1rem] leading-7 text-[#575757]">{postZipCode?.trim() || ' - '} </div>
+                <div className="text-[1rem] leading-7 text-[#575757]">{contactName?.trim() || ' - '} </div>
+                <div className="text-[1rem] leading-7 text-[#575757]">
+                  {status !== undefined && status !== null ? (
+                    <Badge
+                      className={`rounded-lg py-[3px] text-white ${status == 1 ? 'bg-[#219653]' : status == 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`}
+                      variant="success"
+                      shape="block"
+                    >
+                      {status == 1 ? 'Live' : status == 0 ? 'Terminated' : 'Suspended'}
+                    </Badge>
+                  ) : (
+                    ' - '
+                  )}
                 </div>
-              ))}
+              </div>
             </div>
-            <div className="w-[66%]">
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{veroxosId || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
-                {name?.trim() ? name : ' - '}{' '}
+            <div className="flex justify-between sm:mt-5 lg:mt-0 lg:w-[50%] xl:w-[40%] 2xl:w-[45%]">
+              <div className="sm:w-[50%] lg:w-[40%] 2xl:w-[45%]">
+                {labels.slice(7, 13).map((label, index) => (
+                  <div key={index} className="text-[1rem] font-[600] leading-7 text-[#000]">
+                    {label}
+                  </div>
+                ))}
               </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
-                {streetLine1?.trim() || ' - '}{' '}
-              </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{city?.trim() || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
-                {postZipCode?.trim() || ' - '}{' '}
-              </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
-                {contactName?.trim() || ' - '}{' '}
-              </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
-                {status !== undefined && status !== null ? (
-                  <Badge
-                    className={`rounded-lg py-[3px] text-white ${status == 1 ? 'bg-[#219653]' : status == 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`}
-                    variant="success"
-                    shape="block"
-                  >
-                    {status == 1 ? 'Live' : status == 0 ? 'Terminated' : 'Suspended'}
-                  </Badge>
-                ) : (
-                  ' - '
-                )}
+              <div className="sm:w-[50%] lg:w-[60%] xl:w-[60%] 2xl:w-[55%]">
+                <div className="text-[1rem] leading-7 text-[#575757]">{siteCode?.trim() || ' - '} </div>
+                <div className="text-[1rem] leading-7 text-[#575757]">{buildingName?.trim() || ' - '} </div>
+                <div className="text-[1rem] leading-7 text-[#575757]">{streetLine2?.trim() || ' - '} </div>
+                <div className="text-[1rem] leading-7 text-[#575757]">{stateCounty?.trim() || ' - '} </div>
+                <div className="text-[1rem] leading-7 text-[#575757]">
+                  {country?.name?.trim() ? country?.name : ' - '}{' '}
+                </div>
+                <div className="text-[1rem] leading-7 text-[#575757]">{contactEmail || ' - '} </div>
               </div>
             </div>
           </div>
-          <div className="flex w-[25%] justify-between pr-20 max-lg:mt-5 max-lg:w-[100%]">
-            <div className="">
-              {labels.slice(7, 13).map((label, index) => (
-                <div key={index} className="font-[600] leading-7 text-[#000] lg:text-[13px] xl:text-[16px]">
-                  {label}
-                </div>
-              ))}
-            </div>
-            <div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{siteCode?.trim() || ' - '} </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
-                {buildingName?.trim() || ' - '}{' '}
-              </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
-                {streetLine2?.trim() || ' - '}{' '}
-              </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
-                {stateCounty?.trim() || ' - '}{' '}
-              </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">
-                {country?.name?.trim() ? country?.name : ' - '}{' '}
-              </div>
-              <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[16px]">{contactEmail || ' - '} </div>
-            </div>
-          </div>
-          <div className="w-[35%] max-lg:mt-5 max-lg:w-[100%]">
+          <div className="sm:mt-5 lg:w-[100%] xl:mt-0 xl:w-[30%] 2xl:w-[35%]">
             <div className="mapouter rounded-lg border border-neutral-300 p-1">
               <div className="gmap_canvas">
                 {latitude && longitude ? (
                   <MapBox
-                    height="200px"
+                    height="12.5rem"
                     lat={latitude}
                     long={longitude}
                     address={streetLine1 || streetLine2}

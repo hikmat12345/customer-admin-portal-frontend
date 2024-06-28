@@ -70,7 +70,7 @@ const TotalTicketsOpen = ({ data, isLoading }: { data: OpenTicketSummary; isLoad
   };
 
   return (
-    <div className="relative h-auto min-h-[150px] min-w-[300px] rounded-lg border border-custom-plaster pl-7 pt-3">
+    <div className="relative h-auto min-h-[150px] min-w-[18.75rem] rounded-lg border border-custom-plaster pl-7 pt-3">
       {isLoading ? (
         <div className="mt-2 lg:mr-7">
           <Skeleton variant="paragraph" rows={3} className="mr-7" />{' '}

@@ -26,39 +26,37 @@ export const DeviceInfoCard: React.FC<DeviceInfoCardProps> = ({
 }) => {
   return (
     <div id="device">
-      {label && (
-        <div className="font-[700] text-custom-blue lg:py-4 lg:text-[18px] xl:py-7 xl:text-[20px]">{label}</div>
-      )}
+      {label && <div className="text-[1.375rem] font-[700] text-custom-blue sm:py-4 xl:py-7">{label}</div>}
       {isAssetLoader ? (
         <DeviceinfoSkeletons />
       ) : (
-        <div className="flex gap-[30px]">
-          <div className="flex w-[17%] justify-between px-5">
+        <div className="flex gap-[2rem]">
+          <div className="flex justify-between pl-5">
             <VImage
               src={imageUrl}
               alt="asset Image"
               height={169}
               width={240}
-              className="lg:w-[240px] xl:w-[169px]"
+              className="w-[12.75rem]"
               priority
               placeholder="blur"
               blurDataURL="data:image/png;base64,..." // Optional: Use a base64-encoded placeholder
             />
           </div>
-          <div className="w-[30%] px-5">
-            <div className="font-[600] lg:text-[15px] xl:text-[18px]">{deviceName}</div>
-            <div className="flex justify-between pt-6">
+          <div className="flex-grow px-5">
+            <div className="text-[1.125rem] font-[600]">{deviceName}</div>
+            <div className="flex gap-[2rem] pt-6">
               <div className="">
-                <div className="font-[600] leading-9 text-[#000] lg:text-[13px] xl:text-[14px]">Upgrade Date</div>
-                <div className="font-[600] leading-9 text-[#000] lg:text-[13px] xl:text-[14px]">Status</div>
-                <div className="font-[600] leading-9 text-[#000] lg:text-[13px] xl:text-[14px]">Device ID</div>
-                <div className="font-[600] leading-9 text-[#000] lg:text-[13px] xl:text-[14px]">Sim ID</div>
+                <div className="text-[0.875rem] font-[600] leading-9 text-[#000]">Upgrade Date</div>
+                <div className="text-[0.875rem] font-[600] leading-9 text-[#000]">Status</div>
+                <div className="text-[0.875rem] font-[600] leading-9 text-[#000]">Device ID</div>
+                <div className="text-[0.875rem] font-[600] leading-9 text-[#000]">Sim ID</div>
               </div>
               <div>
-                <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[14px]">
+                <div className="text-[0.875rem] leading-9 text-[#575757]">
                   {datePurchased ? formatSeperateDate(datePurchased) : ' - '}
                 </div>
-                <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[14px]">
+                <div className="text-[0.875rem] leading-9 text-[#575757]">
                   {status !== undefined && status !== null ? (
                     <Badge
                       className={`rounded-lg py-1 text-white ${status == 1 ? 'bg-[#219653]' : status == 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`}
@@ -71,12 +69,8 @@ export const DeviceInfoCard: React.FC<DeviceInfoCardProps> = ({
                     ' - '
                   )}
                 </div>
-                <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[14px]">
-                  {deviceId ? deviceId : ' - '}
-                </div>
-                <div className="leading-9 text-[#575757] lg:text-[13px] xl:text-[14px]">
-                  {simNumber ? simNumber : ' - '}
-                </div>
+                <div className="text-[0.875rem] leading-9 text-[#575757]">{deviceId ? deviceId : ' - '}</div>
+                <div className="text-[0.875rem] leading-9 text-[#575757]">{simNumber ? simNumber : ' - '}</div>
               </div>
             </div>
           </div>

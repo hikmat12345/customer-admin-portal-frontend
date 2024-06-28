@@ -192,7 +192,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
                   onClick={showTerminatedHandler}
                   className="my-5 ml-auto block h-[40px] w-[220px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-2"
                 >
-                  <span className="text-[14px] font-semibold text-white">
+                  <span className="text-[0.875rem] font-semibold text-white">
                     {showTerminated ? 'Show Terminated Services' : 'Show Live Services'}{' '}
                   </span>
                 </button>
@@ -213,9 +213,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
         {/* Service Type */}
         {employeeServiceTypes?.data?.length > 0 && (
           <div id="service-type">
-            <div className="flex gap-4 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">
-              Service Type{' '}
-            </div>
+            <div className="flex gap-4 pt-8 text-[1.375rem] font-[700] text-custom-blue">Service Type </div>
             <div className="mt-4 gap-4">
               {isEmployeeServiceType ? (
                 <Skeleton variant="paragraph" rows={3} />

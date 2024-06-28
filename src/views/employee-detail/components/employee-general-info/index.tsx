@@ -57,44 +57,38 @@ export default function EmployeeGeneralInfo({
 
   return (
     <div>
-      {label && <div className="pb-6 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">{label}</div>}
+      {label && <div className="pb-6 text-[1.375rem] font-[700] text-custom-blue">{label}</div>}
       {isLoading ? (
         <GeneralInfoSkeletons />
       ) : (
-        <div className="flex gap-x-[70px] pb-6 max-lg:block">
-          <div className="flex w-[35%] justify-between gap-x-[70px] max-lg:mt-5 max-lg:w-[100%]">
-            <div className="w-[25%]">
+        <div className="flex gap-x-[4.375rem] text-nowrap pb-6 max-lg:block">
+          <div className="flex justify-between sm:w-[50%] lg:w-[35%] lg:gap-x-[2.375rem] 2lg:gap-x-[4.375rem] max-lg:w-[100%]">
+            <div className="sm:w-[50%] lg:w-[45%] 2lg:w-[35%] xl:w-[25%]">
               {keys.slice(0, 6).map((item, index) => (
-                <div
-                  key={index}
-                  className="font-[600] text-[#000] lg:text-[13px] lg:leading-7 xl:text-[14px] xl:leading-7"
-                >
+                <div key={index} className="text-[0.875rem] font-[600] text-[#000] lg:leading-7 xl:leading-7">
                   {item.label}
                 </div>
               ))}
             </div>
-            <div className="w-[75%]">
+            <div className="sm:w-[50%] lg:w-[55%] 2lg:w-[65%] xl:w-[75%]">
               {keys.slice(0, 6).map((item, index) => (
-                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-7 xl:text-[14px] xl:leading-7">
+                <div key={index} className="text-[0.875rem] text-[#575757] lg:leading-7 xl:leading-7">
                   {item.value ? item.value : ' - '}
                 </div>
               ))}
             </div>
           </div>
-          <div className="flex w-[45%] justify-center gap-x-[70px] max-lg:mt-5 max-lg:w-[100%]">
-            <div className="w-[32%]">
+          <div className="flex sm:w-[50%] sm:justify-between lg:w-[45%] lg:justify-center lg:gap-x-[2.375rem] 2lg:gap-x-[4.375rem] max-lg:mt-5 max-lg:w-[100%]">
+            <div className="sm:w-[50%] lg:w-[52%] 2lg:w-[42%] xl:w-[32%]">
               {keys.slice(6).map((item, index) => (
-                <div
-                  key={index}
-                  className="font-[600] text-[#000] lg:text-[13px] lg:leading-7 xl:text-[14px] xl:leading-7"
-                >
+                <div key={index} className="text-[0.875rem] font-[600] text-[#000] lg:leading-7 xl:leading-7">
                   {item.label}
                 </div>
               ))}
             </div>
-            <div className="w-[68%]">
+            <div className="sm:w-[50%] lg:w-[42%] 2lg:w-[58%] xl:w-[68%]">
               {keys.slice(6).map((item, index) => (
-                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-7 xl:text-[14px] xl:leading-7">
+                <div key={index} className="text-[0.875rem] text-[#575757] lg:leading-7 xl:leading-7">
                   {item.value ? item.value : ' - '}
                 </div>
               ))}

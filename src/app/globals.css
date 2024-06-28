@@ -146,3 +146,33 @@
 .separator-bg-1 {
   background: #5d5b5b61;
 }
+
+@media (max-width: 1536px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 1280px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1024px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 850px) {
+  /* .search-input{
+  width : 8.5rem !important
+} */
+}
+
+@media (max-width: 800px) {
+  html {
+    font-size: 12px;
+  }
+}

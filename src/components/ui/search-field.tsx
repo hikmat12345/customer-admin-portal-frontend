@@ -15,7 +15,7 @@ interface IProps {
 const SearchField = forwardRef((props: IProps, ref: React.ForwardedRef<HTMLInputElement>) => {
   const { className, iconHeight = 10, iconWidth = 10, onChange, onKeyDown, defaultValue, helpText } = props;
   return (
-    <div className="min-w-[390px]">
+    <div className="2lg:min-w-[24.375rem]">
       <label className="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white">Search</label>
       <div className="relative flex">
         <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
