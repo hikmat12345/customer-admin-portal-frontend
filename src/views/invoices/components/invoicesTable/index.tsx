@@ -39,9 +39,19 @@ function InvoicesTable({ data }: any) {
               <TableCell className="text-left">
                 {formatDate(invoice?.dateTimeForSentInAccountPayableRequest, DATE_FORMAT) || '-'}
               </TableCell>
-              <TableCell className="text-left">{  moneyFormatter(invoice?.totalRaw, 'USD')}</TableCell>
+              <TableCell className="text-left">{moneyFormatter(invoice?.totalRaw, 'USD')}</TableCell>
               <TableCell className="text-left font-normal last:text-center">
-              {invoice?.companyNetwork?.network?.country ? <> <span className="text-[#47de88]">{findCurrencySymbol(invoice.companyNetwork.network.country.currencyCode?.trim())}</span>  {invoice.companyNetwork.network.country.currencyCode}</> : '-'}
+                {invoice?.companyNetwork?.network?.country ? (
+                  <>
+                    {' '}
+                    <span className="text-[#47de88]">
+                      {findCurrencySymbol(invoice.companyNetwork.network.country.currencyCode?.trim())}
+                    </span>{' '}
+                    {invoice.companyNetwork.network.country.currencyCode}
+                  </>
+                ) : (
+                  '-'
+                )}
               </TableCell>
             </TableRow>
           ))}
