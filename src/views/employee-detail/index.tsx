@@ -73,6 +73,11 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     isLoading: isEmployeeServicesLoading,
     refetch: refetchServicesData,
   } = useGetEmployeeServices(Number(employee_id), offset, limit, showTerminated);
+
+  const {
+    data: employeeTerminatedServices,
+    } = useGetEmployeeServices(Number(employee_id), offset, limit, false);
+
   const { data: employeeServiceTypes, isLoading: isEmployeeServiceType } = useGetEmployeeServiceTypes(
     Number(employee_id),
   );
@@ -186,7 +191,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
                 tableClass="whitespace-nowrap"
               />
             )}
-            {!isemployeeServiceDetailLoader && (
+            {!isemployeeServiceDetailLoader && (refinedEmployeeData?.length > 0 || employeeTerminatedServices?.data?.length > 0) && (
               <>
                 <button
                   onClick={showTerminatedHandler}

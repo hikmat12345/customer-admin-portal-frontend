@@ -147,9 +147,11 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
                   <CostTable data={costPlanData?.data?.cost} costCenter={costCentre} />
                 </>
               )}
+              {costPlanData?.data?.plan?.length > 0 || (costPlanData?.data?.cost?.length > 0 && costCentre) && (
+                <Separator className="separator-bg-1 mt-4 h-[1.0px]" />
+              ) }
             </>
           )}
-          <Separator className="separator-bg-1 mt-4 h-[1.0px]" />
         </div>
 
         {structuredTicketsData?.length > 0 && (
