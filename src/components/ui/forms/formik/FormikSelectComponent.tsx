@@ -37,7 +37,6 @@ function FormikSelectComponent(props: FormikSelectProps) {
   } = props;
   const [open, setOpen] = React.useState(false);
   const searchParams = useSearchParams();
-
   const currentParamValue = (reportValue && searchParams?.get(reportValue)) || '';
   const currentValue = getIn(values, name);
 
