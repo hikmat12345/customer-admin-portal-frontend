@@ -1,5 +1,8 @@
-import * as React from 'react';
+import { useState, Suspense, Fragment } from 'react';
+import { Check } from 'lucide-react';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { cn } from '../../../../utils/utils';
 import Command from '@veroxos/design-system/dist/ui/Command/command';
 import CommandEmpty from '@veroxos/design-system/dist/ui/CommandEmpty/commandEmpty';
 import CommandGroup from '@veroxos/design-system/dist/ui/CommandGroup/commandGroup';
@@ -9,125 +12,87 @@ import CommandList from '@veroxos/design-system/dist/ui/CommandList/commandList'
 import Popover from '@veroxos/design-system/dist/ui/PopOver/popover';
 import PopoverContent from '@veroxos/design-system/dist/ui/PopoverContent/popoverContent';
 import PopoverTrigger from '@veroxos/design-system/dist/ui/PopoverTrigger/popoverTrigger';
-import { Check } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import CreateQueryString from '../../../../utils/createQueryString';
-import { cn } from '../../../../utils/utils';
 
 interface Option {
   label: string;
   value: number | string;
 }
-interface MenuOption {
-  name: string;
-  value: string;
-  options: Option[];
-}
 
-const PARAM_NAME: Record<number, string> = {
-  0: 'vendor',
-  1: 'country',
-  2: 'show_archived',
-};
-
-function SelectComponent({ menuOption, index }: { menuOption: any; index: number }) {
-  const [open, setOpen] = React.useState(false);
+function SelectComponent({
+  menuOption,
+  filterName,
+  paramName,
+  placeholder,
+}: {
+  menuOption: any;
+  filterName: string;
+  paramName: string;
+  placeholder: string;
+}) {
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentParamValue = searchParams?.get(PARAM_NAME[index]) || '';
-  const paramValues = currentParamValue.split(',');
+  const currentParamValue = searchParams?.get(paramName) || '';
+  const paramValues = (currentParamValue.length && currentParamValue.split(',')) || [];
   const createQueryString = CreateQueryString();
 
   const getSelectedOptionLabel = () => {
-    let selectedOptLabel = '';
-
-    if (index === 0) {
-      for (const parentOpt of menuOption?.options) {
-        const optFound = parentOpt.options.find((subOption: any) => subOption.label === paramValues[0]);
-        if (optFound) {
-          selectedOptLabel = optFound.label;
-          break;
-        }
-      }
-    } else {
-      selectedOptLabel = menuOption?.options
-        ?.flat()
-        .find((option: { value: string | number; label: string }) => option?.value == paramValues[0])?.label;
-    }
-
-    return selectedOptLabel;
+    const options =
+      filterName === 'vendor' ? menuOption?.options?.flatMap((opt: any) => opt.options) : menuOption?.options?.flat();
+    const matcherKey = filterName === 'vendor' ? 'label' : 'value';
+    const paramMatcher = matcherKey === 'label' ? paramValues[0] : Number(paramValues[0]);
+    const optionFound = options?.find((option: any) => option[matcherKey] == paramMatcher);
+    return optionFound?.label || '';
   };
 
   const getTruncatedLabel = () => {
-    let truncLabel = getSelectedOptionLabel();
-
-    if (truncLabel && truncLabel.length > 17) {
-      truncLabel = `${truncLabel.slice(0, 17)}...`;
-    }
-
-    return truncLabel;
+    const label = getSelectedOptionLabel();
+    return label && label.length > 17 ? `${label.slice(0, 17)}...` : label;
   };
 
-  const PLACEHOLDER_NAME = {
-    0: 'Search country...',
-    1: 'Search...',
-    2: 'Search service...',
+  const handleOptionSelect = (selectedOptionValue: string) => {
+    if (!selectedOptionValue) return;
+    const value = selectedOptionValue.toString();
+    const paramIndex = paramValues.indexOf(value);
+    paramIndex !== -1 ? paramValues.splice(paramIndex, 1) : paramValues.push(value);
+    const updatedParams = paramValues.join(',') || undefined;
+    router.push(`${pathname}?${createQueryString(paramName, updatedParams)}`);
   };
 
-  const handleSubOptionSelect = (subOptionLabel: string) => {
-    if (subOptionLabel) {
-      let selectedOption = null;
+  const isOptionChecked = (value: number) => currentParamValue.split(',').includes(value.toString());
 
-      for (const option of menuOption.options) {
-        const foundOption = option.options.find((subOption: any) => subOption.label === subOptionLabel);
-        if (foundOption) {
-          selectedOption = foundOption;
-          break;
-        }
-      }
-
-      if (selectedOption) {
-        if (paramValues.includes(selectedOption.value.toString())) {
-          const paramIndex = paramValues.findIndex((param) => param == selectedOption.value);
-          paramValues.splice(paramIndex, 1);
-          const updatedParams = paramValues.length > 0 ? paramValues.join(',') : undefined;
-          const updatedQueryString = createQueryString(PARAM_NAME[index], updatedParams);
-          router.push(`${pathname}?${updatedQueryString}`);
-        } else {
-          const queryParamValue = currentParamValue
-            ? `${currentParamValue},${selectedOption?.value}`
-            : selectedOption?.value;
-
-          const updatedQueryString = createQueryString(PARAM_NAME[index], queryParamValue);
-          router.push(`${pathname}?${updatedQueryString}`);
-        }
-      }
-    }
+  const buttonTitle = () => {
+    if (!currentParamValue) return menuOption?.name;
+    const count = paramValues.length > 1 ? ` +${paramValues.length - 1}` : '';
+    return getTruncatedLabel() + count;
   };
 
   const reset = () => {
-    router.push(`${pathname}?${createQueryString(PARAM_NAME[index], undefined)}`);
+    router.push(`${pathname}?${createQueryString(paramName, undefined)}`);
     setOpen(false);
   };
 
-  const isOptionChecked = (value: number) => {
-    const paramsArray = currentParamValue.split(',');
-    return paramsArray.includes(value.toString());
+  const renderResetButton = () => {
+    return (
+      <CommandItem
+        onSelect={reset}
+        className="sticky bottom-0 flex cursor-pointer justify-center gap-1 border-t-[1px] border-[#F1F5F9] bg-custom-white py-2 text-[0.875rem] font-[500] leading-[1.063rem]"
+      >
+        <Image src={'/svg/reset.svg'} width={16} height={16} alt="reset icon" />
+        <span>Reset</span>
+      </CommandItem>
+    );
   };
 
-  const buttonTitle = () => {
-    if (currentParamValue === '') return menuOption?.name;
-
-    let count: string | number = paramValues.length - 1;
-    count = count === 0 ? '' : ` +${count}`;
-    let truncatedLabel = getTruncatedLabel();
-    return truncatedLabel + count;
-  };
+  const renderCheckIcon = (value: number) => (
+    <Check className={cn('mr-2 h-4 w-4 opacity-0', isOptionChecked(value) && 'opacity-100')} />
+  );
 
   return (
-    <React.Suspense>
+    <Suspense>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild className="bg-custom-background outline-none">
           <Button
@@ -147,42 +112,41 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-            {(index === 0 || index === 1 || index === 2) && (
-              <>
-                <CommandInput placeholder={PLACEHOLDER_NAME[index as 0 | 1 | 2]} />
-                <CommandEmpty>No data found</CommandEmpty>
-              </>
-            )}
-            {index === 0 ? (
+            <CommandInput placeholder={placeholder} />
+            <CommandEmpty>No data found</CommandEmpty>
+
+            {filterName === 'vendor' && (
               <CommandGroup>
                 <CommandList>
                   {menuOption?.options?.map((option: any, indexCount: number) => (
-                    <>
+                    <Fragment key={`${option?.value}-${indexCount}`}>
                       <h6 className="px-3 py-3 text-sm font-bold">{option?.value}</h6>
                       {option?.options?.map((subOption: any) => (
                         <CommandItem
                           key={`${option?.label}-${indexCount++}`}
                           value={subOption?.value}
-                          onSelect={() => handleSubOptionSelect(subOption.label)}
+                          onSelect={() => {
+                            const currentValue = subOption.label;
+                            const selectedOption = menuOption.options
+                              .flatMap((opt: any) => opt.options)
+                              .find((subOpt: any) => subOpt.label === currentValue);
+
+                            const selectedOptionValue = String(selectedOption?.value) || '';
+                            handleOptionSelect(selectedOptionValue);
+                          }}
                         >
-                          <Check
-                            className={cn('mr-2 h-4 w-4 opacity-0', isOptionChecked(subOption?.value) && 'opacity-100')}
-                          />
+                          {renderCheckIcon(subOption?.value)}
                           {subOption?.value}
                         </CommandItem>
                       ))}
-                    </>
+                    </Fragment>
                   ))}
-                  <CommandItem
-                    onSelect={reset}
-                    className="sticky bottom-0 flex cursor-pointer justify-center gap-1 border-t-[1px] border-[#F1F5F9] bg-custom-white py-2 text-[0.875rem] font-[500] leading-[1.063rem]"
-                  >
-                    <Image src={'/svg/reset.svg'} width={16} height={16} alt="reset icon" />
-                    <span>Reset</span>
-                  </CommandItem>
+                  {renderResetButton()}
                 </CommandList>
               </CommandGroup>
-            ) : (
+            )}
+
+            {filterName !== 'vendor' && (
               <CommandGroup>
                 <CommandList>
                   {menuOption?.options
@@ -193,60 +157,26 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
                         key={`${option?.label}-${indexCount++}`}
                         value={option?.value}
                         onSelect={(currentValue: any) => {
-                          let selectedOption;
+                          const selectedOption = menuOption?.options
+                            .flat()
+                            .find((opt: any) => opt.label === currentValue);
 
-                          if (index === 0) {
-                            selectedOption = menuOption?.options.flat().find((opt: any) => opt.label === currentValue);
-                          }
-                          if (index === 1) {
-                            selectedOption = menuOption?.options.flat().find((opt: any) => opt.label === currentValue);
-                          }
-                          if (index === 2) {
-                            selectedOption = menuOption?.options.flat().find((opt: any) => {
-                              return opt.label === currentValue;
-                            });
-                          }
-                          if (index === 3) {
-                            selectedOption = menuOption?.options.flat().find((opt: any) => opt.label === currentValue);
-                          }
-
-                          if (selectedOption) {
-                            if (paramValues.includes(selectedOption.value.toString())) {
-                              const paramIndex = paramValues.findIndex((param) => param == selectedOption.value);
-                              paramValues.splice(paramIndex, 1);
-                              const updatedParams = paramValues.length > 0 ? paramValues.join(',') : undefined;
-                              const updatedQueryString = createQueryString(PARAM_NAME[index], updatedParams);
-                              router.push(`${pathname}?${updatedQueryString}`);
-                            } else {
-                              const queryParamValue = currentParamValue
-                                ? `${currentParamValue},${selectedOption?.value}`
-                                : selectedOption?.value;
-                              const updatedQueryString = createQueryString(PARAM_NAME[index], queryParamValue);
-                              router.push(`${pathname}?${updatedQueryString}`);
-                            }
-                          }
+                          const selectedOptionValue = String(selectedOption?.value) || '';
+                          handleOptionSelect(selectedOptionValue);
                         }}
                       >
-                        <Check
-                          className={cn('mr-2 h-4 w-4 opacity-0', isOptionChecked(option?.value) && 'opacity-100')}
-                        />
+                        {renderCheckIcon(option?.value)}
                         {option?.label}
                       </CommandItem>
                     ))}
-                  <CommandItem
-                    onSelect={reset}
-                    className="sticky bottom-0 flex cursor-pointer justify-center gap-1 border-t-[1px] border-[#F1F5F9] bg-custom-white py-2 text-[0.875rem] font-[500] leading-[1.063rem]"
-                  >
-                    <Image src={'/svg/reset.svg'} width={16} height={16} alt="reset icon" />
-                    <span>Reset</span>
-                  </CommandItem>
+                  {renderResetButton()}
                 </CommandList>
               </CommandGroup>
             )}
           </Command>
         </PopoverContent>
       </Popover>
-    </React.Suspense>
+    </Suspense>
   );
 }
 

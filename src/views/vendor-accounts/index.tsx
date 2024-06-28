@@ -94,7 +94,13 @@ function VendorAccountsPage() {
           />
           <div className="flex gap-4">
             {menuOptions?.map((menuOption: any, index: number) => (
-              <SelectComponent key={index} menuOption={menuOption} index={index} />
+              <SelectComponent
+                key={index}
+                menuOption={menuOption}
+                filterName={menuOption.value}
+                paramName={menuOption.paramName}
+                placeholder={menuOption.placeholder}
+              />
             ))}
           </div>
         </div>

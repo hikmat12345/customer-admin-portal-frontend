@@ -43,11 +43,15 @@ const useGetMenuOptions = () => {
       name: 'Vendor',
       value: 'vendor',
       options: filteredVendorOptions,
+      paramName: 'vendor',
+      placeholder: 'Search vendor...',
     },
     {
       name: 'Country',
       value: 'country',
       options: filteredCountries,
+      paramName: 'country',
+      placeholder: 'Search country...',
     },
     {
       name: 'Show Archived',
@@ -56,6 +60,8 @@ const useGetMenuOptions = () => {
         { value: 0, label: 'No' },
         { value: 1, label: 'Yes' },
       ],
+      paramName: 'show_archived',
+      placeholder: 'Search...',
     },
   ];
 
