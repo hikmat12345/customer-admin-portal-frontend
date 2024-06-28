@@ -5,14 +5,14 @@ import { Suspense } from 'react';
 import { Metadata, ResolvingMetadata } from 'next';
 
 type Props = {
-  params: { id: string };
+  params: { ticketId: string };
 };
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
-  const { id } = params;
+  const { ticketId } = params;
 
   return {
-    title: `Ticket - ${id}`,
+    title: `Ticket - SUP${ticketId}`,
     description: 'Ticket Summary',
     icons: {
       icon: '/favicon.ico',

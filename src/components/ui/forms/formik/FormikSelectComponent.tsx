@@ -12,6 +12,7 @@ import { FieldProps, getIn } from 'formik';
 import { useSearchParams } from 'next/navigation';
 import { Command } from '../../command';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover';
+import { truncateText } from '@/utils/truncateText';
 
 interface FormikSelectProps extends FieldProps {
   error: boolean;
@@ -43,7 +44,22 @@ function FormikSelectComponent(props: FormikSelectProps) {
   const isTouched = getIn(touched, name);
   const error = getIn(errors, field.name);
 
-  const selectedOption = options?.find((option) => option.value === currentValue);
+  const selectedOptions = options?.filter((option) => currentValue?.includes(option.value));
+
+  const handleSelect = (optionValue: string) => {
+    if (optionValue === 'all') {
+      const allValues = options.map((option) => option.value);
+      setFieldValue(name, currentValue.length === allValues.length ? [] : allValues);
+    } else if (name === 'accounts' || name === 'serviceType') {
+      const newValue = currentValue.includes(optionValue)
+        ? currentValue.filter((value: string) => value !== optionValue)
+        : [...currentValue, optionValue];
+      setFieldValue(name, newValue);
+    } else {
+      setFieldValue(name, optionValue);
+    }
+    setOpen(false);
+  };
 
   return (
     <React.Suspense>
@@ -51,7 +67,7 @@ function FormikSelectComponent(props: FormikSelectProps) {
         <span className="text-[14px] font-semibold text-[#575757]">
           {label} <span className="text-rose-500"> *</span>
         </span>
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover open={open} onOpenChange={setOpen} modal={true}>
           <PopoverTrigger asChild className="bg-custom-background outline-none">
             <Button
               variant="outline"
@@ -60,7 +76,11 @@ function FormikSelectComponent(props: FormikSelectProps) {
               className={`w-full justify-between ${((isTouched && error) || error) && 'border-2 border-rose-500'} `}
               value={12}
             >
-              {selectedOption ? selectedOption.label : label}
+              {selectedOptions?.length > 0
+                ? selectedOptions.length === 1
+                  ? truncateText(selectedOptions[0].label, 25)
+                  : `${truncateText(selectedOptions[0].label, 25)} (+${selectedOptions.length - 1})`
+                : label}
               <Image
                 src={open ? '/svg/select/upChevron.svg' : '/svg/select/downChevron.svg'}
                 alt="Chevron Icon"
@@ -77,17 +97,28 @@ function FormikSelectComponent(props: FormikSelectProps) {
               </>
               <CommandGroup>
                 <CommandList>
+                  {(name === 'accounts' || name === 'serviceType') && (
+                    <CommandItem key="all" value="All" onSelect={() => handleSelect('all')}>
+                      <Check
+                        className={cn(
+                          'mr-2 h-4 w-4',
+                          currentValue?.length === options?.length ? 'opacity-100' : 'opacity-0',
+                        )}
+                      />
+                      All
+                    </CommandItem>
+                  )}
                   {options?.map((option, index) => (
                     <CommandItem
                       key={`${option?.label}-${index++}`}
-                      value={option.value}
-                      onSelect={() => {
-                        setFieldValue(name, option.value);
-                        setOpen(false);
-                      }}
+                      value={option.label}
+                      onSelect={() => handleSelect(option.value)}
                     >
                       <Check
-                        className={cn('mr-2 h-4 w-4', currentValue == option.value ? 'opacity-100' : 'opacity-0')}
+                        className={cn(
+                          'mr-2 h-4 w-4',
+                          currentValue.includes(option?.value) ? 'opacity-100' : 'opacity-0',
+                        )}
                       />
                       {option.label}
                     </CommandItem>

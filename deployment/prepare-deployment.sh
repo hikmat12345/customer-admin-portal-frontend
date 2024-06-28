@@ -31,7 +31,7 @@ jq -n --arg FAMILY "prod-$ECR_REPO_NAME" \
       --arg ECR_REPO_NAME $ECR_REPO_NAME \
       --arg IMAGE "$AWS_ACCOUNT_NUMBER.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO_NAME:$NEWEST_TAG" \
       --argjson CONTAINER_PORT $CONTAINER_PORT \
-      --arg AWSLOGS_GROUP "/ecs/production/$ECR_REPO_NAME" \
+      --arg AWSLOGS_GROUP "/ecs/prod/$ECR_REPO_NAME" \
       -f td-prod-template.json > td-$ECR_REPO_NAME-prod.json
 echo "Done."
 
@@ -98,7 +98,7 @@ jq -n --arg ECR_REPO_NAME $ECR_REPO_NAME \
 echo "  Uat created."
 
 jq -n --arg ECR_REPO_NAME $ECR_REPO_NAME \
-      --arg DEPLOYMENT_GROUP_NAME "production-$ECR_REPO_NAME" \
+      --arg DEPLOYMENT_GROUP_NAME "prod-$ECR_REPO_NAME" \
       --arg OBJECT_KEY "production-$ECR_REPO_NAME-appspec-$NEWEST_TAG.json" \
       --arg S3_BUCKET "$S3_CODE_DEPLOY" \
       -f create-deployment-template.json > create-deployment-production.json

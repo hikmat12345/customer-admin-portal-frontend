@@ -9,7 +9,7 @@ definitions:
       memory: 4096  
 
   steps:
-    - step: &deploy-to-ecr
+    - step: &deploy-dev-to-ecr
         name: "Deploy to ECR"
         services:
           - docker
@@ -26,14 +26,34 @@ definitions:
           # Push the Docker image to Amazon ECR
           - docker push 271453939301.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO_NAME:B$BITBUCKET_BUILD_NUMBER
 
+    - step: &deploy-to-ecr
+        name: "Deploy to ECR"
+        services:
+          - docker
+        size: 2x
+        script:
+          - export DOCKER_BUILDKIT=1
+          - DOCKER_PASSWORD=$(aws ecr get-login-password --region $AWS_DEFAULT_REGION)
+          - echo $DOCKER_PASSWORD | docker login --username AWS --password-stdin 271453939301.dkr.ecr.us-east-1.amazonaws.com
+          # Build the Docker image
+          - cp ~/.ssh/known_hosts .  
+          - docker build --ssh default=$BITBUCKET_SSH_KEY_FILE -t $ECR_REPO_NAME .
+          # Tag the Docker image
+          - docker tag $ECR_REPO_NAME:latest 271453939301.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO_NAME:B$BITBUCKET_BUILD_NUMBER
+          # Push the Docker image to Amazon ECR
+          - docker push 271453939301.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO_NAME:B$BITBUCKET_BUILD_NUMBER
+
 pipelines:
   default:
-    - step: *deploy-to-ecr
+    - step: *deploy-dev-to-ecr
 
   branches:
     dev:
+      - step: *deploy-dev-to-ecr
+
+    main:
       - step: *deploy-to-ecr
-  
+
   custom:
     deploy-to-DEV-&-PROD:
     - step:
@@ -65,3 +85,28 @@ pipelines:
         deployment: production
         script:
           - echo "Production Steps"
+
+    deploy-to-Production:
+    - step:
+        name: "Prepare Deployment for Production"
+        services:
+          - docker
+        size: 2x
+        script:
+          - cd deployment/
+          - bash prepare-deployment.sh
+        artifacts:
+          - deployment/*-*-appspec-*.json
+          - deployment/create-deployment-*.json
+    - step:
+        name: "Deploy to Production"
+        trigger: manual
+        deployment: Production
+        artifacts:
+          - deployment/create-deployment-production.json
+        script:
+          - aws deploy create-deployment --region us-east-1 --cli-input-json file://deployment/create-deployment-production.json  > deploymentId-production.txt
+          - DEPLOYMENT_ID=`jq .deploymentId deploymentId-production.txt | sed 's/"//g'`
+          - aws deploy get-deployment --region us-east-1 --deployment-id $DEPLOYMENT_ID --query deploymentInfo.status
+          - echo $DEPLOYMENT_ID
+          - echo "https://us-east-1.console.aws.amazon.com/codesuite/codedeploy/deployments/"$DEPLOYMENT_ID"\?region\=us-east-1"

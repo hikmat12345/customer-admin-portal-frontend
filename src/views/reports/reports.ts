@@ -1,7 +1,6 @@
 'use client';
-import { currencyList, serviceTypeDropdown, yearList } from '@/utils/utils';
-import { useGetVendors } from '@/hooks/useTickets';
-import { VendorAccount } from '@/types/tickets/types';
+
+import { currencyList, serviceOptions, yearList } from '@/utils/utils';
 
 export interface ReportField {
   type: 'text' | 'select' | 'datePicker';
@@ -32,14 +31,10 @@ export interface AllReports {
 }
 
 const GetAllReports = (): AllReports => {
-  const { data: vendorAccounts } = useGetVendors();
-
-  const filterVendorAccounts = vendorAccounts?.map((item: VendorAccount) => ({
-    value: item?.account_no,
-    label: item?.displayName,
+  const filterServiceType = serviceOptions?.map((item: { id: number; label: string }) => ({
+    value: +item?.id, // it will always keep it as a number
+    label: item?.label,
   }));
-
-  const filterServiceType = serviceTypeDropdown();
 
   const financeReports: Report[] = [
     {
@@ -102,7 +97,7 @@ const GetAllReports = (): AllReports => {
         { type: 'datePicker', name: 'To' },
         { type: 'select', name: 'serviceType', label: 'Service type', options: filterServiceType },
         { type: 'select', name: 'currency', label: 'Currency', options: currencyList },
-        { type: 'select', name: 'accounts', label: 'Accounts', options: filterVendorAccounts },
+        { type: 'select', name: 'accounts', label: 'Accounts', options: [] },
       ],
     },
     {

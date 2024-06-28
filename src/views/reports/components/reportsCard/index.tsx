@@ -15,7 +15,10 @@ import {
   usePostF6Report,
   usePostF7Report,
   usePostI10Report,
+  usePostI11Report,
+  usePostI2Report,
   usePostI4Report,
+  usePostI5Report,
   usePostI8Report,
   usePostS1Report,
   usePostS2Report,
@@ -39,12 +42,15 @@ type ReportKey =
   | 'F15'
   | 'I8'
   | 'I10'
+  | 'I11'
   | 'I4'
   | 'S1'
   | 'S2'
   | 'S4'
   | 'S5'
-  | 'S6';
+  | 'S6'
+  | 'I5'
+  | 'I2';
 
 const reportHooks = {
   F1: usePostF1Report,
@@ -57,7 +63,10 @@ const reportHooks = {
   F15: usePostF15Report,
   I8: usePostI8Report,
   I10: usePostI10Report,
+  I11: usePostI11Report,
+  I2: usePostI2Report,
   I4: usePostI4Report,
+  I5: usePostI5Report,
   S1: usePostS1Report,
   S2: usePostS2Report,
   S4: usePostS4Report,
@@ -123,7 +132,10 @@ function ReportsCard({
     F15: useReportMutation('F15'),
     I8: useReportMutation('I8'),
     I10: useReportMutation('I10'),
+    I11: useReportMutation('I11'),
+    I2: useReportMutation('I2'),
     I4: useReportMutation('I4'),
+    I5: useReportMutation('I5'),
     S1: useReportMutation('S1'),
     S2: useReportMutation('S2'),
     S4: useReportMutation('S4'),
@@ -137,6 +149,7 @@ function ReportsCard({
     const currency = values.currency || null;
     const year = values.year || null;
     const serviceType = values.serviceType || null;
+    const accounts = values.accounts;
 
     const formattedFromDate = fromDate ? `${`0${fromDate.getMonth() + 1}`.slice(-2)}-${fromDate.getFullYear()}` : '';
     const formattedToDate = toDate ? `${`0${toDate.getMonth() + 1}`.slice(-2)}-${toDate.getFullYear()}` : '';
@@ -150,27 +163,59 @@ function ReportsCard({
     const formattedEndDate = toDate ? format(toDate, MONTH_AND_YEAR_FORMAT) : '';
     const postBody = { from: formattedFromDate, to: formattedToDate };
 
+    const toastId = toast.loading('Loading report...');
+
     Object.keys(dialogOpenRef.current).forEach((key) => {
       const reportKey = key as ReportKey;
       if (dialogOpenRef.current[reportKey]) {
         if (reportKey === 'F7') {
-          reportMutations[reportKey].mutate({ ...postBody, currency, serviceType });
+          reportMutations[reportKey].mutate(
+            { ...postBody, accounts, currency, serviceType },
+            {
+              onSettled: () => toast.dismiss(toastId),
+            },
+          );
         } else if (reportKey === 'F12') {
-          reportMutations[reportKey].mutate({ currency, year });
+          reportMutations[reportKey].mutate(
+            { currency, year },
+            {
+              onSettled: () => toast.dismiss(toastId),
+            },
+          );
         } else if (reportKey === 'F15') {
-          reportMutations[reportKey].mutate({ from: formattedStartDate, to: formattedEndDate });
+          reportMutations[reportKey].mutate(
+            { from: formattedStartDate, to: formattedEndDate },
+            {
+              onSettled: () => toast.dismiss(toastId),
+            },
+          );
         } else if (
           reportKey === 'I8' ||
           reportKey === 'I10' ||
           reportKey === 'I4' ||
           reportKey === 'S1' ||
-          reportKey === 'S2'
+          reportKey === 'S2' ||
+          reportKey === 'I11' ||
+          reportKey === 'I5' ||
+          reportKey === 'I2'
         ) {
-          reportMutations[reportKey].mutate({});
+          reportMutations[reportKey].mutate(
+            {},
+            {
+              onSettled: () => toast.dismiss(toastId),
+            },
+          );
         } else if (reportKey === 'S4' || reportKey === 'S5' || 'S6') {
-          reportMutations[reportKey].mutate({ from: formattedFromDateYYYYMM, to: formattedToDateYYYYMM });
+          reportMutations[reportKey].mutate(
+            { from: formattedFromDateYYYYMM, to: formattedToDateYYYYMM },
+            {
+              onSettled: () => toast.dismiss(toastId),
+            },
+          );
         } else {
-          reportMutations[reportKey].mutate(postBody);
+          reportMutations[reportKey].mutate(postBody, {
+            onSettled: () => toast.dismiss(toastId),
+          });
         }
       }
     });
@@ -180,67 +225,69 @@ function ReportsCard({
 
   const dialogContent = (
     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-      {({ touched, errors }) => (
-        <Form className="flex flex-col gap-4">
-          {fieldTypes.length === 0 ? (
-            <div className="mb-4 flex justify-center">
-              <Image src="/svg/excelIconMedium.svg" width={80} height={80} alt="Excel icon" />
-            </div>
-          ) : (
-            <>
-              {fieldTypes.some((field) => field.type === 'datePicker') && (
-                <div className="flex gap-2">
-                  {fieldTypes
-                    .filter((field) => field.type === 'datePicker')
-                    .map((field, index) => (
-                      <div className="flex w-[48.993333%] flex-col gap-3" key={index}>
-                        <FormFieldElement
-                          type={field.type}
-                          name={field.name}
-                          errors={errors}
-                          touched={touched}
-                          options={field.options}
-                        />
-                      </div>
-                    ))}
-                </div>
-              )}
-            </>
-          )}
-          <div className="flex w-[100%] flex-wrap gap-2">
-            {fieldTypes
-              .filter((field) => field.type !== 'datePicker')
-              .map((field, index) => {
-                return (
-                  <div
-                    className={`${
-                      fieldTypes.filter((field) => field.type !== 'datePicker').length === 1
-                        ? 'w-full'
-                        : 'w-[48.993333%]'
-                    } mb-2 mt-1`}
-                    key={index}
-                  >
-                    <FormFieldElement
-                      type={field.type}
-                      name={field.name}
-                      placeholder={field.placeholder}
-                      label={field.label}
-                      options={field.options}
-                    />
+      {({ touched, errors }) => {
+        return (
+          <Form className="flex flex-col gap-4">
+            {fieldTypes.length === 0 ? (
+              <div className="mb-4 flex justify-center">
+                <Image src="/svg/excelIconMedium.svg" width={80} height={80} alt="Excel icon" />
+              </div>
+            ) : (
+              <>
+                {fieldTypes.some((field) => field.type === 'datePicker') && (
+                  <div className="flex gap-2">
+                    {fieldTypes
+                      .filter((field) => field.type === 'datePicker')
+                      .map((field, index) => (
+                        <div className="flex w-[48.993333%] flex-col gap-3" key={index}>
+                          <FormFieldElement
+                            type={field.type}
+                            name={field.name}
+                            errors={errors}
+                            touched={touched}
+                            options={field.options}
+                          />
+                        </div>
+                      ))}
                   </div>
-                );
-              })}
-          </div>
-          <div className="flex items-center justify-center gap-3">
-            <Button variant="outline" type="submit" disabled>
-              Schedule
-            </Button>
-            <Button disabled={reportsLoading} type="submit" className="bg-custom-blue text-custom-white animate-in">
-              Download
-            </Button>
-          </div>
-        </Form>
-      )}
+                )}
+              </>
+            )}
+            <div className="flex w-[100%] flex-wrap gap-2">
+              {fieldTypes
+                .filter((field) => field.type !== 'datePicker')
+                .map((field, index) => {
+                  return (
+                    <div
+                      className={`${
+                        fieldTypes.filter((field) => field.type !== 'datePicker').length === 1
+                          ? 'w-full'
+                          : 'w-[48.993333%]'
+                      } mb-2 mt-1`}
+                      key={index}
+                    >
+                      <FormFieldElement
+                        type={field.type}
+                        name={field.name}
+                        placeholder={field.placeholder}
+                        label={field.label}
+                        options={field.options}
+                      />
+                    </div>
+                  );
+                })}
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <Button variant="outline" type="submit" disabled>
+                Schedule
+              </Button>
+              <Button disabled={reportsLoading} type="submit" className="bg-custom-blue text-custom-white animate-in">
+                Download
+              </Button>
+            </div>
+          </Form>
+        );
+      }}
     </Formik>
   );
 
