@@ -135,7 +135,6 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
             role="combobox"
             aria-expanded={open}
             className="min-w-[160px] max-w-fit justify-between"
-            value={12}
           >
             {buttonTitle()}
             <Image
