@@ -35,12 +35,19 @@ export default function GeneralInfo({
 }: GeneralInfoProps) {
   const staticData = [
     { label: 'Veroxos ID', value: veroxosId },
-    { label: 'Service Number', value: serviceNumber },
+    {
+      label: 'Service Number',
+      value: (
+        <TooltipText
+          text={serviceNumber ? `${serviceNumber}` : '-'}
+          maxLength={15}
+          className="leading-6 text-[#1175BE] text-[0.0.938rem]"
+        />
+      ),
+    },
     {
       label: 'Vendor',
-      value: (
-        <TooltipText text={vendor ? vendor : '-'} maxLength={18} className="text-[0.875rem] leading-6 text-[#575757]" />
-      ),
+      value: <TooltipText text={vendor ? vendor : '-'} maxLength={18} />,
     },
     {
       label: 'Account',

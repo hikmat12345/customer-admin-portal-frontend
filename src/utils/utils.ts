@@ -433,7 +433,7 @@ const years = eachYearOfInterval({ start: new Date(startYear, 0, 1), end: new Da
 export const yearList = years
   .map((date) => {
     const year = date.getFullYear();
-    return { label: year, value: year };
+    return { label: `${year}`, value: `${year}` };
   })
   .reverse();
 

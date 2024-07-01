@@ -50,6 +50,10 @@ const menuItems: ISidebarItem[] = [
         name: 'View Invoices',
         path: '/accounts/invoices',
       },
+      {
+        name: 'Vendor Accounts',
+        path: '/accounts/vendors',
+      },
     ],
   },
   {

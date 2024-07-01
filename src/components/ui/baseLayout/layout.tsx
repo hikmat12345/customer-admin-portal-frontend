@@ -65,9 +65,11 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
                 >
                   {isSummaryPage
                     ? renamePagesTitle(endWord(2))
-                    : endWord()?.toLocaleLowerCase() == 'inventory'
+                    : endWord()?.toLocaleLowerCase() === 'inventory'
                       ? 'View Services'
-                      : endWord()}
+                      : endWord()?.toLowerCase() === 'vendors'
+                        ? 'Vendor Accounts'
+                        : endWord()}
                 </h2>
               </>
             )}
