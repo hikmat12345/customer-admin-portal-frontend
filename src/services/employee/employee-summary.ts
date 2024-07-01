@@ -54,5 +54,5 @@ export const getAllEmployees = async ({ queryKey }: any) => {
     },
   };
 
-  return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/employee`, config).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/employees`, config).then(({ data }) => data);
 };
