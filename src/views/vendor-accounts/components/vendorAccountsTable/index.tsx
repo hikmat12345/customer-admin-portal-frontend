@@ -7,7 +7,6 @@ import Link from 'next/link';
 import Table from '@veroxos/design-system/dist/ui/Table/table';
 import VendorAccountsTableHead from './vendorAccountsTableHead';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
-import { TABLE_HEIGHT } from '@/utils/constants/constants';
 import { useRouter } from 'next/navigation';
 import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
 
@@ -28,7 +27,7 @@ function VendorAccountsTable({ data }: any) {
   };
 
   return (
-    <div className="overflow-auto" style={{ height: `calc(100vh - ${TABLE_HEIGHT})` }}>
+    <div className="flex-grow overflow-auto" style={{ height: `calc(100vh - 230px)` }}>
       <Table>
         <VendorAccountsTableHead />
         {isNoData && <TableCaption>No invoices available.</TableCaption>}

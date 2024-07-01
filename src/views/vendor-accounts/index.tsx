@@ -82,17 +82,17 @@ function VendorAccountsPage() {
 
   return (
     <>
-      <div className="grid-auto-flow-column mt-6 grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
-        <div className="flex items-center justify-between gap-2">
+      <div className="flex w-full flex-col gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
+        <div className="flex h-fit items-center justify-between gap-2">
           <SearchField
             iconWidth={16}
             iconHeight={16}
             defaultValue={searchQuery}
             onChange={debouncedSearchFieldHandlder}
-            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:w-[600px]"
+            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:min-w-[21.375rem] xl:w-[33rem]"
             helpText="Searches network name, company network account number and display name fields."
           />
-          <div className="flex gap-4">
+          <div className="flex md:gap-1 lg:gap-4">
             {menuOptions?.map((menuOption: any, index: number) => (
               <SelectComponent
                 key={index}
@@ -104,7 +104,7 @@ function VendorAccountsPage() {
             ))}
           </div>
         </div>
-        <div className="mt-2">
+        <div className="mt-2 flex-grow overflow-x-auto">
           {vendorAccountsLoading && <VendorAccountsTableSkeleton limit={limit} />}
           {vendorAccountsFetched && <VendorAccountsTable limit={limit} data={vendorAccountsData?.data} />}
         </div>
