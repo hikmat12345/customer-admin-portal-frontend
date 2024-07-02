@@ -7,7 +7,6 @@ import { InventoryCardData } from '@/types/inventory/types';
 import Pagination from '@/components/ui/pagination';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import CreateQueryString from '@/utils/createQueryString';
-import debounce from 'lodash.debounce';
 import InventoryTableSkeleton from './components/inventoryTable/inventoryTableSkeleton';
 import InventoryTable from './components/inventoryTable';
 import useGetMenuOptions from './components/select/options';
