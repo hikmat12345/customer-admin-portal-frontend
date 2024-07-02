@@ -41,3 +41,18 @@ export const getEmployeeServices = async ({ queryKey }: any) => {
     )
     .then(({ data }) => data);
 };
+
+export const getAllEmployees = async ({ queryKey }: any) => {
+  const [, offset, limit, status, searchQuery] = queryKey;
+
+  const config = {
+    params: {
+      offset,
+      limit,
+      status,
+      searchQuery,
+    },
+  };
+
+  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/employees`, config).then(({ data }) => data);
+};

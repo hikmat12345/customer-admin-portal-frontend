@@ -14,7 +14,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const pathSegments = pathname && pathname.split('/');
 
-  const renamePagesTitle = (title: string) => {
+  const renameSummaryPagesTitles = (title: string) => {
     switch (title) {
       case 'inventory':
         return 'Service Summary';
@@ -30,6 +30,22 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
         return title + ' Summary';
     }
   };
+
+  const renameMainPagesTitles = (title: string) => {
+    title = title.toLowerCase();
+
+    switch (title) {
+      case 'inventory':
+        return 'View Services';
+      case 'vendors':
+        return 'Vendor Accounts';
+      case 'employees':
+        return 'View Employees';
+      default:
+        return title;
+    }
+  };
+
   let endWord = (position: number = 1) => {
     const findPath = (pathSegments && pathSegments[pathSegments?.length - position]) || 'Home';
     return findPath.replace(/[-/]+/g, ' ');
@@ -63,13 +79,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
                 <h2
                   className={`text-[30px] font-bold capitalize text-custom-black ${endWord() === 'search' && 'ml-5'}`}
                 >
-                  {isSummaryPage
-                    ? renamePagesTitle(endWord(2))
-                    : endWord()?.toLocaleLowerCase() === 'inventory'
-                      ? 'View Services'
-                      : endWord()?.toLowerCase() === 'vendors'
-                        ? 'Vendor Accounts'
-                        : endWord()}
+                  {isSummaryPage ? renameSummaryPagesTitles(endWord(2)) : renameMainPagesTitles(endWord())}
                 </h2>
               </>
             )}
