@@ -7,13 +7,13 @@ import { InventoryCardData } from '@/types/inventory/types';
 import Pagination from '@/components/ui/pagination';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import CreateQueryString from '@/utils/createQueryString';
-import debounce from 'lodash.debounce';
 import InventoryTableSkeleton from './components/inventoryTable/inventoryTableSkeleton';
 import InventoryTable from './components/inventoryTable';
 import useGetMenuOptions from './components/select/options';
 import SelectComponent from './components/select';
 import InventoryCard from './components/inventoryCard';
 import { PAGE_SIZE } from '@/utils/constants/constants';
+import { sanitizeSearchQuery } from '@/utils/utils';
 
 function InventoryPage() {
   const searchParams = useSearchParams() as ReadonlyURLSearchParams;
@@ -87,16 +87,22 @@ function InventoryPage() {
     },
   ];
 
-  const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    if (value.length === 0) {
-      router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
-    } else {
-      router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
-    }
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === '') router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
   };
 
-  const debouncedSearchFieldHandlder = React.useCallback(debounce(handleSearchField, 500), []);
+  const handleSearchKeydown = (event: any) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      let { value } = event.target;
+      value = sanitizeSearchQuery(value);
+      if (value.length === 0) {
+        router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
+      } else {
+        router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
+      }
+    }
+  };
 
   const handlePageChange = async (page: number) => {
     const params = new URLSearchParams();
@@ -145,7 +151,8 @@ function InventoryPage() {
             className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[7rem] 2md:w-[17rem] lg:w-[19rem] 2lg:w-[20rem] xl:w-[24rem] 2xl:w-[28rem] 3xl:w-[33rem]"
             iconWidth={16}
             iconHeight={16}
-            onChange={debouncedSearchFieldHandlder}
+            onChange={handleSearchChange}
+            onKeyDown={handleSearchKeydown}
             helpText="Searches the ID, service number, cost center, company network name, display name and account number fields."
           />
           <div className="flex md:gap-1 lg:gap-2 2lg:gap-4">

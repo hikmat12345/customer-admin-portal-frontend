@@ -5,13 +5,13 @@ import VendorAccountsTable from './components/vendorAccountsTable';
 import VendorAccountsTableSkeleton from './components/vendorAccountsTable/vendorAccountsTableSkeleton';
 import CreateQueryString from '@/utils/createQueryString';
 import Pagination from '@/components/ui/pagination';
-import debounce from 'lodash.debounce';
 import SelectComponent from './components/select';
 import useGetMenuOptions from './components/select/options';
 import { useGetVendorAccounts } from '@/hooks/useGetVendorAccounts';
 import { PAGE_SIZE } from '@/utils/constants/constants';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { sanitizeSearchQuery } from '@/utils/utils';
 
 function VendorAccountsPage() {
   const limit = PAGE_SIZE;
@@ -27,6 +27,7 @@ function VendorAccountsPage() {
   const vendor = searchParams && searchParams?.get('vendor');
   const page = searchParams?.get('page') || '1';
   const offset = +page - 1;
+  const menuOptions = useGetMenuOptions();
 
   const {
     data: vendorAccountsData,
@@ -46,14 +47,21 @@ function VendorAccountsPage() {
           .join(',')
       : undefined,
   );
-  const menuOptions = useGetMenuOptions();
 
-  const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    if (value.length === 0) {
-      router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
-    } else {
-      router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === '') router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
+  };
+
+  const handleSearchKeydown = (event: any) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      let { value } = event.target;
+      value = sanitizeSearchQuery(value);
+      if (value.length === 0) {
+        router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
+      } else {
+        router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
+      }
     }
   };
 
@@ -77,8 +85,13 @@ function VendorAccountsPage() {
     }
   }, [keys.length]);
 
+  useEffect(() => {
+    if (!showArchived) {
+      router.push(`${pathname}?${createQueryString('show_archived', 0)}`);
+    }
+  }, []);
+
   const totalPages = vendorAccountsData?.total / limit;
-  const debouncedSearchFieldHandlder = useCallback(debounce(handleSearchField, 500), []);
 
   return (
     <>
@@ -88,7 +101,8 @@ function VendorAccountsPage() {
             iconWidth={16}
             iconHeight={16}
             defaultValue={searchQuery}
-            onChange={debouncedSearchFieldHandlder}
+            onChange={handleSearchChange}
+            onKeyDown={handleSearchKeydown}
             className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:min-w-[21.375rem] xl:w-[33rem]"
             helpText="Searches network name, company network account number and display name fields."
           />

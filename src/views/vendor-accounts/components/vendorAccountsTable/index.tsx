@@ -6,9 +6,9 @@ import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow';
 import Link from 'next/link';
 import Table from '@veroxos/design-system/dist/ui/Table/table';
 import VendorAccountsTableHead from './vendorAccountsTableHead';
+import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import { useRouter } from 'next/navigation';
-import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
 
 function VendorAccountsTable({ data }: any) {
   const isNoData = data?.length === 0;
@@ -27,10 +27,10 @@ function VendorAccountsTable({ data }: any) {
   };
 
   return (
-    <div className="flex-grow overflow-auto" style={{ height: `calc(100vh - 230px)` }}>
+    <div className="overflow-auto" style={{ height: `calc(100vh - 260px)` }}>
       <Table>
         <VendorAccountsTableHead />
-        {isNoData && <TableCaption>No invoices available.</TableCaption>}
+        {isNoData && <TableCaption>No data found.</TableCaption>}
 
         <TableBody>
           {data?.map((row: any) => (
