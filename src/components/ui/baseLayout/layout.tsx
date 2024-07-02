@@ -69,7 +69,9 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
                       ? 'View Services'
                       : endWord()?.toLowerCase() === 'vendors'
                         ? 'Vendor Accounts'
-                        : endWord()}
+                        : endWord()?.toLowerCase() === 'sites'
+                          ? 'View Sites'
+                          : endWord()}
                 </h2>
               </>
             )}
