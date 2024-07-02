@@ -1,4 +1,5 @@
 import {
+  getAllEmployees,
   getEmployeeCostTrend,
   getEmployeeDetail,
   getEmployeeServiceTypes,
@@ -26,4 +27,8 @@ export const useGetEmployeeServiceTypes = (employee_id: number) => {
 };
 export const useGetEmployeeServices = (employee_id: number, offset: number, limit: number, showTerminated: boolean) => {
   return useQuery({ queryKey: ['employee_services', employee_id, offset, limit, showTerminated], queryFn: getEmployeeServices });
+};
+
+export const useGetAllEmployees = (offset: number, limit: number, status: string | undefined, searchQuery: string | undefined) => {
+  return useQuery({ queryKey: ['all_employees', offset, limit, status, searchQuery], queryFn: getAllEmployees });
 };
