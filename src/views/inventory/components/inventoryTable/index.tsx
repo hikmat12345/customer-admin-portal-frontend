@@ -58,7 +58,7 @@ function InventoryTable({ data }: { data: Inventory[] }) {
     <div className="overflow-auto" style={{ height: `calc(100vh - ${TABLE_HEIGHT})` }}>
       <Table>
         <InventoryTableHead />
-        {isNoData && <TableCaption>No inventories available.</TableCaption>}
+        {isNoData && <TableCaption>No data found.</TableCaption>}
         <TableBody>
           {Array.isArray(data) &&
             data?.map((inventory: Inventory) => (
