@@ -9,7 +9,9 @@ const config = {
 		screens: {
 			sm: '640px',
 			md: '768px',
+			'2md': '930px',
 			lg: '1100px',
+			'2lg': '1320px',
 			xl: '1540px',
 			'2xl': '1740px',
 			'3xl': '2000px',

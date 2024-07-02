@@ -138,7 +138,7 @@ function Sidebar() {
   };
 
   return (
-    <div className="fixed left-0 top-0 z-10 h-full w-[280px] bg-custom-blue px-4 py-[8px] shadow-lg lg:w-[250px]">
+    <div className="fixed left-0 top-0 z-10 h-full w-[200px] bg-custom-blue px-4 py-[8px] shadow-lg md:w-[220px] lg:w-[240px] xl:w-[260px]">
       <div className="relative flex h-full flex-col justify-between px-5">
         <div className="flex w-full flex-col space-y-3">
           <Image

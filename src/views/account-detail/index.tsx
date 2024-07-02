@@ -186,7 +186,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
         {/* Service Type */}
         {vendorServicesTypes?.data?.length > 0 && (
           <div id="service-type">
-            <div className="pb-8 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Service Type</div>
+            <div className="pb-8 pt-8 text-[1.375rem] font-[700] text-custom-blue">Service Type</div>
             {isVendorServiceTypeLoading ? (
               <Skeleton variant="paragraph" rows={3} />
             ) : Array.isArray(vendorServicesTypes?.data) && vendorServicesTypes?.data.length > 0 ? (
@@ -212,7 +212,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
         {/* Service Location */}
         {serviceLocations?.length > 0 && (
           <div id="service-location">
-            <div className="pb-6 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Service Location</div>
+            <div className="pb-6 pt-8 text-[1.375rem] font-[700] text-custom-blue">Service Location</div>
             {isVendorServicesLocationLoading ? (
               <Skeleton variant="paragraph" rows={3} />
             ) : (
@@ -240,7 +240,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
                     <TooltipText
                       text={`Last ${limit} invoices shown`}
                       maxLength={1}
-                      className="pl-3 pt-3 leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                      className="pl-3 pt-3 text-[0.875rem] leading-6 text-[#575757]"
                       type="notification"
                     />
                   </>
@@ -265,7 +265,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
                     <TooltipText
                       text={`Last ${limit} tickets shown`}
                       maxLength={1}
-                      className="pl-3 pt-3 leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                      className="pl-3 pt-3 text-[0.875rem] leading-6 text-[#575757]"
                       type="notification"
                     />
                   </>

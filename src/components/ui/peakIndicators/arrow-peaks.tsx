@@ -42,7 +42,7 @@ function PeakIndicator({
         </div>
       ) : (
         <div
-          className={`absolute right-4 ${backgroundColor} ${border} flex h-9 w-9 items-center justify-center rounded-full`}
+          className={`absolute right-4 top-2 ${backgroundColor} ${border} flex h-9 w-9 items-center justify-center rounded-full`}
         >
           <Image
             src={arrowImageSrc}

@@ -62,7 +62,7 @@ function TableBodyContent({ record, currencySymbol }: any) {
       {Object.values(record).map((value: any, index: number) => (
         <TableCell
           key={index}
-          className={`${index === 0 ? 'text-left text-[14px]' : 'text-left'} border-t-[1px] border-custom-plaster py-3 first:pl-10 first:text-[12px] last:text-left`}
+          className={`${index === 0 ? 'text-left text-[0.875rem]' : 'text-left'} border-t-[1px] border-custom-plaster py-3 first:pl-10 first:text-[0.75rem] last:text-left`}
         >
           {Object.keys(record)[index] === 'created' ? (
             formatDate(value)
@@ -174,9 +174,7 @@ export default function TableData({ data, loading, label, currency, tableClass }
   return (
     <>
       {/* lable of the table  */}
-      {label && (
-        <div className="font-[700] text-custom-blue lg:py-7 lg:text-[18px] xl:py-7 xl:text-[20px]">{label}</div>
-      )}
+      {label && <div className="text-[1.375rem] font-[700] text-custom-blue sm:py-7">{label}</div>}
       {/* load the skeleton if the data is still loading */}
       {loading ? (
         <Table className={`${tableClass}`}>
@@ -185,7 +183,7 @@ export default function TableData({ data, loading, label, currency, tableClass }
       ) : Array.isArray(data) && data.length < 1 ? (
         <div className="py-8 text-center text-lg">No data found</div>
       ) : (
-        <div className="no-scrollbar max-h-[600px]">
+        <div className="max-h-[600px] overflow-x-auto">
           <Table
             style={{ borderColor: '#e2e2e2' }}
             className={`border-tools-table-outline border-separate rounded-md border-[1px] border-[#e2e2e2] text-left ${tableClass}`}
@@ -217,24 +215,24 @@ export const PlanTable: React.FC<PlanTableProps> = ({ data, width = '783px' }) =
       <TableBody>
         {data?.map((plan, index) => (
           <TableRow key={index}>
-            <TableCell className="w-[230px] border border-custom-aluminum py-4 pl-8 font-bold last:text-center">
+            <TableCell className="border border-custom-aluminum py-4 pl-8 font-bold last:text-center sm:w-2/12 xl:w-3/12">
               Plan
             </TableCell>
-            <TableCell className="w-[177px] border border-custom-aluminum last:text-center lg:text-[12px] xl:text-[14px]">
+            <TableCell className="border border-custom-aluminum text-[0.875rem] last:text-center sm:w-1/12 xl:w-2/12">
               {plan.cost} USD
             </TableCell>
-            <TableCell className="border border-custom-aluminum last:text-center">
+            <TableCell className="border border-custom-aluminum last:text-center sm:w-8/12 xl:w-7/12">
               <TooltipProvider key={plan.name}>
                 <Tooltip>
                   <TooltipTrigger>
                     <Image src="/notification.svg" alt="info" width={16} height={16} />
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p className="w-96 lg:text-[12px] xl:text-[14px]">{plan.description}</p>
+                    <p className="w-96 text-[0.875rem]">{plan.description}</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <span className="relative bottom-1 pl-2 lg:text-[12px] xl:text-[14px]">{plan.name}</span>
+              <span className="relative bottom-1 pl-2 text-[0.875rem]">{plan.name}</span>
             </TableCell>
           </TableRow>
         ))}
@@ -251,9 +249,7 @@ export const CostTable: React.FC<CostTableProps> = ({ data, costCenter = '-' }) 
           <TableCell className="border border-custom-aluminum py-4 pl-8 font-bold last:text-center">
             Cost Center
           </TableCell>
-          <TableCell className="border border-custom-aluminum last:text-center lg:text-[12px] xl:text-[14px]">
-            {costCenter}
-          </TableCell>
+          <TableCell className="border border-custom-aluminum text-[0.875rem] last:text-center">{costCenter}</TableCell>
         </TableRow>
         {data?.map((cost: { gl_code_index: number; name: string; code: string }) => (
           <>
@@ -261,7 +257,7 @@ export const CostTable: React.FC<CostTableProps> = ({ data, costCenter = '-' }) 
               <TableCell className="border border-custom-aluminum pl-8 font-bold last:text-center">
                 GL Code {cost.gl_code_index}
               </TableCell>
-              <TableCell className="border border-custom-aluminum last:text-center lg:text-[12px] xl:text-[14px]">
+              <TableCell className="border border-custom-aluminum text-[0.875rem] last:text-center">
                 {cost.name ? cost.name : <span className="pl-[20%]">-</span>}
               </TableCell>
             </TableRow>
@@ -269,7 +265,7 @@ export const CostTable: React.FC<CostTableProps> = ({ data, costCenter = '-' }) 
               <TableCell className="border border-custom-aluminum pl-8 font-bold last:text-center">
                 Company Code
               </TableCell>
-              <TableCell className="border border-custom-aluminum last:text-center lg:text-[12px] xl:text-[14px]">
+              <TableCell className="border border-custom-aluminum text-[0.875rem] last:text-center">
                 {cost.code ? cost.code : <span className="pl-[20%]">-</span>}
               </TableCell>
             </TableRow>

@@ -137,13 +137,13 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
             <>
               {costPlanData?.data?.plan?.length > 0 && (
                 <>
-                  <div className="pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Cost & Plan</div>
+                  <div className="pt-8 text-[1.375rem] font-[700] text-custom-blue">Cost & Plan</div>
                   <PlanTable data={costPlanData?.data?.plan} />
                 </>
               )}
               {costPlanData?.data?.cost?.length > 0 && costCentre && (
                 <>
-                  <div className="pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">GL Allocations</div>
+                  <div className="pt-8 text-[1.375rem] font-[700] text-custom-blue">GL Allocations</div>
                   <CostTable data={costPlanData?.data?.cost} costCenter={costCentre} />
                 </>
               )}
