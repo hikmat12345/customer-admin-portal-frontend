@@ -3,11 +3,10 @@
 import SearchField from '@/components/ui/search-field';
 import CreateQueryString from '@/utils/createQueryString';
 import Pagination from '@/components/ui/pagination';
-import debounce from 'lodash.debounce';
 import SelectComponent from './components/select';
 import useGetMenuOptions from './components/select/options';
 import { PAGE_SIZE } from '@/utils/constants/constants';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useGetServiceSites } from '@/hooks/useGetServiceSites';
 import ServiceSitesTableSkeleton from './components/serviceSitesTable/serviceSitesTableSkeleton';
@@ -72,7 +71,7 @@ function ServiceSitesPage() {
     }
     params.set('page', page.toString());
     router.push(`${pathname}?${params.toString()}`);
-    await refetchServiceSite ();
+    await refetchServiceSite();
   };
 
   useEffect(() => {

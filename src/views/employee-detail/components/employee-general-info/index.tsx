@@ -18,7 +18,7 @@ export default function EmployeeGeneralInfo({
     employeeLevel,
     costCenter,
     vipExecutive,
-    manager
+    manager,
   },
 }: EmployeeGeneralInfoProps) {
   const keys = [

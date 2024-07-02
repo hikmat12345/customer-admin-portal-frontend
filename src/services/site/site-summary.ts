@@ -12,7 +12,7 @@ export const getServiceSites = async ({ queryKey }: any) => {
     params: {
       offset,
       limit,
-      searchQuery, 
+      searchQuery,
       countryId,
     },
   };

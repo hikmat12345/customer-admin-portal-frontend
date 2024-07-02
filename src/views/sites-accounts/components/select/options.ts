@@ -7,15 +7,15 @@ const useGetMenuOptions = () => {
   const filteredCountries = countries?.data?.map((country: Country) => ({
     value: country?.id,
     label: country?.name,
-  })); 
-  const menuOptions = [ 
+  }));
+  const menuOptions = [
     {
       name: 'Country',
       value: 'country',
       options: filteredCountries,
       paramName: 'country',
       placeholder: 'Search country...',
-    }, 
+    },
   ];
 
   return menuOptions;

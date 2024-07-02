@@ -1,4 +1,4 @@
-import { useState, Suspense, Fragment } from 'react';
+import { useState, Suspense } from 'react';
 import { Check } from 'lucide-react';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -79,7 +79,8 @@ function SelectComponent({
     return (
       <CommandItem
         onSelect={reset}
-        className="sticky bottom-0 flex cursor-pointer justify-center gap-1 border-t-[1px] border-[#F1F5F9] bg-custom-white py-2 text-[0.875rem] font-[500] leading-[1.063rem]">
+        className="sticky bottom-0 flex cursor-pointer justify-center gap-1 border-t-[1px] border-[#F1F5F9] bg-custom-white py-2 text-[0.875rem] font-[500] leading-[1.063rem]"
+      >
         <Image src={'/svg/reset.svg'} width={16} height={16} alt="reset icon" />
         <span>Reset</span>
       </CommandItem>
@@ -113,30 +114,30 @@ function SelectComponent({
           <Command>
             <CommandInput placeholder={placeholder} />
             <CommandEmpty>No data found</CommandEmpty>
-              <CommandGroup>
-                <CommandList>
-                  {menuOption?.options
-                    ?.flat()
-                    ?.filter((option: Option) => option?.label !== '')
-                    .map((option: any, indexCount: number) => (
-                      <CommandItem
-                        key={`${option?.label}-${indexCount++}`}
-                        value={option?.value}
-                        onSelect={(currentValue: any) => {
-                          const selectedOption = menuOption?.options
-                            .flat()
-                            .find((opt: any) => opt.label === currentValue);
-                           const selectedOptionValue = String(selectedOption?.value) || '';
-                          handleOptionSelect(selectedOptionValue);
-                        }}
-                      >
-                        {renderCheckIcon(option?.value)}
-                        {option?.label}
-                      </CommandItem>
-                    ))}
-                  {renderResetButton()}
-                </CommandList>
-              </CommandGroup> 
+            <CommandGroup>
+              <CommandList>
+                {menuOption?.options
+                  ?.flat()
+                  ?.filter((option: Option) => option?.label !== '')
+                  .map((option: any, indexCount: number) => (
+                    <CommandItem
+                      key={`${option?.label}-${indexCount++}`}
+                      value={option?.value}
+                      onSelect={(currentValue: any) => {
+                        const selectedOption = menuOption?.options
+                          .flat()
+                          .find((opt: any) => opt.label === currentValue);
+                        const selectedOptionValue = String(selectedOption?.value) || '';
+                        handleOptionSelect(selectedOptionValue);
+                      }}
+                    >
+                      {renderCheckIcon(option?.value)}
+                      {option?.label}
+                    </CommandItem>
+                  ))}
+                {renderResetButton()}
+              </CommandList>
+            </CommandGroup>
           </Command>
         </PopoverContent>
       </Popover>

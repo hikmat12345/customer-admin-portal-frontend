@@ -12,7 +12,7 @@ import ServiceSitesTableHead from './serviceSitesTableHead';
 function ServiceSitesTable({ data }: any) {
   const isNoData = data?.length === 0;
   const router = useRouter();
-  
+
   return (
     <div className="overflow-auto" style={{ height: `calc(100vh - 260px` }}>
       <Table>
