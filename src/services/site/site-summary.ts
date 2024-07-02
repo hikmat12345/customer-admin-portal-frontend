@@ -6,6 +6,19 @@ import {
 } from 'config/config';
 import httpClient from '../httpClient';
 
+export const getServiceSites = async ({ queryKey }: any) => {
+  const [, offset, limit, searchQuery, countryId] = queryKey;
+  const config = {
+    params: {
+      offset,
+      limit,
+      searchQuery,
+      countryId,
+    },
+  };
+  return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/site`, config).then(({ data }) => data).catch((error) =>  error)
+};
+
 export const getSiteDetail = async ({ queryKey }: any) => {
   const [, siteId] = queryKey;
 

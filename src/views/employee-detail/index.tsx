@@ -56,6 +56,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     vip: vip_executive,
     costCentreForNewService: cost_center,
     site,
+    manager,
   } = employeeServiceDetailData || {};
   // cost and trend data
   const costTrendLimit = 12;
@@ -173,6 +174,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
               employeeLevel: employee_level,
               costCenter: cost_center,
               vipExecutive: vip_executive,
+              manager: manager,
             }}
           />
           <Separator className="separator-bg-1 h-[1.2px]" />

@@ -1,7 +1,7 @@
 import VImage from '@/components/ui/image';
 import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
 import TooltipText from '@/components/ui/textbox';
-import { AccountGeneralInfoProps } from '@/types/account/acount.tds';
+import { AccountGeneralInfoProps } from '@/types/account/account';
 
 export default function AccountGeneralInfo({
   label = 'General Information',
@@ -110,13 +110,15 @@ export default function AccountGeneralInfo({
             </div>
           </div>
           <div className="sm:mt-5 sm:w-[100%] xl:mt-0 xl:w-[20%]">
-            <VImage
-              src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + network?.logo}
-              alt="account logo"
-              width={200}
-              height={150}
-              className="m-auto block h-[9.375rem] w-[12.5rem] object-contain"
-            />
+            {network?.logo && (
+              <VImage
+                src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + network?.logo}
+                alt="account logo"
+                width={200}
+                height={150}
+                className="m-auto block h-[9.375rem] w-[12.5rem] object-contain"
+              />
+            )}
           </div>
         </div>
       )}

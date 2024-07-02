@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
 import { useGetSiteInvoiceFile } from '@/hooks/useGetSites';
-import { InvoiceSummaryTypes } from '@/types/account/acount.tds';
+import { InvoiceSummaryTypes } from '@/types/account/account';
 import formatDate, { downloadFile, moneyFormatter } from '@/utils/utils';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import Image from 'next/image';

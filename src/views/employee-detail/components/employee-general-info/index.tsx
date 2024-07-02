@@ -1,5 +1,5 @@
 import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
-import { EmployeeGeneralInfoProps } from '@/types/employee/employee.tds';
+import { EmployeeGeneralInfoProps } from '@/types/employee/employee';
 import Link from 'next/link';
 
 export default function EmployeeGeneralInfo({
@@ -18,6 +18,7 @@ export default function EmployeeGeneralInfo({
     employeeLevel,
     costCenter,
     vipExecutive,
+    manager,
   },
 }: EmployeeGeneralInfoProps) {
   const keys = [
@@ -40,7 +41,7 @@ export default function EmployeeGeneralInfo({
       label: 'Manager ID',
       value: manageId ? (
         <Link target="_blank" href={`/employees/${manageId}`} className="text-custom-blue hover:underline">
-          {manageId}
+          {manager?.firstName} {manager?.lastName}
         </Link>
       ) : null,
     },

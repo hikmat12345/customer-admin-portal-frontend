@@ -18,7 +18,7 @@ export const getInvoices = async ({ queryKey }: any) => {
       searchQuery: searchQuery,
     },
   };
-  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices`, config).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}`, config).then(({ data }) => data);
 };
 
 export const getMonthlyInvoices = async ({ queryKey }: any) => {
@@ -45,42 +45,42 @@ export const getAccountCostTrend = async ({ queryKey }: any) => {
   const [, accountId, costTrendLimit] = queryKey;
 
   return httpClient
-    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/account-cost-trend/${accountId}?limit=${costTrendLimit}`)
+    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/account-cost-trend/${accountId}?limit=${costTrendLimit}`)
     .then(({ data }) => data);
 };
 
 export const getInvoiceActivityLog = async ({ queryKey }: any) => {
   const [, invoiceId] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoice-summary/activity-log/${invoiceId}`).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/summary/activity-log/${invoiceId}`).then(({ data }) => data);
 };
 export const getRemittanceAddress = async ({ queryKey }: any) => {
   const [, invoiceId] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoice-summary/remittance-address/${invoiceId}`).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/summary/remittance-address/${invoiceId}`).then(({ data }) => data);
 };
 
 export const getVendorInfo = async ({ queryKey }: any) => {
   const [, vendorId] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoice-summary/vendor-info/${vendorId}`).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/summary/vendor-info/${vendorId}`).then(({ data }) => data);
 };
 
 export const getPaymentInfo = async ({ queryKey }: any) => {
   const [, invoiceId] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoice-summary/payment-info/${invoiceId}`).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/summary/payment-info/${invoiceId}`).then(({ data }) => data);
 };
 
 export const getInvoiceSummary = async ({ queryKey }: any) => {
   const [, invoiceId] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoice-summary/${invoiceId}`).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/summary/${invoiceId}`).then(({ data }) => data);
 };
 export const getAccountInvoices = async ({ queryKey }: any) => {
   const [, accountId, offset, limit] = queryKey;
   return httpClient
-    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/account-invoices/${accountId}?offset=${offset}&limit=${limit}`)
+    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/account-invoices/${accountId}?offset=${offset}&limit=${limit}`)
     .then(({ data }) => data);
 };
 export const getVendorTickets = async ({ queryKey }: any) => {
