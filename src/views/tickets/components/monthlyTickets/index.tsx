@@ -14,12 +14,12 @@ function MonthlyTickets({ title, year, month }: { title: string; year: number; m
       ? `+${monthlyTicketsStats?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
       : monthlyTicketsStats?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
-  const badgeVariant = monthlyTicketsStats?.percentageDifference > 0 ? 'success' : 'destructive';
+  const badgeVariant = monthlyTicketsStats?.percentageDifference > 0 ? 'destructive' : 'success';
 
   function difference(difference: number) {
     const absDifference = Math.abs(difference);
 
-    const className = difference > 0 ? '#219653' : '#E41323';
+    const className = difference > 0 ? '#E41323' : '#219653';
 
     const message =
       difference > 0

@@ -10,7 +10,7 @@ function TicketsCard({ data, isLoading }: { data: TicketsData; isLoading: boolea
       ? `+${data?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
       : data?.percentageDifference?.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
-  const badgeVariant = data?.percentageDifference > 0 ? 'success' : 'destructive';
+  const badgeVariant = data?.percentageDifference > 0 ? 'destructive' : 'success';
 
   let averageReviews = data?.averageScore;
 
@@ -29,7 +29,9 @@ function TicketsCard({ data, isLoading }: { data: TicketsData; isLoading: boolea
           <div className="flex w-full flex-col gap-4 pb-3 pr-5">
             <h2 className="text-lg font-semibold text-custom-black">Tickets this Month</h2>
             <div className="flex items-center gap-5">
-              <h1 className="text-lg font-bold lg:text-2xl 2xl:text-3xl">{data?.totalMonthTickets}</h1>
+              <h1 className="text-lg font-bold lg:text-2xl 2xl:text-3xl">
+                {data?.totalMonthTickets?.toLocaleString()}
+              </h1>
               <Badge className="text-sm lg:text-xs" variant={badgeVariant}>
                 {formattedPercentageDifference}%
               </Badge>
