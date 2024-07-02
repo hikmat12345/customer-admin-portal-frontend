@@ -25,7 +25,8 @@
 			"@/hooks/*": ["src/hooks/*"],
 			"@/utils/*": ["src/utils/*"],
 			"@/components/*": ["src/components/*"],
-			"@/routes/*": ["src/routes/*"]
+			"@/routes/*": ["src/routes/*"],
+      "@/views/*": ["src/views/*"]
 		},
 		"types": ["node"]
 	},

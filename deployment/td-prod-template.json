@@ -1,0 +1,94 @@
+{
+  "family": $FAMILY,
+  "networkMode": "awsvpc",
+  "memory": "4096",
+  "cpu": "2048",
+  "executionRoleArn": "arn:aws:iam::271453939301:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::271453939301:role/ecsTaskExecutionRole",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "tags": [
+    {
+      "key": "env",
+      "value": "prod"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "name": $ECR_REPO_NAME,
+      "image": $IMAGE,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": $AWSLOGS_GROUP,
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": $ECR_REPO_NAME
+        }
+      },
+      "portMappings": [
+        {
+          "containerPort": $CONTAINER_PORT,
+          "protocol": "tcp"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "TEST_PARAMETER",
+          "valueFrom": "arn:aws:ssm:us-east-1:271453939301:parameter/test-secret-parameter"
+        }
+      ],
+      "environment": [
+        {
+          "name": "prod_variable_1",
+          "value": "prod_value_1"
+        },
+        {
+          "name": "NEXT_PUBLIC_API_BASE_URL",
+          "value": "https://customer-admin-api.prod.v2.veroxos.com/api/v2"
+        },
+        {
+          "name": "NEXTAUTH_URL",
+          "value": "https://auth.prod.v2.veroxos.com"
+        },
+        {
+          "name": "NEXT_PUBLIC_TICKET_SERVICE_URL",
+          "value": "https://ticket-api.prod.v2.veroxos.com/api/v2/customer-admin"
+        },
+        {
+          "name": "NEXT_PUBLIC_INVOICE_SERVICE_URL",
+          "value": "https://invoice-api.prod.v2.veroxos.com/api/v2"
+        },
+        {
+          "name": "NEXT_PUBLIC_ASSETS_LOGO_PATH",
+          "value": "https://veroxos-vendor-logo.s3-eu-west-1.amazonaws.com/" 
+        },
+        {
+          "name": "NEXT_PUBLIC_INVENTORY_SERVICE_URL",
+          "value": "https://inventory-api.prod.v2.veroxos.com/api/v2"
+        },
+        {
+          "name": "NEXT_PUBLIC_REPORTING_SERVICE_URL",
+          "value": "https://reporting-api.prod.v2.veroxos.com/api/v2"
+        },
+        {
+          "name": "NEXT_PUBLIC_AUTH_URL",
+          "value": "https://auth.prod.v2.veroxos.com/"
+        },
+        {
+          "name": "NEXT_PUBLIC_AUTH_SERVICE_URL",
+          "value": "https://auth-api.prod.v2.veroxos.com/api/v2"
+        },
+        {
+          "name": "COGNITO_USER_POOL_ID",
+          "value": "us-east-1_P2eZ1Y73y"
+        },
+        {
+          "name": "COGNITO_CLIENT_ID",
+          "value": "1p4kcnvlkv8moou0jou3gqmo6i"
+        }
+      ],
+      "essential": true
+    }
+  ]
+}

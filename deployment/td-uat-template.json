@@ -1,0 +1,50 @@
+{
+  "family": $FAMILY,
+  "networkMode": "awsvpc",
+  "memory": "512",
+  "cpu": "256",
+  "executionRoleArn": "arn:aws:iam::271453939301:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::271453939301:role/ecsTaskExecutionRole",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "tags": [
+    {
+      "key": "env",
+      "value": "uat"
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "name": $ECR_REPO_NAME,
+      "image": $IMAGE,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": $AWSLOGS_GROUP,
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": $ECR_REPO_NAME
+        }
+      },
+      "portMappings": [
+        {
+          "containerPort": $CONTAINER_PORT,
+          "protocol": "tcp"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "TEST_PARAMETER",
+          "valueFrom": "arn:aws:ssm:us-east-1:271453939301:parameter/test-secret-parameter"
+        }
+      ],
+      "environment": [
+        {
+          "name": "uat_variable_1",
+          "value": "uat_value_1"
+        }
+      ],
+      "essential": true
+    }
+  ]
+}
