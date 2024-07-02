@@ -106,7 +106,7 @@ function AccountCard({
             <Skeleton variant="paragraph" rows={3} />
           </div>
         ) : (
-          <div className="flex flex-col gap-4 pb-3">
+          <div className="flex flex-col gap-4 pb-3 sm:w-2/4 lg:w-auto">
             <h2 className="text-sm font-semibold text-custom-black md:text-base 2xl:text-lg">{title}</h2>
             <div className="flex items-center gap-5">
               <h1 className="text-nowrap text-lg font-bold lg:text-2xl 2xl:text-3xl">
@@ -123,23 +123,22 @@ function AccountCard({
           </div>
         )}
 
-        {peakIndicator && (
-          <PeakIndicator variant={peakIndicatorVariant} isLoading={isLoading} percentage={data?.percentageDifference}>
-            {/* <Image
+        {graph && (
+          <div className="from-eb5757 via-eb5757 bg-gradient-to-r to-transparent pr-4 pt-1 sm:w-2/4 lg:w-auto">
+            <ChartComponent data={data?.lastSixMonthsInvoices} variant={chartVariant} />
+          </div>
+        )}
+      </div>
+      {peakIndicator && (
+        <PeakIndicator variant={peakIndicatorVariant} isLoading={isLoading} percentage={data?.percentageDifference}>
+          {/* <Image
         src={arrowImageSrc}
         alt={percentage && percentage > 0 ? 'Up Peak Arrow' : 'Down Peak Arrow'}
         width={15}
         height={15}
       /> */}
-          </PeakIndicator>
-        )}
-
-        {graph && (
-          <div className="from-eb5757 via-eb5757 bg-gradient-to-r to-transparent pr-4 pt-1">
-            <ChartComponent data={data?.lastSixMonthsInvoices} variant={chartVariant} />
-          </div>
-        )}
-      </div>
+        </PeakIndicator>
+      )}
     </div>
   );
 

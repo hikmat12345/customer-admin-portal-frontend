@@ -23,7 +23,7 @@ function EmployeesTable({ data }: any) {
   const noDataFound = data?.length === 0;
 
   return (
-    <div className="overflow-auto" style={{ height: `calc(100vh - 260px)` }}>
+    <div className="overflow-auto" style={{ height: `calc(100vh - 230px)` }}>
       <Table>
         <VendorAccountsTableHead />
         {noDataFound && <TableCaption>No employees available.</TableCaption>}

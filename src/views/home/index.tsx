@@ -51,7 +51,7 @@ function HomePage() {
       <div className="mt-6 flex w-full flex-col gap-3 2lg:flex-row">
         <div className="h-full w-full rounded-lg border border-custom-lightGray bg-custom-white p-5 md:min-h-[235px] md:min-w-[473px] xl:w-[473px]">
           <h2 className="text-[22px] font-bold text-custom-blue">Activity Feed</h2>
-          <ScrollArea className="py-4 md:h-[170px]">
+          <ScrollArea className="py-4 sm:h-[320px] xl:h-[170px]">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-5">
                 <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
