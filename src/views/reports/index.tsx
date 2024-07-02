@@ -94,11 +94,11 @@ function ReportsPage() {
       <div className="grid-auto-flow-column grid w-full gap-8 rounded-lg border-custom-lightGray bg-custom-white px-9 py-5">
         <div className="relative flex justify-start">
           <Tabs className="w-full" value={activeTab} onValueChange={handleTabChange}>
-            <div className="flex flex-col justify-between gap-4 2md:flex-row">
-              <TabsList className="flex w-full justify-between gap-4 2md:justify-start lg:gap-8">
+            <div className="2md:flex-row flex flex-col justify-between gap-4">
+              <TabsList className="2md:justify-start flex w-full justify-between gap-4 lg:gap-8">
                 <TabsTrigger
                   value="finance"
-                  className="px-0 data-[state=active]:bg-[#1D46F333] data-[state=active]:text-custom-blue data-[state=active]:shadow"
+                  className="px-3 data-[state=active]:bg-[#1D46F333] data-[state=active]:text-custom-blue data-[state=active]:shadow"
                 >
                   Finance Reports
                 </TabsTrigger>
