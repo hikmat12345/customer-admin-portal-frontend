@@ -111,13 +111,14 @@ export default function AccountGeneralInfo({
           </div>
           <div className="sm:mt-5 sm:w-[100%] xl:mt-0 xl:w-[20%]">
             {network?.logo && (
-            <VImage
-              src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + network?.logo}
-              alt="account logo"
-              width={200}
-              height={150}
-              className="m-auto block h-[9.375rem] w-[12.5rem] object-contain"
-            />)}
+              <VImage
+                src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + network?.logo}
+                alt="account logo"
+                width={200}
+                height={150}
+                className="m-auto block h-[9.375rem] w-[12.5rem] object-contain"
+              />
+            )}
           </div>
         </div>
       )}
