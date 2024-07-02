@@ -29,7 +29,7 @@ export const getEmployeeTickets = async ({ queryKey }: any) => {
 export const getEmployeeServiceTypes = async ({ queryKey }: any) => {
   const [, employeeId] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/service-types-employee/${employeeId}`).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/service-types-employee/${employeeId}`).then(({ data }) => data);
 };
 // getEmployeeServices
 export const getEmployeeServices = async ({ queryKey }: any) => {
@@ -37,7 +37,7 @@ export const getEmployeeServices = async ({ queryKey }: any) => {
 
   return httpClient
     .get(
-      `${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/site-services-employee/${employeeId}?offset=${offset}&limit=${limit}&showTerminated=${showTerminated}`,
+      `${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/site-services-employee/${employeeId}?offset=${offset}&limit=${limit}&showTerminated=${showTerminated}`,
     )
     .then(({ data }) => data);
 };
@@ -54,5 +54,5 @@ export const getAllEmployees = async ({ queryKey }: any) => {
     },
   };
 
-  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/employees`, config).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/employees`, config).then(({ data }) => data);
 };

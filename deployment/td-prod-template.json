@@ -65,7 +65,7 @@
         },
         {
           "name": "NEXT_PUBLIC_INVENTORY_SERVICE_URL",
-          "value": "https://inventory-api.prod.v2.veroxos.com/api/v2"
+          "value": "https://inventory-api.prod.v2.veroxos.com/api/v2/customer-admin"
         },
         {
           "name": "NEXT_PUBLIC_REPORTING_SERVICE_URL",
