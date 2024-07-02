@@ -10,7 +10,7 @@ const VendorAccountsTableSkeleton: React.FC<DownloadTableSkeletonProps> = ({ lim
   <div className="overflow-auto lg:max-h-[210px] xl:max-h-full">
     <Table>
       <VendorAccountsTableHead />
-      <TableBodySkeleton rowCount={12} columnCount={7} />
+      <TableBodySkeleton rowCount={limit} columnCount={7} />
     </Table>
   </div>
 );
