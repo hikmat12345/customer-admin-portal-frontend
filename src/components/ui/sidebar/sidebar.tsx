@@ -69,6 +69,10 @@ const menuItems: ISidebarItem[] = [
         name: 'View Sites',
         path: '/inventory/sites',
       },
+      {
+        name: 'View Employees',
+        path: '/inventory/employees',
+      },
     ],
   },
   {

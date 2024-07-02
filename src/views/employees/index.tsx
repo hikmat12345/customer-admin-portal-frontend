@@ -1,51 +1,42 @@
 'use client';
 
+import React from 'react';
 import SearchField from '@/components/ui/search-field';
-import VendorAccountsTable from './components/vendorAccountsTable';
-import VendorAccountsTableSkeleton from './components/vendorAccountsTable/vendorAccountsTableSkeleton';
 import CreateQueryString from '@/utils/createQueryString';
 import Pagination from '@/components/ui/pagination';
 import SelectComponent from './components/select';
 import useGetMenuOptions from './components/select/options';
-import { useGetVendorAccounts } from '@/hooks/useGetVendorAccounts';
+import EmployeesTable from './components/employeesTable';
+import EmployeesTableSkeleton from './components/employeesTable/employeesTableSkeleton';
 import { PAGE_SIZE } from '@/utils/constants/constants';
-import { useEffect } from 'react';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useGetAllEmployees } from '@/hooks/useGetEmployees';
 import { sanitizeSearchQuery } from '@/utils/utils';
 
-function VendorAccountsPage() {
+function EmployeesPage() {
   const limit = PAGE_SIZE;
   const createQueryString = CreateQueryString();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams() as ReadonlyURLSearchParams;
+  const menuOptions = useGetMenuOptions();
   const queryParams = new URLSearchParams(searchParams?.toString());
   const keys = Array.from(queryParams.keys()) || [];
   const searchQuery = searchParams && searchParams?.get('searchQuery');
-  const countryId = searchParams && searchParams?.get('country');
-  const showArchived = searchParams && searchParams?.get('show_archived');
-  const vendor = searchParams && searchParams?.get('vendor');
+  const status = searchParams && searchParams?.get('status');
   const page = searchParams?.get('page') || '1';
   const offset = +page - 1;
-  const menuOptions = useGetMenuOptions();
 
   const {
-    data: vendorAccountsData,
-    isLoading: vendorAccountsLoading,
-    isFetched: vendorAccountsFetched,
-    refetch: refetchVendorAccounts,
-  } = useGetVendorAccounts(
+    data: employeesData,
+    isLoading: employeesLoading,
+    isFetched: employeesFetched,
+    refetch: refetchEmployees,
+  } = useGetAllEmployees(
     offset,
     limit,
+    typeof status !== 'undefined' && status !== null ? status : undefined,
     searchQuery?.trim() || undefined,
-    typeof vendor !== 'undefined' && vendor !== null ? vendor : undefined,
-    typeof countryId !== 'undefined' && countryId !== null ? countryId : undefined,
-    typeof showArchived !== 'undefined' && showArchived !== null
-      ? showArchived
-          .split(',')
-          .map((status) => (status === '1' ? 'Archived' : 'Active'))
-          .join(',')
-      : undefined,
   );
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,10 +65,10 @@ function VendorAccountsPage() {
     }
     params.set('page', page.toString());
     router.push(`${pathname}?${params.toString()}`);
-    await refetchVendorAccounts();
+    await refetchEmployees();
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (searchParams) {
       if (keys.length > 1 || !keys.includes('page')) {
         router.push(`${pathname}?${createQueryString('page', 1)}`);
@@ -85,13 +76,7 @@ function VendorAccountsPage() {
     }
   }, [keys.length]);
 
-  useEffect(() => {
-    if (!showArchived) {
-      router.push(`${pathname}?${createQueryString('show_archived', 0)}`);
-    }
-  }, []);
-
-  const totalPages = vendorAccountsData?.total / limit;
+  const totalPages = employeesData?.total / limit;
 
   return (
     <>
@@ -103,8 +88,8 @@ function VendorAccountsPage() {
             defaultValue={searchQuery}
             onChange={handleSearchChange}
             onKeyDown={handleSearchKeydown}
-            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:w-[600px]"
-            helpText="Searches network name, company network account number and display name fields."
+            className="focus:border-[#44444480 ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none xl:w-[600px]"
+            helpText="Searches ID, First Name, Last Name, Email and External ID fields."
           />
           <div className="flex gap-4">
             {menuOptions?.map((menuOption: any, index: number) => (
@@ -119,22 +104,20 @@ function VendorAccountsPage() {
           </div>
         </div>
         <div className="mt-2">
-          {vendorAccountsLoading && <VendorAccountsTableSkeleton limit={limit} />}
-          {vendorAccountsFetched && <VendorAccountsTable limit={limit} data={vendorAccountsData?.data} />}
+          {employeesLoading && <EmployeesTableSkeleton limit={limit} />}
+          {employeesFetched && <EmployeesTable limit={limit} data={employeesData?.data} />}
         </div>
       </div>
-      {vendorAccountsData?.total > 8 && vendorAccountsData?.data?.length !== 0 && (
-        <div className="">
-          <Pagination
-            className="flex justify-end pt-4"
-            totalPages={Math.ceil(totalPages)}
-            currentPage={Number(page)}
-            onPageChange={handlePageChange}
-          />
-        </div>
+      {employeesData?.total > 8 && employeesData?.data?.length !== 0 && (
+        <Pagination
+          className="flex justify-end pt-4"
+          totalPages={Math.ceil(totalPages)}
+          currentPage={Number(page)}
+          onPageChange={handlePageChange}
+        />
       )}
     </>
   );
 }
 
-export default VendorAccountsPage;
+export default EmployeesPage;

@@ -93,10 +93,10 @@ export const getVendorTickets = async ({ queryKey }: any) => {
 export const getServiceLocations = async ({ queryKey }: any) => {
   const [, accountId] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/service-locations/${accountId}`).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/service-locations/${accountId}`).then(({ data }) => data);
 };
 export const getServiceTypesVendor = async ({ queryKey }: any) => {
   const [, accountId] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/service-types-vendor/${accountId}`).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/service-types-vendor/${accountId}`).then(({ data }) => data);
 };

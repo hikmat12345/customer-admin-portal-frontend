@@ -36,7 +36,7 @@ export const getSiteTickets = async ({ queryKey }: any) => {
 export const getServiceTypes = async ({ queryKey }: any) => {
   const [, siteId] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/service-types/${siteId}`).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/service-types/${siteId}`).then(({ data }) => data);
 };
 
 export const getCostTrend = async ({ queryKey }: any) => {
@@ -56,7 +56,7 @@ export const getSiteServices = async ({ queryKey }: any) => {
       show_terminated: showTerminated,
     },
   };
-  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/site-services/${siteId}`, config).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/site-services/${siteId}`, config).then(({ data }) => data);
 };
 
 export const getSiteInvoices = async ({ queryKey }: any) => {
