@@ -133,7 +133,7 @@ function InventoryPage() {
   return (
     <div>
       <div className="grid-auto-flow-column grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white p-5">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-2 2lg:grid-cols-3">
           {inventoryData?.map((inventory: InventoryCardData) => (
             <InventoryCard
               key={inventory.id}
@@ -148,20 +148,20 @@ function InventoryPage() {
       <div className="grid-auto-flow-column mt-6 grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
         <div className="flex w-[100%] items-center justify-between gap-5">
           <SearchField
-            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:min-w-[600px]"
+            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[7rem] 2md:w-[17rem] lg:w-[19rem] 2lg:w-[20rem] xl:w-[24rem] 2xl:w-[28rem] 3xl:w-[33rem]"
             iconWidth={16}
             iconHeight={16}
             onChange={handleSearchChange}
             onKeyDown={handleSearchKeydown}
             helpText="Searches the ID, service number, cost center, company network name, display name and account number fields."
           />
-          <div className="flex gap-2">
+          <div className="flex md:gap-1 lg:gap-2 2lg:gap-4">
             {menuOptions?.map((menuOption: any, index: number) => (
               <SelectComponent key={index} menuOption={menuOption} index={index} />
             ))}
           </div>
         </div>
-        <div className="mt-2">
+        <div className="mt-2 overflow-x-auto">
           {isInventoriesLoading && <InventoryTableSkeleton limit={limit} />}
           {isInventoriesFetched && <InventoryTable data={inventories?.data} />}
         </div>

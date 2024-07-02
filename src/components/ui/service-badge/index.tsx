@@ -25,19 +25,19 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
             },
             index: number,
           ) => (
-            <div className="flex w-full flex-wrap gap-4" key={index}>
+            <div className="flex w-full flex-wrap items-center gap-4" key={index}>
               <div
                 key={index}
-                className={` ${service?.subTypes?.length > 1 ? 'w-[99%]' : 'w-[49%]'} flex h-[52px] rounded border border-neutral-300 bg-custom-background ${service.subTypes?.length > 1 ? 'justify-center gap-3' : 'justify-between'} pl-5 pr-1 pt-1.5`}
+                className={`flex-grow ${service?.subTypes?.length > 1 ? 'w-[99%]' : 'w-[49%]'} flex h-[52px] rounded border border-neutral-300 bg-custom-background ${service.subTypes?.length > 1 ? 'justify-center gap-3' : 'justify-between'} pl-5 pr-1 pt-1.5`}
               >
                 <div className="pb-2 pt-2 text-base font-semibold text-black">
                   {getServiceType(Number(service.serviceType))}
                 </div>
                 <div
-                  className={` ${service.count >= 1000 ? 'mt-1 h-[30px] w-[64px] rounded-md' : 'h-[38px] w-[38px] rounded-full'} p-1 ${getServiceTypeColor(Number(service.serviceType))} inline-flex items-center justify-start gap-2.5 rounded-[41px] !pt-0 pb-0`}
+                  className={` ${service.count >= 1000 ? 'h-[30px] w-[64px] rounded-md' : 'h-[38px] w-[38px] rounded-full'} p-1 ${getServiceTypeColor(Number(service.serviceType))} inline-flex items-center justify-start gap-2.5 rounded-[41px] !pt-0 pb-0`}
                 >
                   <div
-                    className={`relative top-0 inline-flex ${service.count >= 1000 ? 'h-[24px] w-[134px] rounded-md' : 'h-[34px] w-[34px] rounded-full'} items-center justify-center rounded-full text-[16px] font-semibold text-white`}
+                    className={`relative top-0 inline-flex ${service.count >= 1000 ? 'h-[24px] w-[134px] rounded-md' : 'h-[34px] w-[34px] rounded-full'} items-center justify-center rounded-full text-[1rem] font-semibold text-white`}
                   >
                     {new Intl.NumberFormat().format(service.count)}
                   </div>
@@ -54,15 +54,11 @@ const ServiceTypesGrid = ({ services }: ServiceTypeBadgeProps) => {
                 .map((subType: { name: string; serviceType: number; count: number }, subIndex: number) => (
                   <div
                     key={subIndex}
-                    className={` ${service.subTypes?.length > 2 ? 'w-[32.2%]' : 'w-[49%]'} h-[52px] ${getServiceTypeSubColor(Number(service.serviceType))} flex justify-between rounded border border-neutral-300 pl-5 pr-1 pt-2`}
+                    className={`flex-grow ${service.subTypes?.length > 2 ? 'w-[32.2%]' : 'w-[49%]'} h-[52px] ${getServiceTypeSubColor(Number(service.serviceType))} flex items-center justify-between rounded border border-neutral-300 p-5`}
                   >
-                    <div className="pb-2 pt-[0.35rem] font-semibold text-black lg:text-[13px] xl:text-[15px]">
-                      {subType?.name}
-                    </div>
-                    <div
-                      className={`inline-flex h-[53px] w-[61px] items-center justify-start gap-2.5 rounded-[41px] p-2 !pt-0`}
-                    >
-                      <div className="relative top-0 inline-flex h-[44px] w-[61px] items-center justify-center pb-2 font-semibold text-black lg:text-[13px] xl:text-[15px]">
+                    <div className="text-[0.938rem] font-semibold text-black">{subType?.name}</div>
+                    <div className={`rounded-[41px]`}>
+                      <div className="text-[0.938rem] font-semibold text-black">
                         {new Intl.NumberFormat().format(subType?.count)}
                       </div>
                     </div>

@@ -34,7 +34,7 @@ function AnimatedSearchField({
     variants: {
       variant: {
         default: 'w-0 ',
-        expanded: 'w-[390px] ',
+        expanded: 'lg:w-[390px] ',
       },
     },
   });

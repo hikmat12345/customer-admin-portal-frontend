@@ -41,7 +41,7 @@ export default function GeneralInfo({
         <TooltipText
           text={serviceNumber ? `${serviceNumber}` : '-'}
           maxLength={15}
-          className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]"
+          className="leading-6 text-[#1175BE] text-[0.0.938rem]"
         />
       ),
     },
@@ -52,7 +52,7 @@ export default function GeneralInfo({
     {
       label: 'Account',
       value: (
-        <Link href={`/vendors/${accountLinkid}`} className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]">
+        <Link href={`/vendors/${accountLinkid}`} className="text-[0.938rem] leading-6 text-[#1175BE]">
           {account}
         </Link>
       ),
@@ -62,11 +62,11 @@ export default function GeneralInfo({
     {
       label: 'Employee',
       value: employee?.id ? (
-        <Link href={`/employees/${employee?.id}`} className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]">
+        <Link href={`/employees/${employee?.id}`} className="text-[0.938rem] leading-6 text-[#1175BE]">
           <TooltipText
             text={employee ? `${employee.firstName} ${employee.lastName} - ${employee.email}` : '-'}
             maxLength={20}
-            className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]"
+            className="text-[0.938rem] leading-6 text-[#1175BE]"
           />
         </Link>
       ) : (
@@ -96,7 +96,7 @@ export default function GeneralInfo({
         <TooltipText
           text={notes ? `${notes}` : '-'}
           maxLength={15}
-          className="leading-6 text-[#1175BE] lg:text-[13px] xl:text-[15px]"
+          className="text-[0.938rem] leading-6 text-[#1175BE]"
         />
       ),
     },
@@ -104,50 +104,46 @@ export default function GeneralInfo({
 
   return (
     <div>
-      <div className="pb-6 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">{label}</div>
+      <div className="pb-6 text-[1.375rem] font-[700] text-custom-blue">{label}</div>
       {isLoading ? (
         <GeneralInfoSkeletons />
       ) : (
-        <div className="flex gap-[19px] pb-6 lg:gap-x-[25px] xl:gap-x-[45px] max-lg:block">
-          <div className="flex w-[35%] justify-between lg:gap-x-[25px] xl:gap-x-[45px] max-lg:mt-5 max-lg:w-[100%]">
-            <div className="w-[45%]">
-              {staticData.slice(0, 8).map((item, index) => (
-                <div
-                  key={index}
-                  className="font-[600] text-[#000] lg:text-[13px] lg:leading-6 xl:text-[16px] xl:leading-7"
-                >
-                  {item.label}
-                </div>
-              ))}
+        <div className="gap-[1.188rem] text-nowrap pb-6 sm:block lg:gap-x-[1rem] xl:flex 2xl:gap-x-[2.813rem]">
+          <div className="flex sm:block sm:w-[100%] lg:flex xl:w-[71%]">
+            <div className="flex justify-between sm:w-[100%] lg:w-[50%] lg:gap-x-[1rem] 2xl:gap-x-[2.813rem]">
+              <div className="sm:w-[50%] lg:w-[45%]">
+                {staticData.slice(0, 8).map((item, index) => (
+                  <div key={index} className="text-[1rem] font-[600] text-[#000] lg:leading-6 xl:leading-7">
+                    {item.label}
+                  </div>
+                ))}
+              </div>
+              <div className="sm:w-[50%] lg:w-[55%]">
+                {staticData.slice(0, 8).map((item, index) => (
+                  <div key={index} className="text-[1rem] text-[#575757] lg:leading-6 xl:leading-7">
+                    {item.value ? item.value : ' - '}
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="w-[55%]">
-              {staticData.slice(0, 8).map((item, index) => (
-                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[16px] xl:leading-7">
-                  {item.value ? item.value : ' - '}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="flex w-[36%] justify-between lg:gap-x-[25px] xl:gap-x-[45px] max-lg:mt-5 max-lg:w-[100%]">
-            <div className="w-[60%]">
-              {staticData.slice(8).map((item, index) => (
-                <div
-                  key={index}
-                  className="font-[600] text-[#000] lg:text-[13px] lg:leading-6 xl:text-[16px] xl:leading-7"
-                >
-                  {item.label}
-                </div>
-              ))}
-            </div>
-            <div className="w-[40%]">
-              {staticData.slice(8).map((item, index) => (
-                <div key={index} className="text-[#575757] lg:text-[13px] lg:leading-6 xl:text-[16px] xl:leading-7">
-                  {item.value ? item.value : ' - '}
-                </div>
-              ))}
+            <div className="flex justify-between sm:mt-5 sm:w-[100%] lg:mt-0 lg:w-[50%] lg:gap-x-[1rem] 2xl:gap-x-[2.813rem]">
+              <div className="sm:w-[50%] lg:w-[60%]">
+                {staticData.slice(8).map((item, index) => (
+                  <div key={index} className="text-[1rem] font-[600] text-[#000] lg:leading-6 xl:leading-7">
+                    {item.label}
+                  </div>
+                ))}
+              </div>
+              <div className="sm:w-[50%] lg:w-[40%]">
+                {staticData.slice(8).map((item, index) => (
+                  <div key={index} className="text-[1rem] text-[#575757] lg:leading-6 xl:leading-7">
+                    {item.value ? item.value : ' - '}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-          <div className="w-[29%] max-lg:mt-5 max-lg:w-[100%]">
+          <div className="sm:mt-5 sm:w-[100%] xl:mt-0 xl:w-[29%] max-lg:w-[100%]">
             <div className="mapouter rounded-lg border border-neutral-300 p-1">
               <div className="gmap_canvas">
                 <div className="gmap_canvas">
@@ -157,7 +153,7 @@ export default function GeneralInfo({
                       long={site?.longitude}
                       address={site?.streetLine1 ? site?.streetLine1 : site?.streetLine2}
                       siteId={site?.id}
-                      height="200px"
+                      height="12.5rem"
                     />
                   ) : (
                     <div className="flex h-[230px] items-center justify-center py-8 text-center align-bottom text-lg">
@@ -168,7 +164,7 @@ export default function GeneralInfo({
               </div>
             </div>
             {(site?.streetLine1 || site?.streetLine2) && (
-              <div className="pt-1 text-center lg:text-[14px] xl:text-[16px]">
+              <div className="pt-1 text-center text-[1rem]">
                 <span className="font-semibold text-zinc-600">Address:</span>
                 <span className="font-normal text-zinc-600">
                   {' '}

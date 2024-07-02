@@ -7,7 +7,7 @@ type DownloadTableSkeletonProps = {
   limit: number;
 };
 const VendorAccountsTableSkeleton: React.FC<DownloadTableSkeletonProps> = ({ limit }) => (
-  <div className="overflow-auto lg:max-h-[210px] xl:max-h-full">
+  <div className="flex-grow overflow-auto">
     <Table>
       <VendorAccountsTableHead />
       <TableBodySkeleton rowCount={limit} columnCount={7} />

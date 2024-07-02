@@ -70,7 +70,7 @@ const TotalTicketsOpen = ({ data, isLoading }: { data: OpenTicketSummary; isLoad
   };
 
   return (
-    <div className="relative h-auto min-h-[150px] min-w-[300px] rounded-lg border border-custom-plaster pl-7 pt-3">
+    <div className="relative h-auto min-h-[150px] min-w-[18.75rem] rounded-lg border border-custom-plaster pl-7 pt-3">
       {isLoading ? (
         <div className="mt-2 lg:mr-7">
           <Skeleton variant="paragraph" rows={3} className="mr-7" />{' '}
@@ -86,9 +86,9 @@ const TotalTicketsOpen = ({ data, isLoading }: { data: OpenTicketSummary; isLoad
               <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
                 {openTicketsCount} tickets are currently open.
               </p>
-              <div className="relative mr-2 mt-[-100px] h-[103px] w-[120px] lg:mt-[-103px] lg:h-[106px] 2xl:mt-[-103px] 2xl:h-[120px]">
+              <div className="relative mr-2 mt-[-6.25rem] h-[103px] w-[120px] lg:h-[106px] 2xl:h-[120px]">
                 <PieChart chartOptions={chartOptions} />
-                <span className="absolute left-[34%] text-[8px] font-bold text-custom-greyBlue lg:bottom-[15%] xl:bottom-[23%]">
+                <span className="absolute left-[34%] text-[8px] font-bold text-custom-greyBlue sm:bottom-[15%]">
                   in last 24 hours
                 </span>
               </div>

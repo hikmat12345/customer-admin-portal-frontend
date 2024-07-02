@@ -9,11 +9,11 @@ function PeakIndicator({ variant, isLoading }: { variant: Variant; isLoading?: b
   let backgroundColor;
   switch (variant) {
     case 'success':
-      arrowImageSrc = '/svg/upPeakArrow.svg';
+      arrowImageSrc = '/svg/downPeakArrow.svg';
       backgroundColor = 'bg-[#219653]';
       break;
     case 'destructive':
-      arrowImageSrc = '/svg/downPeakArrow.svg';
+      arrowImageSrc = '/svg/upPeakArrow.svg';
       backgroundColor = 'bg-custom-red';
       break;
     default:

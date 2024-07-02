@@ -233,12 +233,12 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
         {/* Service Type */}
         {serviceTypes.length > 0 && (
           <div id="service-type">
-            <div className="flex gap-4 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">
+            <div className="flex gap-4 pt-8 text-[1.375rem] font-[700] text-custom-blue">
               Service Type{' '}
               <TooltipText
                 text={'Shows the volume of services splited by service type'}
                 maxLength={1}
-                className="leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                className="text-[0.875rem] leading-6 text-[#575757]"
                 type="notification"
               />
             </div>

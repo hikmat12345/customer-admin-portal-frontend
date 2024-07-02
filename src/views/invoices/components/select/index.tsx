@@ -120,7 +120,7 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[200px] justify-between"
+            className="justify-between p-[0.5rem] sm:w-[8rem] lg:w-[10rem] 2lg:w-[12.5rem] 2xl:w-[15.625rem]"
             value={12}
           >
             {loadDrodownHeader()}
@@ -129,10 +129,11 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
               alt="Chevron Icon"
               width={20}
               height={20}
+              className="h-[1.25rem] w-[1.25rem]"
             />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className="p-0 lg:w-[10rem] 2lg:w-[12.5rem] 2xl:w-[15.625rem]">
           <Command>
             {(index === 0 || index === 1 || index === 2) && (
               <>
