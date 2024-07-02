@@ -30,7 +30,7 @@ function VendorAccountsTable({ data }: any) {
     <div className="overflow-auto" style={{ height: `calc(100vh - 260px)` }}>
       <Table>
         <VendorAccountsTableHead />
-        {isNoData && <TableCaption>No vendor accounts available.</TableCaption>}
+        {isNoData && <TableCaption>No data found.</TableCaption>}
 
         <TableBody>
           {data?.map((row: any) => (

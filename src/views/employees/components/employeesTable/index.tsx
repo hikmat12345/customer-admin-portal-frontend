@@ -26,7 +26,7 @@ function EmployeesTable({ data }: any) {
     <div className="overflow-auto" style={{ height: `calc(100vh - 260px)` }}>
       <Table>
         <VendorAccountsTableHead />
-        {noDataFound && <TableCaption>No employees available.</TableCaption>}
+        {noDataFound && <TableCaption>No data found.</TableCaption>}
 
         <TableBody>
           {data?.map((row: any) => (
