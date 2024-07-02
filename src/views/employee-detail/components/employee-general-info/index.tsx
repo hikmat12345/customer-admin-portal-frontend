@@ -1,5 +1,5 @@
 import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
-import { EmployeeGeneralInfoProps } from '@/types/employee/employee.tds';
+import { EmployeeGeneralInfoProps } from '@/types/employee/employee';
 import Link from 'next/link';
 
 export default function EmployeeGeneralInfo({

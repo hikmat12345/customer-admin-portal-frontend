@@ -1,7 +1,7 @@
 import VImage from '@/components/ui/image';
 import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
 import TooltipText from '@/components/ui/textbox';
-import { AccountGeneralInfoProps } from '@/types/account/acount.tds';
+import { AccountGeneralInfoProps } from '@/types/account/acount';
 
 export default function AccountGeneralInfo({
   label = 'General Information',
