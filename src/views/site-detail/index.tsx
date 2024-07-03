@@ -296,7 +296,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
         {!isServicesLoader && (siteServices?.data?.length > 0 || siteTerminatedServices?.data?.length > 0) && (
           <button
             onClick={showTerminatedHandler}
-            className="my-5 ml-auto block h-[48px] w-[280px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-3"
+            className="my-5 ml-auto block h-[48px] w-[280px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px]"
           >
             <span className="text-base font-semibold text-white">
               {showTerminated ? 'Show Terminated Services' : 'Show Live Services'}{' '}
