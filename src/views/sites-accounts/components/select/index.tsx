@@ -99,7 +99,7 @@ function SelectComponent({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="min-w-[160px] max-w-fit justify-between"
+            className="justify-between p-[0.5rem] sm:w-[8rem] lg:w-[10rem] 2lg:w-[12.5rem] 2xl:w-[15.625rem]"
           >
             {buttonTitle()}
             <Image
@@ -107,10 +107,11 @@ function SelectComponent({
               alt="Chevron Icon"
               width={20}
               height={20}
+              className="h-[1.25rem] w-[1.25rem]"
             />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className="p-0 lg:w-[10rem] 2lg:w-[12.5rem] 2xl:w-[15.625rem]">
           <Command>
             <CommandInput placeholder={placeholder} />
             <CommandEmpty>No data found</CommandEmpty>
