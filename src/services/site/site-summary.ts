@@ -16,7 +16,10 @@ export const getServiceSites = async ({ queryKey }: any) => {
       countryId,
     },
   };
-  return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/site`, config).then(({ data }) => data).catch((error) =>  error)
+  return httpClient
+    .get(`${NEXT_PUBLIC_API_BASE_URL}/site`, config)
+    .then(({ data }) => data)
+    .catch((error) => error);
 };
 
 export const getSiteDetail = async ({ queryKey }: any) => {
