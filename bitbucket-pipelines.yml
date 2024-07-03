@@ -56,9 +56,9 @@ pipelines:
       - step: *deploy-to-ecr
 
   custom:
-    deploy-to-DEV-&-PROD:
+    deploy-to-DEV-&-UAT:
     - step:
-        name: "Prepare Deployment for DEV & Prod"
+        name: "Prepare Deployment for DEV & UAT"
         services:
           - docker
         size: 2x
