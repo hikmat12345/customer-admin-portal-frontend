@@ -114,7 +114,7 @@ function ReportsCard({
         toast.success(`${key} Report downloaded successfully`);
         handleCloseDialog();
       },
-      onError: () => {
+      onError: (error) => {
         toast.error(`Error in downloading ${key} report`);
       },
     });
