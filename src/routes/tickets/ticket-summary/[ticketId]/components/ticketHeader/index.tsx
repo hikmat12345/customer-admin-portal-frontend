@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { TICKET_DATE_FORMAT } from '@/utils/constants/dateFormat.constants';
 import { PRIORITY_COLOR_LIST, PRIORITY_LIST } from '@/utils/constants/statusList.constants';
-import { convertToTimeZone } from '@/utils/utils';
+import { ConvertToTimeZone } from '@/utils/utils';
 import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton';
 import Link from 'next/link';
 
@@ -65,11 +65,11 @@ function TicketHeader({ ticketSummary, ticketSummaryLoading }: any) {
       </div>
       <div className="flex h-[2.6rem] items-center p-3">
         <HeaderLabel label="Created" />
-        <HeaderValue value={`${convertToTimeZone(ticketSummary?.created, TICKET_DATE_FORMAT)}`} />
+        <HeaderValue value={`${ConvertToTimeZone(ticketSummary?.created, TICKET_DATE_FORMAT)}`} />
       </div>
       <div className="flex h-[2.6rem] items-center p-3">
         <HeaderLabel label="Updated" />
-        <HeaderValue value={`${convertToTimeZone(ticketSummary?.updated, TICKET_DATE_FORMAT)}`} />
+        <HeaderValue value={`${ConvertToTimeZone(ticketSummary?.updated, TICKET_DATE_FORMAT)}`} />
       </div>
       <div className="flex h-[2.6rem] items-center p-3">
         <HeaderLabel label="Service" />

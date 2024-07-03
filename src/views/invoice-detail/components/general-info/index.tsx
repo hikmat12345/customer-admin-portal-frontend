@@ -205,37 +205,39 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
               </div>
             </div>
             <div className="bg-custom-aluminum lg:mx-auto lg:my-5 lg:block lg:h-[1px] lg:w-[60%] xl:my-0 xl:h-[18em] xl:w-[1px]"></div>
-            <div className="block sm:mt-5 lg:mt-0 lg:w-[50%] xl:m-auto xl:w-[41%]">
-              <div className="text-[1.375rem] font-[700] text-[#1D46F3]">Vendor</div>
-              <div className="flex w-full pt-6 lg:gap-x-[2rem] xl:gap-x-0">
-                <div className="sm:w-full lg:w-[55%] xl:w-[40%]">
-                  {vendorStaticData.map((item, index) => (
-                    <div key={index} className="text-[0.875rem] font-[600] leading-7 text-[#000]">
-                      {item.label}
-                    </div>
-                  ))}
-                </div>
-                <div className="sm:w-full lg:w-[45%] xl:w-[60%]">
-                  {vendorStaticData.map((item, index) => (
-                    <div key={index}>
-                      {typeof item.value !== 'undefined' ? (
-                        typeof item.value === 'boolean' ? (
-                          <div>{item.value ? item.value : ' - '}</div>
+            <div className="mb-10 sm:mt-5 sm:block lg:mt-0 lg:flex lg:w-[100%] xl:m-auto xl:block xl:w-[41%]">
+              <div className="lg:w-2/4 xl:w-auto">
+                <div className="text-[1.375rem] font-[700] text-[#1D46F3]">Vendor</div>
+                <div className="flex w-full pt-6 lg:gap-x-[2rem] xl:gap-x-0">
+                  <div className="sm:w-full lg:w-[55%] xl:w-[40%]">
+                    {vendorStaticData.map((item, index) => (
+                      <div key={index} className="text-[0.875rem] font-[600] leading-7 text-[#000]">
+                        {item.label}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="sm:w-full lg:w-[45%] xl:w-[60%]">
+                    {vendorStaticData.map((item, index) => (
+                      <div key={index}>
+                        {typeof item.value !== 'undefined' ? (
+                          typeof item.value === 'boolean' ? (
+                            <div>{item.value ? item.value : ' - '}</div>
+                          ) : (
+                            <TooltipText
+                              text={item.value?.trim() ? item.value : ' - '}
+                              maxLength={30}
+                              className="text-[0.875rem] leading-7 text-[#575757]"
+                            />
+                          )
                         ) : (
-                          <TooltipText
-                            text={item.value?.trim() ? item.value : ' - '}
-                            maxLength={30}
-                            className="text-[0.875rem] leading-7 text-[#575757]"
-                          />
-                        )
-                      ) : (
-                        <div>-</div>
-                      )}
-                    </div>
-                  ))}
+                          <div>-</div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-              <div className="flex justify-center">
+              <div className="flex justify-center lg:w-2/4 xl:w-auto">
                 <VImage
                   src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + vendorData.logo}
                   alt="Invoice Summary Logo"
@@ -247,7 +249,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
             </div>
           </div>
 
-          <div className="mb-4 mt-[-2.188rem] flex gap-5">
+          <div className="mb-4 mt-[-1.188rem] flex gap-5">
             <Button
               loading={isXlsFileLoading}
               type="submit"
