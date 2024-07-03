@@ -102,10 +102,10 @@ function ReportsPage() {
                 >
                   Finance Reports
                 </TabsTrigger>
-                <TabsTrigger value="inventory" className="px-0">
+                <TabsTrigger value="inventory" className="px-3">
                   Inventory Reports
                 </TabsTrigger>
-                <TabsTrigger value="service" className="px-0">
+                <TabsTrigger value="service" className="px-3">
                   Service Management Reports
                 </TabsTrigger>
               </TabsList>
