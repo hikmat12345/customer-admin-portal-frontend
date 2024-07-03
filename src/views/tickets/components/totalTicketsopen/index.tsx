@@ -88,7 +88,7 @@ const TotalTicketsOpen = ({ data, isLoading }: { data: OpenTicketSummary; isLoad
               </p>
               <div className="relative mr-2 mt-[-6.25rem] h-[103px] w-[120px] lg:h-[106px] 2xl:h-[120px]">
                 <PieChart chartOptions={chartOptions} />
-                <span className="absolute left-[34%] text-[8px] font-bold text-custom-greyBlue sm:bottom-[15%]">
+                <span className="absolute left-[34%] text-[8px] font-bold text-custom-greyBlue sm:bottom-[15%] 2xl:bottom-[22%]">
                   in last 24 hours
                 </span>
               </div>
