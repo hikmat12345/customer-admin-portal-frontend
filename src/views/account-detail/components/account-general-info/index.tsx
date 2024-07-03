@@ -65,16 +65,18 @@ export default function AccountGeneralInfo({
                   <div key={index} className="">
                     {typeof item.value !== 'undefined' ? (
                       typeof item.value === 'boolean' ? (
-                        <div  className="text-[0.875rem] text-[#575757] leading-6">{item.value ? item.value : ' - '}</div>
+                        <div className="text-[0.875rem] leading-6 text-[#575757]">
+                          {item.value ? item.value : ' - '}
+                        </div>
                       ) : (
                         <TooltipText
                           text={item.value ? item.value : ' - '}
                           maxLength={27}
-                          className="text-[0.875rem] text-[#575757] leading-6"
+                          className="text-[0.875rem] leading-6 text-[#575757]"
                         />
                       )
                     ) : (
-                      <div className="text-[0.875rem] text-[#575757] leading-6">-</div>
+                      <div className="text-[0.875rem] leading-6 text-[#575757]">-</div>
                     )}
                   </div>
                 ))}
@@ -93,7 +95,9 @@ export default function AccountGeneralInfo({
                   <div key={index}>
                     {typeof item.value !== 'undefined' ? (
                       typeof item.value === 'boolean' ? (
-                        <div className="text-left text-[0.875rem] leading-6 text-[#575757]">{item.value ? item.value : ' - '}</div>
+                        <div className="text-left text-[0.875rem] leading-6 text-[#575757]">
+                          {item.value ? item.value : ' - '}
+                        </div>
                       ) : (
                         <TooltipText
                           text={item.value || '-'}
