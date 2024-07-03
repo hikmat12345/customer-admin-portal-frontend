@@ -94,10 +94,10 @@ function ServiceSitesPage() {
             onChange={handleSearchField}
             defaultValue={searchQuery}
             onKeyDown={handleSearchKeydown}
-            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:w-[600px]"
+            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:min-w-[21.375rem] xl:w-[33rem]"
             helpText="Search in ID, Site Code, Site Name, Building Name, Street Line 1 / 2, City, ZIP / Post Code"
           />
-          <div className="flex gap-4">
+          <div className="flex md:gap-1 lg:gap-4">
             {menuOptions?.map((menuOption: any, index: number) => (
               <SelectComponent
                 key={index}
@@ -109,7 +109,7 @@ function ServiceSitesPage() {
             ))}
           </div>
         </div>
-        <div className="mt-2">
+        <div className="mt-2 overflow-x-auto">
           {ServiceSiteLoading && <ServiceSitesTableSkeleton limit={limit} />}
           {ServiceSiteFetched && <ServiceSitesTable limit={limit} data={serviceSiteData?.data} />}
         </div>
