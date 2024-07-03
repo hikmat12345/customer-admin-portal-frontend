@@ -15,7 +15,7 @@ export const getEmployeeCostTrend = async ({ queryKey }: any) => {
   const [, accountId, costTrendLimit] = queryKey;
 
   return httpClient
-    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/employee-cost-trend/${accountId}?limit=${costTrendLimit}`)
+    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/employee-cost-trend/${accountId}?limit=${costTrendLimit}`)
     .then(({ data }) => data);
 };
 export const getEmployeeTickets = async ({ queryKey }: any) => {

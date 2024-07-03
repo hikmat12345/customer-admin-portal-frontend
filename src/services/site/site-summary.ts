@@ -46,7 +46,7 @@ export const getCostTrend = async ({ queryKey }: any) => {
   const [, siteId, costTrendLimit] = queryKey;
 
   return httpClient
-    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/cost-trend/${siteId}?limit=${costTrendLimit}`)
+    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/cost-trend/${siteId}?limit=${costTrendLimit}`)
     .then(({ data }) => data);
 };
 
@@ -66,11 +66,11 @@ export const getSiteInvoices = async ({ queryKey }: any) => {
   const [, siteId, offset, limit] = queryKey;
 
   return httpClient
-    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/site-invoices/${siteId}?offset=${offset}&limit=${limit}`)
+    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/site-invoices/${siteId}?offset=${offset}&limit=${limit}`)
     .then(({ data }) => data);
 };
 
 export const getSiteInvoiceFile = async ({ queryKey }: any) => {
   const [, invoiceId] = queryKey;
-  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/invoice-file/${invoiceId}`).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoice-file/${invoiceId}`).then(({ data }) => data);
 };
