@@ -112,7 +112,7 @@ function VendorAccountsPage() {
             defaultValue={searchQuery}
             onChange={handleSearchChange}
             onKeyDown={handleSearchKeydown}
-            className="2md:min-w-[21.375rem] ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] xl:w-[29.6rem]"
+            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:min-w-[21.375rem] xl:w-[29.6rem]"
             helpText="Searches network name, company network account number and display name fields."
           />
           <div className="flex md:gap-1 lg:gap-4">
