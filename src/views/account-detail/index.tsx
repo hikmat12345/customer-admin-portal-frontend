@@ -134,12 +134,16 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
 
   const totalPages = Math.max(accountTicketsData?.total || 0, siteInvoicesData?.total || 0);
   const serviceLocations =
-    serviceLocation?.map((item: any) => ({
-      lat: item?.lat,
-      long: item?.lng,
-      address: item?.name + item?.streetLine1 + item?.streetLine2,
-      siteId: item?.id,
-    })) || [];
+    serviceLocation?.map(
+      (item: { lat: number; lng: number; name: string; streetLine1: string; streetLine2: string; id: number }) => ({
+        lat: item?.lat || 0,
+        long: item?.lng || 0,
+        address:
+          item?.name +
+            (item?.streetLine1 ? ', ' + item?.streetLine1 : item?.streetLine2 ? ', ' + item?.streetLine2 : '') || '',
+        siteId: item?.id,
+      }),
+    ) || [];
 
   const listOfTabs = [];
   if (vendorServicesTypes?.data?.length > 0) {
