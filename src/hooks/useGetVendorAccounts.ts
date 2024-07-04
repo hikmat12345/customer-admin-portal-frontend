@@ -8,5 +8,9 @@ export const useGetVendorAccounts = (
   vendor?: string | undefined,
   countryId?: string | undefined,
   showArchived?: string | undefined,
+  serviceType?: string,
 ) =>
-  useQuery({ queryKey: ['all_vendor_accounts', offset, limit, searchQuery, vendor, countryId, showArchived], queryFn: getVendorAccounts });
+  useQuery({
+    queryKey: ['all_vendor_accounts', offset, limit, searchQuery, vendor, countryId, showArchived, serviceType],
+    queryFn: getVendorAccounts,
+  });

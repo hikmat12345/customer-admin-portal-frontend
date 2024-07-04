@@ -8,7 +8,7 @@ export const getVendorsByCountries = async ({ queryKey }: any) => {
 };
 
 export const getVendorAccounts = async ({ queryKey }: any) => {
-  const [, offset, limit, searchQuery, vendor, countryId, showArchived] = queryKey;
+  const [, offset, limit, searchQuery, vendor, countryId, showArchived, serviceType] = queryKey;
   const config = {
     params: {
       offset,
@@ -17,6 +17,7 @@ export const getVendorAccounts = async ({ queryKey }: any) => {
       vendor,
       countryId,
       showArchived,
+      serviceType,
     },
   };
   return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/vendor/accounts/all`, config).then(({ data }) => data);
