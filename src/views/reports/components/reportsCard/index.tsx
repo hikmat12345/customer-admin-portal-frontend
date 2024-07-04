@@ -26,10 +26,14 @@ import {
   usePostS5Report,
   usePostS6Report,
 } from '@/hooks/useGetReportData';
-import { format } from 'date-fns';
+import { format, isValid, parseISO } from 'date-fns';
 import { DATE_FORMAT_YYYY_MM_DD, MONTH_AND_YEAR_FORMAT } from '@/utils/constants/dateFormat.constants';
 import { ReportField } from '../../reports';
 import { generateValidationSchema } from '../../validationSchema';
+import useUserStore from '@/stores/useUserStore';
+import { format as tzFormat, toZonedTime } from 'date-fns-tz';
+import { DATE_TIME_FORMAT } from '@/utils/constants/constants';
+import { ConvertToTimeZone } from '@/utils/utils';
 
 type ReportKey =
   | 'F1'
@@ -97,6 +101,7 @@ function ReportsCard({
     dialogOpenRef.current[transformedLabel] = true;
   };
   const handleCloseDialog = () => setOpenDialog(false);
+  const { loggedInUser } = useUserStore((state: any) => ({ loggedInUser: state.user }));
 
   const validationSchema = generateValidationSchema(fieldTypes);
 
@@ -205,7 +210,26 @@ function ReportsCard({
               onSettled: () => toast.dismiss(toastId),
             },
           );
-        } else if (reportKey === 'S4' || reportKey === 'S5' || 'S6') {
+        } else if (reportKey === 'S5') {
+          console.log('in');
+          reportMutations[reportKey].mutate(
+            {
+              from: ConvertToTimeZone(
+                `${formattedFromDateYYYYMM}T00:00:00.000Z`,
+                "yyyy-MM-dd'T'HH:mm:ss.SSSX",
+                loggedInUser?.timezone?.name,
+              )?.replace(/([-+]\d{2}:\d{2}|[-+]\d{2})$/, 'Z'),
+              to: ConvertToTimeZone(
+                `${formattedToDateYYYYMM}T00:00:00.000Z`,
+                "yyyy-MM-dd'T'HH:mm:ss.SSSX",
+                loggedInUser?.timezone?.name,
+              )?.replace(/([-+]\d{2}:\d{2}|[-+]\d{2})$/, 'Z'),
+            },
+            {
+              onSettled: () => toast.dismiss(toastId),
+            },
+          );
+        } else if (reportKey === 'S4' || 'S6') {
           reportMutations[reportKey].mutate(
             { from: formattedFromDateYYYYMM, to: formattedToDateYYYYMM },
             {

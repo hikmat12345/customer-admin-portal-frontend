@@ -6,7 +6,7 @@ import { TICKET_DATE_FORMAT } from '@/utils/constants/dateFormat.constants';
 import useUserStore from '@/stores/useUserStore';
 
 const TicketUpdateCard = ({ ticketUpdate }: { ticketUpdate: TicketUpdate }) => {
-  const loggedInUser = useUserStore((state: any) => state.user);
+  const { loggedInUser } = useUserStore((state: any) => ({ loggedInUser: state.user }));
 
   const getTicketUpdateTitle = (ticketUpdate: TicketUpdate) => {
     if (ticketUpdate.user) return `${ticketUpdate.user.firstName} ${ticketUpdate.user.lastName}`;
@@ -53,7 +53,7 @@ const TicketUpdateCard = ({ ticketUpdate }: { ticketUpdate: TicketUpdate }) => {
         <div className="flex items-center justify-between">
           <p className="text-[1.188rem] font-[700] leading-[1.477rem]">{getTicketUpdateTitle(ticketUpdate)}</p>
           <p className="text-[0.938rem] font-[400] leading-[1.361rem]">
-            {ConvertToTimeZone(ticketUpdate?.created, TICKET_DATE_FORMAT)}
+            {ConvertToTimeZone(ticketUpdate?.created, TICKET_DATE_FORMAT, loggedInUser?.timezone?.name)}
           </p>
         </div>
         {getTicketUpdateDescription(ticketUpdate)}
