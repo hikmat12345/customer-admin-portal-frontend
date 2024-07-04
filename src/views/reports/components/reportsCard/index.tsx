@@ -30,6 +30,8 @@ import { format } from 'date-fns';
 import { DATE_FORMAT_YYYY_MM_DD, MONTH_AND_YEAR_FORMAT } from '@/utils/constants/dateFormat.constants';
 import { ReportField } from '../../reports';
 import { generateValidationSchema } from '../../validationSchema';
+import useUserStore from '@/stores/useUserStore';
+import { convertToTimeZone } from '@/utils/utils';
 
 type ReportKey =
   | 'F1'
@@ -97,6 +99,7 @@ function ReportsCard({
     dialogOpenRef.current[transformedLabel] = true;
   };
   const handleCloseDialog = () => setOpenDialog(false);
+  const { loggedInUser } = useUserStore((state: any) => ({ loggedInUser: state.user }));
 
   const validationSchema = generateValidationSchema(fieldTypes);
 
@@ -205,7 +208,25 @@ function ReportsCard({
               onSettled: () => toast.dismiss(toastId),
             },
           );
-        } else if (reportKey === 'S4' || reportKey === 'S5' || 'S6') {
+        } else if (reportKey === 'S5') {
+          reportMutations[reportKey].mutate(
+            {
+              from: convertToTimeZone(
+                `${formattedFromDateYYYYMM}T00:00:00.000Z`,
+                "yyyy-MM-dd'T'HH:mm:ss.SSSX",
+                loggedInUser?.timezone?.name,
+              )?.replace(/([-+]\d{2}:\d{2}|[-+]\d{2})$/, 'Z'),
+              to: convertToTimeZone(
+                `${formattedToDateYYYYMM}T00:00:00.000Z`,
+                "yyyy-MM-dd'T'HH:mm:ss.SSSX",
+                loggedInUser?.timezone?.name,
+              )?.replace(/([-+]\d{2}:\d{2}|[-+]\d{2})$/, 'Z'),
+            },
+            {
+              onSettled: () => toast.dismiss(toastId),
+            },
+          );
+        } else if (reportKey === 'S4' || reportKey === 'S6') {
           reportMutations[reportKey].mutate(
             { from: formattedFromDateYYYYMM, to: formattedToDateYYYYMM },
             {

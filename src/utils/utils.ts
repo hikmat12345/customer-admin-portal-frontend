@@ -4,15 +4,12 @@ import { ServiceType } from './enums/serviceType.enum';
 import { eachYearOfInterval, format as formatdeteFns, isValid, parseISO } from 'date-fns';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from './constants/constants';
 import { format as tzFormat, toZonedTime } from 'date-fns-tz';
-import useUserStore from '@/stores/useUserStore';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function ConvertToTimeZone(dateTime: string, format = DATE_TIME_FORMAT) {
-  const { loggedInUser } = useUserStore((state: any) => ({ loggedInUser: state.user }));
-  const timeZone = loggedInUser?.timezone.name;
+export function convertToTimeZone(dateTime: string, format = DATE_TIME_FORMAT, timeZone: string) {
   if (timeZone && dateTime && isValid(parseISO(dateTime))) {
     const zonedDate = toZonedTime(dateTime, timeZone);
     return tzFormat(zonedDate, format, { timeZone: timeZone });
