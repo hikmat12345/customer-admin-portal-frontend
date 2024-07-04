@@ -26,13 +26,11 @@ import {
   usePostS5Report,
   usePostS6Report,
 } from '@/hooks/useGetReportData';
-import { format, isValid, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 import { DATE_FORMAT_YYYY_MM_DD, MONTH_AND_YEAR_FORMAT } from '@/utils/constants/dateFormat.constants';
 import { ReportField } from '../../reports';
 import { generateValidationSchema } from '../../validationSchema';
 import useUserStore from '@/stores/useUserStore';
-import { format as tzFormat, toZonedTime } from 'date-fns-tz';
-import { DATE_TIME_FORMAT } from '@/utils/constants/constants';
 import { ConvertToTimeZone } from '@/utils/utils';
 
 type ReportKey =
