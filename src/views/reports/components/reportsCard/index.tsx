@@ -227,7 +227,7 @@ function ReportsCard({
               onSettled: () => toast.dismiss(toastId),
             },
           );
-        } else if (reportKey === 'S4' || 'S6') {
+        } else if (reportKey === 'S4' || reportKey === 'S6') {
           reportMutations[reportKey].mutate(
             { from: formattedFromDateYYYYMM, to: formattedToDateYYYYMM },
             {
