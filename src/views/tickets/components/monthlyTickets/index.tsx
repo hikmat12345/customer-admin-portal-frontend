@@ -35,13 +35,13 @@ function MonthlyTickets({ title, year, month }: { title: string; year: number; m
 
   return (
     <div className="relative h-auto min-h-[150px] min-w-[300px] rounded-lg border border-custom-plaster pl-7 pt-3">
-      <div className="flex gap-[10px]">
+      <div className="flex h-full gap-[10px]">
         {isLoading ? (
           <div className="mt-2 w-[24rem] lg:mr-12">
             <Skeleton variant="paragraph" rows={3} />
           </div>
         ) : (
-          <div className="flex w-full flex-col gap-4 pb-3 pr-5">
+          <div className="flex h-full w-full flex-col gap-4 pb-3 pr-5">
             <h2 className="text-lg font-semibold text-custom-black">{title}</h2>
             <div className="flex items-center gap-5">
               <h1 className="text-lg font-bold lg:text-2xl 2xl:text-3xl">{moneyFormatter(totalTickets)}</h1>
