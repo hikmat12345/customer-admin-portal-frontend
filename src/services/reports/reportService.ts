@@ -25,7 +25,8 @@ const postReport = async (url: string, data: any) => {
     }
     downloadExcelFile(response.data, filename);
   } catch (error) {
-    console.error('Error downloading the report:', error);
+    console.error('Error in postReport catch block:', error);
+    throw error; // Propagating error like this so react query can catch it
   }
 };
 
