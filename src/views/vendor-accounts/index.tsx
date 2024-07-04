@@ -12,6 +12,7 @@ import { PAGE_SIZE } from '@/utils/constants/constants';
 import { useEffect } from 'react';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { sanitizeSearchQuery } from '@/utils/utils';
+import ToggleComponent from './components/toggle';
 
 function VendorAccountsPage() {
   const limit = PAGE_SIZE;
@@ -103,7 +104,7 @@ function VendorAccountsPage() {
             defaultValue={searchQuery}
             onChange={handleSearchChange}
             onKeyDown={handleSearchKeydown}
-            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:min-w-[21.375rem] xl:w-[33rem]"
+            className="2md:min-w-[21.375rem] ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] xl:w-[33rem]"
             helpText="Searches network name, company network account number and display name fields."
           />
           <div className="flex md:gap-1 lg:gap-4">
@@ -116,6 +117,7 @@ function VendorAccountsPage() {
                 placeholder={menuOption.placeholder}
               />
             ))}
+            <ToggleComponent />
           </div>
         </div>
         <div className="mt-2 flex-grow overflow-x-auto">

@@ -53,16 +53,6 @@ const useGetMenuOptions = () => {
       paramName: 'country',
       placeholder: 'Search country...',
     },
-    {
-      name: 'Show Archived',
-      value: 'showArchived',
-      options: [
-        { value: 0, label: 'No' },
-        { value: 1, label: 'Yes' },
-      ],
-      paramName: 'show_archived',
-      placeholder: 'Search...',
-    },
   ];
 
   return menuOptions;
