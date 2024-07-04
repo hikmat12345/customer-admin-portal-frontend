@@ -23,12 +23,18 @@ function VendorAccountsPage() {
   const queryParams = new URLSearchParams(searchParams?.toString());
   const keys = Array.from(queryParams.keys()) || [];
   const searchQuery = searchParams && searchParams?.get('searchQuery');
-  const countryId = searchParams && searchParams?.get('country');
-  const showArchived = searchParams && searchParams?.get('show_archived');
-  const vendor = searchParams && searchParams?.get('vendor');
+  const countryId = searchParams?.get('country') ?? undefined;
+  const vendor = searchParams?.get('vendor') ?? undefined;
+  const serviceType = searchParams?.get('service_type') ?? undefined;
   const page = searchParams?.get('page') || '1';
   const offset = +page - 1;
   const menuOptions = useGetMenuOptions();
+  const showArchived =
+    searchParams
+      ?.get('show_archived')
+      ?.split(',')
+      .map((status) => (status === '1' ? 'Archived' : 'Active'))
+      .join(',') ?? undefined;
 
   const {
     data: vendorAccountsData,
@@ -39,14 +45,10 @@ function VendorAccountsPage() {
     offset,
     limit,
     searchQuery?.trim() || undefined,
-    typeof vendor !== 'undefined' && vendor !== null ? vendor : undefined,
-    typeof countryId !== 'undefined' && countryId !== null ? countryId : undefined,
-    typeof showArchived !== 'undefined' && showArchived !== null
-      ? showArchived
-          .split(',')
-          .map((status) => (status === '1' ? 'Archived' : 'Active'))
-          .join(',')
-      : undefined,
+    vendor,
+    countryId,
+    showArchived,
+    serviceType,
   );
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,7 +106,7 @@ function VendorAccountsPage() {
             defaultValue={searchQuery}
             onChange={handleSearchChange}
             onKeyDown={handleSearchKeydown}
-            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:min-w-[21.375rem] xl:w-[33rem]"
+            className="2md:min-w-[21.375rem] ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] xl:w-[29.6rem]"
             helpText="Searches network name, company network account number and display name fields."
           />
           <div className="flex md:gap-1 lg:gap-4">
