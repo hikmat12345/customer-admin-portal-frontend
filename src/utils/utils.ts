@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function ConvertToTimeZone(dateTime: string, format = DATE_TIME_FORMAT, timeZone: string) {
+export function convertToTimeZone(dateTime: string, format = DATE_TIME_FORMAT, timeZone: string) {
   if (timeZone && dateTime && isValid(parseISO(dateTime))) {
     const zonedDate = toZonedTime(dateTime, timeZone);
     return tzFormat(zonedDate, format, { timeZone: timeZone });

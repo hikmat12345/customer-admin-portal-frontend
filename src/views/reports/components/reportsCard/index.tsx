@@ -31,7 +31,7 @@ import { DATE_FORMAT_YYYY_MM_DD, MONTH_AND_YEAR_FORMAT } from '@/utils/constants
 import { ReportField } from '../../reports';
 import { generateValidationSchema } from '../../validationSchema';
 import useUserStore from '@/stores/useUserStore';
-import { ConvertToTimeZone } from '@/utils/utils';
+import { convertToTimeZone } from '@/utils/utils';
 
 type ReportKey =
   | 'F1'
@@ -209,15 +209,14 @@ function ReportsCard({
             },
           );
         } else if (reportKey === 'S5') {
-          console.log('in');
           reportMutations[reportKey].mutate(
             {
-              from: ConvertToTimeZone(
+              from: convertToTimeZone(
                 `${formattedFromDateYYYYMM}T00:00:00.000Z`,
                 "yyyy-MM-dd'T'HH:mm:ss.SSSX",
                 loggedInUser?.timezone?.name,
               )?.replace(/([-+]\d{2}:\d{2}|[-+]\d{2})$/, 'Z'),
-              to: ConvertToTimeZone(
+              to: convertToTimeZone(
                 `${formattedToDateYYYYMM}T00:00:00.000Z`,
                 "yyyy-MM-dd'T'HH:mm:ss.SSSX",
                 loggedInUser?.timezone?.name,

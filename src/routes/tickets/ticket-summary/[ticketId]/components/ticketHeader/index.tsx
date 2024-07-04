@@ -1,7 +1,7 @@
 import useUserStore from '@/stores/useUserStore';
 import { TICKET_DATE_FORMAT } from '@/utils/constants/dateFormat.constants';
 import { PRIORITY_COLOR_LIST, PRIORITY_LIST } from '@/utils/constants/statusList.constants';
-import { ConvertToTimeZone } from '@/utils/utils';
+import { convertToTimeZone } from '@/utils/utils';
 import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton';
 import Link from 'next/link';
 
@@ -68,13 +68,13 @@ function TicketHeader({ ticketSummary, ticketSummaryLoading }: any) {
       <div className="flex h-[2.6rem] items-center p-3">
         <HeaderLabel label="Created" />
         <HeaderValue
-          value={`${ConvertToTimeZone(ticketSummary?.created, TICKET_DATE_FORMAT, loggedInUser?.timezone?.name)}`}
+          value={`${convertToTimeZone(ticketSummary?.created, TICKET_DATE_FORMAT, loggedInUser?.timezone?.name)}`}
         />
       </div>
       <div className="flex h-[2.6rem] items-center p-3">
         <HeaderLabel label="Updated" />
         <HeaderValue
-          value={`${ConvertToTimeZone(ticketSummary?.updated, TICKET_DATE_FORMAT, loggedInUser?.timezone?.name)}`}
+          value={`${convertToTimeZone(ticketSummary?.updated, TICKET_DATE_FORMAT, loggedInUser?.timezone?.name)}`}
         />
       </div>
       <div className="flex h-[2.6rem] items-center p-3">
