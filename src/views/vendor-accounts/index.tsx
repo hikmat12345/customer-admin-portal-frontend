@@ -14,6 +14,7 @@ import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from
 import { sanitizeSearchQuery } from '@/utils/utils';
 import ToggleComponent from './components/toggle';
 import Error from '@/components/ui/error';
+import ToggleComponent from './components/toggle';
 
 function VendorAccountsPage() {
   const limit = PAGE_SIZE;
