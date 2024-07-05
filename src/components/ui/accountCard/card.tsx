@@ -128,7 +128,7 @@ function AccountCard({
               variant={peakIndicatorVariant}
               isLoading={isLoading}
               percentage={data?.percentageDifference}
-            ></PeakIndicator>
+            />
           )}
           {graph && (
             <div className="from-eb5757 via-eb5757 absolute right-0 top-10 w-full bg-gradient-to-r to-transparent pr-4 pt-1">
