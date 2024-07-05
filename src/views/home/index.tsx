@@ -57,18 +57,30 @@ function HomePage() {
           <h2 className="text-[22px] font-bold text-custom-blue">Activity Feed</h2>
           <ScrollArea className="py-4 sm:h-[320px] xl:h-[170px]">
             <div className="flex flex-col gap-3">
-             { activityFeedLoading ?  
-                <Skeleton variant="paragraph" rows={4} />:
-                 activityFeed?.data?.map((activity: { id: number; action: string, targetType: string }) => (
+              {activityFeedLoading ? (
+                <Skeleton variant="paragraph" rows={4} />
+              ) : (
+                activityFeed?.data?.map((activity: { id: number; action: string; targetType: string }) => (
                   <div key={activity.id} className="flex items-center gap-5">
-                    {activity.targetType && <Image src={`/svg/${activity?.targetType}.svg`} width={25} height={25} alt="Copy clipboard icon" />}
-                    <TooltipText className="text-base font-normal text-custom-grey" text={activity.action? activity.action : '-'} maxLength={40} />
+                    {activity.targetType && (
+                      <Image
+                        src={`/svg/${activity?.targetType}.svg`}
+                        width={25}
+                        height={25}
+                        alt="Copy clipboard icon"
+                      />
+                    )}
+                    <TooltipText
+                      className="text-base font-normal text-custom-grey"
+                      text={activity.action ? activity.action : '-'}
+                      maxLength={40}
+                    />
                   </div>
-               )) 
-             } 
-             {
-                !activityFeedLoading && activityFeed?.data?.length === 0 && <p className="text-base font-normal ">No activity feed available</p>
-             }  
+                ))
+              )}
+              {!activityFeedLoading && activityFeed?.data?.length === 0 && (
+                <p className="text-base font-normal">No activity feed available</p>
+              )}
             </div>
           </ScrollArea>
         </div>
