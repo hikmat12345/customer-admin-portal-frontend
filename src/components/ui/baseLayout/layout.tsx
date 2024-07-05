@@ -65,7 +65,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="mb-4 flex items-center justify-between">
           <div className="relative flex items-center gap-5">
             {isTicketSummaryPage ? (
-              <h2 className="text-[30px] font-bold capitalize text-custom-black">{endWord(2)}</h2>
+              <h2 className="text-[1.875rem] font-bold capitalize text-custom-black">{endWord(2)}</h2>
             ) : (
               <>
                 {endWord() === 'search' && (
@@ -77,7 +77,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
                   </button>
                 )}
                 <h2
-                  className={`text-[30px] font-bold capitalize text-custom-black ${endWord() === 'search' && 'ml-5'}`}
+                  className={`text-[1.875rem] font-bold capitalize text-custom-black ${endWord() === 'search' && 'ml-5'}`}
                 >
                   {isSummaryPage ? renameSummaryPagesTitles(endWord(2)) : renameMainPagesTitles(endWord())}
                 </h2>

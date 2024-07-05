@@ -120,6 +120,10 @@
   font-weight: 600 !important;
 }
 
+.apexcharts-svg {
+  transform: none !important;
+}
+
 .tooltip-content {
   @apply rounded bg-gray-800 p-2 text-sm text-white shadow-lg;
 }
