@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import React from 'react';
 import { useGetMonthlyTicketsStats } from '@/hooks/useTickets';
 import { useGetMonthlyInvoices } from '@/hooks/useGetInvoices';
@@ -12,8 +11,6 @@ import TicketsCard from './components/ticketsCard';
 import OpenTicketsCard from './components/openTicketsCard';
 import CostSavingsCard from './components/costSavingsCard';
 import { useGetActivityFeed } from '@/hooks/useGetActivityFeedback';
-import TooltipText from '@/components/ui/textbox';
-import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton';
 import { ActivityFeed } from './components/activityFeed';
 
 function HomePage() {
