@@ -23,7 +23,11 @@ function ToggleComponent() {
   return (
     <div className="ml-6 flex items-center gap-x-4">
       <p className="text-sm font-medium">Archived</p>
-      <Switch checked={isChecked} onCheckedChange={handleOnCheckedChange} />
+      <Switch
+        checked={isChecked}
+        onCheckedChange={handleOnCheckedChange}
+        className="data-[state=checked]:bg-custom-blue"
+      />
     </div>
   );
 }
