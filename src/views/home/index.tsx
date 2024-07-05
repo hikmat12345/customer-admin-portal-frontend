@@ -11,6 +11,9 @@ import AlertsTable from './components/alertsTable';
 import TicketsCard from './components/ticketsCard';
 import OpenTicketsCard from './components/openTicketsCard';
 import CostSavingsCard from './components/costSavingsCard';
+import { useGetActivityFeed } from '@/hooks/useGetActivityFeedback';
+import TooltipText from '@/components/ui/textbox';
+import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton';
 
 function HomePage() {
   const currentDate = new Date();
@@ -22,6 +25,7 @@ function HomePage() {
     currentYear,
     currentMonth,
   );
+  const { data: activityFeed, isLoading: activityFeedLoading } = useGetActivityFeed();
 
   return (
     <>
@@ -53,38 +57,18 @@ function HomePage() {
           <h2 className="text-[22px] font-bold text-custom-blue">Activity Feed</h2>
           <ScrollArea className="py-4 sm:h-[320px] xl:h-[170px]">
             <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
+             { activityFeedLoading ?  
+                <Skeleton variant="paragraph" rows={4} />:
+                 activityFeed?.data?.map((activity: { id: number; action: string }) => (
+                  <div key={activity.id} className="flex items-center gap-5">
+                    <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
+                    <TooltipText className="text-base font-normal text-custom-grey" text={activity.action? activity.action : '-'} maxLength={40} />
+                  </div>
+               )) 
+             } 
+             {
+                !activityFeedLoading && activityFeed?.data?.length === 0 && <p className="text-base font-normal ">No activity feed available</p>
+             }  
             </div>
           </ScrollArea>
         </div>
