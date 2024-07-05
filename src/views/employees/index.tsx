@@ -12,6 +12,7 @@ import { PAGE_SIZE } from '@/utils/constants/constants';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useGetAllEmployees } from '@/hooks/useGetEmployees';
 import { sanitizeSearchQuery } from '@/utils/utils';
+import Error from '@/components/ui/error';
 
 function EmployeesPage() {
   const limit = PAGE_SIZE;
@@ -30,6 +31,7 @@ function EmployeesPage() {
   const {
     data: employeesData,
     isLoading: employeesLoading,
+    isError: employeeError,
     isFetched: employeesFetched,
     refetch: refetchEmployees,
   } = useGetAllEmployees(
@@ -77,6 +79,10 @@ function EmployeesPage() {
   }, [keys.length]);
 
   const totalPages = employeesData?.total / limit;
+
+  if (employeeError) {
+    return <Error />;
+  }
 
   return (
     <>
