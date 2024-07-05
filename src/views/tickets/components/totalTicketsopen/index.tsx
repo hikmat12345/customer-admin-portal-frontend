@@ -76,8 +76,8 @@ const TotalTicketsOpen = ({ data, isLoading }: { data: OpenTicketSummary; isLoad
           <Skeleton variant="paragraph" rows={3} className="mr-7" />{' '}
         </div>
       ) : (
-        <div className="flex gap-[6px]">
-          <div className="flex w-full flex-col gap-4 pb-3 pr-5">
+        <div className="flex h-full gap-[6px]">
+          <div className="flex h-full w-full flex-col gap-4 pr-5">
             <h2 className="text-lg font-bold text-custom-black">Total Tickets Open</h2>
             <div className="flex items-center gap-5">
               <h1 className="text-lg font-bold text-custom-beer lg:text-2xl 2xl:text-3xl">{openTicketsCount}</h1>
