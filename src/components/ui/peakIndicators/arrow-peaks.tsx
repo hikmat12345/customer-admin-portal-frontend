@@ -35,7 +35,7 @@ function PeakIndicator({
   }
 
   return (
-    <div>
+    <>
       {isLoading ? (
         <div className="absolute right-0 top-0 rounded-full">
           <Skeleton variant="avatar" height="40px" width="40px" />
@@ -55,7 +55,7 @@ function PeakIndicator({
           />
         </div>
       )}
-    </div>
+    </>
   );
 }
 
