@@ -11,17 +11,27 @@ import AlertsTable from './components/alertsTable';
 import TicketsCard from './components/ticketsCard';
 import OpenTicketsCard from './components/openTicketsCard';
 import CostSavingsCard from './components/costSavingsCard';
+import Error from '@/components/ui/error';
 
 function HomePage() {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
-  const { data: invoicesData, isLoading: invoiceLoading } = useGetMonthlyInvoices();
-  const { data: costSavingsData, isLoading: costSavingLoading } = useGetCostSavings(currentYear);
-  const { data: monthlyTicketsStats, isLoading: isMonthlyTicketsStatsLoading } = useGetMonthlyTicketsStats(
-    currentYear,
-    currentMonth,
-  );
+  const { data: invoicesData, isLoading: invoiceLoading, isError: invoicesError } = useGetMonthlyInvoices();
+  const {
+    data: costSavingsData,
+    isLoading: costSavingLoading,
+    isError: costSavingsError,
+  } = useGetCostSavings(currentYear);
+  const {
+    data: monthlyTicketsStats,
+    isLoading: isMonthlyTicketsStatsLoading,
+    isError: monthlyTicketsError,
+  } = useGetMonthlyTicketsStats(currentYear, currentMonth);
+
+  if (invoicesError || costSavingsError || monthlyTicketsError) {
+    return <Error />;
+  }
 
   return (
     <>
