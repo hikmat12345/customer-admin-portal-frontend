@@ -59,9 +59,9 @@ function HomePage() {
             <div className="flex flex-col gap-3">
              { activityFeedLoading ?  
                 <Skeleton variant="paragraph" rows={4} />:
-                 activityFeed?.data?.map((activity: { id: number; action: string }) => (
+                 activityFeed?.data?.map((activity: { id: number; action: string, targetType: string }) => (
                   <div key={activity.id} className="flex items-center gap-5">
-                    <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
+                    {activity.targetType && <Image src={`/svg/${activity?.targetType}.svg`} width={25} height={25} alt="Copy clipboard icon" />}
                     <TooltipText className="text-base font-normal text-custom-grey" text={activity.action? activity.action : '-'} maxLength={40} />
                   </div>
                )) 
