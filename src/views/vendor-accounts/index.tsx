@@ -12,6 +12,7 @@ import { PAGE_SIZE } from '@/utils/constants/constants';
 import { useEffect } from 'react';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { sanitizeSearchQuery } from '@/utils/utils';
+import ToggleComponent from './components/toggle';
 
 function VendorAccountsPage() {
   const limit = PAGE_SIZE;
@@ -116,6 +117,7 @@ function VendorAccountsPage() {
                 placeholder={menuOption.placeholder}
               />
             ))}
+            <ToggleComponent />
           </div>
         </div>
         <div className="mt-2 flex-grow overflow-x-auto">
