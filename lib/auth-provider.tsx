@@ -2,8 +2,8 @@
 
 import React from 'react';
 import httpClient from '@/services/httpClient';
-import toast from 'react-hot-toast';
 import { verifyJwtToken } from '@/services/cognito/cognito-token.service';
+import toast from 'react-hot-toast';
 
 const AuthContext = React.createContext<any>(null);
 
@@ -22,15 +22,15 @@ export const AuthProvider = ({ children }: IProps) => {
         ?.split('=')[1] || '';
 
     const payload = await verifyJwtToken(authToken);
-    // if (!payload) {
-    //   if (retries <= 2) {
-    //     retries += 1;
-    //     return checkTokenExpiry();
-    //   }
-    //   toast.error('Session expired, redirecting you to login page');
-    //   const response = await httpClient.post('/api/session/logout');
-    //   window.location.href = response.data.redirectUrl;
-    // }
+    if (!payload) {
+      if (retries <= 2) {
+        retries += 1;
+        return checkTokenExpiry();
+      }
+      toast.error('Session expired, redirecting you to login page');
+      const response = await httpClient.post('/api/session/logout');
+      window.location.href = response.data.redirectUrl;
+    }
 
     if (payload && payload.exp) {
       retries = 0;
