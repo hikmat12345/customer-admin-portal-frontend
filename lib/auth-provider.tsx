@@ -22,15 +22,15 @@ export const AuthProvider = ({ children }: IProps) => {
         ?.split('=')[1] || '';
 
     const payload = await verifyJwtToken(authToken);
-    if (!payload) {
-      if (retries <= 2) {
-        retries += 1;
-        return checkTokenExpiry();
-      }
-      toast.error('Session expired, redirecting you to login page');
-      const response = await httpClient.post('/api/session/logout');
-      window.location.href = response.data.redirectUrl;
-    }
+    // if (!payload) {
+    //   if (retries <= 2) {
+    //     retries += 1;
+    //     return checkTokenExpiry();
+    //   }
+    //   toast.error('Session expired, redirecting you to login page');
+    //   const response = await httpClient.post('/api/session/logout');
+    //   window.location.href = response.data.redirectUrl;
+    // }
 
     if (payload && payload.exp) {
       retries = 0;
