@@ -14,6 +14,7 @@ import MonthlyTickets from './components/monthlyTickets';
 import TotalTicketsOpen from './components/totalTicketsopen';
 import { sanitizeSearchQuery } from '@/utils/utils';
 import { PAGE_SIZE } from '@/utils/constants/constants';
+import Error from '@/components/ui/error';
 
 function TicketsPage() {
   const currentDate = new Date();
@@ -38,11 +39,12 @@ function TicketsPage() {
   const createQueryString = CreateQueryString();
   const menuOptions = useGetMenuOptions();
 
-  const { data: openTicketsData, isLoading } = useGetOpenTickets();
+  const { data: openTicketsData, isLoading, isError: openTicketsError } = useGetOpenTickets();
 
   const {
     data: allTickets,
     isLoading: isTicketsLoading,
+    isError: allTicketsError,
     isFetched: isTicketsFetched,
     refetch: refetchTickets,
   } = useGetAllTickets(
@@ -98,6 +100,10 @@ function TicketsPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keys.length]);
+
+  if (openTicketsError || allTicketsError) {
+    return <Error />;
+  }
 
   return (
     <div>

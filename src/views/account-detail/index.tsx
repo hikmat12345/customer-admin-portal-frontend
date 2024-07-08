@@ -22,6 +22,7 @@ import TooltipText from '@/components/ui/textbox';
 import { format, parseISO } from 'date-fns';
 import dynamic from 'next/dynamic';
 import { DATE_TIME_FORMAT } from '@/utils/constants/constants';
+import Error from '@/components/ui/error';
 const GroupMapBox = dynamic(() => import('../../components/ui/map-box').then((mod) => mod.GroupMapBox), {
   loading: () => <p>loading...</p>,
   ssr: false,
@@ -49,7 +50,11 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
   const keys = Array.from(queryParams.keys());
 
   // get account general information
-  const { data: accountDetailData, isLoading: isAccountDetailLoader } = useGetAccountDetail(Number(account_id));
+  const {
+    data: accountDetailData,
+    isLoading: isAccountDetailLoader,
+    isError: accountDetailError,
+  } = useGetAccountDetail(Number(account_id));
   const {
     veroxosId,
     status: live,
@@ -69,26 +74,34 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
 
   // cost and trend data
   const costTrendLimit = 12;
-  const { data: costTrendData, isLoading: isCostTrendLoading } = useGetAccountCostTrend(
-    Number(account_id),
-    costTrendLimit,
-  );
+  const {
+    data: costTrendData,
+    isLoading: isCostTrendLoading,
+    isError: costTrendError,
+  } = useGetAccountCostTrend(Number(account_id), costTrendLimit);
   const {
     data: accountTicketsData,
     isLoading: isAccountTicketsLoader,
+    isError: accountTicketsError,
     refetch: refetchTicketsData,
   } = useGetAccountTickets(Number(account_id), offset, limit);
   const {
     data: siteInvoicesData,
     isLoading: isSiteInvoicesLoader,
+    isError: siteInvoicesError,
     refetch: getInvoices,
   } = useGetAccountInvoices(Number(account_id), offset, limit);
-  const { data: serviceLocation, isLoading: isVendorServicesLocationLoading } = useGetServiceLocations(
-    Number(account_id),
-  );
-  const { data: vendorServicesTypes, isLoading: isVendorServiceTypeLoading } = useGetServiceTypesVendor(
-    Number(account_id),
-  );
+  const {
+    data: serviceLocation,
+    isLoading: isVendorServicesLocationLoading,
+    isError: serviceLocationError,
+  } = useGetServiceLocations(Number(account_id));
+
+  const {
+    data: vendorServicesTypes,
+    isLoading: isVendorServiceTypeLoading,
+    isError: vendorServiceTypeError,
+  } = useGetServiceTypesVendor(Number(account_id));
 
   const structuredTicketsData = accountTicketsData?.data?.tickets?.map((ticket: any) => ({
     'Veroxos REF': ticket?.reference ? ticket?.reference : '',
@@ -161,6 +174,18 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
   if (accountTicketsData?.data?.tickets?.length > 0) {
     listOfTabs.push('tickets');
   }
+
+  if (
+    vendorServiceTypeError ||
+    serviceLocationError ||
+    siteInvoicesError ||
+    accountTicketsError ||
+    costTrendError ||
+    accountDetailError
+  ) {
+    return <Error />;
+  }
+
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
       <ScrollTabs tabs={['general-information', ...listOfTabs]}>

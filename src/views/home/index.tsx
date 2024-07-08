@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import React from 'react';
 import { useGetMonthlyTicketsStats } from '@/hooks/useTickets';
 import { useGetMonthlyInvoices } from '@/hooks/useGetInvoices';
@@ -11,17 +10,30 @@ import AlertsTable from './components/alertsTable';
 import TicketsCard from './components/ticketsCard';
 import OpenTicketsCard from './components/openTicketsCard';
 import CostSavingsCard from './components/costSavingsCard';
+import { useGetActivityFeed } from '@/hooks/useGetActivityFeedback';
+import { ActivityFeed } from './components/activityFeed';
+import Error from '@/components/ui/error';
 
 function HomePage() {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
-  const { data: invoicesData, isLoading: invoiceLoading } = useGetMonthlyInvoices();
-  const { data: costSavingsData, isLoading: costSavingLoading } = useGetCostSavings(currentYear);
-  const { data: monthlyTicketsStats, isLoading: isMonthlyTicketsStatsLoading } = useGetMonthlyTicketsStats(
-    currentYear,
-    currentMonth,
-  );
+  const { data: invoicesData, isLoading: invoiceLoading, isError: invoicesError } = useGetMonthlyInvoices();
+  const {
+    data: costSavingsData,
+    isLoading: costSavingLoading,
+    isError: costSavingsError,
+  } = useGetCostSavings(currentYear);
+  const {
+    data: monthlyTicketsStats,
+    isLoading: isMonthlyTicketsStatsLoading,
+    isError: monthlyTicketsError,
+  } = useGetMonthlyTicketsStats(currentYear, currentMonth);
+  const { data: activityFeed, isLoading: activityFeedLoading, isError: activityFeedError } = useGetActivityFeed();
+
+  if (invoicesError || costSavingsError || monthlyTicketsError || activityFeedError) {
+    return <Error />;
+  }
 
   return (
     <>
@@ -53,38 +65,7 @@ function HomePage() {
           <h2 className="text-[22px] font-bold text-custom-blue">Activity Feed</h2>
           <ScrollArea className="py-4 sm:h-[320px] xl:h-[170px]">
             <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
-              <div className="flex items-center gap-5">
-                <Image src="/svg/clipboard.svg" width={25} height={25} alt="Copy clipboard icon" />
-                <h2 className="text-base font-normal text-custom-grey">Verizon Invoice 2345 Processed</h2>
-              </div>
+              <ActivityFeed activityFeed={activityFeed?.data} activityFeedLoading={activityFeedLoading} />
             </div>
           </ScrollArea>
         </div>

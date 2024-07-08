@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { sanitizeSearchQuery } from '@/utils/utils';
 import ToggleComponent from './components/toggle';
+import Error from '@/components/ui/error';
 
 function VendorAccountsPage() {
   const limit = PAGE_SIZE;
@@ -39,6 +40,7 @@ function VendorAccountsPage() {
   const {
     data: vendorAccountsData,
     isLoading: vendorAccountsLoading,
+    isError: vendorAccountsError,
     isFetched: vendorAccountsFetched,
     refetch: refetchVendorAccounts,
   } = useGetVendorAccounts(
@@ -95,6 +97,10 @@ function VendorAccountsPage() {
   }, []);
 
   const totalPages = vendorAccountsData?.total / limit;
+
+  if (vendorAccountsError) {
+    return <Error />;
+  }
 
   return (
     <>

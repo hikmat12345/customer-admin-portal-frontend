@@ -15,6 +15,7 @@ import InvoicesProcessed from './components/invoicesProcessedCard';
 import AccountCard from '../../components/ui/accountCard/card';
 import { sanitizeSearchQuery } from '@/utils/utils';
 import { PAGE_SIZE } from '@/utils/constants/constants';
+import Error from '@/components/ui/error';
 
 function InvoicesPage() {
   const searchParams = useSearchParams();
@@ -31,10 +32,11 @@ function InvoicesPage() {
   const limit = PAGE_SIZE;
   const offset = +page - 1;
 
-  const { data: invoicesData, isLoading: invoiceLoading } = useGetMonthlyInvoices();
+  const { data: invoicesData, isLoading: invoiceLoading, isError: invoicesError } = useGetMonthlyInvoices();
   const {
     data: allInvoices,
     isLoading: isAllInvoicesLoading,
+    isError: allInvoicesError,
     isFetched: isAllInvoiesFetched,
     refetch: refetchInvoices,
   } = useGetInvoices(
@@ -145,6 +147,10 @@ function InvoicesPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keys.length]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (invoicesError || allInvoicesError) {
+    return <Error />;
+  }
 
   return (
     <div>

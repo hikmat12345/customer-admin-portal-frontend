@@ -19,6 +19,7 @@ import formatDate, { moneyFormatter } from '@/utils/utils';
 import { format, parseISO } from 'date-fns';
 import EmployeeGeneralInfo from './components/employee-general-info';
 import { DATE_TIME_FORMAT, MONTH_YEAR_FORMAT } from '@/utils/constants/constants';
+import Error from '@/components/ui/error';
 
 type EmployeeDetailPageProps = {
   employeeId: number;
@@ -60,26 +61,35 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
   } = employeeServiceDetailData || {};
   // cost and trend data
   const costTrendLimit = 12;
-  const { data: costTrendData, isLoading: isCostTrendLoading } = useGetEmployeeCostTrend(
-    Number(employee_id),
-    costTrendLimit,
-  );
-  const { data: siteTicketsData, isLoading: isSiteTicketsLoader } = useGetEmployeeTickets(
-    Number(employee_id),
-    offset,
-    limit,
-  );
+  const {
+    data: costTrendData,
+    isLoading: isCostTrendLoading,
+    isError: costTrendError,
+  } = useGetEmployeeCostTrend(Number(employee_id), costTrendLimit);
+  const {
+    data: siteTicketsData,
+    isLoading: isSiteTicketsLoader,
+    isError: siteTicketsError,
+  } = useGetEmployeeTickets(Number(employee_id), offset, limit);
   const {
     data: employeeServices,
     isLoading: isEmployeeServicesLoading,
+    isError: employeeServicesError,
     refetch: refetchServicesData,
   } = useGetEmployeeServices(Number(employee_id), offset, limit, showTerminated);
 
-  const { data: employeeTerminatedServices } = useGetEmployeeServices(Number(employee_id), offset, limit, false);
-
-  const { data: employeeServiceTypes, isLoading: isEmployeeServiceType } = useGetEmployeeServiceTypes(
+  const { data: employeeTerminatedServices, isError: employeeTerminatedServicesError } = useGetEmployeeServices(
     Number(employee_id),
+    offset,
+    limit,
+    false,
   );
+
+  const {
+    data: employeeServiceTypes,
+    isLoading: isEmployeeServiceType,
+    isError: employeeServiceTypeError,
+  } = useGetEmployeeServiceTypes(Number(employee_id));
 
   const handlePageChange = async (page: number) => {
     const params = new URLSearchParams();
@@ -160,6 +170,17 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
   if (siteTicketsData?.data?.tickets?.length > 0) {
     listOfTabs.push('tickets');
   }
+
+  if (
+    employeeServiceTypeError ||
+    employeeTerminatedServicesError ||
+    employeeServicesError ||
+    siteTicketsError ||
+    costTrendError
+  ) {
+    return <Error />;
+  }
+
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
       <ScrollTabs tabs={['general-information', ...listOfTabs]}>

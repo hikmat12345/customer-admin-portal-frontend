@@ -19,17 +19,30 @@ import GeneralInfo from './components/general-info';
 import { parseISO } from 'date-fns';
 import { getServiceType } from '@/utils/enums/serviceType.enum';
 import { DATE_TIME_FORMAT } from '@/utils/constants/constants';
+import Error from '@/components/ui/error';
 
 type InventoryDetailPageProps = {
   serviceId: number;
 };
 const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
   const searchId = Number(serviceId);
-  const { data: singleServiceData, isLoading: isServiceInfoLoader } = useGetSingleServiceDetail(searchId);
-  const { data: costPlanData, isLoading: isCostPlanLoading } = useGetCostPlan(searchId);
-  const { data: assetsData, isLoading: isAssetLoader } = useGetAssets(searchId);
-  const { data: ticketsRecentActivityData, isLoading: isTicketsRecentActivityLoader } = useGetTickets(searchId);
-  const { data: recentActivityData, isLoading: isRecentActivityLoader } = useGetRecentActivity(searchId);
+  const {
+    data: singleServiceData,
+    isLoading: isServiceInfoLoader,
+    isError: singleServiceError,
+  } = useGetSingleServiceDetail(searchId);
+  const { data: costPlanData, isLoading: isCostPlanLoading, isError: costPlanError } = useGetCostPlan(searchId);
+  const { data: assetsData, isLoading: isAssetLoader, isError: assetsError } = useGetAssets(searchId);
+  const {
+    data: ticketsRecentActivityData,
+    isLoading: isTicketsRecentActivityLoader,
+    isError: ticketRecentActivityError,
+  } = useGetTickets(searchId);
+  const {
+    data: recentActivityData,
+    isLoading: isRecentActivityLoader,
+    isError: recentActivityError,
+  } = useGetRecentActivity(searchId);
 
   const {
     id,
@@ -86,6 +99,11 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
   if (refineRecentActivityData?.length > 0) {
     listOfTabs.push('activity');
   }
+
+  if (singleServiceError || costPlanError || assetsError || ticketRecentActivityError || recentActivityError) {
+    return <Error />;
+  }
+
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
       <ScrollTabs tabs={['general-information', ...listOfTabs]} page="inventory-detail">

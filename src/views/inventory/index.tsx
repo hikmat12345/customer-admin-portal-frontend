@@ -14,6 +14,7 @@ import SelectComponent from './components/select';
 import InventoryCard from './components/inventoryCard';
 import { PAGE_SIZE } from '@/utils/constants/constants';
 import { sanitizeSearchQuery } from '@/utils/utils';
+import Error from '@/components/ui/error';
 
 function InventoryPage() {
   const searchParams = useSearchParams() as ReadonlyURLSearchParams;
@@ -30,11 +31,16 @@ function InventoryPage() {
   const limit = PAGE_SIZE;
   const offset = +page - 1;
   const menuOptions = useGetMenuOptions();
-  const { data: monthlyCount, isLoading: monthInventoryLoading } = useGetMonthlyInventoryCount();
-  const { data: liveServicesData, isLoading: liveServicesLoading } = useGetLiveServices();
+  const {
+    data: monthlyCount,
+    isLoading: monthInventoryLoading,
+    isError: monthlyCountError,
+  } = useGetMonthlyInventoryCount();
+  const { data: liveServicesData, isLoading: liveServicesLoading, isError: liveServicesError } = useGetLiveServices();
   const {
     data: inventories,
     isLoading: isInventoriesLoading,
+    isError: inventoriesError,
     isFetched: isInventoriesFetched,
     refetch: refetchInventories,
   } = useGetInventories(
@@ -129,6 +135,10 @@ function InventoryPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keys.length]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (inventoriesError || monthlyCountError || liveServicesError) {
+    return <Error />;
+  }
 
   return (
     <div>
