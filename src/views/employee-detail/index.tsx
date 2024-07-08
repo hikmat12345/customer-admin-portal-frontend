@@ -122,7 +122,14 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     account: item?.service?.companyNetwork?.network?.name + '-' + item?.service?.account,
     ['cost centre']: item?.service?.cost?.costCentre,
     service_type: item?.service?.serviceType,
-    serviceStatus: (item?.service?.serviceStatus === 1 && item?.service?.suspended === 1 ? 2 : item?.service?.serviceStatus === 1 && item?.service?.suspended === 0 ? 1 : item?.service?.serviceStatus === 0 && item?.service?.suspended === 0 ? 0 : '-'),
+    serviceStatus:
+      item?.service?.serviceStatus === 1 && item?.service?.suspended === 1
+        ? 2
+        : item?.service?.serviceStatus === 1 && item?.service?.suspended === 0
+          ? 1
+          : item?.service?.serviceStatus === 0 && item?.service?.suspended === 0
+            ? 0
+            : '-',
     cost:
       item?.service?.cost?.rentalRaw ||
       item.service?.cost?.usageRaw ||
