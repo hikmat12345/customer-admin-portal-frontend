@@ -238,41 +238,51 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                 </div>
               </div>
               <div className="flex justify-center lg:w-2/4 xl:w-auto">
-                <VImage
-                  src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + vendorData.logo}
-                  alt="Invoice Summary Logo"
-                  width={500}
-                  height={500}
-                  className="h-[190px] w-[230px] object-contain"
-                />
+                {invoiceData?.invoiceId && vendorData.logo && (
+                  <VImage
+                    src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + vendorData.logo}
+                    alt="Invoice Summary Logo"
+                    width={500}
+                    height={500}
+                    className="h-[190px] w-[230px] object-contain"
+                  />
+                )}
               </div>
             </div>
           </div>
 
-          <div className="mb-4 mt-[-1.188rem] flex gap-5">
-            <Button
-              loading={isXlsFileLoading}
-              type="submit"
-              className="flex items-center rounded border-none bg-transparent px-0 py-2 text-[#219653] animate-in hover:text-[#21965492]"
-              onClick={() => fileDownloadFile(Number(invoiceData?.invoiceId), 'xls', invoiceData.invoiceNumber)}
-            >
-              <Image src="/svg/excel-icon.svg" width={20} height={20} alt="Download Invoice Summary" className="mr-2" />
-              <span className="w-[55%] text-[1rem] font-[600] underline decoration-2 lg:leading-7 xl:leading-7">
-                Download Invoice Summary{' '}
-              </span>
-            </Button>
-            <Button
-              loading={isPdfFileLoading}
-              type="submit"
-              className="ml-[10px] flex items-center rounded border-none bg-transparent px-4 py-2 text-[#E41323] animate-in hover:text-[#e4132499]"
-              onClick={() => fileDownloadFile(Number(invoiceData?.invoiceId), 'pdf', invoiceData.invoiceNumber)}
-            >
-              <Image src="/svg/pdf-icon.svg" width={20} height={20} alt="Download PDF" className="mr-2" />
-              <span className="w-[55%] text-[1rem] font-[600] underline decoration-2 lg:leading-7 xl:leading-7">
-                Download PDF
-              </span>
-            </Button>
-          </div>
+          {invoiceData?.invoiceId && (
+            <div className="mb-4 mt-[-1.188rem] flex gap-5">
+              <Button
+                loading={isXlsFileLoading}
+                type="submit"
+                className="flex items-center rounded border-none bg-transparent px-0 py-2 text-[#219653] animate-in hover:text-[#21965492]"
+                onClick={() => fileDownloadFile(Number(invoiceData?.invoiceId), 'xls', invoiceData.invoiceNumber)}
+              >
+                <Image
+                  src="/svg/excel-icon.svg"
+                  width={20}
+                  height={20}
+                  alt="Download Invoice Summary"
+                  className="mr-2"
+                />
+                <span className="w-[55%] text-[1rem] font-[600] underline decoration-2 lg:leading-7 xl:leading-7">
+                  Download Invoice Summary{' '}
+                </span>
+              </Button>
+              <Button
+                loading={isPdfFileLoading}
+                type="submit"
+                className="ml-[10px] flex items-center rounded border-none bg-transparent px-4 py-2 text-[#E41323] animate-in hover:text-[#e4132499]"
+                onClick={() => fileDownloadFile(Number(invoiceData?.invoiceId), 'pdf', invoiceData.invoiceNumber)}
+              >
+                <Image src="/svg/pdf-icon.svg" width={20} height={20} alt="Download PDF" className="mr-2" />
+                <span className="w-[55%] text-[1rem] font-[600] underline decoration-2 lg:leading-7 xl:leading-7">
+                  Download PDF
+                </span>
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>
