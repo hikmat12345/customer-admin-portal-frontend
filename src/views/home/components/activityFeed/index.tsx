@@ -1,9 +1,10 @@
 import TooltipText from '@/components/ui/textbox';
+import { makeFileUrlFromBase64 } from '@/utils/utils';
 import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton';
 import Image from 'next/image';
 
 type ActivityFeed = {
-  activityFeedType: { logoId: number; name: string };
+  activityFeedType: { logoId: number; name: string , logo: { image: string } };
   action: string;
   targetType: string;
 };
@@ -18,54 +19,34 @@ export const ActivityFeed = ({ activityFeed, activityFeedLoading }: ActivityFeed
     ) : (
       activityFeed?.map(
         (
-          activity: { activityFeedType: { logoId: number; name: string }; action: string; targetType: string },
+          activity: ActivityFeed,
           index: number,
-        ) => (
-          <div key={index} className="flex items-center gap-5">
-            {activity.activityFeedType ? (
-              <>
-                {activity?.activityFeedType?.logoId === 13 ? (
-                  <Image
-                    src={`/svg/invoice.svg`}
-                    width={25}
-                    height={25}
-                    alt={activity?.activityFeedType?.name || 'Invoice'}
-                    title={activity?.activityFeedType?.name || 'Invoice'}
-                  />
-                ) : activity?.activityFeedType?.logoId === 15 ? (
-                  <Image
-                    src={`/svg/data_import_job.svg`}
-                    width={25}
-                    height={25}
-                    alt={activity?.activityFeedType?.name}
-                    title={activity?.activityFeedType?.name}
-                  />
-                ) : activity?.activityFeedType?.logoId === 14 ? (
-                  <Image
-                    src={`/svg/incident.svg`}
-                    width={25}
-                    height={25}
-                    alt={activity?.activityFeedType?.name || 'Incident'}
-                    title={activity?.activityFeedType?.name || 'Incident'}
-                  />
-                ) : activity?.activityFeedType?.logoId === 16 ? (
-                  <Image
-                    src={`/svg/account_payable_request.svg`}
-                    width={25}
-                    height={25}
-                    alt={activity.activityFeedType.name || 'Account Payable Request'}
-                    title={activity?.activityFeedType?.name}
-                  />
-                ) : null}
-              </>
-            ) : null}
-            <TooltipText
-              className="text-base font-normal text-custom-grey"
-              text={activity.action ? activity.action : '-'}
-              maxLength={40}
-            />
-          </div>
-        ),
+        ) => {
+          const imageUrl = makeFileUrlFromBase64(activity.activityFeedType?.logo.image ? Buffer.from(activity.activityFeedType?.logo.image).toString('base64') : null);
+
+          return (
+            <div key={index} className="flex items-center gap-5">
+              {activity.activityFeedType ? (
+                <>
+                  {imageUrl ? (
+                    <Image
+                      src={imageUrl}
+                      width={25}
+                      height={25}
+                      alt={activity?.activityFeedType?.name || 'action icon'}
+                      title={activity?.activityFeedType?.name || 'action icon'}
+                    />
+                  ) : null}
+                </>
+              ) : null}
+              <TooltipText
+                className="text-base font-normal text-custom-grey"
+                text={activity.action ? activity.action : '-'}
+                maxLength={40}
+              />
+            </div>
+          );
+        },
       )
     )}
     {!activityFeedLoading && activityFeed?.length === 0 && (

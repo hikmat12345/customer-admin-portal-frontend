@@ -12,6 +12,7 @@ import { useGetServiceSites } from '@/hooks/useGetServiceSites';
 import ServiceSitesTableSkeleton from './components/serviceSitesTable/serviceSitesTableSkeleton';
 import ServiceSitesTable from './components/serviceSitesTable';
 import { sanitizeSearchQuery } from '@/utils/utils';
+import Error from '@/components/ui/error';
 
 function ServiceSitesPage() {
   const limit = PAGE_SIZE;
@@ -29,6 +30,7 @@ function ServiceSitesPage() {
   const {
     data: serviceSiteData,
     isLoading: ServiceSiteLoading,
+    isError: serviceSiteError,
     isFetched: ServiceSiteFetched,
     refetch: refetchServiceSite,
   } = useGetServiceSites(
@@ -83,6 +85,10 @@ function ServiceSitesPage() {
   }, [keys.length]);
 
   const totalPages = serviceSiteData?.total / limit;
+
+  if (serviceSiteError) {
+    return <Error />;
+  }
 
   return (
     <>

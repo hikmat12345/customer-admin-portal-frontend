@@ -13,6 +13,7 @@ import TicketDescription from './components/ticketDescription';
 import PostTicketUpdateForm from './components/postTicketUpdateForm';
 import TicketHeader from './components/ticketHeader';
 import Stepper from './components/stepper';
+import Error from '@/components/ui/error';
 
 function TicketSummary({ ticketId }: { ticketId: number }) {
   const [showAddUpdateForm, setShowAddUpdateForm] = useState(false);
@@ -20,9 +21,11 @@ function TicketSummary({ ticketId }: { ticketId: number }) {
   const {
     data: getTicketSummaryRes,
     isLoading: ticketSummaryLoading,
+    isError: ticketSummaryError,
     refetch: refetchTicketSummary,
   } = useGetTicketSummary(ticketId);
-  const { data: getTicketSecondaryStatusesRes } = useGetTicketSecondaryStatuses();
+
+  const { data: getTicketSecondaryStatusesRes, isError: ticketSecondaryStatusError } = useGetTicketSecondaryStatuses();
 
   const getCategoryLabel = () => {
     if (getTicketSummaryRes?.data.workflow?.workflowCategory?.id === ORDER_UPGRADE_WORKFLOW_CATEGORY_ID) return 'order';
@@ -82,6 +85,10 @@ function TicketSummary({ ticketId }: { ticketId: number }) {
     }
 
     return null; // Explicitly return null if the condition is not met
+  }
+
+  if (ticketSecondaryStatusError || ticketSummaryError) {
+    return <Error />;
   }
 
   return (

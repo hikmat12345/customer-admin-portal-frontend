@@ -1,6 +1,7 @@
 import { useGetCountries } from '@/hooks/useGetCountries';
 import { useGetVendorsByCountries } from '@/hooks/useGetVendorByCountries';
 import { Country } from '@/types/invoices/types';
+import { serviceTypeDropdown } from '@/utils/utils';
 
 const useGetMenuOptions = () => {
   const { data: countries } = useGetCountries();
@@ -38,6 +39,8 @@ const useGetMenuOptions = () => {
     options: vendors,
   }));
 
+  const filterServiceType = serviceTypeDropdown();
+
   const menuOptions = [
     {
       name: 'Vendor',
@@ -54,14 +57,11 @@ const useGetMenuOptions = () => {
       placeholder: 'Search country...',
     },
     {
-      name: 'Show Archived',
-      value: 'showArchived',
-      options: [
-        { value: 0, label: 'No' },
-        { value: 1, label: 'Yes' },
-      ],
-      paramName: 'show_archived',
-      placeholder: 'Search...',
+      name: 'Service Type',
+      value: 'serviceType',
+      options: filterServiceType,
+      paramName: 'service_type',
+      placeholder: 'Search service type...',
     },
   ];
 

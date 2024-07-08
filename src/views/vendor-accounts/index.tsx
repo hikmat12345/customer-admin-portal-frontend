@@ -12,6 +12,8 @@ import { PAGE_SIZE } from '@/utils/constants/constants';
 import { useEffect } from 'react';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { sanitizeSearchQuery } from '@/utils/utils';
+import ToggleComponent from './components/toggle';
+import Error from '@/components/ui/error';
 
 function VendorAccountsPage() {
   const limit = PAGE_SIZE;
@@ -22,30 +24,33 @@ function VendorAccountsPage() {
   const queryParams = new URLSearchParams(searchParams?.toString());
   const keys = Array.from(queryParams.keys()) || [];
   const searchQuery = searchParams && searchParams?.get('searchQuery');
-  const countryId = searchParams && searchParams?.get('country');
-  const showArchived = searchParams && searchParams?.get('show_archived');
-  const vendor = searchParams && searchParams?.get('vendor');
+  const countryId = searchParams?.get('country') ?? undefined;
+  const vendor = searchParams?.get('vendor') ?? undefined;
+  const serviceType = searchParams?.get('service_type') ?? undefined;
   const page = searchParams?.get('page') || '1';
   const offset = +page - 1;
   const menuOptions = useGetMenuOptions();
+  const showArchived =
+    searchParams
+      ?.get('show_archived')
+      ?.split(',')
+      .map((status) => (status === '1' ? 'Archived' : 'Active'))
+      .join(',') ?? undefined;
 
   const {
     data: vendorAccountsData,
     isLoading: vendorAccountsLoading,
+    isError: vendorAccountsError,
     isFetched: vendorAccountsFetched,
     refetch: refetchVendorAccounts,
   } = useGetVendorAccounts(
     offset,
     limit,
     searchQuery?.trim() || undefined,
-    typeof vendor !== 'undefined' && vendor !== null ? vendor : undefined,
-    typeof countryId !== 'undefined' && countryId !== null ? countryId : undefined,
-    typeof showArchived !== 'undefined' && showArchived !== null
-      ? showArchived
-          .split(',')
-          .map((status) => (status === '1' ? 'Archived' : 'Active'))
-          .join(',')
-      : undefined,
+    vendor,
+    countryId,
+    showArchived,
+    serviceType,
   );
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,6 +98,10 @@ function VendorAccountsPage() {
 
   const totalPages = vendorAccountsData?.total / limit;
 
+  if (vendorAccountsError) {
+    return <Error />;
+  }
+
   return (
     <>
       <div className="flex w-full flex-col gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
@@ -103,7 +112,7 @@ function VendorAccountsPage() {
             defaultValue={searchQuery}
             onChange={handleSearchChange}
             onKeyDown={handleSearchKeydown}
-            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:min-w-[21.375rem] xl:w-[33rem]"
+            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:min-w-[21.375rem] xl:w-[29.6rem]"
             helpText="Searches network name, company network account number and display name fields."
           />
           <div className="flex md:gap-1 lg:gap-4">
@@ -116,6 +125,7 @@ function VendorAccountsPage() {
                 placeholder={menuOption.placeholder}
               />
             ))}
+            <ToggleComponent />
           </div>
         </div>
         <div className="mt-2 flex-grow overflow-x-auto">

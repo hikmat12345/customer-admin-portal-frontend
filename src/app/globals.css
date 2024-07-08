@@ -100,7 +100,10 @@
   background: #dbd9d9;
   border-radius: 4px;
 }
-
+.activity-feed-icon {
+  width: 1.563rem;
+  height: 1.563rem;
+}
 .active-tab {
   background: rgba(29, 70, 243, 0.2);
   border-radius: 5px;
@@ -118,6 +121,10 @@
   /* font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875' !important; */
   font-size: 13px !important;
   font-weight: 600 !important;
+}
+
+.apexcharts-svg {
+  transform: none !important;
 }
 
 .tooltip-content {
