@@ -34,10 +34,10 @@ export function middleware(request: NextRequest) {
   const refreshToken = request.cookies.get('refresh_token')?.value;
   const accessToken = request.cookies.get('access_token')?.value;
 
-  if (!idToken || !refreshToken || !accessToken) {
-    const authServiceFrontend = String(process.env.NEXT_PUBLIC_AUTH_URL);
-    return NextResponse.redirect(authServiceFrontend);
-  }
+  // if (!idToken || !refreshToken || !accessToken) {
+  //   const authServiceFrontend = String(process.env.NEXT_PUBLIC_AUTH_URL);
+  //   return NextResponse.redirect(authServiceFrontend);
+  // }
 
   return NextResponse.next();
 }

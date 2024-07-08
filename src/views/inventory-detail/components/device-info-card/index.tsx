@@ -13,6 +13,7 @@ type DeviceInfoCardProps = {
   deviceId: string;
   simNumber: string;
   isAssetLoader: boolean;
+  suspended:number;
 };
 export const DeviceInfoCard: React.FC<DeviceInfoCardProps> = ({
   label = '',
@@ -23,6 +24,7 @@ export const DeviceInfoCard: React.FC<DeviceInfoCardProps> = ({
   deviceId,
   simNumber,
   isAssetLoader,
+  suspended,
 }) => {
   return (
     <div id="device">
@@ -59,11 +61,11 @@ export const DeviceInfoCard: React.FC<DeviceInfoCardProps> = ({
                 <div className="text-[0.875rem] leading-9 text-[#575757]">
                   {status !== undefined && status !== null ? (
                     <Badge
-                      className={`rounded-lg py-1 text-white ${status == 1 ? 'bg-[#219653]' : status == 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`}
+                      className={`rounded-lg py-1 text-white ${status == 1 && suspended===1 ? 'bg-[#FC762B]': status ==1 && suspended==0? 'bg-[#219653]' : status == 0 ? 'bg-[#A40000]' : ""}`}
                       variant="success"
                       shape="block"
                     >
-                      {status == 1 ? 'Live' : status == 0 ? 'Terminated' : 'Suspended'}
+                      {status == 1 && suspended===1? 'Suspended' : status ==1 && suspended==0 ?'Live' : status == 0 ? 'Terminated' : "" }
                     </Badge>
                   ) : (
                     ' - '

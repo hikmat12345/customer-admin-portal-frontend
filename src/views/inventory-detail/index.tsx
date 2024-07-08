@@ -49,6 +49,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
     purposeOfService,
     account_number,
     vendor,
+    suspended,
     employee,
     serviceDescription,
   } = singleServiceData?.data?.general_info || {};
@@ -123,6 +124,7 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
             deviceName={deviceName}
             datePurchased={datePurchased}
             status={live}
+            suspended={suspended}
             deviceId={deviceid}
             simNumber={simNumber}
             isAssetLoader={isAssetLoader}
@@ -141,14 +143,14 @@ const InventoryDetailPage = ({ serviceId }: InventoryDetailPageProps) => {
                   <PlanTable data={costPlanData?.data?.plan} />
                 </>
               )}
-              {costPlanData?.data?.cost?.length > 0 && costCentre && (
+              {costPlanData?.data?.cost?.length > 0 || costCentre && (
                 <>
                   <div className="pt-8 text-[1.375rem] font-[700] text-custom-blue">GL Allocations</div>
                   <CostTable data={costPlanData?.data?.cost} costCenter={costCentre} />
                 </>
               )}
-              {costPlanData?.data?.plan?.length > 0 ||
-                (costPlanData?.data?.cost?.length > 0 && costCentre && (
+              {costPlanData?.data?.plan?.length > 0 || costCentre && 
+                (costPlanData?.data?.cost?.length > 0 || costCentre && (
                   <Separator className="separator-bg-1 mt-4 h-[1.0px]" />
                 ))}
             </>
