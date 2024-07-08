@@ -18,3 +18,8 @@ export const PAGE_SIZE = 15;
 export const TABLE_HEIGHT = '450px';
 
 export const MONTH_FORMAT = 'MMM';
+
+// rating start
+
+export const TOTAL_RATING_STARS = 5;
+export const STAR_SIZE = 20;

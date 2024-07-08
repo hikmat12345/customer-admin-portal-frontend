@@ -2,6 +2,7 @@
 import React from 'react';
 import { Star } from 'lucide-react';
 import { cn } from '@/utils/utils';
+import { STAR_SIZE, TOTAL_RATING_STARS } from '@/utils/constants/constants';
 
 const ratingVariants = {
   default: {
@@ -28,7 +29,14 @@ interface RatingsProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Ratings = ({ ...props }: RatingsProps) => {
-  const { rating, totalStars = 5, size = 20, fill = true, Icon = <Star />, variant = 'default' } = props;
+  const {
+    rating,
+    totalStars = TOTAL_RATING_STARS,
+    size = STAR_SIZE,
+    fill = true,
+    Icon = <Star />,
+    variant = 'default',
+  } = props;
 
   const fullStars = Math.floor(rating);
   const partialStar =
@@ -67,16 +75,14 @@ const PartialStar = ({ ...props }: PartialStarProps) => {
   const { fillPercentage, size, className, Icon } = props;
 
   return (
-    <div style={{ position: 'relative', display: 'inline-block' }}>
+    <div className="relative inline-block">
       {React.cloneElement(Icon, {
         size,
         className: cn('fill-transparent', className),
       })}
       <div
+        className="absolute top-0 overflow-hidden"
         style={{
-          position: 'absolute',
-          top: 0,
-          overflow: 'hidden',
           width: `${fillPercentage * 100}%`,
         }}
       >
@@ -89,4 +95,4 @@ const PartialStar = ({ ...props }: PartialStarProps) => {
   );
 };
 
-export { Ratings };
+export default Ratings;
