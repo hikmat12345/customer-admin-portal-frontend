@@ -41,7 +41,7 @@
       "environment": [
         {
           "name": "NEXT_PUBLIC_API_BASE_URL",
-          "value": "https://customer-admin-api.dev.v2.veroxos.com/api/v2"
+          "value": "https://customer-admin-api.dev.v2.veroxos.com/api/v2/customer-admin"
         },
         {
           "name": "NEXTAUTH_URL",
@@ -53,7 +53,7 @@
         },
         {
           "name": "NEXT_PUBLIC_INVOICE_SERVICE_URL",
-          "value": "https://invoice-api.dev.v2.veroxos.com/api/v2"
+          "value": "https://invoice-api.dev.v2.veroxos.com/api/v2/customer-admin"
         },
         {
           "name": "NEXT_PUBLIC_ASSETS_LOGO_PATH",
@@ -61,7 +61,7 @@
         },
         {
           "name": "NEXT_PUBLIC_INVENTORY_SERVICE_URL",
-          "value": "https://inventory-api.dev.v2.veroxos.com/api/v2"
+          "value": "https://inventory-api.dev.v2.veroxos.com/api/v2/customer-admin"
         },
         {
           "name": "NEXT_PUBLIC_REPORTING_SERVICE_URL",

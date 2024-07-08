@@ -15,6 +15,7 @@ import InvoicesProcessed from './components/invoicesProcessedCard';
 import AccountCard from '../../components/ui/accountCard/card';
 import { sanitizeSearchQuery } from '@/utils/utils';
 import { PAGE_SIZE } from '@/utils/constants/constants';
+import Error from '@/components/ui/error';
 
 function InvoicesPage() {
   const searchParams = useSearchParams();
@@ -31,10 +32,11 @@ function InvoicesPage() {
   const limit = PAGE_SIZE;
   const offset = +page - 1;
 
-  const { data: invoicesData, isLoading: invoiceLoading } = useGetMonthlyInvoices();
+  const { data: invoicesData, isLoading: invoiceLoading, isError: invoicesError } = useGetMonthlyInvoices();
   const {
     data: allInvoices,
     isLoading: isAllInvoicesLoading,
+    isError: allInvoicesError,
     isFetched: isAllInvoiesFetched,
     refetch: refetchInvoices,
   } = useGetInvoices(
@@ -146,10 +148,14 @@ function InvoicesPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keys.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  if (invoicesError || allInvoicesError) {
+    return <Error />;
+  }
+
   return (
     <div>
       <div className="grid-auto-flow-column grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white p-5">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-2 2lg:grid-cols-3">
           <AccountCard
             data={invoicesData?.thisMonth}
             message={getThisMonthMessage(invoicesData?.thisMonth?.difference, formattedDifferenceThisMonth)}
@@ -177,18 +183,18 @@ function InvoicesPage() {
             iconWidth={16}
             iconHeight={16}
             onChange={handleSearchField}
-            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:w-[600px]"
+            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:min-w-[21.375rem] xl:w-[33rem]"
             defaultValue={searchQuery}
             onKeyDown={handleSearchKeydown}
             helpText="Searches ID, invoice number, network country ID, network name, company network account number and  conversion rate fields."
           />
-          <div className="flex gap-4">
+          <div className="flex md:gap-1 lg:gap-4">
             {menuOptions?.map((menuOption: any, index: number) => (
               <SelectComponent key={index} menuOption={menuOption} index={index} />
             ))}
           </div>
         </div>
-        <div className="mt-2">
+        <div className="mt-2 overflow-x-auto">
           {isAllInvoicesLoading && <InvoicesTableSkeleton limit={limit} />}
           {isAllInvoiesFetched && <InvoicesTable data={allInvoices} />}
         </div>

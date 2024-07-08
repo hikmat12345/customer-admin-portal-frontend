@@ -19,6 +19,7 @@ import formatDate, { moneyFormatter } from '@/utils/utils';
 import { format, parseISO } from 'date-fns';
 import EmployeeGeneralInfo from './components/employee-general-info';
 import { DATE_TIME_FORMAT, MONTH_YEAR_FORMAT } from '@/utils/constants/constants';
+import Error from '@/components/ui/error';
 
 type EmployeeDetailPageProps = {
   employeeId: number;
@@ -56,29 +57,39 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     vip: vip_executive,
     costCentreForNewService: cost_center,
     site,
+    manager,
   } = employeeServiceDetailData || {};
   // cost and trend data
   const costTrendLimit = 12;
-  const { data: costTrendData, isLoading: isCostTrendLoading } = useGetEmployeeCostTrend(
-    Number(employee_id),
-    costTrendLimit,
-  );
-  const { data: siteTicketsData, isLoading: isSiteTicketsLoader } = useGetEmployeeTickets(
-    Number(employee_id),
-    offset,
-    limit,
-  );
+  const {
+    data: costTrendData,
+    isLoading: isCostTrendLoading,
+    isError: costTrendError,
+  } = useGetEmployeeCostTrend(Number(employee_id), costTrendLimit);
+  const {
+    data: siteTicketsData,
+    isLoading: isSiteTicketsLoader,
+    isError: siteTicketsError,
+  } = useGetEmployeeTickets(Number(employee_id), offset, limit);
   const {
     data: employeeServices,
     isLoading: isEmployeeServicesLoading,
+    isError: employeeServicesError,
     refetch: refetchServicesData,
   } = useGetEmployeeServices(Number(employee_id), offset, limit, showTerminated);
 
-  const { data: employeeTerminatedServices } = useGetEmployeeServices(Number(employee_id), offset, limit, false);
-
-  const { data: employeeServiceTypes, isLoading: isEmployeeServiceType } = useGetEmployeeServiceTypes(
+  const { data: employeeTerminatedServices, isError: employeeTerminatedServicesError } = useGetEmployeeServices(
     Number(employee_id),
+    offset,
+    limit,
+    false,
   );
+
+  const {
+    data: employeeServiceTypes,
+    isLoading: isEmployeeServiceType,
+    isError: employeeServiceTypeError,
+  } = useGetEmployeeServiceTypes(Number(employee_id));
 
   const handlePageChange = async (page: number) => {
     const params = new URLSearchParams();
@@ -152,6 +163,17 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
   if (siteTicketsData?.data?.tickets?.length > 0) {
     listOfTabs.push('tickets');
   }
+
+  if (
+    employeeServiceTypeError ||
+    employeeTerminatedServicesError ||
+    employeeServicesError ||
+    siteTicketsError ||
+    costTrendError
+  ) {
+    return <Error />;
+  }
+
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
       <ScrollTabs tabs={['general-information', ...listOfTabs]}>
@@ -173,6 +195,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
               employeeLevel: employee_level,
               costCenter: cost_center,
               vipExecutive: vip_executive,
+              manager: manager,
             }}
           />
           <Separator className="separator-bg-1 h-[1.2px]" />
@@ -194,9 +217,9 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
                 <>
                   <button
                     onClick={showTerminatedHandler}
-                    className="my-5 ml-auto block h-[40px] w-[220px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px] pb-4 pt-2"
+                    className="my-5 ml-auto block h-[40px] w-[220px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px]"
                   >
-                    <span className="text-[14px] font-semibold text-white">
+                    <span className="text-[0.875rem] font-semibold text-white">
                       {showTerminated ? 'Show Terminated Services' : 'Show Live Services'}{' '}
                     </span>
                   </button>
@@ -217,9 +240,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
         {/* Service Type */}
         {employeeServiceTypes?.data?.length > 0 && (
           <div id="service-type">
-            <div className="flex gap-4 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">
-              Service Type{' '}
-            </div>
+            <div className="flex gap-4 pt-8 text-[1.375rem] font-[700] text-custom-blue">Service Type </div>
             <div className="mt-4 gap-4">
               {isEmployeeServiceType ? (
                 <Skeleton variant="paragraph" rows={3} />

@@ -93,24 +93,36 @@ function ReportsPage() {
     <div>
       <div className="grid-auto-flow-column grid w-full gap-8 rounded-lg border-custom-lightGray bg-custom-white px-9 py-5">
         <div className="relative flex justify-start">
-          <Tabs value={activeTab} onValueChange={handleTabChange}>
-            <TabsList className="flex w-full justify-start gap-8">
-              <TabsTrigger
-                value="finance"
-                className="px-3 data-[state=active]:bg-[#1D46F333] data-[state=active]:text-custom-blue data-[state=active]:shadow"
-              >
-                Finance Reports
-              </TabsTrigger>
-              <TabsTrigger value="inventory" className="px-3">
-                Inventory Reports
-              </TabsTrigger>
-              <TabsTrigger value="service" className="px-3">
-                Service Management Reports
-              </TabsTrigger>
-            </TabsList>
+          <Tabs className="w-full" value={activeTab} onValueChange={handleTabChange}>
+            <div className="flex flex-col justify-between gap-4 2md:flex-row">
+              <TabsList className="flex w-full justify-between gap-4 2md:justify-start lg:gap-8">
+                <TabsTrigger
+                  value="finance"
+                  className="px-3 data-[state=active]:bg-[#1D46F333] data-[state=active]:text-custom-blue data-[state=active]:shadow"
+                >
+                  Finance Reports
+                </TabsTrigger>
+                <TabsTrigger value="inventory" className="px-3">
+                  Inventory Reports
+                </TabsTrigger>
+                <TabsTrigger value="service" className="px-3">
+                  Service Management Reports
+                </TabsTrigger>
+              </TabsList>
+              <div>
+                <SearchField
+                  className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:min-w-[350px]"
+                  iconWidth={16}
+                  iconHeight={16}
+                  helpText="Searches report title, description and prefixes such as F1, F3, F4 etc"
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
+                />
+              </div>
+            </div>
             {Object.values(filteredReports).map((category: ReportCategory) => (
               <TabsContent key={category.categoryName} value={category.value} className="mt-10">
-                <div className="grid h-[100vh] grid-cols-1 gap-5 overflow-y-scroll md:grid-cols-1 lg:h-[74vh] lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
+                <div className="grid h-[100vh] grid-cols-1 gap-5 overflow-y-scroll md:grid-cols-1 lg:h-[74vh] lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3">
                   {category.reports.map((report) => (
                     <ReportsCard
                       key={report.label}
@@ -125,16 +137,6 @@ function ReportsPage() {
             ))}
             {noReportsFound && <div className="absolute mt-10 w-full text-center text-gray-500">No reports found</div>}
           </Tabs>
-          <div className="absolute right-0">
-            <SearchField
-              className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:min-w-[350px]"
-              iconWidth={16}
-              iconHeight={16}
-              helpText="Searches report title, description and prefixes such as F1, F3, F4 etc"
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
-            />
-          </div>
         </div>
       </div>
     </div>

@@ -5,13 +5,15 @@ import VendorAccountsTable from './components/vendorAccountsTable';
 import VendorAccountsTableSkeleton from './components/vendorAccountsTable/vendorAccountsTableSkeleton';
 import CreateQueryString from '@/utils/createQueryString';
 import Pagination from '@/components/ui/pagination';
-import debounce from 'lodash.debounce';
 import SelectComponent from './components/select';
 import useGetMenuOptions from './components/select/options';
 import { useGetVendorAccounts } from '@/hooks/useGetVendorAccounts';
 import { PAGE_SIZE } from '@/utils/constants/constants';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { sanitizeSearchQuery } from '@/utils/utils';
+import ToggleComponent from './components/toggle';
+import Error from '@/components/ui/error';
 
 function VendorAccountsPage() {
   const limit = PAGE_SIZE;
@@ -22,38 +24,49 @@ function VendorAccountsPage() {
   const queryParams = new URLSearchParams(searchParams?.toString());
   const keys = Array.from(queryParams.keys()) || [];
   const searchQuery = searchParams && searchParams?.get('searchQuery');
-  const countryId = searchParams && searchParams?.get('country');
-  const showArchived = searchParams && searchParams?.get('show_archived');
-  const vendor = searchParams && searchParams?.get('vendor');
+  const countryId = searchParams?.get('country') ?? undefined;
+  const vendor = searchParams?.get('vendor') ?? undefined;
+  const serviceType = searchParams?.get('service_type') ?? undefined;
   const page = searchParams?.get('page') || '1';
   const offset = +page - 1;
+  const menuOptions = useGetMenuOptions();
+  const showArchived =
+    searchParams
+      ?.get('show_archived')
+      ?.split(',')
+      .map((status) => (status === '1' ? 'Archived' : 'Active'))
+      .join(',') ?? undefined;
 
   const {
     data: vendorAccountsData,
     isLoading: vendorAccountsLoading,
+    isError: vendorAccountsError,
     isFetched: vendorAccountsFetched,
     refetch: refetchVendorAccounts,
   } = useGetVendorAccounts(
     offset,
     limit,
     searchQuery?.trim() || undefined,
-    typeof vendor !== 'undefined' && vendor !== null ? vendor : undefined,
-    typeof countryId !== 'undefined' && countryId !== null ? countryId : undefined,
-    typeof showArchived !== 'undefined' && showArchived !== null
-      ? showArchived
-          .split(',')
-          .map((status) => (status === '1' ? 'Archived' : 'Active'))
-          .join(',')
-      : undefined,
+    vendor,
+    countryId,
+    showArchived,
+    serviceType,
   );
-  const menuOptions = useGetMenuOptions();
 
-  const handleSearchField = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    if (value.length === 0) {
-      router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
-    } else {
-      router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === '') router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
+  };
+
+  const handleSearchKeydown = (event: any) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      let { value } = event.target;
+      value = sanitizeSearchQuery(value);
+      if (value.length === 0) {
+        router.push(`${pathname}?${createQueryString('searchQuery', undefined)}`);
+      } else {
+        router.push(`${pathname}?${createQueryString('searchQuery', value)}`);
+      }
     }
   };
 
@@ -77,22 +90,32 @@ function VendorAccountsPage() {
     }
   }, [keys.length]);
 
+  useEffect(() => {
+    if (!showArchived) {
+      router.push(`${pathname}?${createQueryString('show_archived', 0)}`);
+    }
+  }, []);
+
   const totalPages = vendorAccountsData?.total / limit;
-  const debouncedSearchFieldHandlder = useCallback(debounce(handleSearchField, 500), []);
+
+  if (vendorAccountsError) {
+    return <Error />;
+  }
 
   return (
     <>
-      <div className="grid-auto-flow-column mt-6 grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
-        <div className="flex items-center justify-between gap-2">
+      <div className="flex w-full flex-col gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
+        <div className="flex h-fit items-center justify-between gap-2">
           <SearchField
             iconWidth={16}
             iconHeight={16}
             defaultValue={searchQuery}
-            onChange={debouncedSearchFieldHandlder}
-            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:w-[600px]"
+            onChange={handleSearchChange}
+            onKeyDown={handleSearchKeydown}
+            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:min-w-[21.375rem] xl:w-[29.6rem]"
             helpText="Searches network name, company network account number and display name fields."
           />
-          <div className="flex gap-4">
+          <div className="flex md:gap-1 lg:gap-4">
             {menuOptions?.map((menuOption: any, index: number) => (
               <SelectComponent
                 key={index}
@@ -102,9 +125,10 @@ function VendorAccountsPage() {
                 placeholder={menuOption.placeholder}
               />
             ))}
+            <ToggleComponent />
           </div>
         </div>
-        <div className="mt-2">
+        <div className="mt-2 flex-grow overflow-x-auto">
           {vendorAccountsLoading && <VendorAccountsTableSkeleton limit={limit} />}
           {vendorAccountsFetched && <VendorAccountsTable limit={limit} data={vendorAccountsData?.data} />}
         </div>

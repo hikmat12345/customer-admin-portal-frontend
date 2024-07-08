@@ -16,6 +16,7 @@ export type EmployeeGeneralInfoProps = {
     employeeLevel: string;
     costCenter: string;
     vipExecutive: string;
+    manager: { firstName: string; lastName: string };
   };
   isLoading?: boolean;
   label?: string;

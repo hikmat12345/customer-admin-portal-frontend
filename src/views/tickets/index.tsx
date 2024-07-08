@@ -14,6 +14,7 @@ import MonthlyTickets from './components/monthlyTickets';
 import TotalTicketsOpen from './components/totalTicketsopen';
 import { sanitizeSearchQuery } from '@/utils/utils';
 import { PAGE_SIZE } from '@/utils/constants/constants';
+import Error from '@/components/ui/error';
 
 function TicketsPage() {
   const currentDate = new Date();
@@ -38,11 +39,12 @@ function TicketsPage() {
   const createQueryString = CreateQueryString();
   const menuOptions = useGetMenuOptions();
 
-  const { data: openTicketsData, isLoading } = useGetOpenTickets();
+  const { data: openTicketsData, isLoading, isError: openTicketsError } = useGetOpenTickets();
 
   const {
     data: allTickets,
     isLoading: isTicketsLoading,
+    isError: allTicketsError,
     isFetched: isTicketsFetched,
     refetch: refetchTickets,
   } = useGetAllTickets(
@@ -99,19 +101,23 @@ function TicketsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keys.length]);
 
+  if (openTicketsError || allTicketsError) {
+    return <Error />;
+  }
+
   return (
     <div>
       <div className="grid-auto-flow-column grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white p-5">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-2 2lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
           <TotalTicketsOpen data={openTicketsData} isLoading={isLoading} />
           <MonthlyTickets title="Tickets This Month" month={currentMonth} year={currentYear} />
           <MonthlyTickets title="Last Month Tickets" month={previousMonth} year={currentYear} />
         </div>
       </div>
       <div className="grid-auto-flow-column mt-6 grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
-        <div className="flex items-center justify-between gap-7">
+        <div className="flex items-center justify-between gap-4 lg:gap-7">
           <SearchField
-            className="ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] xl:w-[600px]"
+            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:min-w-[21.375rem] xl:w-[33rem]"
             iconWidth={16}
             iconHeight={16}
             onChange={handleSearchChange}
@@ -119,13 +125,13 @@ function TicketsPage() {
             onKeyDown={handleSearchKeydown}
             helpText="Searches the veroxos reference, client reference number, site / employee, vendor and request type."
           />
-          <div className="flex gap-4">
+          <div className="flex md:gap-1 lg:gap-4">
             {menuOptions?.map((menuOption: any, index: number) => (
               <SelectComponent key={index} menuOption={menuOption} index={index} />
             ))}
           </div>
         </div>
-        <div className="mt-2">
+        <div className="mt-2 overflow-x-auto">
           {isTicketsLoading && <TicketsTableSkeleton limit={rowCount} />}
           {isTicketsFetched && <TicketsTable allTickets={allTickets} />}
         </div>

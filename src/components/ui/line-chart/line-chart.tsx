@@ -34,7 +34,7 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
           label: {
             borderColor: '#B3F7CA',
             style: {
-              fontSize: '12px',
+              fontSize: '0.75rem',
               color: '#fff',
               background: '#00E396',
             },
@@ -60,7 +60,7 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
       offsetY: -16,
       style: {
         colors: ['#775DD0'],
-        fontSize: '12px',
+        fontSize: '0.75rem',
       },
     },
     stroke: {
@@ -115,7 +115,7 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
     },
     tooltip: {
       style: {
-        fontSize: '12px',
+        fontSize: '0.75rem',
       },
       x: {
         show: false,
@@ -137,7 +137,7 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
   };
   return (
     <div>
-      {label && <div className="pb-6 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">{label}</div>}
+      {label && <div className="pb-6 pt-8 text-[1.375rem] font-[700] text-custom-blue">{label}</div>}
       {isLoading ? (
         <div className="flex h-[350px] items-center justify-center">
           <Loader size={50} color="#b1b1b1" />
@@ -147,7 +147,7 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
       ) : (
         <>
           <div className="flex">
-            <div className="relative top-44 h-full w-[3%] rotate-[270deg] whitespace-pre font-bold leading-7 text-[#000] lg:text-[14px] xl:text-[16px]">
+            <div className="relative top-44 h-full w-[3%] rotate-[270deg] whitespace-pre text-[1rem] font-bold leading-7 text-[#000]">
               Total Cost
             </div>
             <div id="chart " className="w-[97%]">

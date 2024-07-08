@@ -61,11 +61,11 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="flex max-h-full min-h-[100vh] w-full flex-col bg-[#f4f7fe] py-[1rem] pl-[290px] pr-[45px]">
+      <div className="flex max-h-full min-h-[100vh] w-full flex-col bg-[#f4f7fe] py-[1rem] pl-[240px] pr-[2.813rem] md:pl-[260px] lg:pl-[280px] xl:pl-[300px]">
         <div className="mb-4 flex items-center justify-between">
           <div className="relative flex items-center gap-5">
             {isTicketSummaryPage ? (
-              <h2 className="text-[30px] font-bold capitalize text-custom-black">{endWord(2)}</h2>
+              <h2 className="text-[1.875rem] font-bold capitalize text-custom-black">{endWord(2)}</h2>
             ) : (
               <>
                 {endWord() === 'search' && (
@@ -77,7 +77,7 @@ const BaseLayout = ({ children }: { children: React.ReactNode }) => {
                   </button>
                 )}
                 <h2
-                  className={`text-[30px] font-bold capitalize text-custom-black ${endWord() === 'search' && 'ml-5'}`}
+                  className={`text-[1.875rem] font-bold capitalize text-custom-black ${endWord() === 'search' && 'ml-5'}`}
                 >
                   {isSummaryPage ? renameSummaryPagesTitles(endWord(2)) : renameMainPagesTitles(endWord())}
                 </h2>

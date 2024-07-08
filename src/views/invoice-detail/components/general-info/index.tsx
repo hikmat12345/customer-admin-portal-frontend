@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
 import { useGetSiteInvoiceFile } from '@/hooks/useGetSites';
-import { InvoiceSummaryTypes } from '@/types/account/acount.tds';
+import { InvoiceSummaryTypes } from '@/types/account/account';
 import formatDate, { downloadFile, moneyFormatter } from '@/utils/utils';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import Image from 'next/image';
@@ -103,7 +103,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
         <TooltipText
           text={invoiceData.invoiceNumber ? invoiceData.invoiceNumber : '-'}
           maxLength={10}
-          className="text-[#575757] lg:text-[13px] xl:text-[14px]"
+          className="text-[0.875rem] text-[#575757]"
         />
       ),
     },
@@ -127,113 +127,117 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
         <GeneralInfoSkeletons />
       ) : (
         <div>
-          <div className="flex pb-6 lg:gap-x-[32px] xl:gap-x-[60px] max-lg:block">
-            <div className="relative flex w-[29%] justify-between lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%]">
-              <div className="absolute font-[700] text-[#1D46F3] lg:text-[20px] xl:text-[22px]">Invoice Summary</div>
-              <div className="w-[60%] pt-8">
-                {staticData.slice(0, 9).map((item, index) => (
-                  <div key={index} className="font-[600] leading-7 text-[#000] lg:text-[13px] xl:text-[14px]">
-                    {item.label}
-                  </div>
-                ))}
-              </div>
-              <div className="w-[40%] pt-8">
-                {staticData.slice(0, 9).map((item, index) => (
-                  <div key={index}>
-                    {typeof item.value !== 'undefined' ? (
-                      typeof item.value === 'boolean' ? (
-                        <div>{item.value ? item.value : ' - '}</div>
-                      ) : item.isPdf ? (
-                        <div className="cursor-pointer">
-                          <Button
-                            loading={isShowInBrowserLoading}
-                            className="h-0 !bg-transparent py-0 pl-0 leading-7 text-custom-blue underline decoration-2 lg:text-[13px] xl:text-[14px]"
-                            onClick={() => {
-                              setShowInBrowser(true);
-                              fileDownloadFile(Number(item.value), 'pdf', invoiceData.invoiceNumber, true);
-                            }}
-                          >
-                            View
-                          </Button>
-                        </div>
-                      ) : typeof item.value == 'string' ? (
-                        <TooltipText
-                          text={item.value ? item.value?.trim() : ' - '}
-                          maxLength={25}
-                          className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]"
-                        />
-                      ) : (
-                        <div>{item.value ? item.value : ' - '}</div>
-                      )
-                    ) : (
-                      <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]">-</div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="flex w-[29%] justify-center pr-3 pt-8 lg:gap-x-[32px] xl:gap-x-[60px] max-lg:mt-5 max-lg:w-[100%]">
-              <div className="w-[60%]">
-                {staticData.slice(9).map((item, index) => (
-                  <div key={index} className="font-[600] leading-7 text-[#000] lg:text-[13px] xl:text-[14px]">
-                    {item.label}
-                  </div>
-                ))}
-              </div>
-              <div className="w-[40%]">
-                {staticData.slice(9).map((item, index) => (
-                  <div key={index}>
-                    {typeof item.value !== 'undefined' ? (
-                      typeof item.value === 'boolean' ? (
-                        <div>{item.value ? item.value : ' - '}</div>
-                      ) : typeof item.value == 'string' ? (
-                        <TooltipText
-                          text={item.value?.trim() ? item.value : ' - '}
-                          maxLength={25}
-                          className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]"
-                        />
-                      ) : (
-                        <div>{item.value ? item.value : ' - '}</div>
-                      )
-                    ) : (
-                      <div className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]">-</div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="h-[18em] w-[1px] bg-custom-aluminum lg:block"></div>
-            <div className="m-auto block w-[41%] max-lg:mt-5">
-              <div className="font-[700] text-[#1D46F3] lg:text-[20px] xl:text-[22px]">Vendor</div>
-              <div className="flex w-full">
-                <div className="w-[40%]">
-                  {vendorStaticData.map((item, index) => (
-                    <div key={index} className="font-[600] leading-7 text-[#000] lg:text-[13px] xl:text-[14px]">
+          <div className="text-nowrap lg:block lg:gap-x-[2rem] xl:flex 2xl:gap-x-[3.75rem] max-lg:block">
+            <div className="gap-4 sm:block lg:flex lg:w-[100%] xl:w-[58%]">
+              <div className="relative flex justify-between sm:w-[100%] lg:w-[50%] lg:gap-x-[2rem] 2xl:gap-x-[3.75rem]">
+                <div className="absolute text-[1.375rem] font-[700] text-[#1D46F3]">Invoice Summary</div>
+                <div className="pt-14 sm:w-full lg:w-[55%] 2xl:w-[60%]">
+                  {staticData.slice(0, 9).map((item, index) => (
+                    <div key={index} className="text-[0.875rem] font-[600] leading-7 text-[#000]">
                       {item.label}
                     </div>
                   ))}
                 </div>
-                <div className="w-[60%]">
-                  {vendorStaticData.map((item, index) => (
+                <div className="pt-14 sm:w-full lg:w-[45%] 2xl:w-[40%]">
+                  {staticData.slice(0, 9).map((item, index) => (
                     <div key={index}>
                       {typeof item.value !== 'undefined' ? (
                         typeof item.value === 'boolean' ? (
                           <div>{item.value ? item.value : ' - '}</div>
-                        ) : (
+                        ) : item.isPdf ? (
+                          <div className="cursor-pointer">
+                            <Button
+                              loading={isShowInBrowserLoading}
+                              className="h-0 !bg-transparent py-0 pl-0 text-[0.875rem] leading-7 text-custom-blue underline decoration-2"
+                              onClick={() => {
+                                setShowInBrowser(true);
+                                fileDownloadFile(Number(item.value), 'pdf', invoiceData.invoiceNumber, true);
+                              }}
+                            >
+                              View
+                            </Button>
+                          </div>
+                        ) : typeof item.value == 'string' ? (
                           <TooltipText
-                            text={item.value?.trim() ? item.value : ' - '}
-                            maxLength={30}
-                            className="leading-7 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                            text={item.value ? item.value?.trim() : ' - '}
+                            maxLength={25}
+                            className="text-[0.875rem] leading-7 text-[#575757]"
                           />
+                        ) : (
+                          <div>{item.value ? item.value : ' - '}</div>
                         )
                       ) : (
-                        <div>-</div>
+                        <div className="text-[0.875rem] leading-7 text-[#575757]">-</div>
                       )}
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="flex justify-center">
+              <div className="flex justify-center pr-3 sm:mt-5 sm:w-[100%] lg:mt-0 lg:w-[50%] lg:gap-x-[2rem] lg:pt-14 2xl:gap-x-[3.75rem]">
+                <div className="sm:w-full lg:w-[55%] 2xl:w-[60%]">
+                  {staticData.slice(9).map((item, index) => (
+                    <div key={index} className="text-[0.875rem] font-[600] leading-7 text-[#000]">
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+                <div className="sm:w-full lg:w-[45%] 2xl:w-[40%]">
+                  {staticData.slice(9).map((item, index) => (
+                    <div key={index}>
+                      {typeof item.value !== 'undefined' ? (
+                        typeof item.value === 'boolean' ? (
+                          <div>{item.value ? item.value : ' - '}</div>
+                        ) : typeof item.value == 'string' ? (
+                          <TooltipText
+                            text={item.value?.trim() ? item.value : ' - '}
+                            maxLength={25}
+                            className="text-[0.875rem] leading-7 text-[#575757]"
+                          />
+                        ) : (
+                          <div>{item.value ? item.value : ' - '}</div>
+                        )
+                      ) : (
+                        <div className="text-[0.875rem] leading-7 text-[#575757]">-</div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="bg-custom-aluminum lg:mx-auto lg:my-5 lg:block lg:h-[1px] lg:w-[60%] xl:my-0 xl:h-[18em] xl:w-[1px]"></div>
+            <div className="mb-10 sm:mt-5 sm:block lg:mt-0 lg:flex lg:w-[100%] xl:m-auto xl:block xl:w-[41%]">
+              <div className="lg:w-2/4 xl:w-auto">
+                <div className="text-[1.375rem] font-[700] text-[#1D46F3]">Vendor</div>
+                <div className="flex w-full pt-6 lg:gap-x-[2rem] xl:gap-x-0">
+                  <div className="sm:w-full lg:w-[55%] xl:w-[40%]">
+                    {vendorStaticData.map((item, index) => (
+                      <div key={index} className="text-[0.875rem] font-[600] leading-7 text-[#000]">
+                        {item.label}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="sm:w-full lg:w-[45%] xl:w-[60%]">
+                    {vendorStaticData.map((item, index) => (
+                      <div key={index}>
+                        {typeof item.value !== 'undefined' ? (
+                          typeof item.value === 'boolean' ? (
+                            <div>{item.value ? item.value : ' - '}</div>
+                          ) : (
+                            <TooltipText
+                              text={item.value?.trim() ? item.value : ' - '}
+                              maxLength={30}
+                              className="text-[0.875rem] leading-7 text-[#575757]"
+                            />
+                          )
+                        ) : (
+                          <div>-</div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-center lg:w-2/4 xl:w-auto">
                 <VImage
                   src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + vendorData.logo}
                   alt="Invoice Summary Logo"
@@ -245,7 +249,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
             </div>
           </div>
 
-          <div className="mb-4 mt-4 flex gap-5">
+          <div className="mb-4 mt-[-1.188rem] flex gap-5">
             <Button
               loading={isXlsFileLoading}
               type="submit"
@@ -253,7 +257,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
               onClick={() => fileDownloadFile(Number(invoiceData?.invoiceId), 'xls', invoiceData.invoiceNumber)}
             >
               <Image src="/svg/excel-icon.svg" width={20} height={20} alt="Download Invoice Summary" className="mr-2" />
-              <span className="w-[55%] font-[600] underline decoration-2 lg:text-[13px] lg:leading-7 xl:text-[16px] xl:leading-7">
+              <span className="w-[55%] text-[1rem] font-[600] underline decoration-2 lg:leading-7 xl:leading-7">
                 Download Invoice Summary{' '}
               </span>
             </Button>
@@ -264,7 +268,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
               onClick={() => fileDownloadFile(Number(invoiceData?.invoiceId), 'pdf', invoiceData.invoiceNumber)}
             >
               <Image src="/svg/pdf-icon.svg" width={20} height={20} alt="Download PDF" className="mr-2" />
-              <span className="w-[55%] font-[600] underline decoration-2 lg:text-[13px] lg:leading-7 xl:text-[16px] xl:leading-7">
+              <span className="w-[55%] text-[1rem] font-[600] underline decoration-2 lg:leading-7 xl:leading-7">
                 Download PDF
               </span>
             </Button>

@@ -9,27 +9,35 @@ import httpClient from '../httpClient';
 export const getEmployeeDetail = async ({ queryKey }: any) => {
   const [, employeeId] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/employee/detail/${employeeId}`).then(({ data }) => data);
+  return httpClient
+    .get(`${NEXT_PUBLIC_API_BASE_URL}/employee/detail/${employeeId}`)
+    .then(({ data }) => data)
+    .catch((error) => error);
 };
 export const getEmployeeCostTrend = async ({ queryKey }: any) => {
   const [, accountId, costTrendLimit] = queryKey;
 
   return httpClient
-    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoices/employee-cost-trend/${accountId}?limit=${costTrendLimit}`)
-    .then(({ data }) => data);
+    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/employee-cost-trend/${accountId}?limit=${costTrendLimit}`)
+    .then(({ data }) => data)
+    .catch((error) => error);
 };
 export const getEmployeeTickets = async ({ queryKey }: any) => {
   const [, employeeId, offset, limit] = queryKey;
 
   return httpClient
     .get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/employee-tickets/${employeeId}?offset=${offset}&limit=${limit}`)
-    .then(({ data }) => data);
+    .then(({ data }) => data)
+    .catch((error) => error);
 };
 // getEmployeeServiceTypes
 export const getEmployeeServiceTypes = async ({ queryKey }: any) => {
   const [, employeeId] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/service-types-employee/${employeeId}`).then(({ data }) => data);
+  return httpClient
+    .get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/service-types-employee/${employeeId}`)
+    .then(({ data }) => data)
+    .catch((error) => error);
 };
 // getEmployeeServices
 export const getEmployeeServices = async ({ queryKey }: any) => {
@@ -37,9 +45,10 @@ export const getEmployeeServices = async ({ queryKey }: any) => {
 
   return httpClient
     .get(
-      `${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/site-services-employee/${employeeId}?offset=${offset}&limit=${limit}&showTerminated=${showTerminated}`,
+      `${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/site-services-employee/${employeeId}?offset=${offset}&limit=${limit}&showTerminated=${showTerminated}`,
     )
-    .then(({ data }) => data);
+    .then(({ data }) => data)
+    .catch((error) => error);
 };
 
 export const getAllEmployees = async ({ queryKey }: any) => {
@@ -54,5 +63,8 @@ export const getAllEmployees = async ({ queryKey }: any) => {
     },
   };
 
-  return httpClient.get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/inventory/employees`, config).then(({ data }) => data);
+  return httpClient
+    .get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/employees`, config)
+    .then(({ data }) => data)
+    .catch((error) => error);
 };

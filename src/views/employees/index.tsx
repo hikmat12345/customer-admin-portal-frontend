@@ -12,6 +12,7 @@ import { PAGE_SIZE } from '@/utils/constants/constants';
 import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useGetAllEmployees } from '@/hooks/useGetEmployees';
 import { sanitizeSearchQuery } from '@/utils/utils';
+import Error from '@/components/ui/error';
 
 function EmployeesPage() {
   const limit = PAGE_SIZE;
@@ -30,6 +31,7 @@ function EmployeesPage() {
   const {
     data: employeesData,
     isLoading: employeesLoading,
+    isError: employeeError,
     isFetched: employeesFetched,
     refetch: refetchEmployees,
   } = useGetAllEmployees(
@@ -78,9 +80,13 @@ function EmployeesPage() {
 
   const totalPages = employeesData?.total / limit;
 
+  if (employeeError) {
+    return <Error />;
+  }
+
   return (
     <>
-      <div className="grid-auto-flow-column mt-6 grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
+      <div className="grid-auto-flow-column grid w-full gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
         <div className="flex items-center justify-between gap-2">
           <SearchField
             iconWidth={16}
@@ -88,7 +94,7 @@ function EmployeesPage() {
             defaultValue={searchQuery}
             onChange={handleSearchChange}
             onKeyDown={handleSearchKeydown}
-            className="focus:border-[#44444480 ml-2 w-[500px] rounded-none border-b bg-transparent font-normal outline-none xl:w-[600px]"
+            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:min-w-[21.375rem] xl:w-[33rem]"
             helpText="Searches ID, First Name, Last Name, Email and External ID fields."
           />
           <div className="flex gap-4">
@@ -103,7 +109,7 @@ function EmployeesPage() {
             ))}
           </div>
         </div>
-        <div className="mt-2">
+        <div className="mt-2 overflow-x-auto">
           {employeesLoading && <EmployeesTableSkeleton limit={limit} />}
           {employeesFetched && <EmployeesTable limit={limit} data={employeesData?.data} />}
         </div>

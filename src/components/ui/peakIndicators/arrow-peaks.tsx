@@ -35,14 +35,14 @@ function PeakIndicator({
   }
 
   return (
-    <div>
+    <>
       {isLoading ? (
         <div className="absolute right-0 top-0 rounded-full">
           <Skeleton variant="avatar" height="40px" width="40px" />
         </div>
       ) : (
         <div
-          className={`absolute right-4 ${backgroundColor} ${border} flex h-9 w-9 items-center justify-center rounded-full`}
+          className={`absolute right-4 top-2 ${backgroundColor} ${border} flex h-9 w-9 items-center justify-center rounded-full`}
         >
           <Image
             src={arrowImageSrc}
@@ -55,7 +55,7 @@ function PeakIndicator({
           />
         </div>
       )}
-    </div>
+    </>
   );
 }
 

@@ -45,7 +45,7 @@ const searchTextFieldVariants = cva('flex justify-between bg-custom-white p-2 ro
   variants: {
     variant: {
       default: 'w-auto',
-      expanded: 'w-[530px]',
+      expanded: 'lg:w-[530px]',
     },
   },
 });

@@ -22,6 +22,7 @@ import TooltipText from '@/components/ui/textbox';
 import { format, parseISO } from 'date-fns';
 import dynamic from 'next/dynamic';
 import { DATE_TIME_FORMAT } from '@/utils/constants/constants';
+import Error from '@/components/ui/error';
 const GroupMapBox = dynamic(() => import('../../components/ui/map-box').then((mod) => mod.GroupMapBox), {
   loading: () => <p>loading...</p>,
   ssr: false,
@@ -49,7 +50,11 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
   const keys = Array.from(queryParams.keys());
 
   // get account general information
-  const { data: accountDetailData, isLoading: isAccountDetailLoader } = useGetAccountDetail(Number(account_id));
+  const {
+    data: accountDetailData,
+    isLoading: isAccountDetailLoader,
+    isError: accountDetailError,
+  } = useGetAccountDetail(Number(account_id));
   const {
     veroxosId,
     status: live,
@@ -69,26 +74,34 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
 
   // cost and trend data
   const costTrendLimit = 12;
-  const { data: costTrendData, isLoading: isCostTrendLoading } = useGetAccountCostTrend(
-    Number(account_id),
-    costTrendLimit,
-  );
+  const {
+    data: costTrendData,
+    isLoading: isCostTrendLoading,
+    isError: costTrendError,
+  } = useGetAccountCostTrend(Number(account_id), costTrendLimit);
   const {
     data: accountTicketsData,
     isLoading: isAccountTicketsLoader,
+    isError: accountTicketsError,
     refetch: refetchTicketsData,
   } = useGetAccountTickets(Number(account_id), offset, limit);
   const {
     data: siteInvoicesData,
     isLoading: isSiteInvoicesLoader,
+    isError: siteInvoicesError,
     refetch: getInvoices,
   } = useGetAccountInvoices(Number(account_id), offset, limit);
-  const { data: serviceLocation, isLoading: isVendorServicesLocationLoading } = useGetServiceLocations(
-    Number(account_id),
-  );
-  const { data: vendorServicesTypes, isLoading: isVendorServiceTypeLoading } = useGetServiceTypesVendor(
-    Number(account_id),
-  );
+  const {
+    data: serviceLocation,
+    isLoading: isVendorServicesLocationLoading,
+    isError: serviceLocationError,
+  } = useGetServiceLocations(Number(account_id));
+
+  const {
+    data: vendorServicesTypes,
+    isLoading: isVendorServiceTypeLoading,
+    isError: vendorServiceTypeError,
+  } = useGetServiceTypesVendor(Number(account_id));
 
   const structuredTicketsData = accountTicketsData?.data?.tickets?.map((ticket: any) => ({
     'Veroxos REF': ticket?.reference ? ticket?.reference : '',
@@ -134,12 +147,16 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
 
   const totalPages = Math.max(accountTicketsData?.total || 0, siteInvoicesData?.total || 0);
   const serviceLocations =
-    serviceLocation?.map((item: any) => ({
-      lat: item?.lat,
-      long: item?.lng,
-      address: item?.name + item?.streetLine1 + item?.streetLine2,
-      siteId: item?.id,
-    })) || [];
+    serviceLocation?.map(
+      (item: { lat: number; lng: number; name: string; streetLine1: string; streetLine2: string; id: number }) => ({
+        lat: item?.lat || 0,
+        long: item?.lng || 0,
+        address:
+          item?.name +
+            (item?.streetLine1 ? ', ' + item?.streetLine1 : item?.streetLine2 ? ', ' + item?.streetLine2 : '') || '',
+        siteId: item?.id,
+      }),
+    ) || [];
 
   const listOfTabs = [];
   if (vendorServicesTypes?.data?.length > 0) {
@@ -157,6 +174,18 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
   if (accountTicketsData?.data?.tickets?.length > 0) {
     listOfTabs.push('tickets');
   }
+
+  if (
+    vendorServiceTypeError ||
+    serviceLocationError ||
+    siteInvoicesError ||
+    accountTicketsError ||
+    costTrendError ||
+    accountDetailError
+  ) {
+    return <Error />;
+  }
+
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
       <ScrollTabs tabs={['general-information', ...listOfTabs]}>
@@ -186,7 +215,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
         {/* Service Type */}
         {vendorServicesTypes?.data?.length > 0 && (
           <div id="service-type">
-            <div className="pb-8 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Service Type</div>
+            <div className="pb-8 pt-8 text-[1.375rem] font-[700] text-custom-blue">Service Type</div>
             {isVendorServiceTypeLoading ? (
               <Skeleton variant="paragraph" rows={3} />
             ) : Array.isArray(vendorServicesTypes?.data) && vendorServicesTypes?.data.length > 0 ? (
@@ -212,7 +241,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
         {/* Service Location */}
         {serviceLocations?.length > 0 && (
           <div id="service-location">
-            <div className="pb-6 pt-8 font-[700] text-custom-blue lg:text-[20px] xl:text-[22px]">Service Location</div>
+            <div className="pb-6 pt-8 text-[1.375rem] font-[700] text-custom-blue">Service Location</div>
             {isVendorServicesLocationLoading ? (
               <Skeleton variant="paragraph" rows={3} />
             ) : (
@@ -240,7 +269,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
                     <TooltipText
                       text={`Last ${limit} invoices shown`}
                       maxLength={1}
-                      className="pl-3 pt-3 leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                      className="pl-3 pt-3 text-[0.875rem] leading-6 text-[#575757]"
                       type="notification"
                     />
                   </>
@@ -265,7 +294,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
                     <TooltipText
                       text={`Last ${limit} tickets shown`}
                       maxLength={1}
-                      className="pl-3 pt-3 leading-6 text-[#575757] lg:text-[13px] xl:text-[14px]"
+                      className="pl-3 pt-3 text-[0.875rem] leading-6 text-[#575757]"
                       type="notification"
                     />
                   </>
