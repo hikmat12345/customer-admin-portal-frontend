@@ -29,7 +29,7 @@ function HomePage() {
     isLoading: isMonthlyTicketsStatsLoading,
     isError: monthlyTicketsError,
   } = useGetMonthlyTicketsStats(currentYear, currentMonth);
-  const { data: activityFeed, isLoading: activityFeedLoading, isError:activityFeedError } = useGetActivityFeed();
+  const { data: activityFeed, isLoading: activityFeedLoading, isError: activityFeedError } = useGetActivityFeed();
 
   if (invoicesError || costSavingsError || monthlyTicketsError || activityFeedError) {
     return <Error />;
