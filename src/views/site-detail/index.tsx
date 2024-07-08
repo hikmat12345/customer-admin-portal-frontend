@@ -134,7 +134,14 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     service_type: item?.service?.service_type,
     description: item?.service?.description,
     ['function / purpose']: item?.service.functionPurpose,
-    'service status': item?.service.serviceStatus,
+    serviceStatus:
+      item?.service?.serviceStatus === 1 && item?.service?.suspended === 1
+        ? 2
+        : item?.service?.serviceStatus === 1 && item?.service?.suspended === 0
+          ? 1
+          : item?.service?.serviceStatus === 0 && item?.service?.suspended === 0
+            ? 0
+            : '-',
     cost:
       item?.service?.cost?.rentalRaw ||
       item?.service?.cost?.usageRaw ||
