@@ -18,6 +18,6 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/package*.json ./
 RUN --mount=type=ssh \
     --mount=type=bind,target=~/.ssh/known_hosts,source=known_hosts \
-    npm ci --omit=dev
+    npm ci --legacy-peer-deps --omit=dev
 EXPOSE 3000
 CMD ["npm", "start"]
