@@ -3,6 +3,7 @@ import { TicketsData } from '@/types/tickets/types';
 import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton';
 import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
 import PeakIndicator from './peak-indicators';
+import { Ratings } from '@/components/ui/rating';
 
 function TicketsCard({ data, isLoading }: { data: TicketsData; isLoading: boolean }) {
   const formattedPercentageDifference =
@@ -26,7 +27,7 @@ function TicketsCard({ data, isLoading }: { data: TicketsData; isLoading: boolea
             <Skeleton variant="paragraph" rows={3} />
           </div>
         ) : (
-          <div className="flex w-full flex-col gap-4 pb-3 pr-5">
+          <div className="flex w-full flex-col gap-3 pb-3 pr-5">
             <h2 className="text-lg font-semibold text-custom-black">Tickets this Month</h2>
             <div className="flex items-center gap-5">
               <h1 className="text-lg font-bold lg:text-2xl 2xl:text-3xl">
@@ -41,10 +42,9 @@ function TicketsCard({ data, isLoading }: { data: TicketsData; isLoading: boolea
                 Total tickets created this month.
               </p>
 
-              <div className="flex items-center gap-4 lg:gap-[10px] xl:gap-4">
-                {typeof averageReviews === 'number' &&
-                  averageReviews > 0 &&
-                  Array.from({ length: Math.floor(averageReviews) }).map((_, index) => <Reviews key={index} />)}
+              <div className="flex flex-col items-end gap-2">
+                <Ratings rating={averageReviews} variant="yellow" />
+                <div className="text-sm text-custom-silverSand">{averageReviews.toFixed(1)}/5</div>
               </div>
             </div>
           </div>
