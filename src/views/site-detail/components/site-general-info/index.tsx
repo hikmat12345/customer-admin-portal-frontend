@@ -105,19 +105,20 @@ export default function SiteGeneralInfo({
             </div>
           </div>
           {latitude && longitude && (
-          <div className="sm:mt-5 lg:w-[100%] xl:mt-0 xl:w-[30%] 2xl:w-[35%]">
-            <div className="mapouter rounded-lg border border-neutral-300 p-1">
-              <div className="gmap_canvas">
-                <MapBox
-                  height="12.5rem"
-                  lat={latitude}
-                  long={longitude}
-                  address={streetLine1 || streetLine2}
-                  siteId={Number(veroxosId)}
-                />
+            <div className="sm:mt-5 lg:w-[100%] xl:mt-0 xl:w-[30%] 2xl:w-[35%]">
+              <div className="mapouter rounded-lg border border-neutral-300 p-1">
+                <div className="gmap_canvas">
+                  <MapBox
+                    height="12.5rem"
+                    lat={latitude}
+                    long={longitude}
+                    address={streetLine1 || streetLine2}
+                    siteId={Number(veroxosId)}
+                  />
+                </div>
               </div>
             </div>
-          </div>)}
+          )}
         </div>
       )}
     </div>
