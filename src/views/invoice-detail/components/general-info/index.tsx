@@ -238,18 +238,18 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                 </div>
               </div>
               <div className="flex justify-center lg:w-2/4 xl:w-auto">
-                <VImage
+              {invoiceData?.invoiceId && vendorData.logo && <VImage
                   src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + vendorData.logo}
                   alt="Invoice Summary Logo"
                   width={500}
                   height={500}
                   className="h-[190px] w-[230px] object-contain"
-                />
+                />}
               </div>
             </div>
           </div>
 
-          <div className="mb-4 mt-[-1.188rem] flex gap-5">
+          {invoiceData?.invoiceId && <div className="mb-4 mt-[-1.188rem] flex gap-5">
             <Button
               loading={isXlsFileLoading}
               type="submit"
@@ -272,7 +272,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                 Download PDF
               </span>
             </Button>
-          </div>
+          </div>}
         </div>
       )}
     </div>

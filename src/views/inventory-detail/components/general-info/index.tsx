@@ -143,23 +143,17 @@ export default function GeneralInfo({
               </div>
             </div>
           </div>
-          <div className="sm:mt-5 sm:w-[100%] xl:mt-0 xl:w-[29%] max-lg:w-[100%]">
+          {(site?.latitude && site?.longitude) && <div className="sm:mt-5 sm:w-[100%] xl:mt-0 xl:w-[29%] max-lg:w-[100%]">
             <div className="mapouter rounded-lg border border-neutral-300 p-1">
               <div className="gmap_canvas">
-                <div className="gmap_canvas">
-                  {site?.latitude && site?.longitude ? (
+                <div className="gmap_canvas"> 
                     <MapBox
                       lat={site?.latitude}
                       long={site?.longitude}
                       address={site?.streetLine1 ? site?.streetLine1 : site?.streetLine2}
                       siteId={site?.id}
                       height="12.5rem"
-                    />
-                  ) : (
-                    <div className="flex h-[230px] items-center justify-center py-8 text-center align-bottom text-lg">
-                      Google map can't find the location
-                    </div>
-                  )}
+                    /> 
                 </div>
               </div>
             </div>
@@ -172,7 +166,7 @@ export default function GeneralInfo({
                 </span>
               </div>
             )}
-          </div>
+          </div>}
         </div>
       )}
     </div>

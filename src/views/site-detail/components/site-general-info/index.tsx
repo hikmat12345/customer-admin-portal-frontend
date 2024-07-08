@@ -72,11 +72,11 @@ export default function SiteGeneralInfo({
                 <div className="text-[1rem] leading-7 text-[#575757]">
                   {status !== undefined && status !== null ? (
                     <Badge
-                      className={`rounded-lg py-[3px] text-white ${status == 1 ? 'bg-[#219653]' : status == 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`}
+                      className={`rounded-md py-[3px] text-white ${status == 0 ? 'bg-[#219653]' : status == 1 ? 'bg-[#A40000]' : ''}`}
                       variant="success"
                       shape="block"
                     >
-                      {status == 1 ? 'Live' : status == 0 ? 'Terminated' : 'Suspended'}
+                      {status === 0 ? 'Live' : 'Terminated'}
                     </Badge>
                   ) : (
                     ' - '
@@ -104,25 +104,20 @@ export default function SiteGeneralInfo({
               </div>
             </div>
           </div>
+          {latitude && longitude && (
           <div className="sm:mt-5 lg:w-[100%] xl:mt-0 xl:w-[30%] 2xl:w-[35%]">
             <div className="mapouter rounded-lg border border-neutral-300 p-1">
               <div className="gmap_canvas">
-                {latitude && longitude ? (
-                  <MapBox
-                    height="12.5rem"
-                    lat={latitude}
-                    long={longitude}
-                    address={streetLine1 || streetLine2}
-                    siteId={Number(veroxosId)}
-                  />
-                ) : (
-                  <div className="flex h-[230px] items-center justify-center py-8 text-center align-bottom text-lg">
-                    Google map can't find the location
-                  </div>
-                )}
+                <MapBox
+                  height="12.5rem"
+                  lat={latitude}
+                  long={longitude}
+                  address={streetLine1 || streetLine2}
+                  siteId={Number(veroxosId)}
+                />
               </div>
             </div>
-          </div>
+          </div>)}
         </div>
       )}
     </div>
