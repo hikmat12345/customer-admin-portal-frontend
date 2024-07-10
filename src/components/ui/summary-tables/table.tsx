@@ -124,15 +124,15 @@ function TableBodyContent({ record, currencySymbol }: any) {
               href={value ? `/vendors/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
               className="font-normal text-[#1175BE]"
             >
-              {stringFindAndReplaceAll(value, '-/', ' ', 0)}
+              <div dangerouslySetInnerHTML={{ __html: stringFindAndReplaceAll(value, '-/', ' ', 0) }} />
             </Link>
-          ) : Object.keys(record)[index] === 'service status' ? (
+          ) : Object.keys(record)[index] === 'service status' || Object.keys(record)[index] === 'serviceStatus' ? (
             <Badge
-              className={`rounded-lg py-1 text-white ${value == 1 ? 'bg-[#219653]' : value == 0 ? 'bg-[#A40000]' : 'bg-[#FC762B]'}`}
+              className={`rounded-lg py-1 text-white ${value == 1 ? 'bg-[#219653]' : value == 0 ? 'bg-[#A40000]' : (value = 2 ? 'bg-[#FC762B]' : '')}`}
               variant="success"
               shape="block"
             >
-              {value == 1 ? 'Live' : value == 0 ? 'Terminated' : 'Suspended'}
+              {value == 1 ? 'Live' : value == 0 ? 'Terminated' : (value = 2 ? 'Suspended' : '')}
             </Badge>
           ) : Object.keys(record)[index] === 'download' ? (
             <DownloadAbleLink invoiceId={value} index={index} invoiceNumber={invoiceNumber} />

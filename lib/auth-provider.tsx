@@ -2,8 +2,8 @@
 
 import React from 'react';
 import httpClient from '@/services/httpClient';
-import toast from 'react-hot-toast';
 import { verifyJwtToken } from '@/services/cognito/cognito-token.service';
+import toast from 'react-hot-toast';
 
 const AuthContext = React.createContext<any>(null);
 
