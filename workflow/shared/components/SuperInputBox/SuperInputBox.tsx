@@ -1,0 +1,71 @@
+import _ from 'lodash';
+import * as Yup from 'yup';
+
+import { getCatalogApiCall, Strings } from '../../../shared';
+import type { WorkflowLayoutWebType } from '../../types';
+import { isNotNullOrEmpty } from '../../utils';
+import { SuperComponent } from '../SuperComponent';
+import type { InputBoxType } from './SuperInputBoxType';
+
+class SuperInputBox<P extends WorkflowLayoutWebType> extends SuperComponent<P, InputBoxType> {
+  constructor(props: P) {
+    super(props);
+    this.state = {
+      value: props.value || '',
+      error: props.error || ''
+    };
+  }
+
+  componentDidMount(): void {
+    const { answer, handleRefreshOn, refreshOn, id } = this.props;
+    if (answer) {
+      handleRefreshOn(refreshOn, { itemId: id, value: answer });
+    }
+  }
+
+  public async refreshOn(value: Record<string, any>): Promise<void> {
+    const { id, workflowId, token } = this.props;
+    if (value) {
+      const { itemId, itemValue } = value;
+      // TODO: Set the response when api changes complete
+      getCatalogApiCall({ targetBlock: id, data: { [itemId]: itemValue } }, token, workflowId).then(() => {});
+    }
+  }
+
+  public isValidate(): boolean {
+    const { mandatory } = this.props;
+    const { value } = this.state;
+    const valid = Yup.string().required().isValidSync(value);
+    const isValidate = mandatory || isNotNullOrEmpty(value);
+    const flag = isValidate ? valid : true;
+    if (!flag) {
+      this.setState({ error: Strings.required });
+    } else {
+      this.setState({ error: '' });
+    }
+    return flag;
+  }
+
+  public isModalOpen(): boolean {
+    return false;
+  }
+
+  public getValue(): Record<string, any> {
+    const { id } = this.props;
+    const { value } = this.state;
+
+    return { [id]: { value } };
+  }
+  public getViewData(): Record<string, any> {
+    const { id, title } = this.props;
+    const { value } = this.state;
+
+    return { [id]: { title: title, displayValue: value } };
+  }
+
+  public setValue(value: Record<string, any>): void {
+    console.log('SetValue Method Trigger.', value);
+  }
+}
+
+export default SuperInputBox;

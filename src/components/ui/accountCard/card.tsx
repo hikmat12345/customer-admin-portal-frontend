@@ -38,7 +38,7 @@ function AccountCard({
       : undefined;
   };
 
-  const absoluteDifference = Math.abs(data?.difference);
+  const absoluteDifference = Number(Math.abs(data?.difference).toFixed(2));
 
   const formattedDifference = getFormattedTotal(absoluteDifference);
 
@@ -48,28 +48,40 @@ function AccountCard({
   const previousThisMonth = thisMonthAndYear && getPreviousMonthYear(thisMonthAndYear?.formatted);
   const previousLastMonth = lastMonthAndYear && getPreviousMonthYear(lastMonthAndYear?.formatted);
 
-  const getMessage = (difference: number, formattedDifference: string) => {
+  const getMessage = (difference: number, formattedDifference: string | number, title: string | undefined) => {
     let message = null;
-    switch (true) {
-      case difference > 0:
-        message = (
-          <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
-            You've spent <span className="text-custom-red">${formattedDifference}</span> more in{' '}
-            {thisMonthAndYear?.formatted} than {previousThisMonth}.
-          </p>
-        );
-        break;
-      case difference < 0:
-        message = (
-          <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
-            You've spent <span className="text-[#219653]">${formattedDifference}</span> less in{' '}
-            {thisMonthAndYear?.formatted} than {previousLastMonth}.
-          </p>
-        );
-        break;
-      default:
+
+    const lastMonthPhrase = `${lastMonthAndYear?.formatted}`;
+    const previousMonthPhrase = title === 'This Month' ? previousThisMonth : previousLastMonth;
+
+    const moreOrLess = difference > 0 ? 'more' : 'less';
+    const verb = title === 'This Month' ? 'have spent' : 'spent';
+
+    if (difference !== 0) {
+      message = (
+        <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
+          You {verb}
+          <span className={`ml-1 mr-1 font-semibold ${difference > 0 ? 'text-custom-red' : 'text-[#219653]'}`}>
+            ${formattedDifference}
+          </span>
+          {moreOrLess} in {lastMonthPhrase} than {previousMonthPhrase}.
+        </p>
+      );
     }
+
     return message;
+  };
+
+  const getSameAmountMessage = () => {
+    return (
+      <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
+        You have spent <span className="font-semibold text-custom-dryBlue">same</span> amount as the previous month.
+      </p>
+    );
+  };
+
+  const getNoDataMessage = () => {
+    return <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">No spending data available.</p>;
   };
 
   const badgeVariant =
@@ -90,9 +102,10 @@ function AccountCard({
     if (data && data.percentageDifference !== null && data.percentageDifference !== undefined) {
       if (data.percentageDifference > 0) return '#E41323';
       if (data.percentageDifference < 0) return '#219653';
-      if (data.percentageDifference === 0) return '#037EC2';
+      if (data.percentageDifference === 0 && data?.total === 0) return '#999999';
+      if (data.percentageDifference === 0 && data?.total !== 0) return '#037EC2';
     }
-    return '#6B7280';
+    return '#037EC2';
   };
 
   //using static colors in the chart because they won't be entertained in apex charts
@@ -106,28 +119,35 @@ function AccountCard({
             <Skeleton variant="paragraph" rows={3} />
           </div>
         ) : (
-          <div className="flex flex-col gap-4 sm:w-2/4 lg:w-3/5">
+          <div className="flex flex-col gap-4 sm:w-4/5 lg:w-4/5">
             <h2 className="text-sm font-semibold text-custom-black md:text-base 2xl:text-lg">{title}</h2>
             <div className="flex items-center gap-5">
               <h1 className="text-nowrap text-lg font-bold lg:text-2xl 2xl:text-3xl">
-                $ {Math.floor(data?.total || data?.totalCostSavings).toLocaleString() || 0}
+                ${Math.floor(data?.total ?? data?.totalCostSavings ?? 0).toLocaleString() || 0}
               </h1>
               {badge && (
-                <Badge className="text-nowrap text-sm lg:text-xs" variant={badgeVariant}>
+                <Badge
+                  className={`text-nowrap text-sm lg:text-xs ${data?.percentageDifference === 0 && 'text-[#999999 bg-[#D9D9D933]'}`}
+                  variant={badgeVariant}
+                >
                   {formattedPercentageDifference}%
                 </Badge>
               )}
             </div>
-
-            {message ? message : getMessage(data?.difference, formattedDifference) || 'No spending data available.'}
+            {message
+              ? message
+              : data?.percentageDifference === 0
+                ? getNoDataMessage()
+                : getMessage(data?.difference, formattedDifference, title) || getSameAmountMessage()}
           </div>
         )}
-        <div className="relative flex w-2/4 flex-col gap-4 lg:w-2/5">
+        <div className="relative flex w-1/4 flex-col gap-4 lg:w-1/5">
           {peakIndicator && (
             <PeakIndicator
               variant={peakIndicatorVariant}
               isLoading={isLoading}
               percentage={data?.percentageDifference}
+              total={data?.total}
             />
           )}
           {graph && (

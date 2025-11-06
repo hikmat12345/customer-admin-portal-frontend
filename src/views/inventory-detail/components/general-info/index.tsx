@@ -5,6 +5,7 @@ import TooltipText from '@/components/ui/textbox';
 import formatDate from '@/utils/utils';
 import Link from 'next/link';
 import { DATE_FORMAT } from '@/utils/constants/constants';
+import { useParams } from 'next/navigation';
 const MapBox = dynamic(() => import('../../../../components/ui/map-box').then((mod) => mod.MapBox), {
   loading: () => <p>loading...</p>,
   ssr: false,
@@ -33,6 +34,7 @@ export default function GeneralInfo({
     site,
   },
 }: GeneralInfoProps) {
+  const params = useParams();
   const staticData = [
     { label: 'Veroxos ID', value: veroxosId },
     {
@@ -41,39 +43,45 @@ export default function GeneralInfo({
         <TooltipText
           text={serviceNumber ? `${serviceNumber}` : '-'}
           maxLength={15}
-          className="leading-6 text-[#1175BE] text-[0.0.938rem]"
+          className="leading-7 text-[#575757] text-[0.0.938rem]"
         />
       ),
     },
     {
       label: 'Vendor',
-      value: <TooltipText text={vendor ? vendor : '-'} maxLength={18} />,
+      value: <TooltipText text={vendor || '-'} maxLength={18} />,
     },
     {
       label: 'Account',
       value: (
-        <Link href={`/vendors/${accountLinkid}`} className="text-[0.938rem] leading-6 text-[#1175BE]">
-          {account}
+        <Link href={`/vendors/${accountLinkid}/${params.name}`} className="text-[0.938rem] leading-7 text-[#1175BE]">
+          <TooltipText text={account || '-'} maxLength={18} />
         </Link>
       ),
     },
     { label: 'Service Type', value: serviceType },
-    { label: 'Service Description', value: serviceDescription?.name },
+    {
+      label: 'Service Description',
+      value: <TooltipText text={serviceDescription?.name || '-'} maxLength={18} />,
+    },
     {
       label: 'Employee',
       value: employee?.id ? (
-        <Link href={`/employees/${employee?.id}`} className="text-[0.938rem] leading-6 text-[#1175BE]">
+        <Link href={`/employees/${employee?.id}`} className="text-[0.938rem] leading-7 text-[#1175BE]">
           <TooltipText
             text={employee ? `${employee.firstName} ${employee.lastName} - ${employee.email}` : '-'}
             maxLength={20}
-            className="text-[0.938rem] leading-6 text-[#1175BE]"
+            className="text-[0.938rem] leading-7 text-[#1175BE]"
           />
         </Link>
       ) : (
         ' - '
       ),
     },
-    { label: 'Purpose / Function', value: purposeOfService },
+    {
+      label: 'Purpose / Function',
+      value: <TooltipText text={purposeOfService || '-'} maxLength={18} />,
+    },
     { label: 'Contract Start Date', value: contractStartDate ? formatDate(contractStartDate, DATE_FORMAT) : '-' },
     { label: 'Contract End Date', value: contractEndDate ? formatDate(contractEndDate, DATE_FORMAT) : '-' },
     { label: 'Spare', value: spare !== undefined && spare !== null ? (spare ? 'Yes' : 'No') : ' - ' },
@@ -96,7 +104,7 @@ export default function GeneralInfo({
         <TooltipText
           text={notes ? `${notes}` : '-'}
           maxLength={15}
-          className="text-[0.938rem] leading-6 text-[#1175BE]"
+          className="text-[0.938rem] leading-7 text-[#1175BE]"
         />
       ),
     },
@@ -113,14 +121,14 @@ export default function GeneralInfo({
             <div className="flex justify-between sm:w-[100%] lg:w-[50%] lg:gap-x-[1rem] 2xl:gap-x-[2.813rem]">
               <div className="sm:w-[50%] lg:w-[45%]">
                 {staticData.slice(0, 8).map((item, index) => (
-                  <div key={index} className="text-[1rem] font-[600] text-[#000] lg:leading-6 xl:leading-7">
+                  <div key={index} className="text-[1rem] font-[600] leading-7 text-[#000]">
                     {item.label}
                   </div>
                 ))}
               </div>
               <div className="sm:w-[50%] lg:w-[55%]">
                 {staticData.slice(0, 8).map((item, index) => (
-                  <div key={index} className="text-[1rem] text-[#575757] lg:leading-6 xl:leading-7">
+                  <div key={index} className="text-[1rem] leading-7 text-[#575757]">
                     {item.value ? item.value : ' - '}
                   </div>
                 ))}
@@ -129,14 +137,14 @@ export default function GeneralInfo({
             <div className="flex justify-between sm:mt-5 sm:w-[100%] lg:mt-0 lg:w-[50%] lg:gap-x-[1rem] 2xl:gap-x-[2.813rem]">
               <div className="sm:w-[50%] lg:w-[60%]">
                 {staticData.slice(8).map((item, index) => (
-                  <div key={index} className="text-[1rem] font-[600] text-[#000] lg:leading-6 xl:leading-7">
+                  <div key={index} className="text-[1rem] font-[600] leading-7 text-[#000]">
                     {item.label}
                   </div>
                 ))}
               </div>
               <div className="sm:w-[50%] lg:w-[40%]">
                 {staticData.slice(8).map((item, index) => (
-                  <div key={index} className="text-[1rem] text-[#575757] lg:leading-6 xl:leading-7">
+                  <div key={index} className="text-[1rem] leading-7 text-[#575757]">
                     {item.value ? item.value : ' - '}
                   </div>
                 ))}

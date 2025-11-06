@@ -9,7 +9,8 @@ import {
 } from '@/services/accounts/accountsService';
 import { useQuery } from '@tanstack/react-query';
 
-export const useGetMonthlyInvoices = () => useQuery({ queryKey: ['monthly_invoices'], queryFn: getMonthlyInvoices });
+export const useGetMonthlyInvoicesHome = () => useQuery({ queryKey: ['home_monthly_invs_kpis'], queryFn: getMonthlyInvoices });
+export const useGetMonthlyInvoices = () => useQuery({ queryKey: ['invoices_monthly_invs_kpis'], queryFn: getMonthlyInvoices });
 
 export const useGetInvoices = (
   offset: number,

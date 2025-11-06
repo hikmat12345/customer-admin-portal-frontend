@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import Avatar from '@veroxos/design-system/dist/ui/Avatar/avatar';
 import AvatarFallback from '@veroxos/design-system/dist/ui/AvatarFallback/avatarFallback';
 import AvatarImage from '@veroxos/design-system/dist/ui/AvatarImage/avatarImage';
@@ -20,27 +19,6 @@ import {
   DropdownMenuTrigger,
 } from '../dropdown-menu';
 
-const items = [
-  {
-    id: 1,
-    label: 'Bot Message',
-    src: '/svg/navbar/bot-message.svg',
-    menuItems: [],
-  },
-  {
-    id: 2,
-    label: 'Avatar',
-    src: '/icons/navbar/dummyAvatar.jpg',
-    menuItems: [
-      { id: 1, label: 'My Account' },
-      {
-        id: 2,
-        label: 'Profile',
-      },
-    ],
-  },
-];
-
 const searchTextFieldVariants = cva('flex justify-between bg-custom-white p-2 rounded-full gap-x-1', {
   variants: {
     variant: {
@@ -50,16 +28,41 @@ const searchTextFieldVariants = cva('flex justify-between bg-custom-white p-2 ro
   },
 });
 
-function SearchTextField() {
+function getInitials(firstName: string, lastName: string) {
+  const firstInitial = firstName ? firstName.charAt(0) : '';
+  const lastInitial = lastName ? lastName.charAt(0) : '';
+  return `${firstInitial}${lastInitial}`;
+}
+
+function SearchTextField({ firstName, lastName }: { firstName: string; lastName: string }) {
   const [expanded, setExpanded] = React.useState(false);
   const [position, setPosition] = React.useState('bottom');
 
   const router = useRouter();
   const pathname = usePathname();
+
   const variant = expanded ? 'expanded' : 'default';
   const handleOnSubmit = (query: string) => {
     router.push(`/search?query=${query}`);
   };
+  const items = [
+    {
+      id: 1,
+      label: 'Bot Message',
+      type: 'bot',
+      src: '/svg/navbar/bot-message.svg',
+      menuItems: [],
+    },
+    {
+      id: 2,
+      label: `${firstName} ${lastName}`,
+      type: 'avatar',
+      src: '/icons/navbar/dummyAvatar.jpg',
+      menuItems: [{ id: 1, label: 'Settings', link: '/settings/profile' }],
+    },
+  ];
+
+  const initials = getInitials(firstName, lastName);
 
   return (
     <div className={cn(searchTextFieldVariants({ variant }))}>
@@ -68,16 +71,14 @@ function SearchTextField() {
       )}
       <div className="flex flex-1 items-center justify-end gap-x-2 pl-2">
         {items.map((item, index) => (
-          <div key={index} className={index === items?.length - 1 ? 'ml-3' : ''}>
+          <div key={index} className={index === items?.length - 1 ? 'ml-1' : ''}>
             <DropdownMenu>
               <DropdownMenuTrigger className="cursor-pointer" asChild>
-                {item.label === 'Avatar' ? (
+                {item.type === 'avatar' && (
                   <Avatar>
-                    <AvatarImage src="/icons/navbar/dummyAvatar.jpg" />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarImage src="/icons/s/navbar/dummyAvatar.jpg" />
+                    <AvatarFallback>{initials}</AvatarFallback>
                   </Avatar>
-                ) : (
-                  <Image src={item.src} alt={`${item.label} icon`} height={20} width={20} />
                 )}
               </DropdownMenuTrigger>
               <DropdownMenuContent>
@@ -85,7 +86,13 @@ function SearchTextField() {
                 <DropdownMenuSeparator />
                 {item.menuItems.map((menuItem) => (
                   <DropdownMenuRadioGroup value={position} onValueChange={setPosition} key={menuItem.id}>
-                    <DropdownMenuRadioItem value={menuItem.label}>{menuItem.label}</DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem
+                      className="cursor-pointer"
+                      value={menuItem.label}
+                      onClick={() => router.push(menuItem.link)}
+                    >
+                      {menuItem.label}
+                    </DropdownMenuRadioItem>
                   </DropdownMenuRadioGroup>
                 ))}
               </DropdownMenuContent>

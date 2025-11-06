@@ -1,8 +1,7 @@
 'use client';
 import React, { useEffect } from 'react';
 import { Separator } from '@/components/ui/separator';
-import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
-import CreateQueryString from '@/utils/createQueryString';
+import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation';
 import {
   useGetEmployeeCostTrend,
   useGetEmployeeDetail,
@@ -15,7 +14,7 @@ import TableData from '@/components/ui/summary-tables/table';
 import { ScrollTabs } from '@/components/ui/scroll-tabs';
 import Skeleton from '@/components/ui/skeleton/skeleton';
 import ServiceTypesGrid from '@/components/ui/service-badge';
-import formatDate, { moneyFormatter } from '@/utils/utils';
+import formatDate, { currencyFormatter } from '@/utils/utils';
 import { format, parseISO } from 'date-fns';
 import EmployeeGeneralInfo from './components/employee-general-info';
 import { DATE_TIME_FORMAT, MONTH_YEAR_FORMAT } from '@/utils/constants/constants';
@@ -26,26 +25,19 @@ type EmployeeDetailPageProps = {
 };
 function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
   const searchParams = useSearchParams() as ReadonlyURLSearchParams;
-  const router = useRouter();
-  const pathname = usePathname();
-  const isTerminated = searchParams.get('showTerminated');
-
-  const [showTerminated, setShowTerminated] = React.useState(true);
-  const createQueryString = CreateQueryString();
-
+  const [showTerminated, setShowTerminated] = React.useState(false);
+  const [showServiceButton, setShowServiceButton] = React.useState<boolean>(false);
   const employee_id = employeeId;
   const page = searchParams?.get('page') || '1';
 
   const limit = 7;
   const offset = +page - 1;
 
-  const queryParams = new URLSearchParams(searchParams?.toString());
-  const keys = Array.from(queryParams.keys());
-
   // get site detail
   const { data: employeeServiceDetailData, isLoading: isemployeeServiceDetailLoader } = useGetEmployeeDetail(
     Number(employee_id),
   );
+  const countryCurrencyCode = employeeServiceDetailData?.currency?.companyNetwork?.network?.country?.currencyCode;
   const {
     id: veroxosId,
     live,
@@ -57,8 +49,8 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     vip: vip_executive,
     costCentreForNewService: cost_center,
     site,
-    manager,
-  } = employeeServiceDetailData || {};
+  } = employeeServiceDetailData?.employeeDetail || {};
+  const manager = employeeServiceDetailData?.manager || {};
   // cost and trend data
   const costTrendLimit = 12;
   const {
@@ -75,48 +67,22 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     data: employeeServices,
     isLoading: isEmployeeServicesLoading,
     isError: employeeServicesError,
-    refetch: refetchServicesData,
-  } = useGetEmployeeServices(Number(employee_id), offset, limit, showTerminated);
+  } = useGetEmployeeServices(Number(employee_id), offset, limit, true);
 
-  const { data: employeeTerminatedServices, isError: employeeTerminatedServicesError } = useGetEmployeeServices(
-    Number(employee_id),
-    offset,
-    limit,
-    false,
-  );
+  const {
+    data: employeeTerminatedServices,
+    isLoading: isTerminatedServicesLoading,
+    isError: employeeTerminatedServicesError,
+  } = useGetEmployeeServices(Number(employee_id), offset, limit, false);
 
   const {
     data: employeeServiceTypes,
     isLoading: isEmployeeServiceType,
     isError: employeeServiceTypeError,
   } = useGetEmployeeServiceTypes(Number(employee_id));
-
-  const handlePageChange = async (page: number) => {
-    const params = new URLSearchParams();
-    if (searchParams) {
-      searchParams.forEach((value, key) => {
-        params.set(key, value);
-      });
-    }
-    params.set('page', page.toString());
-    router.push(`${pathname}?${params.toString()}`);
-    await refetchServicesData();
-  };
   const showTerminatedHandler = async () => {
     setShowTerminated(!showTerminated);
-    await refetchServicesData();
   };
-
-  useEffect(() => {
-    if (searchParams) {
-      if (keys.length > 1 || !keys.includes('page')) {
-        router.push(`${pathname}?${createQueryString('page', 1)}`);
-      }
-    }
-    if (showTerminated) {
-      router.push(`${pathname}?${createQueryString('showTerminated', showTerminated.toString())}`);
-    }
-  }, [keys.length]);
 
   const refinedEmployeeData: {
     number: string;
@@ -127,10 +93,10 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
     serviceStatus: number;
     cost: number;
     invoiceDate: string;
-  }[] = employeeServices?.data?.map((item: any) => ({
+  }[] = (showTerminated ? employeeTerminatedServices?.data : employeeServices?.data)?.map((item: any) => ({
     number: item?.service?.number,
     account: item?.service?.companyNetwork?.network?.name + '-' + item?.service?.account,
-    ['cost centre']: item?.service?.cost?.costCentre,
+    cost_center: item?.service?.cost?.costCentre,
     service_type: item?.service?.serviceType,
     serviceStatus:
       item?.service?.serviceStatus === 1 && item?.service?.suspended === 1
@@ -145,7 +111,7 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
       item.service?.cost?.usageRaw ||
       item.service?.cost?.otherRaw ||
       item?.service?.cost?.taxRaw
-        ? `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw || 0) + parseFloat(item.service?.cost?.usageRaw || 0) + parseFloat(item.service?.cost?.otherRaw || 0) + parseFloat(item?.service?.cost?.taxRaw || 0), 'usd')} (${formatDate(item?.service?.cost?.invoice?.invoiceDate, MONTH_YEAR_FORMAT)})`
+        ? `${currencyFormatter(parseFloat(item?.service?.cost?.rentalRaw || 0) + parseFloat(item.service?.cost?.usageRaw || 0) + parseFloat(item.service?.cost?.otherRaw || 0) + parseFloat(item?.service?.cost?.taxRaw || 0), countryCurrencyCode)} (${formatDate(item?.service?.cost?.invoice?.invoiceDate, MONTH_YEAR_FORMAT)})`
         : '-',
   }));
   const refinedTickets = siteTicketsData?.data?.tickets?.map((item: any) => {
@@ -180,7 +146,14 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
   ) {
     return <Error />;
   }
-
+  /* eslint-disable react-hooks/rules-of-hooks */
+  useEffect(() => {
+    if (!isEmployeeServicesLoading && !isTerminatedServicesLoading) {
+      setShowServiceButton(
+        employeeServices?.data?.length > 0 || employeeTerminatedServices?.data?.length > 0 ? true : false,
+      );
+    }
+  }, [isEmployeeServicesLoading, isTerminatedServicesLoading]);
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
       <ScrollTabs tabs={['general-information', ...listOfTabs]}>
@@ -219,27 +192,36 @@ function EmployeeDetailPage({ employeeId }: EmployeeDetailPageProps) {
                 tableClass="whitespace-nowrap"
               />
             )}
-            {!isemployeeServiceDetailLoader &&
-              (refinedEmployeeData?.length > 0 || employeeTerminatedServices?.data?.length > 0) && (
-                <>
-                  <button
-                    onClick={showTerminatedHandler}
-                    className="my-5 ml-auto block h-[40px] w-[220px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px]"
-                  >
-                    <span className="text-[0.875rem] font-semibold text-white">
-                      {showTerminated ? 'Show Terminated Services' : 'Show Live Services'}{' '}
-                    </span>
-                  </button>
-                  <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
-                </>
-              )}
+            {!isEmployeeServicesLoading && !isTerminatedServicesLoading && showServiceButton && (
+              <>
+                {employeeTerminatedServices?.data?.length > 0 && (
+                  <>
+                    <button
+                      onClick={showTerminatedHandler}
+                      className="my-5 ml-auto block h-[2.5rem] w-[13.75rem] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[1.125rem]"
+                    >
+                      <span className="text-[0.875rem] font-semibold text-white">
+                        {showTerminated ? 'Show Live Services' : 'Show Terminated Services'}
+                      </span>
+                    </button>
+                    <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
+                  </>
+                )}
+              </>
+            )}
           </div>
         </>
 
         {/* Cost Trend  */}
         {costTrendData?.length > 0 && (
           <div id="cost-trend">
-            <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
+            <LineChart
+              className="cost-trend"
+              label="Cost Trend"
+              data={costTrendData}
+              isLoading={isCostTrendLoading}
+              currencyCode={countryCurrencyCode}
+            />
             <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
           </div>
         )}

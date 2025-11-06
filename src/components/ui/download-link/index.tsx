@@ -66,7 +66,17 @@ export function DownloadAbleLink({
 
       downloadFile(fileType, blobdata, invoiceIdState, false, invoiceNumberState);
     }
-  }, [blobdata, isBlobLoading, blobError, fileType, invoiceIdState]);
+  }, [
+    blobdata,
+    isBlobLoading,
+    blobError,
+    fileType,
+    invoiceIdState,
+    isDocsFileLoading,
+    isExcelFileLoading,
+    isPdfFileLoading,
+    invoiceNumberState,
+  ]);
 
   return (
     <div className="flex w-full items-center">

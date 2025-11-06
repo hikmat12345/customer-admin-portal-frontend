@@ -15,6 +15,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import TicketsTableHead from './ticketsTableHead';
 import { TABLE_HEIGHT } from '@/utils/constants/constants';
+import { encrypt } from '@/utils/encryptParam';
 
 function TicketsTable({ allTickets }: { allTickets: Tickets }) {
   const isNoData = allTickets?.tickets?.length === 0;
@@ -35,7 +36,7 @@ function TicketsTable({ allTickets }: { allTickets: Tickets }) {
                 <TableCell className="text-left font-medium">
                   <Link
                     className="text-custom-dryBlue"
-                    href={`${pathname}/ticket-summary/${ticket.id}`}
+                    href={`${pathname}/ticket-summary/${ticket.id}/${encrypt(ticket?.workflow?.name)}`}
                   >{`SUP${ticket.id}`}</Link>
                 </TableCell>
                 <TableCell className="text-left">{ticket?.clientReferenceNo || '-'}</TableCell>
@@ -53,7 +54,7 @@ function TicketsTable({ allTickets }: { allTickets: Tickets }) {
                   >{`P${ticket?.priority}`}</div>
                 </TableCell>
                 <TableCell className="text-right">
-                  <Link href={`${pathname}/ticket-summary/${ticket.id}`}>
+                  <Link href={`${pathname}/ticket-summary/${ticket.id}/${encrypt(ticket?.workflow?.name)}`}>
                     <Button variant="null" size="sm">
                       <Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />
                     </Button>

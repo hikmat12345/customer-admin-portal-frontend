@@ -13,6 +13,7 @@ interface ISidebarItem {
   name: string;
   path: string;
   src: string;
+  target: string;
   items?: ISubItem[];
 }
 
@@ -37,7 +38,11 @@ function SidebarItem({ data, scrollToItem }: ISidebarItemProps) {
       return setExpanded(!expanded);
     }
     scrollToItem();
-    return router.push(path);
+    if (data.target.length > 0) {
+      window.open(path, data.target);
+    } else {
+      return router.push(path);
+    }
   };
   const isActive = useMemo(() => {
     if (items && items?.length > 0) {

@@ -4,13 +4,14 @@ import React, { useEffect, useState } from 'react';
 import GeneralInfoSkeletons from '@/components/ui/summary-skeletons';
 import { useGetSiteInvoiceFile } from '@/hooks/useGetSites';
 import { InvoiceSummaryTypes } from '@/types/account/account';
-import formatDate, { downloadFile, moneyFormatter } from '@/utils/utils';
+import formatDate, { downloadFile, currencyFormatter } from '@/utils/utils';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import Image from 'next/image';
 import TooltipText from '@/components/ui/textbox';
 import VImage from '@/components/ui/image';
 import { format, parse } from 'date-fns';
 import { DATE_FORMAT, MONTH_YEAR_FORMAT, MONTH_YEAR_FORMAT_SLASH } from '@/utils/constants/constants';
+import toast from 'react-hot-toast';
 
 export default function InvoiceSummary({ invoiceData, vendorData, isLoading = false }: InvoiceSummaryTypes) {
   const [invoiceId, setInvoiceId] = useState<string>('');
@@ -34,7 +35,19 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
     });
   };
 
-  const { data: blobdata, isLoading: isBlobLoading, error: blobError, refetch } = useGetSiteInvoiceFile(invoiceId);
+  const promisedSetFileShowingType = (state: any) => {
+    return new Promise((resolve) => {
+      setShowInBrowser(state);
+      resolve(state);
+    });
+  };
+
+  const {
+    data: blobdata,
+    isLoading: isBlobLoading,
+    error: blobError,
+    refetch,
+  } = useGetSiteInvoiceFile(invoiceId, showInBrowser);
 
   const fileDownloadFile = async (
     fileId: number,
@@ -54,6 +67,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
       fileType == 'docs' ? `${fileId}_allocation.csv` : fileType == 'xls' ? `${fileId}.xlsx` : `${fileId}.pdf`;
     await promisedSetInvoice(makeInvoiceId);
     await promisedSetInvoiceNumber(invoiceNumber);
+    await promisedSetFileShowingType(Boolean(isViewPdf));
     setFileType(fileType);
     refetch();
   };
@@ -82,10 +96,13 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
       value: invoiceData.invoiceDate ? formatDate(invoiceData.invoiceDate, DATE_FORMAT) : '-',
     },
     { label: 'Fiscal Month / Year', value: parsedDate },
-    { label: 'Previous Balance Paid', value: moneyFormatter(invoiceData.previousBalancePaid, vendorData.currency) },
-    { label: 'Carried Forward Balance', value: moneyFormatter(invoiceData.carriedForwardBalance, vendorData.currency) },
-    { label: 'Tax & Fees', value: moneyFormatter(invoiceData.taxAndFees, vendorData.currency) },
-    { label: 'Amount to Pay', value: moneyFormatter(invoiceData.amountToPay, vendorData.currency) },
+    { label: 'Previous Balance Paid', value: currencyFormatter(invoiceData.previousBalancePaid, vendorData.currency) },
+    {
+      label: 'Carried Forward Balance',
+      value: currencyFormatter(invoiceData.carriedForwardBalance, vendorData.currency),
+    },
+    { label: 'Tax & Fees', value: currencyFormatter(invoiceData.taxAndFees, vendorData.currency) },
+    { label: 'Amount to Pay', value: currencyFormatter(invoiceData.amountToPay, vendorData.currency) },
     { label: 'Invoice (PDF)', value: invoiceData.invoiceId, isPdf: true },
     { label: 'APF Request #', value: invoiceData.apfRequestNumber },
     {
@@ -103,13 +120,13 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
         <TooltipText
           text={invoiceData.invoiceNumber ? invoiceData.invoiceNumber : '-'}
           maxLength={10}
-          className="text-[0.875rem] text-[#575757]"
+          className="text-[0.875rem] leading-7 text-[#575757]"
         />
       ),
     },
-    { label: 'Adjustments', value: moneyFormatter(invoiceData.adjustments, vendorData.currency) },
-    { label: 'Sub Total', value: moneyFormatter(invoiceData.subTotal, vendorData.currency) },
-    { label: 'Total', value: moneyFormatter(invoiceData.total, vendorData.currency) },
+    { label: 'Adjustments', value: currencyFormatter(invoiceData.adjustments, vendorData.currency) },
+    { label: 'Sub Total', value: currencyFormatter(invoiceData.subTotal, vendorData.currency) },
+    { label: 'Total', value: currencyFormatter(invoiceData.total, vendorData.currency) },
     { label: 'Invoice Type', value: invoiceData.invoiceType ? invoiceData.invoiceType : '-' },
     { label: 'Include in APF', value: invoiceData.includeInAPF ? 'Yes' : 'No' },
     { label: 'Status', value: invoiceData.status },
@@ -148,10 +165,11 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                           <div className="cursor-pointer">
                             <Button
                               loading={isShowInBrowserLoading}
-                              className="h-0 !bg-transparent py-0 pl-0 text-[0.875rem] leading-7 text-custom-blue underline decoration-2"
+                              className="h-7 !bg-transparent py-0 pl-0 text-[0.875rem] leading-7 text-custom-blue underline decoration-2"
                               onClick={() => {
-                                setShowInBrowser(true);
-                                fileDownloadFile(Number(item.value), 'pdf', invoiceData.invoiceNumber, true);
+                                invoiceData.isMicrosof365
+                                  ? toast.error('This invoice cannot be downloaded')
+                                  : fileDownloadFile(Number(item.value), 'pdf', invoiceData.invoiceNumber, true);
                               }}
                             >
                               View
@@ -238,7 +256,7 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                 </div>
               </div>
               <div className="flex justify-center lg:w-2/4 xl:w-auto">
-                {invoiceData?.invoiceId && vendorData.logo && (
+                {invoiceData?.invoiceId && vendorData?.logo ? (
                   <VImage
                     src={process.env.NEXT_PUBLIC_ASSETS_LOGO_PATH + vendorData.logo}
                     alt="Invoice Summary Logo"
@@ -246,6 +264,8 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                     height={500}
                     className="h-[190px] w-[230px] object-contain"
                   />
+                ) : (
+                  <div className="h-[190px] w-[230px]"></div>
                 )}
               </div>
             </div>
@@ -257,7 +277,11 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                 loading={isXlsFileLoading}
                 type="submit"
                 className="flex items-center rounded border-none bg-transparent px-0 py-2 text-[#219653] animate-in hover:text-[#21965492]"
-                onClick={() => fileDownloadFile(Number(invoiceData?.invoiceId), 'xls', invoiceData.invoiceNumber)}
+                onClick={() => {
+                  invoiceData.isMicrosof365
+                    ? toast.error('This invoice cannot be downloaded')
+                    : fileDownloadFile(Number(invoiceData?.invoiceId), 'xls', invoiceData.invoiceNumber, false);
+                }}
               >
                 <Image
                   src="/svg/excel-icon.svg"
@@ -274,7 +298,11 @@ export default function InvoiceSummary({ invoiceData, vendorData, isLoading = fa
                 loading={isPdfFileLoading}
                 type="submit"
                 className="ml-[10px] flex items-center rounded border-none bg-transparent px-4 py-2 text-[#E41323] animate-in hover:text-[#e4132499]"
-                onClick={() => fileDownloadFile(Number(invoiceData?.invoiceId), 'pdf', invoiceData.invoiceNumber)}
+                onClick={() => {
+                  invoiceData.isMicrosof365
+                    ? toast.error('This invoice cannot be downloaded')
+                    : fileDownloadFile(Number(invoiceData?.invoiceId), 'pdf', invoiceData.invoiceNumber, false);
+                }}
               >
                 <Image src="/svg/pdf-icon.svg" width={20} height={20} alt="Download PDF" className="mr-2" />
                 <span className="w-[55%] text-[1rem] font-[600] underline decoration-2 lg:leading-7 xl:leading-7">

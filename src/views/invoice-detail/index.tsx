@@ -65,7 +65,8 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
     clientVendorID: vendorInfoData?.invoice?.companyNetwork?.sapVendorNumber,
     logo: vendorInfoData?.invoice?.companyNetwork?.network?.logo,
   };
-
+  // will be handled in the future
+  const isMicrosof365 = vendorInfoData?.invoice?.companyNetwork?.id === 272;
   const listOfTabs = [];
   if (invoiceActivityLog?.length > 0) {
     listOfTabs.push('invoice-activity-log');
@@ -99,6 +100,7 @@ const InvoiceSummaryPage = ({ invoiceId }: InvoiceSummaryPageProps) => {
               includeInAPF: includeInAP,
               dateEntered: createdDate,
               status: status,
+              isMicrosof365: isMicrosof365,
             }}
             vendorData={vendorInfo}
             isLoading={isInvoiceSummaryLoading}

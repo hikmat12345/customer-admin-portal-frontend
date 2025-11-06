@@ -9,7 +9,7 @@ function InventoryCard({
 }: {
   data?: ReactNode;
   title?: string;
-  message: string;
+  message: ReactNode;
   isLoading?: boolean;
 }) {
   return (
@@ -24,7 +24,7 @@ function InventoryCard({
             <h2 className="text-sm font-semibold text-custom-black md:text-base 2xl:text-lg">{title}</h2>
             <div className="flex items-center gap-5">{data}</div>
 
-            <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">{message}</p>
+            {message}
           </div>
         )}
       </div>

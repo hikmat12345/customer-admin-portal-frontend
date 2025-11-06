@@ -181,7 +181,14 @@ function SelectComponent({ menuOption, index }: { menuOption: any; index: number
                         <Check
                           className={cn(
                             'mr-2 h-4 w-4',
-                            currentParamValue.includes(option?.value) ? 'opacity-100' : 'opacity-0',
+                            currentParamValue
+                              ?.split(',')
+                              ?.map((item) => item?.trim())
+                              ?.filter((item) => item !== '')
+                              ?.map(Number)
+                              ?.includes(option?.value)
+                              ? 'opacity-100'
+                              : 'opacity-0',
                           )}
                         />
                         {option?.label}

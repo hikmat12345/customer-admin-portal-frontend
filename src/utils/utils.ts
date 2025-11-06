@@ -1,9 +1,42 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { ServiceType } from './enums/serviceType.enum';
-import { eachYearOfInterval, format as formatdeteFns, isValid, parseISO } from 'date-fns';
-import { DATE_FORMAT, DATE_TIME_FORMAT } from './constants/constants';
+import { eachYearOfInterval, format as formatdeteFns, isValid, parseISO, format, parse } from 'date-fns';
+import { DATE_FORMAT, DATE_TIME_FORMAT, DEFAULT_LOCALE } from './constants/constants';
 import { format as tzFormat, toZonedTime } from 'date-fns-tz';
+
+const knownFormats = [
+  'MM-yyyy',
+  'yyyy-MM',
+  'yyyy-MM-dd',
+  'MM/dd/yyyy',
+  'dd/MM/yyyy',
+  'MM-dd-yyyy',
+  'yyyy/MM/dd',
+  'MMM dd, yyyy',
+  'dd MMM yyyy',
+];
+
+export function parseUnknownFormatDate(dateString: string) {
+  let parsedDate;
+
+  // Try to parse as ISO format first
+  parsedDate = parseISO(dateString);
+  if (isValid(parsedDate)) {
+    return format(parsedDate, 'yyyy-MM-dd');
+  }
+
+  // Try to parse with known formats
+  for (const formatStr of knownFormats) {
+    parsedDate = parse(dateString, formatStr, new Date());
+    if (isValid(parsedDate)) {
+      return format(parsedDate, 'yyyy-MM-dd');
+    }
+  }
+
+  // Handle invalid date by returning an empty string or a default value
+  return '';
+}
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -36,13 +69,16 @@ export function getTimeDifference(updated: string): string {
 }
 
 export const getFormattedTotal = (total: number) => {
+  const formatNumber = (num: number) => {
+    return num % 1 === 0 ? num?.toString() : Number(num?.toFixed(2));
+  };
   if (total >= 1000000) {
     return `${(total / 1000000).toFixed(2)}M`;
   }
   if (total >= 1000) {
     return `${(total / 1000).toFixed(2)}k`;
   }
-  return total?.toString();
+  return formatNumber(total);
 };
 
 export function getServiceType(id: ServiceType): string {
@@ -122,7 +158,7 @@ export function stringFindAndReplaceAll(str: string, find: string, replace: stri
 }
 
 // Create number formatter.
-export const moneyFormatter = (value: number, currency: string | null = null) => {
+export const currencyFormatter = (value: number, currency: string | null = null) => {
   if (isNaN(value)) {
     return '-';
   }
@@ -150,40 +186,17 @@ export function downloadFile(
   showInBrowser: boolean = false,
   invoiceNumber: string,
 ) {
-  let base64String: string | null = null;
-  let mimeType: string | null = null;
-  let fileExtension: string | null = null;
-
-  if (givenFileType === 'pdf') {
-    base64String = response?.data ? Buffer.from(response?.data).toString('base64') : null;
-    mimeType = 'application/pdf';
-    fileExtension = 'pdf';
-  } else if (givenFileType === 'xls') {
-    base64String = response?.data ? Buffer.from(response?.data).toString('base64') : null;
-    mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    fileExtension = response?.filetype === 'xls' ? 'xls' : 'xlsx';
-  } else if (givenFileType === 'docs') {
-    base64String = response?.data ? Buffer.from(response?.data).toString('base64') : null;
-    mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-    fileExtension = 'csv';
+  const fileUrl = response?.data;
+  const link = document.createElement('a');
+  link.href = fileUrl;
+  if (showInBrowser) {
+    link.target = '_blank';
+  } else {
+    link.download = `invoice_${invoiceNumber}.${givenFileType}`;
   }
-
-  if (base64String && mimeType && fileExtension) {
-    const fileUrl = `data:${mimeType};base64,${base64String}`;
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    if (showInBrowser) {
-      const mimeType = 'application/pdf';
-      const blob = base64ToBlob(base64String, mimeType);
-      const blobUrl = URL.createObjectURL(blob);
-      window.open(blobUrl, '_blank');
-    } else {
-      link.download = `invoice_${invoiceNumber}.${fileExtension}`;
-    }
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 
 // Function to format a date in the specified format
@@ -329,100 +342,59 @@ export const monthNames = [
 export const makeFileUrlFromBase64 = (base64String?: string | null, mimeType?: string, fileExtension?: string, fileName?: string) =>
   base64String ? `data:image/png;base64,${base64String}` : '/device-image.png';
 
+export const makeAnyFileUrlFromBase64 = (base64String?: string | null, mimeType?: string, fileExtension?: string, fileName?: string) => {
+  return base64String ? `data:${mimeType};base64,${base64String}` : '';
+};
 export const currencyList = [
   {
     label: 'Native',
-    value: 'raw',
+    value: '0',
   },
   {
     label: 'British Pound',
-    value: 'gbp',
+    value: '1',
   },
   {
     label: 'United States Dollar',
-    value: 'usd',
+    value: '2',
   },
   {
     label: 'Euro',
-    value: 'eur',
+    value: '3',
   },
   {
     label: 'Austrailian Dollar',
-    value: 'aud',
+    value: '4',
   },
   {
     label: 'Japanese Yen',
-    value: 'jpy',
+    value: '5',
   },
 ];
 
 // switch for currency symbol, later we will write api for them.
-export const findCurrencySymbol = (currency: string) => {
-  switch (currency) {
-    case 'USD':
-      return '$';
-    case 'GBP':
-      return '£';
-    case 'EUR':
-      return '€';
-    case 'AUD':
-      return 'A$';
-    case 'CAD':
-      return 'C$';
-    case 'NZD':
-      return 'NZ$';
-    case 'ZAR':
-      return 'R';
-    case 'INR':
-      return '₹';
-    case 'JPY':
-      return '¥';
-    case 'CNY':
-      return '¥';
-    case 'SGD':
-      return 'S$';
-    case 'HKD':
-      return 'HK$';
-    case 'CHF':
-      return 'CHF';
-    case 'SEK':
-      return 'kr';
-    case 'NOK':
-      return 'kr';
-    case 'DKK':
-      return 'kr';
-    case 'PLN':
-      return 'zł';
-    case 'HUF':
-      return 'Ft';
-    case 'CZK':
-      return 'Kč';
-    case 'ILS':
-      return '₪';
-    case 'TRY':
-      return '₺';
-    case 'AED':
-      return 'د.إ';
-    case 'SAR':
-      return 'ر.س';
-    case 'QAR':
-      return 'ر.ق';
-    case 'KWD':
-      return 'د.ك';
-    case 'BHD':
-      return 'د.ب';
-    case 'OMR':
-      return 'ر.ع.';
-    case 'EGP':
-      return 'E£';
-    case 'MYR':
-      return 'RM';
-    case 'IDR':
-      return 'Rp';
-    default:
-      return currency;
-  }
+/**
+ * Function to find the currency symbol for a given currency code.
+ * @param {string} currency - The ISO currency code (e.g., 'USD', 'EUR').
+ * @returns {string} The currency symbol.
+ */
+// will change the default currency "USD" later
+export const findCurrencySymbol = (currency: string = 'USD') => {
+  const getCurrencySymbol = (locale: string, currency: string) =>
+    (0)
+      ?.toLocaleString(locale, { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 })
+      .replace(/\d/g, '')
+      .trim();
+
+  // Define a default locale to use for formatting.
+  const defaultLocale = DEFAULT_LOCALE;
+
+  // Get the currency symbol for the provided currency code.
+  return getCurrencySymbol(defaultLocale, currency);
 };
+
+// Example usage
+// findCurrencySymbol('USD'); // Output: $
 // getting list of years till the current year
 
 const startYear = 2000;
@@ -485,4 +457,14 @@ export const serviceTypeDropdown = (showUnknown = false, subAccount = false, sho
       value: item.id,
       label: item.label,
     }));
+};
+
+// make single digit to double digit
+export const makeDoubleDigit = (value: number) => {
+  return value < 10 ? `0${value}` : value;
+};
+
+// digit formter
+export const digitFormatter = (value: number) => {
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };

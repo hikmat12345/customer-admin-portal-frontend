@@ -3,9 +3,9 @@
 import { getIn, FieldProps } from 'formik';
 import * as React from 'react';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
-import { cn } from '@/utils/utils';
+import { cn, parseUnknownFormatDate } from '@/utils/utils';
 import { CalendarIcon } from 'lucide-react';
-import { format, getMonth, getYear, isFuture } from 'date-fns';
+import { format, getMonth, getYear, isFuture, isValid } from 'date-fns';
 import { MONTH_DAY_AND_YEAR } from '@/utils/constants/dateFormat.constants';
 import { Calendar } from '../../DatePicker/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover';
@@ -14,6 +14,8 @@ interface FormikDatePickerProps extends FieldProps {
   error: boolean;
   helperText: string;
   label: string;
+  isScheduled: boolean;
+  className: string;
 }
 
 function FormikDatePicker(props: FormikDatePickerProps) {
@@ -23,6 +25,8 @@ function FormikDatePicker(props: FormikDatePickerProps) {
     field,
     helperText,
     label,
+    className,
+    isScheduled = false,
     ...rest
   } = props;
 
@@ -31,7 +35,11 @@ function FormikDatePicker(props: FormikDatePickerProps) {
   const isTouched = getIn(touched, name);
   const error = getIn(errors, field.name);
 
-  const date = getIn(values, name);
+  const date = getIn(values, name)
+    ? isValid(getIn(values, name))
+      ? getIn(values, name)
+      : parseUnknownFormatDate(getIn(values, name))
+    : getIn(values, name);
   const startDate = getIn(values, 'From');
   const endDate = getIn(values, 'To');
 
@@ -60,13 +68,13 @@ function FormikDatePicker(props: FormikDatePickerProps) {
   const today = new Date();
 
   const isDateDisabled = (date: Date) => {
-    return isFuture(date) && (getMonth(date) > getMonth(today) || getYear(date) > getYear(today));
+    return !isScheduled && isFuture(date) && (getMonth(date) > getMonth(today) || getYear(date) > getYear(today));
   };
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-[14px] font-semibold text-[#575757]">
-        {name} <span className="text-rose-500"> *</span>
+      <span className="text-[0.875rem] font-semibold text-[#575757]">
+        {label ?? name} <span className="text-rose-500"> *</span>
       </span>
       <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
         <PopoverTrigger asChild>
@@ -77,6 +85,7 @@ function FormikDatePicker(props: FormikDatePickerProps) {
               'w-[240px] justify-start text-left font-normal',
               !date && 'text-muted-foreground',
               ((isTouched && error) || error) && 'border-2 border-rose-500',
+              className,
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
@@ -84,17 +93,22 @@ function FormikDatePicker(props: FormikDatePickerProps) {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start" side="bottom">
-          <Calendar
+        <Calendar
             mode="single"
+            captionLayout="dropdown-buttons"
             selected={date ? new Date(date) : undefined}
             onSelect={handleDateSelect}
+            onDayClick={() => setPopoverOpen(false)}
             initialFocus
             disabled={isDateDisabled}
+            fromYear={1960}
+            toYear={new Date().getFullYear()}
+            // Set initial month and year to the selected date's month and year
+            defaultMonth={date ? new Date(date) : undefined}
           />
         </PopoverContent>
       </Popover>
-      {name === 'From' && error && <span className="text-[12px] text-red-500">{error}</span>}
-      {name === 'To' && error && <span className="text-[12px] text-red-500">{error}</span>}
+      {error && <span className="text-[0.75rem] text-red-500">{error}</span>}
     </div>
   );
 }

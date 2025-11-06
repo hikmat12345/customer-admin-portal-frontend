@@ -14,10 +14,6 @@ function TicketsCard({ data, isLoading }: { data: TicketsData; isLoading: boolea
 
   let averageReviews = data?.averageScore;
 
-  if (averageReviews % 1 >= 0.5) {
-    averageReviews = Math.ceil(averageReviews);
-  }
-
   return (
     <div className="relative h-auto min-h-[150px] min-w-[300px] rounded-lg border border-custom-plaster pl-7 pt-3">
       <div className="flex gap-[10px]">
@@ -42,8 +38,14 @@ function TicketsCard({ data, isLoading }: { data: TicketsData; isLoading: boolea
               </p>
 
               <div className="flex flex-col items-end gap-2">
-                <Ratings rating={averageReviews} variant="yellow" />
-                <div className="text-sm text-custom-silverSand">{averageReviews.toFixed(1)}/5</div>
+                <>
+                  <Ratings rating={averageReviews} variant="yellow" />
+                  <div className="text-sm text-custom-silverSand">
+                    {averageReviews === 0
+                      ? 'No Feedback Provided.'
+                      : `${Number.isInteger(averageReviews) ? averageReviews : averageReviews.toFixed(2)}/5`}{' '}
+                  </div>
+                </>
               </div>
             </div>
           </div>

@@ -101,22 +101,22 @@ function InvoicesPage() {
   const thisMonthAndYear = getLastMonthAndYear(invoicesData?.thisMonth);
   const lastMonthAndYear = getLastMonthAndYear(invoicesData?.lastMonth);
 
-  const getThisMonthMessage = (difference: number, formattedDifference: string) => {
+  const getThisMonthMessage = (difference: number, formattedDifference: string | number) => {
     let message = null;
     switch (true) {
       case difference > 0:
         message = (
-          <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
+          <p className="w-full text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
             Current expenditure of {thisMonthAndYear?.formatted} exceeds {lastMonthAndYear?.formatted} by over{' '}
-            <span className="font-semibold text-custom-red">${formattedDifference}</span>
+            <span className="font-semibold text-custom-red">${formattedDifference}.</span>
           </p>
         );
         break;
       case difference < 0:
         message = (
-          <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
-            Current expenditure is lower than {lastMonthAndYear?.formatted} by over{' '}
-            <span className="font-semibold text-[#219653]">${formattedDifference}</span>
+          <p className="w-full text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
+            Current expenditure of {thisMonthAndYear?.formatted} is less than {lastMonthAndYear?.formatted} by over{' '}
+            <span className="font-semibold text-[#219653]">${formattedDifference}.</span>
           </p>
         );
         break;
@@ -126,7 +126,7 @@ function InvoicesPage() {
   };
 
   const lastMonthMessage = (
-    <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
+    <p className="text-xs font-medium text-custom-grey lg:w-[20rem] 2lg:w-[25rem] xl:w-[28rem] xl:text-xs 2xl:text-sm">
       Invoice value of{' '}
       <span
         className={`${
@@ -135,7 +135,7 @@ function InvoicesPage() {
       >
         ${getFormattedTotal(invoicesData?.lastMonth?.total)}
       </span>{' '}
-      processed {lastMonthAndYear?.formatted}.
+      processed in {lastMonthAndYear?.formatted}.
     </p>
   );
 

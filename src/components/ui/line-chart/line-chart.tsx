@@ -1,8 +1,7 @@
 'use client';
 
 import { MONTH_FORMAT, MONTH_YEAR_FORMAT } from '@/utils/constants/constants';
-import { moneyFormatter } from '@/utils/utils';
-import { ApexOptions } from 'apexcharts';
+import { currencyFormatter } from '@/utils/utils';
 import { format } from 'date-fns';
 import { Loader } from 'lucide-react';
 import React from 'react';
@@ -10,11 +9,21 @@ import ReactApexChart from 'react-apexcharts';
 
 type LineChartProps = {
   label?: string;
-  data: { date: string; total_cost: number }[];
+  data: any;
   isLoading: boolean;
+  className?: string;
+  mix?: boolean;
+  currencyCode?: string;
 };
-function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
-  const options: ApexOptions = {
+function LineChart({
+  label,
+  data = [],
+  isLoading = false,
+  className = '',
+  mix = false,
+  currencyCode = '',
+}: LineChartProps) {
+  const options: any = {
     chart: {
       type: 'line',
       zoom: {
@@ -23,6 +32,7 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
       toolbar: {
         show: false,
       },
+      stacked: mix,
     },
     annotations: {
       xaxis: [
@@ -44,16 +54,35 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
         },
       ],
     },
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          legend: {
+            position: 'bottom',
+            offsetX: -10,
+            offsetY: 0,
+          },
+        },
+      },
+    ],
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        borderRadius: 10,
+        borderRadiusApplication: 'end', // 'around', 'end'
+        borderRadiusWhenStacked: 'last', // 'all', 'last'
+      },
+    },
     dataLabels: {
       enabled: true,
       formatter(value: any) {
-        return moneyFormatter(value, 'USD');
+        return currencyFormatter(value, currencyCode);
       },
       background: {
         padding: 5,
         borderRadius: 3,
         borderWidth: 0,
-
         borderColor: '#fff',
       },
       offsetX: 0,
@@ -73,7 +102,7 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
       },
     },
     xaxis: {
-      categories: [...data?.map((d) => d.date)].reverse(),
+      categories: mix ? data[0].reverse() : [...data?.map((d: { date: string }) => d.date)].reverse(),
       labels: {
         format: MONTH_YEAR_FORMAT,
         formatter: function (value: string) {
@@ -82,12 +111,12 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
         },
       },
     },
-    labels: [...data?.map((d) => d.date)].reverse(),
+    labels: mix ? data[0].reverse() : [...data?.map((d: { date: string }) => d.date)].reverse(),
 
     yaxis: {
       labels: {
         formatter(value: any) {
-          return moneyFormatter(value, 'USD');
+          return currencyFormatter(value, currencyCode)?.split('.')[0];
         },
       },
       min(value: number) {
@@ -95,8 +124,8 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
       },
     },
     legend: {
-      show: false,
-      position: 'top',
+      show: mix,
+      position: 'bottom',
     },
     markers: {
       size: 6,
@@ -146,19 +175,23 @@ function LineChart({ label, data = [], isLoading = false }: LineChartProps) {
         <div className="py-8 text-center text-lg">No data found</div>
       ) : (
         <>
-          <div className="flex">
+          <div className={`flex ${className}`}>
             <div className="relative top-44 h-full w-[3%] rotate-[270deg] whitespace-pre text-[1rem] font-bold leading-7 text-[#000]">
               Total Cost
             </div>
             <div id="chart " className="w-[97%]">
               <ReactApexChart
                 options={options}
-                series={[
-                  {
-                    name: '',
-                    data: [...data?.map((d) => d.total_cost)].reverse(),
-                  },
-                ]}
+                series={
+                  mix
+                    ? data[1].reverse()
+                    : [
+                        {
+                          name: '',
+                          data: [...data?.map((d: { date: any; total_cost: number }) => d.total_cost)].reverse(),
+                        },
+                      ]
+                }
                 type="line"
                 height={350}
               />

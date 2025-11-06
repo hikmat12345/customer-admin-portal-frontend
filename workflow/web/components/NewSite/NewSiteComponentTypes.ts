@@ -1,0 +1,45 @@
+export type NewSiteFormValuesType = {
+  siteName: string;
+  isValidateSiteName: boolean;
+  buildingName: string;
+  isValidateBuildingName: boolean;
+  streetLine1: string;
+  isValidateStreetLine1: boolean;
+  streetLine2: string;
+  isValidateStreetLine2: boolean;
+  city: string;
+  isValidateCity: boolean;
+  postCode: string;
+  isValidatePostCode: boolean;
+  state: string;
+  isValidateState: boolean;
+  latitude: string;
+  isValidateLatitude: boolean;
+  longitude: string;
+  isValidateLongitude: boolean;
+  contactPhoneNumber: string;
+  isValidateContactPhoneNumber: boolean;
+  contactEmail: string;
+  isValidateContactEmail: boolean;
+  contactName: string;
+  isValidateContactName: boolean;
+  siteCode: string;
+  isValidateSiteCode: boolean;
+};
+
+export type NewSiteDataType = {
+  siteName: string;
+  buildingName: string;
+  streetLine1: string;
+  streetLine2: string;
+  city: string;
+  postCode: string;
+  state: string;
+  latitude: string;
+  longitude: string;
+  contactPhoneNumber: string;
+  contactEmail: string;
+  contactName: string;
+  siteCode: string;
+  country: string;
+};

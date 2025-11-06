@@ -127,7 +127,7 @@
   @apply rounded bg-gray-800 p-2 text-sm text-white shadow-lg;
 }
 /* added parent selector so that it doesn't affect other tooltips */
-#cost-trend .apexcharts-tooltip.apexcharts-theme-light {
+.cost-trend .apexcharts-tooltip.apexcharts-theme-light {
   border: 1px solid #e3e3e3;
   background: #ff2278;
   color: white;
@@ -135,20 +135,46 @@
   height: 30px;
   margin-top: 10px;
 }
+.negative-label tspan {
+  fill: #a40000 !important;
+}
 
-#cost-trend .apexcharts-xaxistooltip {
+.cost-trend .apexcharts-xaxistooltip,
+#mix-chart .apexcharts-xaxistooltip {
   background: #00e396ed;
   background: #00e396;
   color: white;
   font-weight: bold;
 }
-
-#cost-trend .apexcharts-xaxistooltip-bottom:after {
+#mix-chart .apexcharts-legend {
+  gap: 1.5rem;
+}
+#mix-chart {
+  font-family: '__Inter_aaf875, __Inter_Fallback_aaf875';
+}
+.apexcharts-annotation-rect {
+  width: 100% !important;
+}
+.cost-trend .apexcharts-xaxistooltip-bottom:after {
   border-bottom-color: #00e396ed;
 }
 .separator-bg-1 {
   background: #5d5b5b61;
 }
+/* service type tree css  */
+.node__root > .rd3t-label {
+  translate: -65px -28px !important;
+}
+.node__root > circle {
+  fill: #1d46f3;
+  stroke-width: 15px !important;
+  stroke: #1d46f3;
+}
+
+.node__leaf > circle {
+  fill: #d2dafd;
+}
+/* end service type tree css  */
 
 @media (max-width: 1536px) {
   html {
@@ -178,4 +204,8 @@
   html {
     font-size: 12px;
   }
+}
+
+#launcher {
+  margin-bottom: 20px;
 }

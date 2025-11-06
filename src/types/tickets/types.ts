@@ -112,6 +112,10 @@ export interface TicketUpdate {
   ticketUpdateStatus: {
     name: string;
   };
+  ticketUpdateAttachment?: {
+    id: number;
+    fileName: string;
+  };
   administrator?: {
     firstName: string;
     lastName: string;

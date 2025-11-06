@@ -12,8 +12,7 @@ import {
   useGetSiteTickets,
 } from '@/hooks/useGetSites';
 import SiteGeneralInfo from './components/site-general-info';
-import CreateQueryString from '@/utils/createQueryString';
-import { moneyFormatter } from '@/utils/utils';
+import { currencyFormatter } from '@/utils/utils';
 import Skeleton from '@/components/ui/skeleton/skeleton';
 import Pagination from '@/components/ui/pagination';
 import LineChart from '@/components/ui/line-chart';
@@ -31,20 +30,13 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const isTerminated = searchParams?.get('showTerminated');
-
-  const [showTerminated, setShowTerminated] = React.useState<boolean>(true);
-  const createQueryString = CreateQueryString();
-
+  const [showTerminated, setShowTerminated] = React.useState<boolean>(false);
+  const [showServiceButton, setShowServiceButton] = React.useState<boolean>(false);
   const site_id = siteId;
   const page = searchParams?.get('page') || '1';
-
+  const terminatedServices = true;
   const limit = 7;
   const offset = +page - 1;
-
-  const queryParams = new URLSearchParams(searchParams?.toString());
-  const keys = Array.from(queryParams.keys());
-
   // get site detail
   const { data: siteServiceDetailData, isLoading: isSiteServiceDetailLoader } = useGetSiteDetail(Number(site_id));
   const {
@@ -64,6 +56,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     longitude,
     status,
   } = siteServiceDetailData || {};
+  const countryCurrencyCode = siteServiceDetailData?.country?.currencyCode;
 
   // get services types data
   const { data: serviceTypesData, isLoading: isServiceTypesLoading } = useGetServiceTypes(Number(site_id));
@@ -77,13 +70,13 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     data: siteServices,
     isLoading: isServicesLoader,
     refetch: refetchData,
-  } = useGetSiteServices(Number(site_id), offset, limit, showTerminated);
+  } = useGetSiteServices(Number(site_id), offset, limit, terminatedServices);
 
   const { data: siteTerminatedServices, isLoading: isTerminatedServicesLoader } = useGetSiteServices(
     Number(site_id),
     offset,
     limit,
-    false,
+    !terminatedServices,
   );
 
   const {
@@ -113,10 +106,8 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
   };
   const showTerminatedHandler = async () => {
     setShowTerminated(!showTerminated);
-    await refetchData();
-    await refetchTicketsData();
   };
-  const totlaPages = Math.max(siteServices?.total || 0, siteTicketsData?.total || 0, siteInvoicesData?.total || 0);
+  const totlaPages = Math.max(siteServices?.total || 0, siteTerminatedServices?.total || 0);
 
   // Refining the data
   const refinedData: {
@@ -128,7 +119,7 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
     serviceStatus: number;
     cost: number;
     invoiceDate: string;
-  }[] = siteServices?.data?.map((item: any) => ({
+  }[] = (showTerminated ? siteTerminatedServices?.data : siteServices?.data)?.map((item: any) => ({
     ['number']: item?.service?.number,
     account: item?.service?.companyNetwork?.network?.name + '-' + item?.service?.account,
     service_type: item?.service?.service_type,
@@ -147,10 +138,9 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
       item?.service?.cost?.usageRaw ||
       item?.service?.cost?.otherRaw ||
       item?.service?.cost?.taxRaw
-        ? `${moneyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), 'usd')} (${item?.service?.cost?.invoice?.invoiceDate ? format(parseISO(item?.service?.cost?.invoice?.invoiceDate), MONTH_YEAR_FORMAT) : '-'})`
+        ? `${currencyFormatter(parseFloat(item?.service?.cost?.rentalRaw) + parseFloat(item.service?.cost?.usageRaw) + parseFloat(item.service?.cost?.otherRaw) + parseFloat(item?.service?.cost?.taxRaw), countryCurrencyCode)} (${item?.service?.cost?.invoice?.invoiceDate ? format(parseISO(item?.service?.cost?.invoice?.invoiceDate), MONTH_YEAR_FORMAT) : '-'})`
         : '-',
   }));
-
   const refinedInvoices = siteInvoicesData?.invoices?.map((item: any) => {
     const { country_code, ...rest } = item;
     return rest;
@@ -164,24 +154,12 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
       created: format(parseISO(item.created), DATE_TIME_FORMAT),
     };
   });
+  /* eslint-disable react-hooks/rules-of-hooks */
   useEffect(() => {
-    if (searchParams) {
-      if (keys.length > 1 || !keys.includes('page')) {
-        router.push(`${pathname}?${createQueryString('page', 1)}`);
-      }
+    if (!isServicesLoader && !isTerminatedServicesLoader) {
+      setShowServiceButton(siteServices?.data?.length > 0 || siteTerminatedServices?.data?.length > 0 ? true : false);
     }
-    if (showTerminated) {
-      router.push(`${pathname}?${createQueryString('showTerminated', showTerminated.toString())}`);
-    }
-  }, [keys.length, showTerminated]);
-
-  useEffect(() => {
-    if (searchParams) {
-      if (keys.length > 1 || !keys.includes('page')) {
-        router.push(`${pathname}?${createQueryString('page', 1)}`);
-      }
-    }
-  }, [keys.length]);
+  }, [isServicesLoader, isTerminatedServicesLoader]);
   const listOfTabs = [];
 
   if (costTrendData?.length > 0) {
@@ -196,10 +174,9 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
   if (refinedInvoices?.length > 0) {
     listOfTabs.push('invoices');
   }
-  if (refinedData?.length > 0) {
+  if (siteServices?.data?.length > 0 || siteTerminatedServices?.data?.length > 0) {
     listOfTabs.push('services');
   }
-
   return (
     <div className="w-full rounded-lg border border-custom-lightGray bg-custom-white px-7 py-5">
       <ScrollTabs tabs={['general-information', ...listOfTabs]}>
@@ -232,7 +209,13 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
         {/* Cost Trend  */}
         {costTrendData?.length > 0 && (
           <div id="cost-trend">
-            <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
+            <LineChart
+              className="cost-trend"
+              label="Cost Trend"
+              data={costTrendData}
+              isLoading={isCostTrendLoading}
+              currencyCode={countryCurrencyCode}
+            />
             <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
           </div>
         )}
@@ -249,15 +232,13 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
                 type="notification"
               />
             </div>
-            <div className="mt-4 gap-4">
-              {isServiceTypesLoading ? (
-                <Skeleton variant="paragraph" rows={3} />
-              ) : Array.isArray(serviceTypes) && serviceTypes.length > 0 ? (
-                <ServiceTypesGrid services={serviceTypes.sort((a, b) => b.subTypes?.length - a.subTypes?.length)} />
-              ) : (
-                <div className="flex w-full justify-center py-8 text-center text-lg">No data found.</div>
-              )}
-            </div>
+            {isServiceTypesLoading ? (
+              <Skeleton variant="paragraph" rows={3} />
+            ) : Array.isArray(serviceTypes) && serviceTypes.length > 0 ? (
+              <ServiceTypesGrid services={serviceTypes.sort((a, b) => b.subTypes?.length - a.subTypes?.length)} />
+            ) : (
+              <div className="flex w-full justify-center py-8 text-center text-lg">No data found.</div>
+            )}
             <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
           </div>
         )}
@@ -285,31 +266,37 @@ function SiteDetailPage({ siteId }: SiteDetailPageProps) {
         )}
 
         {/* Service  */}
-        {refinedData?.length > 0 && (
-          <div id="services">
+        <div id="services">
+          {refinedData?.length > 0 && (
             <TableData label="Services" data={refinedData} loading={isServicesLoader} tableClass="whitespace-nowrap" />
-          </div>
-        )}
-        {totlaPages > 8 && (
-          <div>
-            <Pagination
-              className="flex justify-end pt-4"
-              totalPages={totlaPages}
-              currentPage={Number(page)}
-              onPageChange={handlePageChange}
-            />
-          </div>
-        )}
-        {!isServicesLoader && (siteServices?.data?.length > 0 || siteTerminatedServices?.data?.length > 0) && (
-          <button
-            onClick={showTerminatedHandler}
-            className="my-5 ml-auto block h-[48px] w-[280px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px]"
-          >
-            <span className="text-base font-semibold text-white">
-              {showTerminated ? 'Show Terminated Services' : 'Show Live Services'}{' '}
-            </span>
-          </button>
-        )}
+          )}
+          {totlaPages > 8 && (
+            <div>
+              <Pagination
+                className="flex justify-end pt-4"
+                totalPages={totlaPages}
+                currentPage={Number(page)}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          )}
+          {!isServicesLoader && !isTerminatedServicesLoader && showServiceButton && (
+            <>
+              {siteTerminatedServices?.data?.length > 0 && (
+                <>
+                  <button
+                    onClick={showTerminatedHandler}
+                    className="my-5 ml-auto block h-[48px] w-[280px] gap-2.5 rounded-lg border border-orange-500 bg-orange-500 px-[18px]"
+                  >
+                    <span className="text-base font-semibold text-white">
+                      {showTerminated ? 'Show Live Services' : 'Show Terminated Services'}
+                    </span>
+                  </button>
+                </>
+              )}
+            </>
+          )}
+        </div>
       </ScrollTabs>
     </div>
   );

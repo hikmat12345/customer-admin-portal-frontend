@@ -1,0 +1,30 @@
+import type { RenderDataType } from '../../../../shared';
+
+export const newSiteFormInitialValues = (render: RenderDataType) => ({
+  site_name: '',
+  isValidateSite_name: render?.siteNameRequired === '1' ? true : false,
+  building_name: '',
+  isValidateBuilding_name: render?.buildingNameRequired === '1' ? true : false,
+  street_line_1: '',
+  isValidateStreet_line_1: render?.streetLine1Required === '1' ? true : false,
+  street_line_2: '',
+  isValidateStreet_line_2: render?.streetLine2Required === '1' ? true : false,
+  city: '',
+  isValidateCity: render?.cityRequired === '1' ? true : false,
+  post_code: '',
+  isValidatePost_code: render?.postCodeRequired === '1' ? true : false,
+  state: '',
+  isValidateState: render?.stateRequired === '1' ? true : false,
+  latitude: '',
+  isValidateLatitude: render?.latitudeRequired === '1' ? true : false,
+  longitude: '',
+  isValidateLongitude: render?.longitudeRequired === '1' ? true : false,
+  contact_phone: '',
+  isValidateContact_phone: render?.contactNumberRequired === '1' ? true : false,
+  contact_email: '',
+  isValidateContact_email: render?.contactEmailRequired === '1' ? true : false,
+  contact_name: '',
+  isValidateContact_name: render?.contactNameRequired === '1' ? true : false,
+  site_code: '',
+  isValidateSite_code: render?.siteCodeRequired === '1' ? true : false
+});

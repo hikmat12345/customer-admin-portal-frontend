@@ -4,9 +4,10 @@ import TableBody from '@veroxos/design-system/dist/ui/TableBody/tableBody';
 import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow';
 import Link from 'next/link';
 import InvoicesTableHead from './invoicesTableHead';
-import formatDate, { findCurrencySymbol, moneyFormatter } from '@/utils/utils';
+import formatDate, { currencyFormatter } from '@/utils/utils';
 import { DATE_FORMAT, TABLE_HEIGHT } from '@/utils/constants/constants';
 import Table from '@veroxos/design-system/dist/ui/Table/table';
+import { encrypt } from '@/utils/encryptParam';
 
 function InvoicesTable({ data }: any) {
   const isNoData = data?.invoices?.length === 0;
@@ -22,7 +23,7 @@ function InvoicesTable({ data }: any) {
             <TableRow key={invoice.id}>
               <TableCell className="py-[19px] text-left font-normal">
                 <Link
-                  href={`/accounts/invoices/${invoice.id}`}
+                  href={`/accounts/invoices/${invoice.id}/${encrypt(invoice?.companyNetwork?.network?.name)}`}
                   rel="noreferrer noopener"
                   className="cursor-pointer font-normal text-[#1175BE]"
                 >
@@ -37,17 +38,14 @@ function InvoicesTable({ data }: any) {
               <TableCell className="text-left">{invoice?.status ? invoice?.status : '-'}</TableCell>
               <TableCell className="text-left">{invoice?.AccountPayableRequestInvoiceId || '-'}</TableCell>
               <TableCell className="text-left">
-                {formatDate(invoice?.dateTimeForSentInAccountPayableRequest, DATE_FORMAT) || '-'}
+                {invoice?.afpDate ? formatDate(invoice?.afpDate, DATE_FORMAT) : '-'}
               </TableCell>
-              <TableCell className="text-left">{moneyFormatter(invoice?.totalRaw, 'USD')}</TableCell>
-              <TableCell className="text-left font-normal last:text-center">
+              <TableCell className="text-left">
+                {currencyFormatter(invoice?.totalUsd, invoice.companyNetwork.network.country.currencyCode?.trim())}
+              </TableCell>
+              <TableCell className="font-normal last:text-left">
                 {invoice?.companyNetwork?.network?.country ? (
-                  <>
-                    <span className="text-[#47de88]">
-                      {findCurrencySymbol(invoice.companyNetwork.network.country.currencyCode?.trim())}
-                    </span>
-                    {invoice.companyNetwork.network.country.currencyCode}
-                  </>
+                  <>{invoice.companyNetwork.network.country.currencyCode}</>
                 ) : (
                   '-'
                 )}

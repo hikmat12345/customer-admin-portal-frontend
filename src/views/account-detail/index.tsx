@@ -71,7 +71,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
     network,
     companyNetworkStatus,
   } = accountDetailData?.data || {};
-
+  const countryCurrencyCode = accountDetailData?.data?.network?.country?.currencyCode;
   // cost and trend data
   const costTrendLimit = 12;
   const {
@@ -146,7 +146,7 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
   }, [keys.length, pathname, router, searchParams, keys]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const totalPages = Math.max(accountTicketsData?.total || 0, siteInvoicesData?.total || 0);
-  const serviceLocations =
+  let serviceLocations =
     serviceLocation?.map(
       (item: { lat: number; lng: number; name: string; streetLine1: string; streetLine2: string; id: number }) => ({
         lat: item?.lat || 0,
@@ -157,7 +157,40 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
         siteId: item?.id,
       }),
     ) || [];
-
+  //  if lat and long 0.0 common then dont show all show only first one
+  let isRepeated: boolean = false;
+  serviceLocations = serviceLocations.filter(
+    (
+      item: {
+        lat: string;
+        long: string;
+        address: string;
+        siteId: number;
+      },
+      index: number,
+    ) => {
+      if (item.long == '0.000000000000' && item.lat == '0.000000000000') {
+        if (isRepeated) {
+          return;
+        } else {
+          isRepeated = true;
+          return {
+            lat: item.lat,
+            long: item.long,
+            address: item.address,
+            siteId: item.siteId,
+          };
+        }
+      } else {
+        return {
+          lat: item.lat,
+          long: item.long,
+          address: item.address,
+          siteId: item.siteId,
+        };
+      }
+    },
+  );
   const listOfTabs = [];
   if (vendorServicesTypes?.data?.length > 0) {
     listOfTabs.push('service-type');
@@ -253,7 +286,13 @@ function VendorDetailPage({ vendorId }: VendorDetailPageProps) {
         {/* Cost Trend  */}
         {costTrendData?.length > 0 && (
           <div id="cost-trend">
-            <LineChart label="Cost Trend" data={costTrendData} isLoading={isCostTrendLoading} />
+            <LineChart
+              className="cost-trend"
+              label="Cost Trend"
+              data={costTrendData}
+              isLoading={isCostTrendLoading}
+              currencyCode={countryCurrencyCode}
+            />
             <Separator className="separator-bg-1 mt-4 h-[1.2px]" />
           </div>
         )}

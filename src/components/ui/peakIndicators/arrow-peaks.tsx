@@ -7,22 +7,25 @@ type Variant = 'success' | 'destructive';
 function PeakIndicator({
   isLoading,
   percentage,
+  total,
 }: {
   variant: Variant;
   isLoading?: boolean;
   percentage?: number | null;
+  total: number;
 }) {
   let arrowImageSrc;
   let backgroundColor;
   let margin, border;
-  if (percentage === undefined || percentage === null) {
-    arrowImageSrc = '/svg/linePeakArrow.svg';
-    backgroundColor = '';
-    margin = '-9px 0 0 2px';
-    border = 'border border-[#999999]'; // will add colors to design system once design provide the names
-  } else if (percentage === 0) {
+  if (percentage === undefined || percentage === null || (percentage === 0 && total != 0)) {
     arrowImageSrc = '/svg/whiteLinePeakArrow.svg';
     backgroundColor = 'bg-custom-coolBlue';
+    margin = '-9px 0 0 2px';
+    border = 'border border-[#999999]'; // will add colors to design system once design provide the names
+  } else if (total === 0 && percentage === 0) {
+    arrowImageSrc = '/svg/linePeakArrow.svg';
+    backgroundColor = 'bg-transparent';
+    border = 'border border-[#999999]'; // will add colors to design system once design provide the names
     margin = '-9px 0 0 1px';
   } else if (percentage > 0) {
     arrowImageSrc = '/svg/upPeakArrow.svg';

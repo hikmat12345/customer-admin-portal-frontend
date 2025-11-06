@@ -14,9 +14,9 @@ interface CommonDialogProps {
 }
 
 const sizeClasses = {
-  small: 'sm:max-w-[300px]',
-  medium: 'sm:max-w-[540px]',
-  large: 'sm:max-w-[600px]',
+  small: 'sm:max-w-[18.75rem]',
+  medium: 'sm:max-w-[34.75rem]',
+  large: 'sm:max-w-[42.5rem]',
 };
 
 const CommonDialog: React.FC<CommonDialogProps> = ({
@@ -30,12 +30,12 @@ const CommonDialog: React.FC<CommonDialogProps> = ({
   className = '',
 }) => (
   <Dialog open={open} onOpenChange={onClose}>
-    <DialogContent className={`${sizeClasses[size]} ${className}`}>
-      <DialogHeader>
+    <DialogContent className={`max-h-[98%] overflow-hidden px-0 ${sizeClasses[size]} ${className}`}>
+      <DialogHeader className="px-6">
         <DialogTitle>{title}</DialogTitle>
         <DialogDescription>{description}</DialogDescription>
       </DialogHeader>
-      <div className="grid gap-4 pt-2">{content}</div>
+      <div className="flex-1 overflow-y-auto px-6 py-6">{content}</div>
       <DialogFooter>{actions}</DialogFooter>
     </DialogContent>
   </Dialog>

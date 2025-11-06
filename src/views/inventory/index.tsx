@@ -64,7 +64,13 @@ function InventoryPage() {
     {
       id: 1,
       title: 'Live Services',
-      description: `Currently, there are ${liveServicesData?.live} active services.`,
+      description: (
+        <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
+          Currently, there are{' '}
+          <span className="font-bold text-custom-grey">{Math.floor(liveServicesData?.live).toLocaleString()}</span>{' '}
+          active services.
+        </p>
+      ),
       data: (
         <h1 className="text-nowrap text-lg font-bold text-custom-amnesiaBlue lg:text-2xl 2xl:text-3xl">
           {Math.floor(liveServicesData?.live).toLocaleString()}
@@ -74,7 +80,14 @@ function InventoryPage() {
     {
       id: 2,
       title: 'Disconnected Services',
-      description: `${monthlyCount?.currentMonth?.disconnected} services are disconnected this month.`,
+      description: (
+        <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
+          <span className="font-bold text-custom-grey">
+            {Math.floor(monthlyCount?.currentMonth?.disconnected).toLocaleString()}
+          </span>{' '}
+          services are disconnected this month.
+        </p>
+      ),
       data: (
         <h1 className="text-nowrap text-lg font-bold text-custom-red lg:text-2xl 2xl:text-3xl">
           {Math.floor(monthlyCount?.currentMonth?.disconnected).toLocaleString()}
@@ -84,7 +97,14 @@ function InventoryPage() {
     {
       id: 3,
       title: 'New Services',
-      description: `${monthlyCount?.lastMonth?.new} New Services were added last month.`,
+      description: (
+        <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
+          <span className="font-bold text-custom-grey">
+            {Math.floor(monthlyCount?.lastMonth?.new).toLocaleString()}
+          </span>{' '}
+          New Services were added last month.
+        </p>
+      ),
       data: (
         <h1 className="text-nowrap text-lg font-bold text-[#219653] lg:text-2xl 2xl:text-3xl">
           {Math.floor(monthlyCount?.lastMonth?.new).toLocaleString()}
@@ -149,7 +169,7 @@ function InventoryPage() {
               key={inventory.id}
               title={inventory.title}
               data={inventory.data}
-              message={inventory.description}
+              message={inventory?.description}
               isLoading={isLoadingData}
             />
           ))}

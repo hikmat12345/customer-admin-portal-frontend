@@ -22,9 +22,9 @@ export const useGetSiteServices = (site_id: number, offset: number, limit: numbe
   useQuery({ queryKey: ['site_services', site_id, offset, limit, showTerminated], queryFn: getSiteServices });
 export const useGetSiteInvoices = (site_id: number, offset: number, limit: number) =>
   useQuery({ queryKey: ['site_invoices', site_id, offset, limit], queryFn: getSiteInvoices });
-export const useGetSiteInvoiceFile = (invoice_id: string) =>
+export const useGetSiteInvoiceFile = (invoice_id: string, showInBrowser?: boolean) =>
   useQuery({
-    queryKey: ['site_invoice_file', invoice_id],
+    queryKey: ['site_invoice_file', invoice_id, showInBrowser],
     queryFn: getSiteInvoiceFile,
     refetchOnWindowFocus: false,
     enabled: false, // disable this query from automatically running

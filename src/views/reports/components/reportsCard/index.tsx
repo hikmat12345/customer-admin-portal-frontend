@@ -20,6 +20,7 @@ import {
   usePostI4Report,
   usePostI5Report,
   usePostI8Report,
+  usePostI7Report,
   usePostS1Report,
   usePostS2Report,
   usePostS4Report,
@@ -28,10 +29,11 @@ import {
 } from '@/hooks/useGetReportData';
 import { format } from 'date-fns';
 import { DATE_FORMAT_YYYY_MM_DD, MONTH_AND_YEAR_FORMAT } from '@/utils/constants/dateFormat.constants';
-import { ReportField } from '../../reports';
 import { generateValidationSchema } from '../../validationSchema';
 import useUserStore from '@/stores/useUserStore';
 import { convertToTimeZone } from '@/utils/utils';
+import ScheduleReportModal from '../scheduleReportModal';
+import { ReportField } from '@/types/reports/types';
 
 type ReportKey =
   | 'F1'
@@ -43,6 +45,7 @@ type ReportKey =
   | 'F12'
   | 'F15'
   | 'I8'
+  | 'I7'
   | 'I10'
   | 'I11'
   | 'I4'
@@ -64,6 +67,7 @@ const reportHooks = {
   F12: usePostF12Report,
   F15: usePostF15Report,
   I8: usePostI8Report,
+  I7: usePostI7Report,
   I10: usePostI10Report,
   I11: usePostI11Report,
   I2: usePostI2Report,
@@ -89,6 +93,9 @@ function ReportsCard({
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openedReportLabel, setOpenedReportLabel] = useState('');
+  const [openScheduleDialog, setOpenScheduleDialog] = useState(false);
+  const [scheduleReportInitialValues, setScheduleReportInitialValues] = useState<any>();
   const dialogOpenRef = useRef<{ [key in ReportKey]?: boolean }>({});
 
   const handleMouseOver = () => setIsHovered(true);
@@ -96,6 +103,7 @@ function ReportsCard({
   const handleViewDialog = (reportLabel: string) => {
     const transformedLabel = reportLabel.replace(/-/g, '') as ReportKey;
     setOpenDialog(true);
+    setOpenedReportLabel(reportLabel);
     dialogOpenRef.current[transformedLabel] = true;
   };
   const handleCloseDialog = () => setOpenDialog(false);
@@ -134,6 +142,7 @@ function ReportsCard({
     F12: useReportMutation('F12'),
     F15: useReportMutation('F15'),
     I8: useReportMutation('I8'),
+    I7: useReportMutation('I7'),
     I10: useReportMutation('I10'),
     I11: useReportMutation('I11'),
     I2: useReportMutation('I2'),
@@ -147,6 +156,12 @@ function ReportsCard({
   };
 
   const handleSubmit = (values: Record<string, string>) => {
+    const i7ReportBody = {
+      serviceType: values.serviceType,
+      includeTerminated: values.includeTerminated,
+      invoiceCost: values.invoiceCost,
+      veroxosCost: values.veroxosCost,
+    };
     const fromDate = values.From ? new Date(values.From) : null;
     const toDate = values.To ? new Date(values.To) : null;
     const currency = values.currency || null;
@@ -208,6 +223,13 @@ function ReportsCard({
               onSettled: () => toast.dismiss(toastId),
             },
           );
+        } else if (reportKey === 'I7') {
+          reportMutations[reportKey].mutate(
+            { ...i7ReportBody },
+            {
+              onSettled: () => toast.dismiss(toastId),
+            },
+          );
         } else if (reportKey === 'S5') {
           reportMutations[reportKey].mutate(
             {
@@ -244,9 +266,18 @@ function ReportsCard({
 
   const reportsLoading = Object.values(reportMutations).some((hook) => hook.isPending);
 
+  const handleSchedule = async (validateForm: any, values: any) => {
+    const errors = await validateForm();
+    setScheduleReportInitialValues(values);
+    if (!Object.keys(errors).length) {
+      handleCloseDialog();
+      setOpenScheduleDialog(true);
+    }
+  };
+
   const dialogContent = (
     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-      {({ touched, errors }) => {
+      {({ touched, errors, validateForm, values }) => {
         return (
           <Form className="flex flex-col gap-4">
             {fieldTypes.length === 0 ? (
@@ -281,7 +312,8 @@ function ReportsCard({
                   return (
                     <div
                       className={`${
-                        fieldTypes.filter((field) => field.type !== 'datePicker').length === 1
+                        fieldTypes.filter((field: any) => field.type !== 'datePicker' || field.type === 'select')
+                          .length === 1
                           ? 'w-full'
                           : 'w-[48.993333%]'
                       } mb-2 mt-1`}
@@ -299,7 +331,7 @@ function ReportsCard({
                 })}
             </div>
             <div className="flex items-center justify-center gap-3">
-              <Button variant="outline" type="submit" disabled>
+              <Button variant="outline" onClick={() => handleSchedule(validateForm, values)}>
                 Schedule
               </Button>
               <Button disabled={reportsLoading} type="submit" className="bg-custom-blue text-custom-white animate-in">
@@ -311,7 +343,6 @@ function ReportsCard({
       }}
     </Formik>
   );
-
   return (
     <>
       <div className="lg:w-11.50/12 flex max-h-[330px] w-full flex-col justify-between rounded-lg border border-custom-aluminum xl:w-11.75/12">
@@ -356,6 +387,12 @@ function ReportsCard({
           content={dialogContent}
         />
       )}
+      <ScheduleReportModal
+        initialValues={scheduleReportInitialValues}
+        reportLabel={openedReportLabel}
+        open={openScheduleDialog}
+        setOpen={setOpenScheduleDialog}
+      />
     </>
   );
 }

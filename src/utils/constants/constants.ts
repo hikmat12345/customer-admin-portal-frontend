@@ -9,6 +9,14 @@ export const DATE_FORMAT = 'MMM dd, yyyy';
 export const DATE_TIME_FORMAT = 'MMM dd, yyyy hh:mm a';
 export const US_LOCALE_FORMAT = 'en-US';
 
+// DD/MM/YY
+
+export const FORMAT_DDMMYYYY = 'dd/MM/yyyy';
+
+// YYYY/MM/DD
+
+export const FORMAT_YYYYMMDD = 'yyyy-MM-dd';
+
 // Page size
 
 export const PAGE_SIZE = 15;
@@ -23,3 +31,6 @@ export const MONTH_FORMAT = 'MMM';
 
 export const TOTAL_RATING_STARS = 5;
 export const STAR_SIZE = 20;
+
+// defaultLocale
+export const DEFAULT_LOCALE = 'en-US';

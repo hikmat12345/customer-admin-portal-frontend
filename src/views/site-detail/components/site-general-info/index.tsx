@@ -64,7 +64,10 @@ export default function SiteGeneralInfo({
               </div>
               <div className="sm:w-[50%] lg:w-[60%] 2xl:w-[66%]">
                 <div className="text-[1rem] leading-7 text-[#575757]">{veroxosId || ' - '} </div>
-                <div className="text-[1rem] leading-7 text-[#575757]">{name?.trim() ? name : ' - '} </div>
+                <div className="text-[1rem] leading-7 text-[#575757]">
+                  {/* will fix latter  */}
+                  {name?.trim() ? (name !== 'AxiosError' ? name : ' - ') : '-'}{' '}
+                </div>
                 <div className="text-[1rem] leading-7 text-[#575757]">{streetLine1?.trim() || ' - '} </div>
                 <div className="text-[1rem] leading-7 text-[#575757]">{city?.trim() || ' - '} </div>
                 <div className="text-[1rem] leading-7 text-[#575757]">{postZipCode?.trim() || ' - '} </div>

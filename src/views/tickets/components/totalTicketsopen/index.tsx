@@ -3,13 +3,14 @@ import Skeleton from '@veroxos/design-system/dist/ui/Skeleton/skeleton';
 import { OpenTicketSummary } from '@/types/tickets/types';
 import { ApexOptions } from 'apexcharts';
 import React from 'react';
-import { moneyFormatter } from '@/utils/utils';
+import { currencyFormatter } from '@/utils/utils';
 
 const TotalTicketsOpen = ({ data, isLoading }: { data: OpenTicketSummary; isLoading: boolean }) => {
-  const openTicketsCount = moneyFormatter(data?.openTickets?.count);
+  const openTicketsCount = currencyFormatter(data?.openTickets?.count);
+  const closedTicketsCount = data?.closedTicketsLast24Hours.count || 0;
 
   const chartOptions: ApexOptions = {
-    series: [data?.closedTicketsLast24Hours.count],
+    series: [closedTicketsCount === 0 ? 1 : closedTicketsCount],
     labels: ['Closed tickets'],
     chart: {
       width: 100,
@@ -63,10 +64,14 @@ const TotalTicketsOpen = ({ data, isLoading }: { data: OpenTicketSummary; isLoad
       show: false,
     },
     tooltip: {
-      enabled: true,
-      y: {},
+      enabled: closedTicketsCount > 0, // Disable tooltip if count is 0
+      y: {
+        formatter: function (val: number) {
+          return closedTicketsCount > 0 ? val.toString() : '';
+        },
+      },
     },
-    colors: ['#219653'],
+    colors: closedTicketsCount > 0 ? ['#219653'] : ['#219653'],
   };
 
   return (
@@ -76,19 +81,19 @@ const TotalTicketsOpen = ({ data, isLoading }: { data: OpenTicketSummary; isLoad
           <Skeleton variant="paragraph" rows={3} className="mr-7" />{' '}
         </div>
       ) : (
-        <div className="flex h-full gap-[6px]">
-          <div className="flex h-full w-full flex-col gap-4 pr-5">
+        <div className="flex gap-[6px]">
+          <div className="flex w-full flex-col gap-4 pb-3 pr-5">
             <h2 className="text-lg font-bold text-custom-black">Total Tickets Open</h2>
             <div className="flex items-center gap-5">
               <h1 className="text-lg font-bold text-custom-beer lg:text-2xl 2xl:text-3xl">{openTicketsCount}</h1>
             </div>
             <div className="flex items-center justify-between">
               <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
-                {openTicketsCount} tickets are currently open.
+                <span className="font-bold">{openTicketsCount}</span> tickets are currently open.
               </p>
-              <div className="relative mr-2 mt-[-6.25rem] h-[103px] w-[120px] lg:h-[106px] 2xl:h-[120px]">
+              <div className="relative mr-2 mt-[-6.25rem] h-[103px] w-[140px] lg:h-[106px] 2xl:h-[120px]">
                 <PieChart chartOptions={chartOptions} />
-                <span className="absolute left-[34%] text-[8px] font-bold text-custom-greyBlue sm:bottom-[15%] 2xl:bottom-[22%]">
+                <span className="absolute left-[43%] text-[8px] font-bold text-custom-greyBlue sm:bottom-[16%] 2xl:bottom-[23%]">
                   in last 24 hours
                 </span>
               </div>

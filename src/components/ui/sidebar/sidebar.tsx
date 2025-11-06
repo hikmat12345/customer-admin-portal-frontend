@@ -7,11 +7,13 @@ import { Separator } from '../separator';
 import SidebarItem from './sidebarItem';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 interface ISidebarItem {
   name: string;
   path: string;
   src: string;
+  target: string;
   items?: ISubItem[];
 }
 
@@ -24,16 +26,18 @@ const menuItems: ISidebarItem[] = [
   {
     name: 'Home',
     path: '/',
+    target: '',
     src: '/svg/sidebar/home.svg',
   },
   {
     name: 'Support',
     path: '/support',
+    target: '',
     src: '/svg/sidebar/support.svg',
     items: [
       {
         name: 'Veroxos Support',
-        path: 'support/veroxos-support',
+        path: '/veroxos-support',
       },
       {
         name: 'View Tickets',
@@ -44,6 +48,7 @@ const menuItems: ISidebarItem[] = [
   {
     name: 'Accounts',
     path: '/accounts',
+    target: '',
     src: '/svg/sidebar/accounts.svg',
     items: [
       {
@@ -54,11 +59,16 @@ const menuItems: ISidebarItem[] = [
         name: 'Vendor Accounts',
         path: '/accounts/vendors',
       },
+      {
+        name: 'Account Payable Feed',
+        path: '/accounts/account-payable-feed',
+      },
     ],
   },
   {
     name: 'Inventory',
     path: '/inventory',
+    target: '',
     src: '/svg/sidebar/inventory.svg',
     items: [
       {
@@ -73,40 +83,59 @@ const menuItems: ISidebarItem[] = [
         name: 'View Employees',
         path: '/inventory/employees',
       },
+      {
+        name: 'View Assets',
+        path: '/inventory/assets',
+      },
     ],
   },
   {
     name: 'Reporting',
     path: '/reporting',
+    target: '',
     src: '/svg/sidebar/reporting.svg',
     items: [
       {
         name: 'Reports',
         path: '/reporting/reports',
       },
+      {
+        name: 'View Scheduled Reports',
+        path: '/reporting/view-scheduled-reports',
+      },
     ],
   },
   {
     name: 'Optimization',
     path: '/optimization',
+    target: '',
     src: '/svg/sidebar/optimization.svg',
+    items: [
+      {
+        name: 'Saving Tracker',
+        path: '/optimization/saving-tracker',
+      },
+    ],
   },
 ];
 
 const supportItems = [
   {
-    name: 'Knowledge Base',
-    path: '/knowledge-base',
+    name: 'Help Center',
+    path: 'https://help.veroxos.com/hc/en-us',
+    target: '_blank',
     src: '/svg/sidebar/knowledgeBase.svg',
   },
-  {
-    name: 'Chat',
-    path: '/chat',
-    src: '/svg/sidebar/chat.svg',
-  },
+  //TODO: might need this in future so keeping this here
+  // {
+  //   name: 'Chat',
+  //   path: '/chat',
+  //   src: '/svg/sidebar/chat.svg',
+  // },
   {
     name: 'Veroxos Support',
-    path: '/veroxos-support',
+    path: 'https://help.veroxos.com/hc/en-us/articles/4456958929695-How-to-get-Support',
+    target: '_blank',
     src: '/svg/sidebar/veroxosSupport.svg',
   },
 ];
@@ -138,7 +167,7 @@ function Sidebar() {
   };
 
   return (
-    <div className="fixed left-0 top-0 z-10 h-full w-[200px] bg-custom-blue px-4 py-[8px] shadow-lg md:w-[220px] lg:w-[240px] xl:w-[260px]">
+    <div className="fixed left-0 top-0 z-10 h-full w-[200px] bg-custom-blue px-4 py-[8px] shadow-lg md:w-[220px] lg:w-[250px] xl:w-[280px]">
       <div className="relative flex h-full flex-col justify-between px-5">
         <div className="flex w-full flex-col space-y-3">
           <Image
@@ -162,9 +191,11 @@ function Sidebar() {
         <div className="flex flex-col gap-10 pb-4">
           <div className="relative">
             <h2 className="pb-3 text-sm uppercase text-custom-white">Support</h2>
-            {supportItems.map((item, index) => (
-              <SidebarItem key={index} data={item} scrollToItem={scrollToItem} />
-            ))}
+            <div className="flex flex-col space-y-1">
+              {supportItems.map((item, index) => (
+                <SidebarItem key={index} data={item} scrollToItem={scrollToItem} />
+              ))}
+            </div>
             <div className="absolute mb-3 mt-3 w-full">
               <Separator />
             </div>
@@ -183,7 +214,15 @@ function Sidebar() {
               <Separator />
             </div>
           </div>
-          <h2 className="text-center text-sm font-normal text-custom-white">Powered by Veroxos</h2>
+          <h2 className="text-center text-sm font-normal text-custom-white">
+            <Link
+              href="https://www.veroxos.com/"
+              target="_blank"
+              className="text-custom-white visited:text-custom-white hover:text-custom-white hover:underline"
+            >
+              Powered by Veroxos
+            </Link>
+          </h2>
         </div>
       </div>
 

@@ -40,7 +40,7 @@ function CostSavingsCard({
             <h2 className="text-sm font-semibold text-custom-black md:text-base 2xl:text-lg">{title}</h2>
             <div className="flex items-center gap-5">
               <h1 className="text-nowrap text-lg font-bold lg:text-2xl 2xl:text-3xl">
-                $ {Math.floor(data?.total || data?.totalCostSavings).toLocaleString()}
+                ${Math.floor(data?.total || data?.totalCostSavings).toLocaleString()}
               </h1>
               {badge && (
                 <Badge className="text-nowrap text-sm lg:text-xs" variant={badgeVariant}>

@@ -8,12 +8,17 @@ import Table from '@veroxos/design-system/dist/ui/Table/table';
 import VendorAccountsTableHead from './employeesTableHead';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import { useRouter } from 'next/navigation';
+import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
 
 function EmployeesTable({ data }: any) {
   const router = useRouter();
 
   const renderStatus = (status: number) => {
-    return status === 1 ? 'Live' : 'Terminated';
+    return (
+      <Badge className={`rounded-lg py-1 text-white ${status == 1 ? 'bg-[#219653]' : 'bg-[#A40000]'}`} shape="block">
+        {status == 1 ? 'Live' : 'Terminated'}
+      </Badge>
+    );
   };
 
   const renderVip = (vip: number) => {

@@ -8,9 +8,9 @@ function AlertsTableHead() {
     <TableHeader>
       <TableRow>
         <TableHead className="text-left">NAME</TableHead>
-        <TableHead className="w-[600px] text-nowrap text-left xl:min-w-[900px]">DESCRIPTION</TableHead>
-        <TableHead className="text-nowrap">DATE</TableHead>
-        <TableHead className="text-center last:text-center lg:w-[100px]">VIEWED</TableHead>
+        <TableHead className="text-nowrap text-left">DESCRIPTION</TableHead>
+        <TableHead className="text-nowrap text-left">DATE</TableHead>
+        <TableHead className="last:text-right">VIEWED</TableHead>
       </TableRow>
     </TableHeader>
   );

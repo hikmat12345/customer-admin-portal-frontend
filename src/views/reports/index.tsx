@@ -8,21 +8,68 @@ import TabsContent from '@veroxos/design-system/dist/ui/TabsContent/tabsContent'
 import Tabs from '@veroxos/design-system/dist/ui/Tabs/tabs';
 import CreateQueryString from '@/utils/createQueryString';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import GetAllReports, { AllReports, ReportCategory } from './reports';
+import GetAllReports from './reports';
 import ReportsCard from './components/reportsCard';
+import { LoaderCircle } from 'lucide-react';
+import { useGetReportList, useGetReportLog } from '@/hooks/useGetReportData';
+import { AllReports, Report, ReportCategory } from '@/types/reports/types';
+
+const initialFilteredReports: AllReports = {
+  financeReports: {
+    categoryName: '',
+    value: '',
+    reports: [],
+  },
+  inventoryReports: {
+    categoryName: '',
+    value: '',
+    reports: [],
+  },
+  serviceManagementReports: {
+    categoryName: '',
+    value: '',
+    reports: [],
+  },
+  recentReports: {
+    categoryName: '',
+    value: '',
+    reports: [],
+  },
+};
 
 function ReportsPage() {
-  const allReports = GetAllReports();
-
+  const [allReports, setAllReports] = useState<AllReports>({} as AllReports);
+  const [filteredReports, setFilteredReports] = useState<AllReports>(initialFilteredReports);
+  const { data: reportsList } = useGetReportList();
+  const { data: recentReport } = useGetReportLog();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const defaultTabValue = searchParams?.get('tab') || 'finance';
   const router = useRouter();
   const createQueryString = CreateQueryString();
-  const [filteredReports, setFilteredReports] = useState(allReports);
   const [activeTab, setActiveTab] = useState(defaultTabValue);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [noReportsFound, setNoReportsFound] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      if (reportsList && recentReport) {
+        const reports = await GetAllReports(reportsList, recentReport);
+        setAllReports(reports ?? ({} as AllReports));
+        setFilteredReports(reports ?? ({} as AllReports));
+        setLoading(false);
+      }
+    };
+
+    fetchReports();
+  }, [reportsList, recentReport]);
+
+  useEffect(() => {
+    if (Object.keys(allReports).length > 0 && activeTab !== defaultTabValue) {
+      setActiveTab(defaultTabValue);
+    }
+  }, [defaultTabValue, allReports, activeTab]);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
@@ -49,6 +96,7 @@ function ReportsPage() {
           report.reportName.toLowerCase().includes(term.toLowerCase()) ||
           report.description.toLowerCase().includes(term.toLowerCase()),
       );
+
       if (reports.length > 0) {
         found = true;
         filtered[key] = { ...category, reports };
@@ -58,8 +106,8 @@ function ReportsPage() {
 
     if (found) {
       if (firstCategory && filtered[firstCategory]) {
-        setActiveTab((filtered[firstCategory] as ReportCategory).value);
-        setFilteredReports(filtered as AllReports);
+        handleTabChange((filtered[firstCategory] as ReportCategory).value);
+        setFilteredReports({ ...filtered } as AllReports);
         setNoReportsFound(false);
       } else {
         setFilteredReports(allReports);
@@ -85,10 +133,6 @@ function ReportsPage() {
     }
   };
 
-  useEffect(() => {
-    router.push(`${pathname}?${createQueryString('tab', 'finance')}`);
-  }, []);
-
   return (
     <div>
       <div className="grid-auto-flow-column grid w-full gap-8 rounded-lg border-custom-lightGray bg-custom-white px-9 py-5">
@@ -97,9 +141,12 @@ function ReportsPage() {
             <div className="flex flex-col justify-between gap-4 2md:flex-row">
               <TabsList className="flex w-full justify-between gap-4 2md:justify-start lg:gap-8">
                 <TabsTrigger
-                  value="finance"
+                  value="recent"
                   className="px-3 data-[state=active]:bg-[#1D46F333] data-[state=active]:text-custom-blue data-[state=active]:shadow"
                 >
+                  Recent
+                </TabsTrigger>
+                <TabsTrigger value="finance" className="px-3">
                   Finance Reports
                 </TabsTrigger>
                 <TabsTrigger value="inventory" className="px-3">
@@ -120,21 +167,33 @@ function ReportsPage() {
                 />
               </div>
             </div>
-            {Object.values(filteredReports).map((category: ReportCategory) => (
-              <TabsContent key={category.categoryName} value={category.value} className="mt-10">
-                <div className="grid h-[100vh] grid-cols-1 gap-5 overflow-y-scroll md:grid-cols-1 lg:h-[74vh] lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3">
-                  {category.reports.map((report) => (
-                    <ReportsCard
-                      key={report.label}
-                      label={report.label}
-                      description={report.description}
-                      reportName={report.reportName}
-                      fieldTypes={report.fields}
-                    />
-                  ))}
-                </div>
-              </TabsContent>
-            ))}
+            {loading ? (
+              <div className="flex h-[74vh] items-center justify-center">
+                <LoaderCircle size={50} color="#b1b1b1" className="animate-spin" />
+              </div>
+            ) : (
+              Object.values(filteredReports).map((category: ReportCategory) => (
+                <TabsContent key={category.categoryName} value={category.value} className="mt-10">
+                  <div className="grid h-[100vh] grid-cols-1 gap-5 overflow-y-scroll md:grid-cols-1 lg:h-[74vh] lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3">
+                    {category.value === 'recent' && category.reports.length === 0 ? (
+                      <div className="absolute mt-10 w-full text-center text-gray-500">
+                        No recent reports available.
+                      </div>
+                    ) : (
+                      category.reports.map((report: Report) => (
+                        <ReportsCard
+                          key={report.label}
+                          label={report.label}
+                          description={report.description}
+                          reportName={report.reportName}
+                          fieldTypes={report.fields}
+                        />
+                      ))
+                    )}
+                  </div>
+                </TabsContent>
+              ))
+            )}
             {noReportsFound && <div className="absolute mt-10 w-full text-center text-gray-500">No reports found</div>}
           </Tabs>
         </div>

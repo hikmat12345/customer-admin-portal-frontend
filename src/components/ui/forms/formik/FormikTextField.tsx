@@ -7,6 +7,7 @@ interface FormikTextFieldProps extends FieldProps {
   helperText: string;
   label: string;
   placeholder: string;
+  className: string;
 }
 
 const FormikTextField: React.FC<FormikTextFieldProps> = ({
@@ -14,13 +15,14 @@ const FormikTextField: React.FC<FormikTextFieldProps> = ({
   field,
   label,
   placeholder,
+  className,
   ...rest
 }) => {
   const error = getIn(errors, field.name);
   const isTouched = getIn(touched, field.name);
   return (
-    <div className="flex flex-col gap-2">
-      <label className="text-[14px] font-semibold text-[#575757]">
+    <div className={'flex flex-col gap-2'}>
+      <label className="text-[0.875rem] font-semibold text-[#575757]">
         {label} <span className="text-rose-500"> *</span>
       </label>
       <div>
@@ -29,9 +31,9 @@ const FormikTextField: React.FC<FormikTextFieldProps> = ({
           placeholder={placeholder}
           {...field}
           {...rest}
-          className={isTouched && error ? 'border-2 border-rose-500' : ''}
+          className={`${className ?? ''} ${error ? 'border-2 border-rose-500' : ''}`}
         />
-        {isTouched && error && <span className="text-[12px] text-rose-500">{error}</span>}
+        {error && <span className="text-[0.75rem] text-rose-500">{error}</span>}
       </div>
     </div>
   );

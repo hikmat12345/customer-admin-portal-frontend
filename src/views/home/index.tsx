@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useGetMonthlyTicketsStats } from '@/hooks/useTickets';
-import { useGetMonthlyInvoices } from '@/hooks/useGetInvoices';
+import { useGetMonthlyInvoicesHome } from '@/hooks/useGetInvoices';
 import AccountCard from '@/components/ui/accountCard/card';
 import ScrollArea from '@veroxos/design-system/dist/ui/ScrollArea/scroll-area';
 import { useGetCostSavings } from '@/hooks/useGetCostSavings';
@@ -18,7 +18,7 @@ function HomePage() {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
-  const { data: invoicesData, isLoading: invoiceLoading, isError: invoicesError } = useGetMonthlyInvoices();
+  const { data: invoicesData, isLoading: invoiceLoading, isError: invoicesError } = useGetMonthlyInvoicesHome();
   const {
     data: costSavingsData,
     isLoading: costSavingLoading,
@@ -57,7 +57,7 @@ function HomePage() {
             badge
             graph
           />
-          <CostSavingsCard data={costSavingsData} title="Cost Saving" isLoading={costSavingLoading} />
+          <CostSavingsCard data={costSavingsData} title="Cost Savings" isLoading={costSavingLoading} />
         </div>
       </div>
       <div className="mt-6 flex w-full flex-col gap-3 2lg:flex-row">

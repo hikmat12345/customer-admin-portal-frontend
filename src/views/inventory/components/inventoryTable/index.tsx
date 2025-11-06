@@ -12,6 +12,7 @@ import InventoryTableHead from './inventoryTableHead';
 import Link from 'next/link';
 import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
 import { TABLE_HEIGHT } from '@/utils/constants/constants';
+import { encrypt } from '@/utils/encryptParam';
 
 function InventoryTable({ data }: { data: Inventory[] }) {
   const STATUS_NAME: Record<number, string> = {
@@ -20,8 +21,8 @@ function InventoryTable({ data }: { data: Inventory[] }) {
   };
   const router = useRouter();
   const isNoData = data?.length === 0;
-  const handleServiceClick = (id: number) => {
-    router.push(`/inventory/${id}`);
+  const handleServiceClick = (id: number, name: string) => {
+    router.push(`/inventory/${id}/${encrypt(name)}`);
   };
 
   const renderStatus = (status: number) => {
@@ -64,7 +65,10 @@ function InventoryTable({ data }: { data: Inventory[] }) {
             data?.map((inventory: Inventory) => (
               <TableRow key={inventory.id}>
                 <TableCell className="py-[19px] font-medium">
-                  <Link className="text-custom-dryBlue" href={`${pathname}/${inventory.id}`}>
+                  <Link
+                    className="text-custom-dryBlue"
+                    href={`${pathname}/${inventory.id}/${encrypt(inventory?.companyNetwork?.network?.name)}`}
+                  >
                     {inventory?.id}
                   </Link>
                 </TableCell>
@@ -76,7 +80,11 @@ function InventoryTable({ data }: { data: Inventory[] }) {
                 <TableCell className="text-left">{inventory?.costCentre || '-'}</TableCell>
                 <TableCell>
                   <div className="flex items-center justify-center">
-                    <Button variant="null" size="sm" onClick={() => handleServiceClick(inventory.id)}>
+                    <Button
+                      variant="null"
+                      size="sm"
+                      onClick={() => handleServiceClick(inventory.id, inventory?.companyNetwork?.network?.name)}
+                    >
                       <Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />
                     </Button>
                   </div>

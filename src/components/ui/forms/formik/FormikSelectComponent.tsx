@@ -12,7 +12,7 @@ import { FieldProps, getIn } from 'formik';
 import { useSearchParams } from 'next/navigation';
 import { Command } from '../../command';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover';
-import { truncateText } from '@/utils/truncateText';
+import TooltipText from '../../textbox';
 
 interface FormikSelectProps extends FieldProps {
   error: boolean;
@@ -21,6 +21,8 @@ interface FormikSelectProps extends FieldProps {
   label: string;
   placeholder?: string;
   options: any[];
+  onChange?: any;
+  isMultiSelect?: boolean;
 }
 
 function FormikSelectComponent(props: FormikSelectProps) {
@@ -33,6 +35,8 @@ function FormikSelectComponent(props: FormikSelectProps) {
     label,
     placeholder,
     options,
+    onChange,
+    isMultiSelect = true,
     ...rest
   } = props;
   const [open, setOpen] = React.useState(false);
@@ -42,28 +46,33 @@ function FormikSelectComponent(props: FormikSelectProps) {
 
   const isTouched = getIn(touched, name);
   const error = getIn(errors, field.name);
-
-  const selectedOptions = options?.filter((option) => currentValue?.includes(option.value));
+  let selectedOptions = options?.filter((option) => currentValue?.includes(option.value));
+  if (!isMultiSelect && currentValue) {
+    selectedOptions = options?.filter((option) => currentValue == option.value);
+  }
 
   const handleSelect = (optionValue: string) => {
     if (optionValue === 'all') {
       const allValues = options.map((option) => option.value);
-      setFieldValue(name, currentValue.length === allValues.length ? [] : allValues);
+      setFieldValue(name, currentValue?.length === allValues.length ? [] : allValues);
+      if (onChange) onChange(name, currentValue?.length === allValues.length ? [] : allValues);
     } else if (name === 'accounts' || name === 'serviceType') {
-      const newValue = currentValue.includes(optionValue)
-        ? currentValue.filter((value: string) => value !== optionValue)
+      const newValue = currentValue?.includes(optionValue)
+        ? currentValue?.filter((value: string) => value !== optionValue)
         : [...currentValue, optionValue];
       setFieldValue(name, newValue);
+      if (onChange) onChange(name, newValue);
     } else {
       setFieldValue(name, optionValue);
+      if (onChange) onChange(name, optionValue);
     }
     setOpen(false);
   };
 
   return (
     <React.Suspense>
-      <div className="flex flex-col gap-1">
-        <span className="text-[14px] font-semibold text-[#575757]">
+      <div className="flex flex-col gap-2">
+        <span className="text-[0.875rem] font-semibold text-[#575757]">
           {label} <span className="text-rose-500"> *</span>
         </span>
         <Popover open={open} onOpenChange={setOpen} modal={true}>
@@ -75,11 +84,18 @@ function FormikSelectComponent(props: FormikSelectProps) {
               className={`w-full justify-between ${((isTouched && error) || error) && 'border-2 border-rose-500'} `}
               value={12}
             >
-              {selectedOptions?.length > 0
-                ? selectedOptions.length === 1
-                  ? truncateText(selectedOptions[0].label, 25)
-                  : `${truncateText(selectedOptions[0].label, 25)} (+${selectedOptions.length - 1})`
-                : label}
+              {selectedOptions?.length > 0 ? (
+                selectedOptions.length === 1 ? (
+                  <TooltipText text={selectedOptions[0].label} maxLength={25} />
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <TooltipText text={selectedOptions[0].label} maxLength={25} />
+                    {`(+${selectedOptions.length - 1})`}
+                  </div>
+                )
+              ) : (
+                placeholder || label
+              )}
               <Image
                 src={open ? '/svg/select/upChevron.svg' : '/svg/select/downChevron.svg'}
                 alt="Chevron Icon"
@@ -116,7 +132,9 @@ function FormikSelectComponent(props: FormikSelectProps) {
                       <Check
                         className={cn(
                           'mr-2 h-4 w-4',
-                          currentValue.includes(option?.value) ? 'opacity-100' : 'opacity-0',
+                          (!isMultiSelect ? currentValue == option?.value : currentValue?.includes(option?.value))
+                            ? 'opacity-100'
+                            : 'opacity-0',
                         )}
                       />
                       {option.label}
@@ -127,7 +145,7 @@ function FormikSelectComponent(props: FormikSelectProps) {
             </Command>
           </PopoverContent>
         </Popover>
-        {isTouched && error && <span className="text-[12px] text-rose-500">{error}</span>}
+        {error && <span className="text-[0.75rem] text-rose-500">{error}</span>}
       </div>
     </React.Suspense>
   );

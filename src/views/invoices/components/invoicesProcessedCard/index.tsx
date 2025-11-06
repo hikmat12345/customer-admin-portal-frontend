@@ -15,8 +15,9 @@ function InvoicesProcessed({ data, title, isLoading }: any) {
               <h1 className="text-lg font-bold lg:text-2xl 2xl:text-3xl">{data?.invoices?.length}</h1>
             </div>
             <div className="flex items-center justify-between">
-              <p className="text-xs font-medium text-custom-grey xl:text-xs 2xl:text-sm">
-                So far this month, {data?.invoices?.length} invoices have been processed.
+              <p className="text-xs font-medium xl:text-xs 2xl:text-sm">
+                So far this month, <span className="font-bold text-custom-grey">{data?.invoices?.length}</span> invoices
+                have been processed.
               </p>
             </div>
           </div>

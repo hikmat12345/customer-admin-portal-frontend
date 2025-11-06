@@ -1,5 +1,33 @@
-import { NEXT_PUBLIC_TICKET_SERVICE_URL } from 'config/config';
+import { NEXT_PUBLIC_API_BASE_URL, NEXT_PUBLIC_TICKET_SERVICE_URL } from 'config/config';
 import httpClient from '../httpClient';
+
+const downloadFile = (blob: any, filename: string) => {
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+};
+
+const downloadTicketUpdateAttachment = async (ticketUpdateId: number, fileName: string) => {
+  try {
+    const response = await httpClient.post(
+      `${process.env.NEXT_PUBLIC_TICKET_SERVICE_URL}/ticket-update-attachment/${ticketUpdateId}`,
+      {},
+      { responseType: 'blob' },
+    );
+    downloadFile(response.data, fileName);
+  } catch (error) {
+    console.error('Error in postReport catch block:', error);
+    throw error;
+  }
+};
+
+export const getTicketUpdateAttachment = async ({ ticketUpdateId, fileName }: any) =>
+  await downloadTicketUpdateAttachment(ticketUpdateId, fileName);
 
 export const getAllTickets = async ({ queryKey }: any) => {
   const [, offset, limit, priority, status, accountNumber, searchQuery] = queryKey;
@@ -16,6 +44,23 @@ export const getAllTickets = async ({ queryKey }: any) => {
   };
 
   return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/all-tickets`, config).then(({ data }) => data);
+};
+
+export const getAllTicketsByAssetId = async ({ queryKey }: any) => {
+  const [, assetId] = queryKey;
+
+  const config = {
+    params: {
+      assetId: assetId,
+    },
+  };
+
+  return httpClient
+    .get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/ticket`, config)
+    .then(({ data }) => data)
+    .catch((error) => {
+      throw error;
+    });
 };
 
 export const getMonthlyTickets = async ({ queryKey }: any) => {
@@ -55,7 +100,7 @@ export const getOpenTickets = async ({ queryKey }: any) => {
 export const getVendorAccounts = async ({ queryKey }: any) => {
   const [,] = queryKey;
 
-  return httpClient.get(`${NEXT_PUBLIC_TICKET_SERVICE_URL}/vendor/accounts`).then(({ data }) => data);
+  return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/vendor/accounts`).then(({ data }) => data);
 };
 
 export const getTicketSummary = async ({ queryKey }: any) => {

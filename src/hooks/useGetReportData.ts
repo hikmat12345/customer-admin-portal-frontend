@@ -1,4 +1,5 @@
 import {
+  getScheduledReports,
   postF12Report,
   postF15Report,
   postF1Report,
@@ -11,6 +12,7 @@ import {
   postI11Report,
   postI2Report,
   postI4Report,
+  postI7Report,
   postI5Report,
   postI8Report,
   postS1Report,
@@ -18,8 +20,17 @@ import {
   postS4Report,
   postS5Report,
   postS6Report,
+  removeScheduledReports,
+  postScheduledReportDownloadUrl,
+  getReportByCode,
+  postScheduleReport,
+  updateScheduleReport,
+  getReportResults,
+  getReportsList,
+  getReportsLog,
 } from '@/services/reports/reportService';
 import { createMutationWithVariables } from '@/utils/query';
+import { useQuery } from '@tanstack/react-query';
 
 export const { useMutation: usePostF1Report } = createMutationWithVariables('post-f1-report', postF1Report);
 
@@ -38,6 +49,8 @@ export const { useMutation: usePostF12Report } = createMutationWithVariables('po
 export const { useMutation: usePostF15Report } = createMutationWithVariables('post-f15-report', postF15Report);
 
 export const { useMutation: usePostI2Report } = createMutationWithVariables('post-i2-report', postI2Report);
+
+export const { useMutation: usePostI7Report } = createMutationWithVariables('post-i7-report', postI7Report);
 
 export const { useMutation: usePostI4Report } = createMutationWithVariables('post-i4-report', postI4Report);
 
@@ -58,3 +71,33 @@ export const { useMutation: usePostS4Report } = createMutationWithVariables('pos
 export const { useMutation: usePostS5Report } = createMutationWithVariables('post-s5-report', postS5Report);
 
 export const { useMutation: usePostS6Report } = createMutationWithVariables('post-s6-report', postS6Report);
+
+export const useGetScheduledReports = (searchQuery?: string | null, frequency?: string | null, status?: string | null) => {
+  return useQuery({ queryKey: ['get-scheduled-reports', searchQuery, frequency, status], queryFn: getScheduledReports });
+};
+
+export const useGetReportByCode = (code: string) => {
+  return useQuery({ queryKey: ['get-report-by-code', code], queryFn: getReportByCode });
+};
+
+export const useGetReportResults = (id: string) => {
+  return useQuery({ queryKey: ['get-report-results', id], queryFn: getReportResults });
+};
+
+export const { useMutation: usePostScheduledReportDownloadUrl } = createMutationWithVariables(
+  'post-scheduled-report-download-url',
+  postScheduledReportDownloadUrl,
+);
+
+export const { useMutation: usePostScheduleReport } = createMutationWithVariables('post-schedule-report', postScheduleReport);
+export const { useMutation: useUpdateScheduleReport } = createMutationWithVariables('update-schedule-report', updateScheduleReport);
+
+export const { useMutation: useDeleteScheduledReports } = createMutationWithVariables('delete-scheduled-report', removeScheduledReports);
+
+export const useGetReportList = () => {
+  return useQuery({ queryKey: ['reports-list'], queryFn: getReportsList });
+};
+
+export const useGetReportLog = () => {
+  return useQuery({ queryKey: ['reports-log'], queryFn: getReportsLog });
+};

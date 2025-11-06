@@ -52,6 +52,12 @@ export const postI10Report = async (data: any) => postReport(`${NEXT_PUBLIC_REPO
 
 export const postI2Report = async (data: any) => postReport(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/I2`, data);
 
+export const postI7Report = async (data: any) =>
+  httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/I7`, data, { responseType: 'blob' })
+    .then(({ data: responseData }) => downloadExcelFile(responseData, 'I7_report.xlsx'))
+    .catch((error) => error);
+
 export const postI4Report = async (data: any) => postReport(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/I4`, data);
 
 export const postI5Report = async (data: any) => postReport(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/I5`, data);
@@ -67,3 +73,101 @@ export const postS4Report = async (data: any) => postReport(`${NEXT_PUBLIC_REPOR
 export const postS5Report = async (data: any) => postReport(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/S5`, data);
 
 export const postS6Report = async (data: any) => postReport(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/S6`, data);
+
+export const getScheduledReports = async ({ queryKey }: any) => {
+  const [, searchQuery, frequency, status] = queryKey;
+  const config = {
+    params: {
+      searchQuery,
+      ...(frequency && { frequency: frequency }),
+      status,
+    },
+  };
+
+  return httpClient
+    .get(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/scheduled-report/all`, config)
+    .then(({ data }) => data)
+    .catch((error) => error);
+};
+
+export const removeScheduledReports = async (data: any) => {
+  return httpClient
+    .delete(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/scheduled-report/remove`, { data: { id: data } })
+    .then(({ data }) => data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const postScheduledReportDownloadUrl = async (data: any) => {
+  return httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/scheduled-report/presigned-url`, data)
+    .then(({ data }) => data)
+    .catch((error) => error);
+};
+
+export const postScheduleReport = async (data: any) => {
+  return httpClient
+    .post(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/scheduled-report/create`, data)
+    .then(({ data }) => data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const updateScheduleReport = async ({ reportId, data }: any) => {
+  return httpClient
+    .put(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/scheduled-report/update/${reportId}`, data)
+    .then(({ data }) => data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const getReportByCode = async ({ queryKey }: any) => {
+  const [, code] = queryKey;
+
+  if (!code) return null;
+
+  return httpClient
+    .get(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/scheduled-report/details/${code}`)
+    .then(({ data }) => data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const getReportResults = async ({ queryKey }: any) => {
+  const [, id] = queryKey;
+
+  if (!id) return null;
+
+  return httpClient
+    .get(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/scheduled-report/results/${id}`)
+    .then(({ data }) => data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const getReportsList = async ({ queryKey }: any) => {
+  const [,] = queryKey;
+
+  return httpClient
+    .get(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/list/all`)
+    .then(({ data }) => data)
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const getReportsLog = async ({ queryKey }: any) => {
+  const [,] = queryKey;
+
+  return httpClient
+    .get(`${NEXT_PUBLIC_REPORTING_SERVICE_URL}/logs/all`)
+    .then(({ data }) => data)
+    .catch((error) => {
+      throw error;
+    });
+};

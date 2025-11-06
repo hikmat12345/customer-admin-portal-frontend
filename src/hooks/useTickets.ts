@@ -1,10 +1,12 @@
 import {
   getAllTickets,
+  getAllTicketsByAssetId,
   getMonthlyTickets,
   getMonthlyTicketsStats,
   getOpenTickets,
   getTicketSecondaryStatuses,
   getTicketSummary,
+  getTicketUpdateAttachment,
   getTicketUpdateStatuses,
   getVendorAccounts,
   postTicketUpdate,
@@ -52,6 +54,13 @@ export const useGetVendors = () =>
     queryFn: getVendorAccounts,
   });
 
+export const useGetTicketsByAssetId = (assetId: number) => {
+  return useQuery({
+    queryKey: ['asset-tickets', assetId],
+    queryFn: getAllTicketsByAssetId,
+  });
+};
+
 export const useGetTicketSummary = (ticketId: number) =>
   useQuery({
     queryKey: ['ticket_summary', ticketId],
@@ -78,3 +87,7 @@ export const useGetLoggedInUserDetails = () => {
 };
 
 export const { useMutation: usePostTicketUpdate } = createMutationWithVariables('post-ticket-update', postTicketUpdate);
+export const { useMutation: useGetTicketUpdateAttachment } = createMutationWithVariables(
+  'get-ticket-update-attachment',
+  getTicketUpdateAttachment,
+);

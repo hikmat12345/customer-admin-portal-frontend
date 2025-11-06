@@ -5,7 +5,7 @@ import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow';
 import { Table, TableBody, TableCell } from '@/components/ui/table/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import Image from 'next/image';
-import formatDate, { findCurrencySymbol, getServiceType, moneyFormatter, stringFindAndReplaceAll } from '@/utils/utils';
+import formatDate, { getServiceType, currencyFormatter, stringFindAndReplaceAll } from '@/utils/utils';
 import { TICKETS_STATUS_LIST } from '@/utils/constants/statusList.constants';
 import TableBodySkeleton from '@/components/ui/table/tableBodySkeleton';
 import Link from 'next/link';
@@ -13,7 +13,10 @@ import { DownloadAbleLink } from '@/components/ui/download-link';
 import { CostTableProps, PlanTableProps, TableDataProps } from '@/types/site';
 import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
 import TooltipText from '../textbox';
-import { DATE_FORMAT } from '@/utils/constants/constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT } from '@/utils/constants/constants';
+import { useParams } from 'next/navigation';
+import { format } from 'date-fns';
+import { encrypt } from '@/utils/encryptParam';
 
 /**
  * TableHeaderContent Component
@@ -39,11 +42,13 @@ function TableHeaderContent({ data }: any) {
                   ? 'Invoice Date'
                   : key === 'invoice_ref'
                     ? 'ID'
-                    : key === 'vendor_name'
-                      ? 'Vendor'
-                      : key === 'Invoice_#'
-                        ? 'ID'
-                        : key.replaceAll('_', ' ')}
+                    : key === 'serviceStatus'
+                      ? 'Status'
+                      : key === 'vendor_name'
+                        ? 'Vendor'
+                        : key === 'Invoice_#'
+                          ? 'ID'
+                          : key.replaceAll('_', ' ')}
           </TableHead>
         ))
       ) : (
@@ -56,107 +61,121 @@ function TableHeaderContent({ data }: any) {
 // part of table component it is used to render the body of the table
 function TableBodyContent({ record, currencySymbol }: any) {
   const invoiceNumber = stringFindAndReplaceAll(record['Invoice_#'], '-/', ' ', 0);
+  const params = useParams();
+
+  const vendorAccountParam = params.name || encrypt(record?.account);
+  const ticketsParam = params.name || encrypt(`SUP${record?.['Veroxos REF']}`);
+  const inventoryParam = params.name || encrypt(record?.number);
+  const invoiceParam = params.name || encrypt(record?.invoice_ref);
 
   return (
     <>
-      {Object.values(record).map((value: any, index: number) => (
-        <TableCell
-          key={index}
-          className={`${index === 0 ? 'text-left text-[0.875rem]' : 'text-left'} border-t-[1px] border-custom-plaster py-3 first:pl-10 first:text-[0.75rem] last:text-left`}
-        >
-          {Object.keys(record)[index] === 'created' ? (
-            formatDate(value)
-          ) : Object.keys(record)[index] === 'when' ? (
-            formatDate(value)
-          ) : Object.keys(record)[index] === 'service_type' ? (
-            <TooltipText text={getServiceType(value)} maxLength={15} />
-          ) : Object.keys(record)[index] === 'description' ? (
-            <div dangerouslySetInnerHTML={{ __html: value }} />
-          ) : Object.keys(record)[index] === 'Veroxos REF' ? (
-            value !== '-' ? (
+      {Object.values(record).map((value: any, index: number) => {
+        return (
+          <TableCell
+            key={index}
+            className={`${index === 0 ? 'text-left text-[0.875rem]' : 'text-left'} border-t-[1px] border-custom-plaster py-3 first:pl-10 first:text-[0.75rem] last:text-left`}
+          >
+            {Object.keys(record)[index] === 'created' ? (
+              format(new Date(value), DATE_TIME_FORMAT)
+            ) : Object.keys(record)[index] === 'when' ? (
+              format(new Date(value), DATE_TIME_FORMAT)
+            ) : Object.keys(record)[index] === 'service_type' ? (
+              <TooltipText text={getServiceType(value)} maxLength={15} />
+            ) : Object.keys(record)[index] === 'description' ? (
+              <div dangerouslySetInnerHTML={{ __html: value }} />
+            ) : Object.keys(record)[index] === 'Veroxos REF' ? (
+              value !== '-' ? (
+                <Link
+                  href={value && `/support/tickets/ticket-summary/${value}/${ticketsParam}`}
+                  className="text-14 font-normal text-[#1175BE]"
+                >
+                  {value ? `SUP${value}` : ' - '}
+                </Link>
+              ) : Object.keys(record)[index] === 'number_value' ? (
+                <Link
+                  href={
+                    value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)?.trim()}/${inventoryParam}` : ''
+                  }
+                  className="font-normal text-[#1175BE]"
+                >
+                  <TooltipText text={value.split('-/')[0]} maxLength={11} className="" />
+                </Link>
+              ) : (
+                '-'
+              )
+            ) : Object.keys(record)[index] === 'number' || Object.keys(record)[index] === 'ID' ? (
+              value ? (
+                <Link
+                  href={
+                    value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)?.trim()}/${inventoryParam}` : ''
+                  }
+                  className="font-normal text-[#1175BE]"
+                >
+                  <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={11} />
+                </Link>
+              ) : (
+                <span className="pl-5">-</span>
+              )
+            ) : Object.keys(record)[index] === 'vendor_name' ? (
+              stringFindAndReplaceAll(value, ' ', ' ', 0)
+            ) : Object.keys(record)[index] === 'Invoice_#' ? (
               <Link
-                href={value && `/support/tickets/ticket-summary/${value}`}
-                className="text-14 font-normal text-[#1175BE]"
-              >
-                {value ? `SUP${value}` : ' - '}
-              </Link>
-            ) : Object.keys(record)[index] === 'number_value' ? (
-              <Link
-                href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)?.trim()}` : ''}
-                className="font-normal text-[#1175BE]"
-              >
-                <TooltipText text={value.split('-/')[0]} maxLength={11} className="" />
-              </Link>
-            ) : (
-              '-'
-            )
-          ) : Object.keys(record)[index] === 'number' || Object.keys(record)[index] === 'ID' ? (
-            value ? (
-              <Link
-                href={value ? `/inventory/${stringFindAndReplaceAll(value, '-/', ' ', 1)?.trim()}` : ''}
+                href={
+                  value
+                    ? `/accounts/invoices/${stringFindAndReplaceAll(value, '-/', ' ', 1)?.trim()}/${params.name}`
+                    : ''
+                }
                 className="font-normal text-[#1175BE]"
               >
                 <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={11} />
               </Link>
+            ) : Object.keys(record)[index] === 'invoice_ref' ? (
+              <Link
+                href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, '-/', ' ', 1)}/${invoiceParam}` : ''}
+                className="font-normal text-[#1175BE]"
+              >
+                <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={11} />
+              </Link>
+            ) : Object.keys(record)[index] === 'invoice_date' || Object.keys(record)[index] === 'invoiceDate' ? (
+              formatDate(value, DATE_FORMAT)
+            ) : Object.keys(record)[index] === 'account' ? (
+              <Link
+                href={value ? `/vendors/${stringFindAndReplaceAll(value, '-/', ' ', 1)}/${vendorAccountParam}` : ''}
+                className="font-normal text-[#1175BE]"
+              >
+                <div dangerouslySetInnerHTML={{ __html: stringFindAndReplaceAll(value, '-/', ' ', 0) }} />
+              </Link>
+            ) : Object.keys(record)[index] === 'service status' || Object.keys(record)[index] === 'serviceStatus' ? (
+              <Badge
+                className={`rounded-lg py-1 text-white ${value == 1 ? 'bg-[#219653]' : value == 0 ? 'bg-[#A40000]' : (value = 2 ? 'bg-[#FC762B]' : '')}`}
+                variant="success"
+                shape="block"
+              >
+                {value == 1 ? 'Live' : value == 0 ? 'Terminated' : (value = 2 ? 'Suspended' : '')}
+              </Badge>
+            ) : Object.keys(record)[index] === 'download' ? (
+              <DownloadAbleLink invoiceId={value} index={index} invoiceNumber={invoiceNumber} />
+            ) : Object.keys(record)[index]?.toLocaleLowerCase() === 'currency' ? (
+              currencySymbol
+            ) : Object.keys(record)[index] === 'total' ||
+              Object.keys(record)[index] === 'cost_centre' ||
+              Object.keys(record)[index] === 'sub_total' ||
+              Object.keys(record)[index] === 'tax_and_fees' ||
+              Object.keys(record)[index] === 'total_site_cost' ? (
+              `${currencyFormatter(value, currencySymbol)}`
+            ) : Object.keys(record)[index] === 'status' ? (
+              <span className={`${value == 1 ? 'text-blue-600' : value == 2 ? 'text-gray-700' : 'text-black'}`}>
+                {TICKETS_STATUS_LIST[value]}
+              </span>
+            ) : String(value) == 'null' || String(value) == 'undefined' || String(value) == '' ? (
+              <span className="pl-[10%]">-</span>
             ) : (
-              <span className="pl-5">-</span>
-            )
-          ) : Object.keys(record)[index] === 'vendor_name' ? (
-            stringFindAndReplaceAll(value, ' ', ' ', 0)
-          ) : Object.keys(record)[index] === 'Invoice_#' ? (
-            <Link
-              href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, '-/', ' ', 1)?.trim()}` : ''}
-              className="font-normal text-[#1175BE]"
-            >
-              <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={11} />
-            </Link>
-          ) : Object.keys(record)[index] === 'invoice_ref' ? (
-            <Link
-              href={value ? `/accounts/invoices/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
-              className="font-normal text-[#1175BE]"
-            >
-              <TooltipText text={stringFindAndReplaceAll(value, '-/', ' ', 0)} maxLength={11} />
-            </Link>
-          ) : Object.keys(record)[index] === 'invoice_date' || Object.keys(record)[index] === 'invoiceDate' ? (
-            formatDate(value, DATE_FORMAT)
-          ) : Object.keys(record)[index] === 'account' ? (
-            <Link
-              href={value ? `/vendors/${stringFindAndReplaceAll(value, '-/', ' ', 1)}` : ''}
-              className="font-normal text-[#1175BE]"
-            >
-              <div dangerouslySetInnerHTML={{ __html: stringFindAndReplaceAll(value, '-/', ' ', 0) }} />
-            </Link>
-          ) : Object.keys(record)[index] === 'service status' || Object.keys(record)[index] === 'serviceStatus' ? (
-            <Badge
-              className={`rounded-lg py-1 text-white ${value == 1 ? 'bg-[#219653]' : value == 0 ? 'bg-[#A40000]' : (value = 2 ? 'bg-[#FC762B]' : '')}`}
-              variant="success"
-              shape="block"
-            >
-              {value == 1 ? 'Live' : value == 0 ? 'Terminated' : (value = 2 ? 'Suspended' : '')}
-            </Badge>
-          ) : Object.keys(record)[index] === 'download' ? (
-            <DownloadAbleLink invoiceId={value} index={index} invoiceNumber={invoiceNumber} />
-          ) : Object.keys(record)[index]?.toLocaleLowerCase() === 'currency' ? (
-            <>
-              <span className="text-[#47de88]">{findCurrencySymbol(currencySymbol?.trim())}</span> {currencySymbol}
-            </>
-          ) : Object.keys(record)[index] === 'total' ||
-            Object.keys(record)[index] === 'cost_centre' ||
-            Object.keys(record)[index] === 'sub_total' ||
-            Object.keys(record)[index] === 'tax_and_fees' ||
-            Object.keys(record)[index] === 'total_site_cost' ? (
-            `${moneyFormatter(value, currencySymbol)}`
-          ) : Object.keys(record)[index] === 'status' ? (
-            <span className={`${value == 1 ? 'text-blue-600' : value == 2 ? 'text-gray-700' : 'text-black'}`}>
-              {TICKETS_STATUS_LIST[value]}
-            </span>
-          ) : String(value) == 'null' || String(value) == 'undefined' || String(value) == '' ? (
-            <span className="pl-[10%]">-</span>
-          ) : (
-            String(value)
-          )}
-        </TableCell>
-      ))}
+              String(value)
+            )}
+          </TableCell>
+        );
+      })}
     </>
   );
 }
@@ -209,7 +228,7 @@ export default function TableData({ data, loading, label, currency, tableClass }
   );
 }
 
-export const PlanTable: React.FC<PlanTableProps> = ({ data, width = '783px' }) => (
+export const PlanTable: React.FC<PlanTableProps> = ({ data, width = '783px', currencyCode }) => (
   <div className="pt-10">
     <Table className={`w-[${width}] rounded-e-lg border`}>
       <TableBody>
@@ -219,7 +238,8 @@ export const PlanTable: React.FC<PlanTableProps> = ({ data, width = '783px' }) =
               Plan
             </TableCell>
             <TableCell className="border border-custom-aluminum text-[0.875rem] last:text-center sm:w-1/12 xl:w-2/12">
-              {plan.cost} USD
+              {/* will check / dynamic this currency later  */}
+              {plan.cost} {currencyCode ? currencyCode : 'USD'}
             </TableCell>
             <TableCell className="border border-custom-aluminum last:text-center sm:w-8/12 xl:w-7/12">
               <TooltipProvider key={plan.name}>
@@ -251,24 +271,26 @@ export const CostTable: React.FC<CostTableProps> = ({ data, costCenter = '-' }) 
           </TableCell>
           <TableCell className="border border-custom-aluminum text-[0.875rem] last:text-center">{costCenter}</TableCell>
         </TableRow>
-        {data?.map((cost: { gl_code_index: number; name: string; code: string }) => (
+        {data?.map((cost: { glCodeIndex: number; name: string; code: string }) => (
           <>
             <TableRow>
               <TableCell className="border border-custom-aluminum pl-8 font-bold last:text-center">
-                GL Code {cost.gl_code_index}
+                GL Code {cost.glCodeIndex}
               </TableCell>
               <TableCell className="border border-custom-aluminum text-[0.875rem] last:text-center">
                 {cost.name ? cost.name : <span className="pl-[20%]">-</span>}
               </TableCell>
             </TableRow>
-            <TableRow>
-              <TableCell className="border border-custom-aluminum pl-8 font-bold last:text-center">
-                Company Code
-              </TableCell>
-              <TableCell className="border border-custom-aluminum text-[0.875rem] last:text-center">
-                {cost.code ? cost.code : <span className="pl-[20%]">-</span>}
-              </TableCell>
-            </TableRow>
+            {cost.code && (
+              <TableRow>
+                <TableCell className="border border-custom-aluminum pl-8 font-bold last:text-center">
+                  Company Code
+                </TableCell>
+                <TableCell className="border border-custom-aluminum text-[0.875rem] last:text-center">
+                  {cost.code ? cost.code : <span className="pl-[20%]">-</span>}
+                </TableCell>
+              </TableRow>
+            )}
           </>
         ))}
       </TableBody>

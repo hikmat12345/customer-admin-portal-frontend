@@ -83,9 +83,13 @@ export const getSiteInvoices = async ({ queryKey }: any) => {
 };
 
 export const getSiteInvoiceFile = async ({ queryKey }: any) => {
-  const [, invoiceId] = queryKey;
+  const [, invoiceId, showInBrowser] = queryKey;
+  const param = {
+    isViewAble: showInBrowser,
+  };
+
   return httpClient
-    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoice-file/${invoiceId}`)
+    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/invoice-file/${invoiceId}`, { params: param })
     .then(({ data }) => data)
     .catch((error) => error);
 };

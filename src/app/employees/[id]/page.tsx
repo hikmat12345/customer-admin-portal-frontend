@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
   const { id } = params;
 
   return {
-    title: `Employee - ${id}`,
+    title: `Employee ${id} | Veroxos`,
     description: 'Employee Summary',
     icons: {
       icon: '/favicon.ico',

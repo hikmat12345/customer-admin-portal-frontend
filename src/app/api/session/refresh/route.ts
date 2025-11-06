@@ -23,6 +23,10 @@ export async function POST() {
     });
 
     const apiResult = await apiResponse.json();
+    if (apiResult && apiResult.status === 'revoked') {
+      return NextResponse.json({ status: 'revoked' });
+    }
+
     if (apiResult && apiResult.idToken && apiResult.refreshToken && apiResult.accessToken) {
       const secure = process.env.NODE_ENV === 'production';
       cookies().set('token', apiResult.idToken, { path: '/', httpOnly: false, secure });

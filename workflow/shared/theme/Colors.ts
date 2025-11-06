@@ -1,0 +1,21 @@
+export const Colors = Object.freeze({
+  transparent: 'rgba(0,0,0,0)',
+  error: 'rgba(200, 0, 0, 0.8)',
+  white: 'white',
+  black: 'black',
+  primary: '#375FFF',
+  secondary: '#29DED5',
+  lightGray: '#F8F8F8',
+  gray: '#EEEEEE',
+  lightBlue: '#DDE4FF',
+  borderGray: '#F0F1F5',
+  textLightGray: '#A2A2A2',
+  checkboxBorder: '#DBDBDB',
+  cardBackground: '#F9FAFB',
+  lightPrimary: '#E7EEFF',
+  primaryBackground: '#EDF0FF',
+  indicatorColor: '#0000001a',
+  silver: '#C1C1C1',
+  disableGray: '#9CA6B8',
+  parrot: '#00CD32'
+});

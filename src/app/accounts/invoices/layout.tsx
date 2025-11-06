@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import * as React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Account',
+  title: 'Invoices | Veroxos',
   description: 'View Accounts',
   icons: {
     icon: '/favicon.ico',

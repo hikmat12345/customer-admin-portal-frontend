@@ -9,6 +9,7 @@ import VendorAccountsTableHead from './vendorAccountsTableHead';
 import Badge from '@veroxos/design-system/dist/ui/Badge/badge';
 import { Button } from '@veroxos/design-system/dist/ui/Button/button';
 import { useRouter } from 'next/navigation';
+import { encrypt } from '@/utils/encryptParam';
 
 function VendorAccountsTable({ data }: any) {
   const isNoData = data?.length === 0;
@@ -36,7 +37,10 @@ function VendorAccountsTable({ data }: any) {
           {data?.map((row: any) => (
             <TableRow key={row.id}>
               <TableCell className="py-[19px] text-left font-normal">
-                <Link href={`/vendors/${row.id}`} className="cursor-pointer font-normal text-[#1175BE]">
+                <Link
+                  href={`/vendors/${row.id}/${encrypt(row?.network?.name || '')}`}
+                  className="cursor-pointer font-normal text-[#1175BE]"
+                >
                   {row?.id}
                 </Link>
               </TableCell>
@@ -47,7 +51,11 @@ function VendorAccountsTable({ data }: any) {
               <TableCell className="text-left">{renderStatus(row?.companyNetworkStatus?.name) || '-'}</TableCell>
               <TableCell>
                 <div className="flex items-center justify-center">
-                  <Button variant="null" size="sm" onClick={() => router.push(`/vendors/${row.id}`)}>
+                  <Button
+                    variant="null"
+                    size="sm"
+                    onClick={() => router.push(`/vendors/${row.id}/${encrypt(row?.companyNetworkStatus?.name)}`)}
+                  >
                     <Image src="/svg/eye.svg" alt="Eye icon" width={18} height={18} />
                   </Button>
                 </div>

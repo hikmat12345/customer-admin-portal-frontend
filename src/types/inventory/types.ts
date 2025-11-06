@@ -29,7 +29,7 @@ export interface Inventory {
 export interface InventoryCardData {
   id: number;
   title: string;
-  description: string;
+  description: ReactNode;
   data: ReactNode;
 }
 

@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server';
 export async function POST() {
   const accessToken = cookies().get('access_token')?.value;
   const bearerToken = cookies().get('token')?.value;
+  const refreshToken = cookies().get('refresh_token')?.value;
 
   if (!accessToken) {
     return NextResponse.json({
@@ -27,7 +28,7 @@ export async function POST() {
     const apiResult = await apiResponse.json();
 
     if (!apiResult || !apiResult.status) {
-      return NextResponse.json({ message: 'Something went, please try again' }, { status: 500 });
+      return NextResponse.json({ message: 'Something went wrong, please try again' }, { status: 500 });
     }
 
     if (bearerToken) {
@@ -38,10 +39,14 @@ export async function POST() {
       cookies().delete('access_token');
     }
 
+    if (refreshToken) {
+      cookies().delete('refresh_token');
+    }
+
     return NextResponse.json({
       redirectUrl: NEXT_PUBLIC_AUTH_URL,
     });
   } catch (error) {
-    return NextResponse.json({ message: 'Something went, please try again' }, { status: 500 });
+    return NextResponse.json({ message: 'Something went wrong, please try again' }, { status: 500 });
   }
 }

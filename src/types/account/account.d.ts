@@ -57,6 +57,7 @@ export type InvoiceSummaryTypes = {
     includeInAPF: boolean;
     dateEntered: string;
     status: string;
+    isMicrosof365: boolean;
   };
   vendorData: {
     vendor: string;

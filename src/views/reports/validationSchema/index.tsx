@@ -1,5 +1,5 @@
+import { ReportField } from '@/types/reports/types';
 import * as Yup from 'yup';
-import { ReportField } from '../reports';
 
 export const generateValidationSchema = (fields: ReportField[]) => {
   const shape: any = {};

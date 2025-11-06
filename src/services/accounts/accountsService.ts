@@ -23,7 +23,8 @@ export const getInvoices = async ({ queryKey }: any) => {
 
 export const getMonthlyInvoices = async ({ queryKey }: any) => {
   const [,] = queryKey;
-  return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/invoices/summary`).then(({ data }) => data);
+  const currentPageUrl = window.location.href;
+  return httpClient.get(`${NEXT_PUBLIC_API_BASE_URL}/invoices/summary?pageLink=${currentPageUrl}`).then(({ data }) => data);
 };
 
 export const getCostSavings = async ({ queryKey }: any) => {

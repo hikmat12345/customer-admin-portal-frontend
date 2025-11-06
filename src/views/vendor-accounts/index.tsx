@@ -105,27 +105,31 @@ function VendorAccountsPage() {
   return (
     <>
       <div className="flex w-full flex-col gap-3 rounded-lg border border-custom-lightGray bg-custom-white px-3 pb-2 pt-5">
-        <div className="flex h-fit items-center justify-between gap-2">
+        <div className="flex h-fit justify-between gap-2 2md:items-center">
           <SearchField
             iconWidth={16}
             iconHeight={16}
             defaultValue={searchQuery}
             onChange={handleSearchChange}
             onKeyDown={handleSearchKeydown}
-            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:min-w-[21.375rem] xl:w-[29.6rem]"
+            className="ml-2 rounded-none border-b bg-transparent font-normal outline-none focus:border-[#44444480] sm:w-[8.5rem] 2md:w-[13.5rem] lg:w-[13.5rem] 2lg:w-[17rem] xl:w-[25rem] 2xl:w-[28rem]"
             helpText="Searches network name, company network account number and display name fields."
           />
-          <div className="flex md:gap-1 lg:gap-4">
-            {menuOptions?.map((menuOption: any, index: number) => (
-              <SelectComponent
-                key={index}
-                menuOption={menuOption}
-                filterName={menuOption.value}
-                paramName={menuOption.paramName}
-                placeholder={menuOption.placeholder}
-              />
-            ))}
-            <ToggleComponent />
+          <div className="flex items-center md:flex-col md:gap-2 2md:flex-row 2md:gap-1 lg:gap-4">
+            <div className="flex md:gap-1 lg:gap-4">
+              {menuOptions?.map((menuOption: any, index: number) => (
+                <SelectComponent
+                  key={index}
+                  menuOption={menuOption}
+                  filterName={menuOption.value}
+                  paramName={menuOption.paramName}
+                  placeholder={menuOption.placeholder}
+                />
+              ))}
+            </div>
+            <div className="md:self-end 2md:self-auto">
+              <ToggleComponent />
+            </div>
           </div>
         </div>
         <div className="mt-2 flex-grow overflow-x-auto">

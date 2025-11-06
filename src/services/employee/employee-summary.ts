@@ -16,9 +16,11 @@ export const getEmployeeDetail = async ({ queryKey }: any) => {
 };
 export const getEmployeeCostTrend = async ({ queryKey }: any) => {
   const [, accountId, costTrendLimit] = queryKey;
+  const currentPageUrl = window?.location.href;
 
+  const baseUrl = currentPageUrl.split('/employees')[0] + '/employees';
   return httpClient
-    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/employee-cost-trend/${accountId}?limit=${costTrendLimit}`)
+    .get(`${NEXT_PUBLIC_INVOICE_SERVICE_URL}/employee-cost-trend/${accountId}?limit=${costTrendLimit}&pageLink=${baseUrl}`)
     .then(({ data }) => data)
     .catch((error) => error);
 };
@@ -33,19 +35,24 @@ export const getEmployeeTickets = async ({ queryKey }: any) => {
 // getEmployeeServiceTypes
 export const getEmployeeServiceTypes = async ({ queryKey }: any) => {
   const [, employeeId] = queryKey;
+  const currentPageUrl = window?.location.href;
 
+  const baseUrl = currentPageUrl.split('/employees')[0] + '/employees';
   return httpClient
-    .get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/service-types-employee/${employeeId}`)
+    .get(`${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/service-types-employee/${employeeId}?pageLink=${baseUrl}`)
     .then(({ data }) => data)
     .catch((error) => error);
 };
 // getEmployeeServices
 export const getEmployeeServices = async ({ queryKey }: any) => {
   const [, employeeId, offset, limit, showTerminated] = queryKey;
+  const currentPageUrl = window?.location.href;
+
+  const baseUrl = currentPageUrl.split('/employees')[0] + '/employees';
 
   return httpClient
     .get(
-      `${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/site-services-employee/${employeeId}?offset=${offset}&limit=${limit}&showTerminated=${showTerminated}`,
+      `${NEXT_PUBLIC_INVENTORY_SERVICE_URL}/site-services-employee/${employeeId}?offset=${offset}&limit=${limit}&showTerminated=${showTerminated}&pageLink=${baseUrl}`,
     )
     .then(({ data }) => data)
     .catch((error) => error);

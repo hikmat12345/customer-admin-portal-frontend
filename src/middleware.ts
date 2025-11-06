@@ -36,10 +36,10 @@ export function middleware(request: NextRequest) {
 
   if (!idToken || !refreshToken || !accessToken) {
     const authServiceFrontend = String(process.env.NEXT_PUBLIC_AUTH_URL);
-    return NextResponse.redirect(authServiceFrontend);
+    // return NextResponse.redirect(authServiceFrontend);
   }
 
-  return NextResponse.next();
+  // return NextResponse.next();
 }
 
 export const config = {

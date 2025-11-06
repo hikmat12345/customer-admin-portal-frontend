@@ -17,7 +17,7 @@ function OpenTicketsCard({ title }: { title: string }) {
   const statusKeys = [];
   if (statusCounts)
     for (let key in statusCounts) {
-      if (key !== '1' && key !== '2') {
+      if (key !== '1' && key !== '2' && statusCounts[key]) {
         statusValues.push(statusCounts[key]);
         statusKeys.push(key);
       }
@@ -100,7 +100,7 @@ function OpenTicketsCard({ title }: { title: string }) {
                 <span className={`text-[${closeTicketHighlight}] font-bold`}>{closeTicketsIn24Hours?.count}</span>{' '}
                 tickets closed in last 24 hours.
               </p>
-              <div className="mt-[-5.8rem] h-[110px] w-[120px] xl:mt-[-7.188rem]">
+              <div className="mt-[-5.8rem] h-[110px] w-[150px] xl:mt-[-6.188rem]">
                 <PieChart chartOptions={chartOptions} />
               </div>
             </div>

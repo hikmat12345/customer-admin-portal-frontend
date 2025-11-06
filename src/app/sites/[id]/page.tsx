@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
   const { id } = params;
 
   return {
-    title: `Site - ${id}`,
+    title: `Site ${id} | Veroxos`,
     description: 'Site Summary',
     icons: {
       icon: '/favicon.ico',

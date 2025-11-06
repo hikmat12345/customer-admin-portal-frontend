@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: IProps) => {
       }
       toast.error('Session expired, redirecting you to login page');
       const response = await httpClient.post('/api/session/logout');
-      window.location.href = response.data.redirectUrl;
+      // window.location.href = response.data.redirectUrl;
     }
 
     if (payload && payload.exp) {
@@ -43,7 +43,11 @@ export const AuthProvider = ({ children }: IProps) => {
 
       // 5 minutes or less for the token to expire
       if (timeRemaining <= 300) {
-        await httpClient.post('/api/session/refresh');
+        const response = await httpClient.post('/api/session/refresh');
+        if (response.data.status === 'revoked') {
+          const response = await httpClient.post('/api/session/logout');
+          window.location.href = response.data.redirectUrl;
+        }
         return;
       }
 

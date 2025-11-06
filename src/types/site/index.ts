@@ -7,7 +7,7 @@ export type TableDataProps = {
 };
 export interface CostTableProps {
   data: {
-    gl_code_index: number;
+    glCodeIndex: number;
     name: string;
     code: string;
   }[];
@@ -21,6 +21,7 @@ export interface PlanTableProps {
     description: string;
   }[];
   width?: string;
+  currencyCode?: string;
 }
 
 export type SiteGeneralInfoProps = {

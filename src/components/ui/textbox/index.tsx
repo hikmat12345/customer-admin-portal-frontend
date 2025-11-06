@@ -23,11 +23,11 @@ const TooltipText: FC<TooltipTextProps> = ({ text, maxLength = 10, className, ty
             truncatedText
           )}
         </TooltipTrigger>
-        <TooltipContent className="tooltip-content max-w-80 font-normal">{text}</TooltipContent>
+        <TooltipContent className="tooltip-content max-w-96 font-normal">{text}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   ) : (
-    <span className={className}>{text}</span>
+    <div className={className}>{text}</div>
   );
 };
 

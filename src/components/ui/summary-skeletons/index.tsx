@@ -33,8 +33,8 @@ export default GeneralInfoSkeletons;
 
 export function DeviceinfoSkeletons() {
   return (
-    <div className="flex gap-[30px]">
-      <div className="flex w-[15%] justify-between px-5">
+    <div className="flex items-center gap-[1.875rem]">
+      <div className="flex justify-between px-5">
         <Skeleton variant="block" height="10rem" width="10rem" />
       </div>
       <div className="w-[40%] px-5">
@@ -51,5 +51,29 @@ export function DeviceinfoSkeletons() {
         </div>
       </div>
     </div>
+  );
+}
+export function APFInfoSkeletons() {
+  return (
+    <>
+      <div className="flex gap-[45px] pb-2">
+        {Array(3)
+          .fill(null)
+          .map((_, index) => (
+            <div className="flex w-[33%] justify-between" key={index}>
+              <Skeleton variant="paragraph" rows={4} />
+            </div>
+          ))}
+      </div>
+      <div className="flex gap-[45px] pb-0 pt-2">
+        {Array(5)
+          .fill(null)
+          .map((_, index) => (
+            <div className="w-[15%]" key={index}>
+              <Skeleton variant="block" height="3rem" width="10rem" />
+            </div>
+          ))}
+      </div>
+    </>
   );
 }

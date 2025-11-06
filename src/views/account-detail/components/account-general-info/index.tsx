@@ -60,7 +60,7 @@ export default function AccountGeneralInfo({
                   </div>
                 ))}
               </div>
-              <div className="leading-normal sm:w-[50%] sm:pl-4 lg:w-[60%] lg:pl-0 2lg:leading-6">
+              <div className="leading-6 sm:w-[50%] sm:pl-4 lg:w-[60%] lg:pl-0">
                 {staticData.slice(0, 7).map((item, index) => (
                   <div key={index}>
                     {typeof item.value !== 'undefined' ? (
@@ -88,7 +88,7 @@ export default function AccountGeneralInfo({
                   </div>
                 ))}
               </div>
-              <div className="leading-normal sm:w-[50%] sm:pl-4 lg:w-[30%] lg:pl-0 2lg:leading-6">
+              <div className="leading-6 sm:w-[50%] sm:pl-4 lg:w-[30%] lg:pl-0">
                 {staticData.slice(7).map((item, index) => (
                   <div key={index}>
                     {typeof item.value !== 'undefined' ? (

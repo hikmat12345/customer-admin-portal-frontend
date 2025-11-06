@@ -18,7 +18,7 @@ export const PRIORITY_LIST: Record<string, string> = Object.freeze({
 
 export const PRIORITY_COLOR_LIST: Record<number, string> = Object.freeze({
   1: '#E41323',
-  2: '#DB7527',
+  2: '#FC762B',
   3: '#219653',
   4: '#219653',
 });

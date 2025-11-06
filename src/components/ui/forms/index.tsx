@@ -4,6 +4,7 @@ import FormikSelectComponent from './formik/FormikSelectComponent';
 import FormikTextField from './formik/FormikTextField';
 import { useGetVendors } from '@/hooks/useTickets';
 import { VendorAccount } from '@/types/tickets/types';
+import FormikCheckbox from './formik/FormikCheckbox';
 
 interface IProps {
   id?: number;
@@ -30,7 +31,7 @@ const GetFieldComponent = (props: IProps) => {
   const { data: vendorAccounts } = useGetVendors();
 
   const filterVendorAccounts = vendorAccounts?.map((item: VendorAccount) => ({
-    value: item?.account_no,
+    value: item?.id,
     label: item?.displayName,
   }));
   const {
@@ -61,7 +62,12 @@ const GetFieldComponent = (props: IProps) => {
           <Field name={name} component={FormikDatePicker} label={label} size="small" {...rest} />
         </div>
       );
-
+    case 'checkbox':
+      return (
+        <div className="w-[100%]">
+          <Field name={name} component={FormikCheckbox} label={label} size="small" {...rest} />
+        </div>
+      );
     case 'select':
       return (
         <Field

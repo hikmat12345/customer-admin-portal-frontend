@@ -5,19 +5,19 @@ import TableRow from '@veroxos/design-system/dist/ui/TableRow/tableRow';
 import { ISearch } from '@/types/search/types';
 import Link from 'next/link';
 import SearchTableHead from './searchTableHead';
+import { encrypt } from '@/utils/encryptParam';
 
 const getEntityLink = (entity: any) => {
   const entityType = String(entity?.type)?.toLowerCase();
-
   switch (entityType) {
     case 'number':
-      return `inventory/${entity?.id}`;
+      return `inventory/${entity?.id}/${encrypt(entity?.account)}`;
 
     case 'invoice':
       return `accounts/invoices/${entity?.id}`;
 
     case 'ticket':
-      return `support/tickets/ticket-summary/${entity?.id}`;
+      return `support/tickets/ticket-summary/${entity?.id}/${encrypt(entity?.result)}`;
 
     case 'account':
       return `vendors/${entity?.id}`;
